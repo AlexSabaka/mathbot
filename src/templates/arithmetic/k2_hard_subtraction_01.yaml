@@ -1,0 +1,41 @@
+metadata:
+  id: k2_hard_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: hard
+  steps: 1
+  culture: en-US
+  tags: [subtraction, regrouping, zeros]
+
+variables:
+  num_a:
+    type: integer
+    min: 250
+    max: 500
+  num_b:
+    type: integer
+    min: 120
+    max: 200
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} - {{num_b}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  # Problems with zeros requiring multiple regroupings
+  Answer = num_a - num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "235"
+  - seed: 67890
+    expected:
+      answer: "163"

@@ -1,0 +1,49 @@
+metadata:
+  id: k2_easy_subtraction_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [subtraction, regrouping, context]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 40
+    max: 55
+  num_b:
+    type: integer
+    min: 18
+    max: 28
+  item:
+    type: item
+    category: online
+  Answer:
+    type: integer
+
+template: |
+  {{name}} collected {{num_a}} {{item}}.
+  
+  {{ "He|She" | choice }} used {{num_b}} for a project.
+  
+  How many {{item}} does {{name}} have now?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "26"
+  - seed: 22222
+    expected:
+      answer: "27"

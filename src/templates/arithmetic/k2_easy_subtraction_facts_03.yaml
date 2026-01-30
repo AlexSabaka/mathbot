@@ -1,0 +1,47 @@
+metadata:
+  id: k2_easy_subtraction_facts_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction_facts
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [subtraction, facts, word-problem]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 10
+    max: 18
+  num_b:
+    type: integer
+    min: 4
+    max: 9
+  item:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{num_a}} {{item}}. {{ "He|She" | choice }} eats {{num_b}}.
+  
+  How many {{item}} are left?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "8"
+  - seed: 22222
+    expected:
+      answer: "8"

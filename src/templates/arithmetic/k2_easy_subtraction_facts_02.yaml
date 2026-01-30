@@ -1,0 +1,42 @@
+metadata:
+  id: k2_easy_subtraction_facts_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction_facts
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [subtraction, facts, missing-number]
+
+variables:
+  difference:
+    type: integer
+    min: 2
+    max: 10
+  num_b:
+    type: integer
+    min: 3
+    max: 9
+  Answer:
+    type: integer
+
+template: |
+  Find the missing number:
+  
+  ___ - {{num_b}} = {{difference}}
+  
+  Please solve this problem.
+
+solution: |
+  Answer = difference + num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "16"
+  - seed: 67890
+    expected:
+      answer: "14"

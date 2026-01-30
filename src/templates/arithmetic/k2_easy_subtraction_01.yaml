@@ -1,0 +1,41 @@
+metadata:
+  id: k2_easy_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [subtraction, regrouping, basic]
+
+variables:
+  num_a:
+    type: integer
+    min: 30
+    max: 50
+  num_b:
+    type: integer
+    min: 12
+    max: 20
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} - {{num_b}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  # Ensure regrouping is needed in ones place
+  Answer = num_a - num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "31"
+  - seed: 67890
+    expected:
+      answer: "22"

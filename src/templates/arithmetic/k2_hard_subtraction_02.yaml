@@ -1,0 +1,55 @@
+metadata:
+  id: k2_hard_subtraction_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [subtraction, multi-step, regrouping]
+
+variables:
+  start:
+    type: integer
+    min: 450
+    max: 600
+  num_borrowed_1:
+    type: integer
+    min: 80
+    max: 150
+  num_borrowed_2:
+    type: integer
+    min: 60
+    max: 120
+  day_1:
+    type: weekday
+  day_2:
+    type: weekday
+  Answer:
+    type: integer
+
+template: |
+  A library had {{start}} books.
+  
+  On {{day_1}}, {{num_borrowed_1}} books were borrowed.
+  
+  On {{day_2}}, {{num_borrowed_2}} more were borrowed.
+  
+  How many books are in the library now?
+  
+  Please solve this problem.
+
+solution: |
+  remaining_after_day1 = start - num_borrowed_1
+  Answer = remaining_after_day1 - num_borrowed_2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "363"
+  - seed: 67890
+    expected:
+      answer: "317"

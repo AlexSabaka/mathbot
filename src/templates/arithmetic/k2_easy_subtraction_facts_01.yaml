@@ -1,0 +1,40 @@
+metadata:
+  id: k2_easy_subtraction_facts_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction_facts
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [subtraction, facts, basic]
+
+variables:
+  num_a:
+    type: integer
+    min: 8
+    max: 18
+  num_b:
+    type: integer
+    min: 3
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} - {{num_b}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "11"
+  - seed: 67890
+    expected:
+      answer: "6"

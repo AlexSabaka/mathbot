@@ -1,0 +1,47 @@
+metadata:
+  id: k2_medium_subtraction_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [subtraction, money, regrouping]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 60
+    max: 100
+  num_b:
+    type: integer
+    min: 25
+    max: 50
+  item:
+    type: item
+    category: online
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has ${{num_a}}. {{ "He|She" | choice }} spends ${{num_b}} on a {{item}}.
+  
+  How much money does {{name}} have left?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$43"
+  - seed: 67890
+    expected:
+      answer: "$45"

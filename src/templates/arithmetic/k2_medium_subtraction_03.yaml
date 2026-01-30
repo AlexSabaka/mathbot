@@ -1,0 +1,49 @@
+metadata:
+  id: k2_medium_subtraction_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [subtraction, regrouping, context]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 180
+    max: 280
+  num_b:
+    type: integer
+    min: 80
+    max: 140
+  item:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has a collection of {{num_a}} {{item}}.
+  
+  {{ "He|She" | choice }} gives {{num_b}} to {{ "his|her" | choice }} friends.
+  
+  How many {{item}} does {{name}} have left?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "84"
+  - seed: 44444
+    expected:
+      answer: "120"

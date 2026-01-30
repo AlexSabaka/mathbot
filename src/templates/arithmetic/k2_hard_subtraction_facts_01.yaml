@@ -1,0 +1,50 @@
+metadata:
+  id: k2_hard_subtraction_facts_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction_facts
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [subtraction, facts, fact-family, multi-answer]
+
+variables:
+  num_a:
+    type: integer
+    min: 4
+    max: 9
+  num_b:
+    type: integer
+    min: 5
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Complete the fact family for {{num_a}}, {{num_b}}, and {{num_a + num_b}}:
+  
+  ___ + ___ = ___
+  ___ + ___ = ___
+  ___ - ___ = ___
+  ___ - ___ = ___
+  
+  Please solve this problem.
+
+solution: |
+  sum_value = num_a + num_b
+  eq1 = f"{num_a} + {num_b} = {sum_value}"
+  eq2 = f"{num_b} + {num_a} = {sum_value}"
+  eq3 = f"{sum_value} - {num_a} = {num_b}"
+  eq4 = f"{sum_value} - {num_b} = {num_a}"
+  Answer = f"{eq1}, {eq2}, {eq3}, {eq4}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7 + 5 = 12, 5 + 7 = 12, 12 - 7 = 5, 12 - 5 = 7"
+  - seed: 67890
+    expected:
+      answer: "5 + 6 = 11, 6 + 5 = 11, 11 - 5 = 6, 11 - 6 = 5"

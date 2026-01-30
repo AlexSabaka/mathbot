@@ -1,0 +1,47 @@
+metadata:
+  id: k2_easy_subtraction_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [subtraction, regrouping, word-problem]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 35
+    max: 60
+  num_b:
+    type: integer
+    min: 15
+    max: 30
+  item:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} had {{num_a}} {{item}}. {{ "He|She" | choice }} gave away {{num_b}}.
+  
+  How many are left?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "36"
+  - seed: 67890
+    expected:
+      answer: "25"

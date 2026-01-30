@@ -1,0 +1,44 @@
+metadata:
+  id: k2_medium_subtraction_facts_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction_facts
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [subtraction, facts, fact-family]
+
+variables:
+  num_a:
+    type: integer
+    min: 4
+    max: 9
+  num_b:
+    type: integer
+    min: 5
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Write a subtraction fact that is related to {{num_a}} + {{num_b}} = {{num_a + num_b}}.
+  
+  Please solve this problem.
+
+solution: |
+  sum_value = num_a + num_b
+  # Two possible answers: sum - num_a or sum - num_b
+  answer1 = f"{sum_value} - {num_a} = {num_b}"
+  answer2 = f"{sum_value} - {num_b} = {num_a}"
+  Answer = f"{answer1} or {answer2}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "15 - 7 = 8 or 15 - 8 = 7"
+  - seed: 67890
+    expected:
+      answer: "13 - 5 = 8 or 13 - 8 = 5"

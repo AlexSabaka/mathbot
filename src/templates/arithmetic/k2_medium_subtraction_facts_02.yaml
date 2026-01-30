@@ -1,0 +1,57 @@
+metadata:
+  id: k2_medium_subtraction_facts_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction_facts
+  difficulty: medium
+  steps: 1
+  culture: en-US
+  tags: [subtraction, facts, matching]
+
+variables:
+  target:
+    type: integer
+    min: 4
+    max: 10
+  fact_a_num:
+    type: integer
+    min: 11
+    max: 16
+  fact_b_num:
+    type: integer
+    min: 10
+    max: 15
+  fact_c_num:
+    type: integer
+    min: 12
+    max: 18
+  fact_d_num:
+    type: integer
+    min: 13
+    max: 17
+  Answer:
+    type: string
+
+template: |
+  Circle the subtraction facts that equal {{target}}:
+  
+  {{fact_a_num}} - {{fact_a_num - target}}, {{fact_b_num}} - {{fact_b_num - target + 1}}, {{fact_c_num}} - {{fact_c_num - target}}, {{fact_d_num}} - {{fact_d_num - target - 1}}
+  
+  Please solve this problem.
+
+solution: |
+  # fact_a and fact_c equal target, b and d are off by 1
+  fact_a = f"{fact_a_num} - {fact_a_num - target} = {target}"
+  fact_c = f"{fact_c_num} - {fact_c_num - target} = {target}"
+  Answer = f"{fact_a}, {fact_c}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "15 - 8 = 7, 17 - 10 = 7"
+  - seed: 67890
+    expected:
+      answer: "12 - 7 = 5, 14 - 9 = 5"

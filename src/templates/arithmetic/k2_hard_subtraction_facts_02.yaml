@@ -1,0 +1,47 @@
+metadata:
+  id: k2_hard_subtraction_facts_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction_facts
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [subtraction, facts, algebra, multi-step]
+
+variables:
+  num_a:
+    type: integer
+    min: 12
+    max: 18
+  difference:
+    type: integer
+    min: 5
+    max: 10
+  num_c:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  If {{num_a}} - n = {{difference}}, what is n + {{num_c}}?
+  
+  Please solve this problem.
+
+solution: |
+  # First find n
+  n = num_a - difference
+  # Then compute n + num_c
+  Answer = n + num_c
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8"
+  - seed: 67890
+    expected:
+      answer: "13"

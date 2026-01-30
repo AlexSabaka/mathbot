@@ -1,0 +1,49 @@
+metadata:
+  id: k2_hard_subtraction_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [subtraction, regrouping, zeros, context]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 300
+    max: 450
+  num_b:
+    type: integer
+    min: 140
+    max: 220
+  item:
+    type: item
+    category: online
+  Answer:
+    type: integer
+
+template: |
+  {{name}} started a collection with {{num_a}} {{item}}.
+  
+  Over the year, {{ "he|she" | choice }} traded away {{num_b}} {{item}}.
+  
+  How many {{item}} does {{name}} have now?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "189"
+  - seed: 66666
+    expected:
+      answer: "200"

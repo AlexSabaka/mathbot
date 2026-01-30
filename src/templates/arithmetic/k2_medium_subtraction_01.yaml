@@ -1,0 +1,41 @@
+metadata:
+  id: k2_medium_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: medium
+  steps: 1
+  culture: en-US
+  tags: [subtraction, regrouping, 3-digit]
+
+variables:
+  num_a:
+    type: integer
+    min: 150
+    max: 300
+  num_b:
+    type: integer
+    min: 75
+    max: 150
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} - {{num_b}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  # Ensure regrouping in ones and tens places
+  Answer = num_a - num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "180"
+  - seed: 67890
+    expected:
+      answer: "108"

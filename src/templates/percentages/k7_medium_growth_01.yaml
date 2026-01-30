@@ -1,0 +1,51 @@
+metadata:
+  id: k7_medium_growth_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 7
+  topic: percentages.growth
+  family: growth
+  difficulty: medium
+  steps: 3
+  tags: [compound-interest, percentages, savings]
+
+variables:
+  name:
+    type: person
+  principal:
+    type: decimal
+    format: money
+    min: 500.0
+    max: 5000.0
+    step: 0.25
+  rate:
+    type: integer
+    format: percentage
+    min: 5
+    max: 20
+    step: 1
+  years:
+    type: integer
+    min: 2
+    max: 5
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} opens a savings account with an initial deposit of {{principal}}. The account earns {{rate}}% interest per year, compounded annually. After leaving the money untouched for {{years}} years, {{name}} checks the balance. How much money does {{name}} have in the account?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  final_amount = principal * (1 + rate / 100) ** years
+  Answer = round(final_amount, 2)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "$1469.33"
+  - seed: 100
+    expected:
+      answer: "$2074.19"

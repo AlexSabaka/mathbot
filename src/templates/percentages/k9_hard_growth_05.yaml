@@ -1,0 +1,103 @@
+metadata:
+  id: k9_hard_growth_05
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 9
+  topic: percentages.growth
+  family: growth
+  difficulty: hard
+  steps: 6
+  tags: [compound-interest, percentages, savings, multi-step]
+
+variables:
+  name:
+    type: person
+  principal:
+    type: decimal
+    format: money
+    min: 500.0
+    max: 5000.0
+    step: 0.25
+  rate1:
+    type: integer
+    format: percentage
+    min: 3
+    max: 15
+    step: 1
+  years:
+    type: integer
+    min: 2
+    max: 3
+  year2:
+    type: boolean
+  rate2:
+    type: integer
+    format: percentage
+    min: 3
+    max: 15
+    step: 1
+  has_deposit:
+    type: boolean
+  deposit_amount:
+    type: decimal
+    format: money
+    min: 100.0
+    max: 1000.0
+    step: 50.0
+  has_withdrawal:
+    type: boolean
+  withdrawal_amount:
+    type: decimal
+    format: money
+    min: 100.0
+    max: 1000.0
+    step: 50.0
+  year3:
+    type: boolean
+  rate3:
+    type: integer
+    format: percentage
+    min: 3
+    max: 15
+    step: 1
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} opens a savings account with an initial deposit of {{principal}}.
+  
+  During the first year, the account earns {{rate1}}% interest.
+  
+  {% if year2 %}In the second year, the interest rate is {{rate2}}%, which is applied to the balance. {% endif %}
+  
+  {% if has_deposit %}After receiving the second year's interest, {{name}} adds {{deposit_amount}} to the account. {% endif %}
+  
+  {% if has_withdrawal %}Following the second year's interest payment, {{name}} makes a withdrawal of {{withdrawal_amount}}. {% endif %}
+  
+  {% if year3 %}The third year brings {{rate3}}% interest on the current balance. {% endif %}
+  
+  What is the total amount in {{name}}'s account?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  balance = principal * (1 + rate1 / 100)
+  if year2:
+      balance = balance * (1 + rate2 / 100)
+      if has_deposit:
+          balance = balance + deposit_amount
+      if has_withdrawal:
+          balance = balance - withdrawal_amount
+  if year3:
+      balance = balance * (1 + rate3 / 100)
+  Answer = round(balance, 2)
+
+tests:
+  - seed: 555
+    expected:
+      answer: "$1155.75"
+  - seed: 666
+    expected:
+      answer: "$4592.88"

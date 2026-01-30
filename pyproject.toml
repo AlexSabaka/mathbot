@@ -1,6 +1,6 @@
 [project]
 name = "mathbot"
-version = "0.1.0"
+version = "0.1.1"
 description = "Procedurally-generated multi-step math word problems for LLM testing and general use"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -8,7 +8,8 @@ dependencies = [
     "faker>=20.0.0",
     "names>=0.3.0",
     "click>=8.0.0",
-    "chevron>=0.14.0",
+    "jinja2>=3.1.0",
+    "pyyaml>=6.0",
     "inflect>=7.0.0",
 ]
 

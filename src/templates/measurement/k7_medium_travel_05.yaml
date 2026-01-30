@@ -1,0 +1,79 @@
+metadata:
+  id: k7_medium_travel_05
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 7
+  topic: measurement.time
+  family: travel
+  difficulty: medium
+  steps: 3
+  tags: [time, distance, rate, flight, layover]
+
+variables:
+  name:
+    type: person
+  city1:
+    type: location
+  city2:
+    type: location
+  city3:
+    type: location
+  distance1:
+    type: integer
+    min: 50
+    max: 300
+  speed1:
+    type: integer
+    min: 30
+    max: 80
+  has_layover:
+    type: boolean
+  layover_hours:
+    type: decimal
+    min: 1.0
+    max: 4.0
+    step: 0.5
+  has_second_flight:
+    type: boolean
+  distance2:
+    type: integer
+    min: 50
+    max: 300
+  speed2:
+    type: integer
+    min: 30
+    max: 80
+  Answer:
+    type: time
+
+template: |
+  {{name}} is flying from {{city1}} to {{city2}} for a business trip.
+  
+  The flight covers {{distance1}} miles at a cruising speed of {{speed1}} mph.
+  
+  {% if has_layover %}With a {{layover_hours}}-hour layover in {{city2}}, they continue their journey. {% endif %}
+  
+  {% if has_second_flight %}{{name}} then flies to {{city3}}, covering another {{distance2}} miles at {{speed2}} mph.{% endif %}
+  
+  What's the total travel time?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  flight_time1 = distance1 / speed1
+  if has_layover:
+      layover_time = layover_hours
+  else:
+      layover_time = 0
+  if has_second_flight:
+      flight_time2 = distance2 / speed2
+  else:
+      flight_time2 = 0
+  total_time = flight_time1 + layover_time + flight_time2
+  Answer = round(total_time, 2)
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "6 hours 30 minutes"

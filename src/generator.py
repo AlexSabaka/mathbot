@@ -43,76 +43,40 @@ def generate_problem(
     if seed is not None:
         random.seed(seed)
     
-    # Validate parameters
-    params = validate_problem_params(complexity, grade, math_topic, problem_family, num_steps)
-    
-    # Fill in random values for unspecified parameters
-    final_complexity = params.get('complexity', random.randint(1, 3))
-    final_grade = params.get('grade', random.choice(GRADES))
-
-    # Select compatible math topic first (needed for family selection)
-    if 'math_topic' in params:
-        final_math_topic = params['math_topic']
-    else:
-        # Get topics compatible with the grade
-        compatible_topics = [
-            topic for topic in MATH_TOPICS
-            if final_grade in TOPIC_GRADE_COMPATIBILITY[topic]
-        ]
-        final_math_topic = random.choice(compatible_topics) if compatible_topics else "arithmetic"
-
-    # Select problem family - prefer families that support the topic
-    if 'problem_family' in params:
-        final_problem_family = params['problem_family']
-    else:
-        # Let template generator choose from all matching templates
-        final_problem_family = None
-    
-    # Determine number of steps (not used by template generator but kept for compatibility)
-    final_num_steps = params.get('num_steps')
-    if final_num_steps is None:
-        min_steps, max_steps = COMPLEXITY_STEPS_RANGE.get(final_complexity, (3, 5))
-        final_num_steps = random.randint(min_steps, max_steps)
-    
     # Use new template-based generator
     template_gen = TemplateGenerator(seed=seed)
     
+    # Get available options from actual templates
+    available_options = template_gen.get_available_options()
+    
+    # Map high-level grades to actual k-grades
+    if grade in ['elementary', 'middle', 'high']:
+        # Let template generator handle it
+        final_grade = grade
+    elif grade and grade in available_options['grades']:
+        final_grade = grade
+    else:
+        # Select from available grades
+        final_grade = random.choice(available_options['grades']) if not grade else grade
+    
+    # Use available topics
+    if math_topic and math_topic in available_options['math_topics']:
+        final_math_topic = math_topic
+    else:
+        final_math_topic = random.choice(available_options['math_topics']) if not math_topic else math_topic
+    
     # Generate the problem
     problem_data = template_gen.generate(
-        complexity=final_complexity,
+        complexity=complexity,
         grade=final_grade,
         math_topic=final_math_topic,
-        problem_family=final_problem_family
+        problem_family=problem_family,
+        num_steps=num_steps,
+        seed=seed
     )
     
-    # Use family from template metadata
-    final_problem_family = problem_data.get('problem_family', 'unknown')
-    
-    # Generate test ID
-    test_id = f"math_{random.randint(1000, 9999)}_{final_problem_family}"
-    
-    # Generate config name
-    complexity_names = {1: "easy", 2: "medium", 3: "hard"}
-    config_name = f"{final_problem_family}_{complexity_names[final_complexity]}_{final_math_topic}"
-    
-    # Build final output
-    result = {
-        "test_id": test_id,
-        "task_type": "multi_step_math",
-        "config_name": config_name,
-        "problem": problem_data["problem"],
-        "task_params": {
-            "complexity": final_complexity,
-            "grade": final_grade,
-            "math_topic": [final_math_topic],
-            "problem_family": final_problem_family,
-            "num_steps": problem_data["num_steps"],
-            "expected_answer": problem_data["expected_answer"],
-            "operations": problem_data["operations"]
-        }
-    }
-    
-    return result
+    # Template generator returns complete structure
+    return problem_data
 
 
 def generate_problems(

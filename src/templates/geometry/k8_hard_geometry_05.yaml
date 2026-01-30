@@ -1,0 +1,70 @@
+metadata:
+  id: k8_hard_geometry_05
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 8
+  topic: geometry.area
+  family: geometry
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [shapes, measurement, area, transformation]
+
+variables:
+  length:
+    type: integer
+    format: length
+    min: 5
+    max: 50
+  width:
+    type: integer
+    format: length
+    min: 3
+    max: 30
+  calculation_type:
+    type: string
+    choices:
+      - area_only
+      - square_side
+      - square_both
+  Answer:
+    type: decimal
+  Answer1:
+    type: decimal
+    format: length
+  Answer2:
+    type: decimal
+    format: length
+
+template: |
+  A {{ "soccer|baseball|sports|recreational|community" | choice }} field has a rectangular shape measuring {{length}} by {{width}}.
+  
+  {% if calculation_type == 'square_side' or calculation_type == 'square_both' %}The owner wants to redesign it as a square field with the same area.
+  
+  {% if calculation_type == 'square_both' %}They need to know both the side length of the new square and its perimeter for planning the boundary.
+  
+  What are the side length and perimeter of the square field?{% else %}What is the side length of the square field?{% endif %}{% else %}What is the area of the field?{% endif %}
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  area = length * width
+  
+  if calculation_type == 'square_side' or calculation_type == 'square_both':
+      side_length = math.sqrt(area)
+      if calculation_type == 'square_both':
+          perimeter = 4 * side_length
+          Answer1 = round(side_length, 2)
+          Answer2 = round(perimeter, 2)
+      else:
+          # Side length answer (no special formatting)
+          Answer = round(side_length, 2)
+  else:
+      # Area answer (integer, no decimal)
+      Answer = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "350 feet squared"

@@ -1,0 +1,91 @@
+metadata:
+  id: k8_medium_growth_04
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 8
+  topic: percentages.growth
+  family: growth
+  difficulty: medium
+  steps: 5
+  tags: [compound-growth, percentages, business, revenue]
+
+variables:
+  company:
+    type: company
+  initial_revenue:
+    type: decimal
+    format: money
+    min: 100000.0
+    max: 1000000.0
+    step: 10000.0
+  rate1:
+    type: integer
+    format: percentage
+    min: 5
+    max: 25
+    step: 1
+  years:
+    type: integer
+    min: 1
+    max: 3
+  year2:
+    type: boolean
+  rate2:
+    type: integer
+    format: percentage
+    min: 5
+    max: 25
+    step: 1
+  year3:
+    type: boolean
+  rate3:
+    type: integer
+    format: percentage
+    min: 5
+    max: 25
+    step: 1
+  has_expense:
+    type: boolean
+  expense:
+    type: decimal
+    format: money
+    min: 10000.0
+    max: 100000.0
+    step: 5000.0
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{company}} starts with annual revenue of {{initial_revenue}}.
+  
+  In the first year, the company experiences {{rate1}}% revenue growth.
+  
+  {% if year2 %}The following year brings another {{rate2}}% increase in revenue. {% endif %}
+  
+  {% if year3 %}In the third year, revenue continues growing at {{rate3}}%. {% endif %}
+  
+  {% if has_expense %}However, the company must cover {{expense}} in one-time acquisition costs. {% endif %}
+  
+  What is {{company}}'s net revenue after these changes?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  revenue = initial_revenue * (1 + rate1 / 100)
+  if year2:
+      revenue = revenue * (1 + rate2 / 100)
+  if year3:
+      revenue = revenue * (1 + rate3 / 100)
+  if has_expense:
+      revenue = revenue - expense
+  Answer = round(revenue, 2)
+
+tests:
+  - seed: 222
+    expected:
+      answer: "$141022.50"
+  - seed: 333
+    expected:
+      answer: "$199356.25"

@@ -1,0 +1,63 @@
+metadata:
+  id: k6_medium_geometry_02
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: geometry.area
+  family: geometry
+  difficulty: medium
+  steps: 3
+  tags: [shapes, measurement, area, tiles]
+
+variables:
+  room_length:
+    type: decimal
+    min: 3.0
+    max: 8.0
+    step: 0.5
+  room_width:
+    type: decimal
+    min: 2.5
+    max: 6.0
+    step: 0.5
+  tile_size:
+    type: decimal
+    min: 0.3
+    max: 0.6
+    step: 0.1
+  add_waste:
+    type: boolean
+  waste_percent:
+    type: integer
+    min: 10
+    max: 20
+    step: 5
+  Answer:
+    type: integer
+
+template: |
+  A homeowner is renovating their {{ "kitchen|bathroom|living room|bedroom|hallway" | choice }}, which measures {{room_length}}m by {{room_width}}m.
+  
+  They've chosen square tiles that are {{tile_size}}m × {{tile_size}}m.
+  
+  {% if add_waste %}The contractor recommends ordering {{waste_percent}}% extra tiles to account for cuts and breakage.
+  
+  How many tiles should be ordered in total?{% else %}How many tiles are needed to cover the floor?{% endif %}
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  room_area = room_length * room_width
+  tile_area = tile_size * tile_size
+  tiles_needed = room_area / tile_area
+  if add_waste:
+      tiles_with_waste = tiles_needed * (1 + waste_percent / 100)
+      Answer = int(round(tiles_with_waste))
+  else:
+      Answer = int(round(tiles_needed))
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "240"

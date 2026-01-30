@@ -1,0 +1,68 @@
+metadata:
+  id: k6_medium_shopping_05
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: arithmetic.multi_step
+  family: shopping
+  difficulty: medium
+  steps: 2
+  tags: [money, real-world, shopping]
+
+variables:
+  name:
+    type: person
+  store:
+    type: store
+  city:
+    type: location
+  qty1:
+    type: integer
+    min: 2
+    max: 5
+  item1:
+    type: item
+    category: electronics
+    plural: true
+  price1:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 50.00
+    step: 0.25
+  qty2:
+    type: integer
+    min: 2
+    max: 5
+  item2:
+    type: item
+    category: electronics
+    plural: true
+  price2:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 50.00
+    step: 0.25
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} walks into {{store}}, an electronics store in {{city}}.
+  
+  They pick up {{qty1}} {{item1}} at {{price1}} each. They also select {{qty2}} {{item2}} at {{price2}} each.
+  
+  How much will {{name}} pay?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  total = price1 * qty1 + price2 * qty2
+  Answer = total
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$105.00"

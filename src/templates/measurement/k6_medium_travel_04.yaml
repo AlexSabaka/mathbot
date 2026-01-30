@@ -1,0 +1,85 @@
+metadata:
+  id: k6_medium_travel_04
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: measurement.time
+  family: travel
+  difficulty: medium
+  steps: 4
+  tags: [time, distance, rate, delivery, multi_stop]
+
+variables:
+  name:
+    type: person
+  company:
+    type: company
+  city:
+    type: location
+  distance1:
+    type: integer
+    min: 10
+    max: 200
+  speed1:
+    type: integer
+    min: 20
+    max: 80
+  delivery1:
+    type: integer
+    min: 5
+    max: 30
+  distance2:
+    type: integer
+    min: 10
+    max: 200
+  speed2:
+    type: integer
+    min: 20
+    max: 80
+  delivery2:
+    type: integer
+    min: 5
+    max: 30
+  distance3:
+    type: integer
+    min: 10
+    max: 200
+  speed3:
+    type: integer
+    min: 20
+    max: 80
+  delivery3:
+    type: integer
+    min: 5
+    max: 30
+  Answer:
+    type: time
+
+template: |
+  {{name}} works as a delivery driver for {{company}} in {{city}}. They have three stops to make.
+  
+  The first stop is {{distance1}} miles away at {{speed1}} mph, taking {{delivery1}} minutes for delivery.
+  
+  The second stop is {{distance2}} miles away at {{speed2}} mph, taking {{delivery2}} minutes for delivery.
+  
+  The third stop is {{distance3}} miles away at {{speed3}} mph, taking {{delivery3}} minutes for delivery.
+  
+  How long does the entire delivery route take?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  travel_time1 = distance1 / speed1
+  delivery_time1 = delivery1 / 60
+  travel_time2 = distance2 / speed2
+  delivery_time2 = delivery2 / 60
+  travel_time3 = distance3 / speed3
+  delivery_time3 = delivery3 / 60
+  total_time = travel_time1 + delivery_time1 + travel_time2 + delivery_time2 + travel_time3 + delivery_time3
+  Answer = round(total_time, 2)
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "4 hours 15 minutes"

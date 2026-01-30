@@ -1,0 +1,74 @@
+metadata:
+  id: k6_medium_geometry_03
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: geometry.perimeter
+  family: geometry
+  difficulty: medium
+  steps: 3
+  tags: [shapes, measurement, perimeter, cost]
+
+variables:
+  is_square:
+    type: boolean
+  is_rectangular:
+    type: boolean
+  side:
+    type: integer
+    min: 8
+    max: 25
+  length:
+    type: integer
+    min: 5
+    max: 50
+  width:
+    type: integer
+    min: 3
+    max: 30
+  cost_per_meter:
+    type: decimal
+    format: money
+    min: 15.00
+    max: 40.00
+    step: 5.00
+  has_gate:
+    type: boolean
+  gate_width:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {% if is_square %}A homeowner plans to fence their square garden, which has sides measuring {{side}}m each.{% else %}A homeowner wants to install fencing around their rectangular garden measuring {{length}}m by {{width}}m.{% endif %}
+  
+  The fencing material costs {{cost_per_meter}} per meter.
+  
+  {% if has_gate %}However, there's already a {{gate_width}}m-wide gate installed, so no fencing is needed for that section. {% endif %}
+  
+  What is the total cost of the fencing project?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  if is_square:
+      perimeter = 4 * side
+  else:
+      perimeter = 2 * (length + width)
+  
+  if has_gate:
+      fencing_needed = perimeter - gate_width
+  else:
+      fencing_needed = perimeter
+  
+  total_cost = fencing_needed * cost_per_meter
+  Answer = round(total_cost, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$680.00"

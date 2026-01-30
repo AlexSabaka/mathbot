@@ -1,0 +1,76 @@
+metadata:
+  id: k6_medium_travel_03
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: measurement.time
+  family: travel
+  difficulty: medium
+  steps: 3
+  tags: [time, distance, rate, public_transit, multi_step]
+
+variables:
+  name:
+    type: person
+  day:
+    type: weekday
+  start:
+    type: location
+  destination:
+    type: location
+  walk_minutes:
+    type: integer
+    min: 5
+    max: 20
+  distance1:
+    type: integer
+    min: 50
+    max: 300
+  speed1:
+    type: integer
+    min: 30
+    max: 80
+  has_transfer:
+    type: boolean
+  wait_minutes:
+    type: integer
+    min: 10
+    max: 30
+  distance2:
+    type: integer
+    min: 50
+    max: 300
+  speed2:
+    type: integer
+    min: 30
+    max: 80
+  Answer:
+    type: time
+
+template: |
+  On {{day}}, {{name}} takes public transit from {{start}} to {{destination}}.
+  
+  After a {{walk_minutes}}-minute walk to the station, they board a train that travels {{distance1}} miles at {{speed1}} mph.
+  
+  {{#has_transfer}}After waiting {{wait_minutes}} minutes for a connection, {{name}} takes another bus for {{distance2}} miles at {{speed2}} mph.{{/has_transfer}}
+  
+  How long is the entire commute?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  walk_hours = walk_minutes / 60
+  travel_time1 = distance1 / speed1
+  if has_transfer:
+      wait_hours = wait_minutes / 60
+      travel_time2 = distance2 / speed2
+      total_time = walk_hours + travel_time1 + wait_hours + travel_time2
+  else:
+      total_time = walk_hours + travel_time1
+  Answer = round(total_time, 2)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "3 hours 45 minutes"

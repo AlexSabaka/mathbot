@@ -1,0 +1,52 @@
+metadata:
+  id: k3_easy_sequential_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.addition
+  family: sequential
+  difficulty: easy
+  steps: 2
+  tags: [money, real-world, shopping]
+
+variables:
+  name:
+    type: person
+  store:
+    type: store
+  item1:
+    type: item
+    category: grocery
+  price1:
+    type: decimal
+    format: money
+    min: 3.00
+    max: 8.00
+    step: 0.25
+  item2:
+    type: item
+    category: grocery
+  price2:
+    type: decimal
+    format: money
+    min: 2.00
+    max: 6.00
+    step: 0.25
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} went to {{store}} and bought {{item1}} for {{price1}} and {{item2}} for {{price2}}. What was the total cost?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  total_cost = price1 + price2
+  Answer = total_cost
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$9.25"

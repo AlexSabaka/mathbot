@@ -47,7 +47,9 @@ def cli(ctx):
               help='Save to file instead of stdout')
 @click.option('--show-answer/--no-show-answer', default=True,
               help='Show answer in output (default: show)')
-def generate(complexity, grade, topic, family, num_steps, seed, output, file, show_answer):
+@click.option('--input', 'input_template', type=click.Path(exists=True),
+              help='Generate from specific template file')
+def generate(complexity, grade, topic, family, num_steps, seed, output, file, show_answer, input_template):
     """Generate a single math problem.
 
     Examples:
@@ -59,16 +61,39 @@ def generate(complexity, grade, topic, family, num_steps, seed, output, file, sh
       mathbot generate -s 42 -o json --file problem.json
 
       mathbot generate --complexity 3 --topic algebra --no-show-answer
+      
+      mathbot generate --input src/templates/geometry/k5_medium_geometry_01.yaml
     """
     try:
-        problem = generate_problem(
-            complexity=complexity,
-            grade=grade,
-            math_topic=topic,
-            problem_family=family,
-            num_steps=num_steps,
-            seed=seed
-        )
+        if input_template:
+            # Generate from specific template file
+            from pathlib import Path
+            from .template_generator import TemplateGenerator
+            from .yaml_loader import YAMLLoader
+            
+            template_path = Path(input_template)
+            loader = YAMLLoader()
+            template = loader.load_template(template_path)
+            
+            if not template:
+                click.echo(click.style(f"Error: Failed to load template from {input_template}", fg='red'), err=True)
+                if loader.errors:
+                    for error in loader.errors:
+                        click.echo(click.style(f"  ERROR: {error}", fg='red'), err=True)
+                sys.exit(1)
+            
+            template_gen = TemplateGenerator(seed=seed)
+            problem = template_gen._generate_from_template(template, seed=seed, template_path=template_path)
+        else:
+            # Regular generation with filters
+            problem = generate_problem(
+                complexity=complexity,
+                grade=grade,
+                math_topic=topic,
+                problem_family=family,
+                num_steps=num_steps,
+                seed=seed
+            )
 
         # Format output
         if output == 'json':

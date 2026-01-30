@@ -1,0 +1,78 @@
+metadata:
+  id: k7_hard_shopping_06
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 7
+  topic: arithmetic.fractions
+  family: shopping
+  difficulty: hard
+  steps: 3
+  tags: [money, real-world, shopping, fractions]
+
+variables:
+  name:
+    type: person
+  city:
+    type: location
+  item1:
+    type: item
+    category: grocery
+    plural: true
+  price1:
+    type: decimal
+    format: money
+    min: 2.00
+    max: 10.00
+    step: 0.25
+  item2:
+    type: item
+    category: grocery
+    plural: true
+  price2:
+    type: decimal
+    format: money
+    min: 2.00
+    max: 10.00
+    step: 0.25
+  frac1_num:
+    type: integer
+    min: 1
+    max: 3
+  frac1_den:
+    type: integer
+    min: 2
+    max: 4
+  frac2_num:
+    type: integer
+    min: 1
+    max: 3
+  frac2_den:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} stops by a market in {{city}} after work.
+  
+  They notice {{item1}} are priced at {{price1}} per pound, and {{item2}} cost {{price2}} per pound.
+  
+  {{name}} picks up {{frac1_num}}/{{frac1_den}} pound of {{item1}} and {{frac2_num}}/{{frac2_den}} pound of {{item2}}.
+  
+  What's the total cost of these items?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  cost1 = price1 * frac1_num / frac1_den
+  cost2 = price2 * frac2_num / frac2_den
+  total = cost1 + cost2
+  Answer = total
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$7.25"

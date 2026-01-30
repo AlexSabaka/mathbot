@@ -1,0 +1,57 @@
+metadata:
+  id: k11_hard_growth_06
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 11
+  topic: percentages.growth
+  family: growth
+  difficulty: hard
+  steps: 4
+  tags: [compound-interest, percentages, logarithms, time-to-goal]
+
+variables:
+  name:
+    type: person
+  principal:
+    type: decimal
+    format: money
+    min: 500.0
+    max: 5000.0
+    step: 0.25
+  rate:
+    type: integer
+    format: percentage
+    min: 5
+    max: 20
+    step: 1
+  target_amount:
+    type: decimal
+    format: money
+    min: 1000.0
+    max: 10000.0
+    step: 100.0
+  Answer1:
+    type: decimal
+
+template: |
+  {{name}} invests {{principal}} in an account earning {{rate}}% annual interest, compounded yearly. They want to know how long it will take for their investment to reach {{target_amount}}. Using the formula t = log(A/P) / log(1 + r), where A is the target amount, P is the principal, and r is the rate (as a decimal), how many years will it take?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  if target_amount <= principal:
+      years_needed = 0.0
+  else:
+      r = rate / 100
+      years_needed = math.log(target_amount / principal) / math.log(1 + r)
+  Answer1 = round(years_needed, 2)
+  Answer2 = "years"
+
+tests:
+  - seed: 100
+    expected:
+      answer: "6.55 | years"
+  - seed: 400
+    expected:
+      answer: "9.25 | years"

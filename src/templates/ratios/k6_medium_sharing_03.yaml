@@ -1,0 +1,68 @@
+metadata:
+  id: k6_medium_sharing_03
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: ratios.proportions
+  family: sharing
+  difficulty: medium
+  steps: 3
+  tags: [ratios, proportions, money, division]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  name3:
+    type: person
+  city:
+    type: location
+  total:
+    type: decimal
+    format: money
+    min: 30.0
+    max: 150.0
+    step: 5.0
+  ratio1:
+    type: integer
+    min: 1
+    max: 4
+  ratio2:
+    type: integer
+    min: 1
+    max: 4
+  ratio3:
+    type: integer
+    min: 1
+    max: 4
+  Answer1:
+    type: decimal
+    format: money
+  Answer2:
+    type: decimal
+    format: money
+  Answer3:
+    type: decimal
+    format: money
+
+template: |
+  After a meal together in {{city}}, {{name1}}, {{name2}}, and {{name3}} receive a bill totaling {{total_formatted}}. They agree to split the cost in the ratio {{ratio1}}:{{ratio2}}:{{ratio3}} based on what each person ordered. How much does each person pay?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  total_parts = ratio1 + ratio2 + ratio3
+  amount1 = total * (ratio1 / total_parts)
+  amount2 = total * (ratio2 / total_parts)
+  amount3 = total * (ratio3 / total_parts)
+  
+  Answer1 = round(amount1, 2)
+  Answer2 = round(amount2, 2)
+  Answer3 = round(amount3, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$36.36 | $18.18 | $30.45"

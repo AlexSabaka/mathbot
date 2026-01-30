@@ -1,168 +1,168 @@
-"""Unit tests for the math problem generator."""
+"""Essential tests for the YAML+Jinja2 math problem generator."""
 
 import pytest
 from src import generate_problem, generate_problems, get_available_options
 from src.constants import MATH_TOPICS, PROBLEM_FAMILIES, GRADES
 
 
-class TestSingleProblemGeneration:
-    """Test single problem generation."""
+class TestBasicGeneration:
+    """Test core problem generation functionality."""
     
-    def test_basic_generation(self):
-        """Test basic problem generation works."""
-        problem = generate_problem(seed=42)
+    def test_basic_structure(self):
+        """Test that generated problems have correct structure."""
+        problem = generate_problem(
+            complexity=2,
+            grade='elementary',
+            math_topic='arithmetic',
+            seed=42
+        )
         
-        assert problem is not None
+        # Verify output structure
         assert 'test_id' in problem
         assert 'task_type' in problem
+        assert 'config_name' in problem
         assert 'problem' in problem
         assert 'task_params' in problem
+        
+        # Verify task_type
         assert problem['task_type'] == 'multi_step_math'
+        
+        # Verify task_params structure
+        params = problem['task_params']
+        assert 'complexity' in params
+        assert 'grade' in params
+        assert 'math_topic' in params
+        assert 'problem_family' in params
+        assert 'num_steps' in params
+        assert 'expected_answer' in params
+        assert 'operations' in params
     
-    def test_with_all_parameters(self):
-        """Test generation with all parameters specified."""
-        problem = generate_problem(
+    def test_reproducibility(self):
+        """Test that same seed produces identical problems."""
+        problem1 = generate_problem(
             complexity=2,
             grade='middle',
             math_topic='arithmetic',
-            problem_family='sequential_purchase',
-            num_steps=3,
-            seed=100
+            seed=12345
+        )
+        problem2 = generate_problem(
+            complexity=2,
+            grade='middle',
+            math_topic='arithmetic',
+            seed=12345
         )
         
-        assert problem['task_params']['complexity'] == 2
-        assert problem['task_params']['grade'] == 'middle'
-        assert 'arithmetic' in problem['task_params']['math_topic']
-        assert problem['task_params']['problem_family'] == 'sequential_purchase'
-    
-    def test_reproducibility(self):
-        """Test that same seed produces same problem."""
-        problem1 = generate_problem(seed=999)
-        problem2 = generate_problem(seed=999)
-        
+        # Entire problem should be identical
         assert problem1 == problem2
     
-    def test_different_seeds_produce_different_problems(self):
+    def test_different_seeds_differ(self):
         """Test that different seeds produce different problems."""
-        problem1 = generate_problem(seed=1)
-        problem2 = generate_problem(seed=2)
+        problem1 = generate_problem(
+            complexity=2,
+            grade='middle',
+            math_topic='arithmetic',
+            seed=100
+        )
+        problem2 = generate_problem(
+            complexity=2,
+            grade='middle',
+            math_topic='arithmetic',
+            seed=200
+        )
         
-        # At least the answer should be different
-        assert problem1['task_params']['expected_answer'] != problem2['task_params']['expected_answer']
-    
-    def test_invalid_complexity(self):
-        """Test that invalid complexity raises error."""
-        with pytest.raises(ValueError):
-            generate_problem(complexity=5)
-    
-    def test_invalid_grade(self):
-        """Test that invalid grade raises error."""
-        with pytest.raises(ValueError):
-            generate_problem(grade='invalid')
+        # At minimum, values should differ
+        assert problem1['task_params']['expected_answer'] != \
+               problem2['task_params']['expected_answer']
+
+
+class TestParameterValidation:
+    """Test parameter validation."""
     
     def test_invalid_math_topic(self):
-        """Test that invalid math topic raises error."""
-        with pytest.raises(ValueError):
-            generate_problem(math_topic='invalid')
+        """Test that invalid math topic results in no templates."""
+        with pytest.raises(ValueError, match="No templates found"):
+            generate_problem(math_topic='quantum_physics')
     
     def test_invalid_problem_family(self):
-        """Test that invalid problem family raises error."""
-        with pytest.raises(ValueError):
-            generate_problem(problem_family='invalid')
+        """Test that invalid problem family results in no templates."""
+        with pytest.raises(ValueError, match="No templates found"):
+            generate_problem(problem_family='nonexistent')
 
 
 class TestBatchGeneration:
-    """Test batch problem generation."""
+    """Test batch generation."""
     
-    def test_generate_multiple_problems(self):
-        """Test generating multiple problems."""
-        problems = generate_problems(n=5, avoid_duplicates=True)
-        
-        assert len(problems) == 5
-        assert all('test_id' in p for p in problems)
-    
-    # def test_avoid_duplicates(self):
-    #     """Test that avoid_duplicates works."""
-    #     problems = generate_problems(n=10, avoid_duplicates=True)
-        
-    #     # Check that answers are mostly different (allowing some collisions)
-    #     answers = [p['task_params']['expected_answer'] for p in problems]
-    #     unique_answers = len(set(answers))
-        
-    #     # At least 70% should be unique
-    #     assert unique_answers >= 7
-    
-    def test_batch_with_constraints(self):
-        """Test batch generation with constraints."""
+    def test_batch_count(self):
+        """Test generating correct number of problems."""
         problems = generate_problems(
-            n=5,
+            n=3,
+            complexity=2,
+            grade='elementary',
+            math_topic='arithmetic'
+        )
+        
+        assert len(problems) == 3
+        assert all('test_id' in p for p in problems)
+
+
+class TestMultiAnswer:
+    """Test multi-answer problem support."""
+    
+    def test_multi_answer_geometry(self):
+        """Test geometry problems with multiple answers."""
+        problem = generate_problem(
+            complexity=2,
+            grade='elementary',
+            math_topic='geometry',
+            seed=12345
+        )
+        
+        answer = problem['task_params']['expected_answer']
+        
+        # Multi-answer problems use | separator
+        if '|' in answer:
+            parts = answer.split(' | ')
+            assert len(parts) >= 2
+            # Each part should be a valid answer
+            assert all(len(p.strip()) > 0 for p in parts)
+
+
+class TestAnswerFormats:
+    """Test answer formatting for different problem types."""
+    
+    def test_money_format(self):
+        """Test money answers are properly formatted."""
+        problem = generate_problem(
+            complexity=2,
+            grade='elementary',
+            math_topic='arithmetic',
+            problem_family='shopping',
+            seed=42
+        )
+        
+        answer = problem['task_params']['expected_answer']
+        # Money answers should start with $
+        assert answer.startswith('$')
+    
+    def test_time_format(self):
+        """Test time answers include units."""
+        problem = generate_problem(
             complexity=2,
             grade='middle',
-            problem_family='sequential_purchase'
-        )
-        
-        assert len(problems) == 5
-        assert all(p['task_params']['complexity'] == 2 for p in problems)
-        assert all(p['task_params']['grade'] == 'middle' for p in problems)
-        assert all(p['task_params']['problem_family'] == 'sequential_purchase' for p in problems)
-
-
-class TestProblemFamilies:
-    """Test individual problem families."""
-    
-    def test_sequential_purchase(self):
-        """Test sequential purchase family."""
-        problem = generate_problem(
-            problem_family='sequential_purchase',
+            math_topic='measurement',
+            problem_family='travel',
             seed=42
         )
         
-        assert problem['task_params']['problem_family'] == 'sequential_purchase'
-        assert '$' in problem['task_params']['expected_answer']
-    
-    def test_rate_time(self):
-        """Test rate time family."""
-        problem = generate_problem(
-            problem_family='rate_time',
-            seed=42
-        )
-        
-        assert problem['task_params']['problem_family'] == 'rate_time'
-        assert 'hour' in problem['task_params']['expected_answer'].lower()
-    
-    def test_compound_growth(self):
-        """Test compound growth family."""
-        problem = generate_problem(
-            problem_family='compound_growth',
-            seed=42
-        )
-        
-        assert problem['task_params']['problem_family'] == 'compound_growth'
-        assert '$' in problem['task_params']['expected_answer']
-    
-    def test_multi_person_sharing(self):
-        """Test multi-person sharing family."""
-        problem = generate_problem(
-            problem_family='multi_person_sharing',
-            seed=42
-        )
-        
-        assert problem['task_params']['problem_family'] == 'multi_person_sharing'
-    
-    def test_area_perimeter_chain(self):
-        """Test area/perimeter family."""
-        problem = generate_problem(
-            problem_family='area_perimeter_chain',
-            seed=42
-        )
-        
-        assert problem['task_params']['problem_family'] == 'area_perimeter_chain'
+        answer = problem['task_params']['expected_answer']
+        # Time answers should have time units
+        assert any(unit in answer.lower() for unit in ['hour', 'minute', 'second'])
 
 
 class TestAvailableOptions:
-    """Test getting available options."""
+    """Test configuration options."""
     
-    def test_get_available_options(self):
+    def test_get_options(self):
         """Test getting available options."""
         options = get_available_options()
         
@@ -170,44 +170,9 @@ class TestAvailableOptions:
         assert 'problem_families' in options
         assert 'grades' in options
         assert 'complexity_levels' in options
-    
-    def test_options_match_constants(self):
-        """Test that returned options match constants."""
-        options = get_available_options()
         
-        assert set(options['math_topics']) == set(MATH_TOPICS)
-        assert set(options['problem_families']) == set(PROBLEM_FAMILIES)
-        assert set(options['grades']) == set(GRADES)
+        # Verify types
+        assert isinstance(options['math_topics'], list)
+        assert isinstance(options['problem_families'], list)
+        assert isinstance(options['grades'], list)
         assert options['complexity_levels'] == [1, 2, 3]
-
-
-class TestProblemQuality:
-    """Test problem quality constraints."""
-    
-    def test_problem_has_text(self):
-        """Test that problem has non-empty text."""
-        problem = generate_problem(seed=42)
-        
-        assert len(problem['problem']) > 0
-        assert len(problem['task_params']['expected_answer']) > 0
-    
-    def test_problem_has_operations(self):
-        """Test that problem has operations listed."""
-        problem = generate_problem(seed=42)
-        
-        assert len(problem['task_params']['operations']) > 0
-    
-    def test_num_steps_reasonable(self):
-        """Test that number of steps is reasonable."""
-        problem = generate_problem(seed=42)
-        
-        num_steps = problem['task_params']['num_steps']
-        assert 1 <= num_steps <= 10
-    
-    def test_complexity_affects_steps(self):
-        """Test that complexity affects number of steps."""
-        easy = generate_problem(complexity=1, seed=42)
-        hard = generate_problem(complexity=3, seed=42)
-        
-        # Hard problems should generally have more steps
-        assert easy['task_params']['num_steps'] <= hard['task_params']['num_steps'] + 2

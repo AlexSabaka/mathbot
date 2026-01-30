@@ -1,0 +1,96 @@
+metadata:
+  id: k7_hard_sequential_03
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 7
+  topic: arithmetic.multi_step
+  family: sequential
+  difficulty: hard
+  steps: 7
+  tags: [money, real-world, shopping, percentages, discount, tax]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  item1:
+    type: item
+    category: grocery
+  price1:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 15.00
+    step: 0.25
+  item2:
+    type: item
+    category: grocery
+  price2:
+    type: decimal
+    format: money
+    min: 3.00
+    max: 10.00
+    step: 0.25
+  item3:
+    type: item
+    category: grocery
+  price3:
+    type: decimal
+    format: money
+    min: 2.00
+    max: 8.00
+    step: 0.25
+  item4:
+    type: item
+    category: grocery
+  price4:
+    type: decimal
+    format: money
+    min: 10.00
+    max: 20.00
+    step: 0.25
+  item5:
+    type: item
+    category: grocery
+  price5:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 12.00
+    step: 0.25
+  coupon:
+    type: integer
+    format: percentage
+    min: 15
+    max: 25
+    step: 5
+  tax:
+    type: integer
+    format: percentage
+    min: 5
+    max: 10
+    step: 1
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name1}} and {{name2}} went shopping together. {{name1}} bought {{item1}} for {{price1}}, {{item2}} for {{price2}}, and {{item3}} for {{price3}}. {{name2}} bought {{item4}} for {{price4}} and {{item5}} for {{price5}}. They had a coupon for {{coupon}}% off the total purchase and paid {{tax}}% sales tax after the discount. {{ "What was their final total?|How much did they pay in total?|What was the final amount they paid?" | choice }}
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  person1_total = price1 + price2 + price3
+  person2_total = price4 + price5
+  subtotal = person1_total + person2_total
+  discount_amount = subtotal * (coupon / 100)
+  after_discount = subtotal - discount_amount
+  tax_amount = after_discount * (tax / 100)
+  Answer = after_discount + tax_amount
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$42.84"

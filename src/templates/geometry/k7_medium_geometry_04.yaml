@@ -1,0 +1,80 @@
+metadata:
+  id: k7_medium_geometry_04
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 7
+  topic: geometry.circles
+  family: geometry
+  difficulty: medium
+  steps: 3
+  tags: [shapes, measurement, circles, area, circumference]
+
+variables:
+  is_radius:
+    type: boolean
+    probability: 0.5
+  dimension_value:
+    type: decimal
+    min: 3.0
+    max: 15.0
+    step: 0.5
+  calculation_type:
+    type: string
+    choices:
+      - circumference_only
+      - both
+      - area_only
+      - cost
+  cost_per_sqm:
+    type: decimal
+    format: money
+    min: 20.00
+    max: 80.00
+    step: 10.00
+  Answer:
+    type: decimal
+  Answer1:
+    type: decimal
+    format: length
+  Answer2:
+    type: decimal
+    format: area
+
+template: |
+  A {{ "circular garden|round fountain|circular patio|circular pool|round pond" | choice }} has a {% if is_radius %}radius{% else %}diameter{% endif %} of {{dimension_value}}m.
+  
+  {% if calculation_type == 'circumference_only' %}Using π = 3.14, what is the circumference?{% elif calculation_type == 'both' %}The owner needs to know both the circumference for installing edging and the area for material coverage.
+  
+  Using π = 3.14, what are the circumference and area?{% elif calculation_type == 'area_only' %}Using π = 3.14, what is the area?{% elif calculation_type == 'cost' %}The project requires materials that cost {{cost_per_sqm}} per square meter.
+  
+  Using π = 3.14, what is the total cost to cover the area?{% endif %}
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  pi = 3.14
+  
+  if is_radius:
+      radius = dimension_value
+  else:
+      radius = dimension_value / 2
+  
+  circumference = 2 * pi * radius
+  area = pi * radius * radius
+  
+  if calculation_type == 'circumference_only':
+      Answer = round(circumference, 2)
+  elif calculation_type == 'both':
+      Answer1 = round(circumference, 2)
+      Answer2 = round(area, 2)
+  elif calculation_type == 'area_only':
+      Answer = round(area, 2)
+  elif calculation_type == 'cost':
+      total_cost = area * cost_per_sqm
+      Answer = round(total_cost, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "69.08 meters"

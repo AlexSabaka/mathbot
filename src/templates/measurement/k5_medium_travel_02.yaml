@@ -1,0 +1,49 @@
+metadata:
+  id: k5_medium_travel_02
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 5
+  topic: measurement.time
+  family: travel
+  difficulty: medium
+  steps: 2
+  tags: [time, distance, rate, cycling]
+
+variables:
+  name:
+    type: person
+  city1:
+    type: location
+  city2:
+    type: location
+  season:
+    type: season
+  distance:
+    type: integer
+    min: 10
+    max: 100
+  speed:
+    type: integer
+    min: 10
+    max: 20
+  Answer:
+    type: time
+
+template: |
+  {{name}} goes cycling from {{city1}} to {{city2}} on a {{season}} day.
+  
+  The total distance is {{distance}} miles and they cycle at an average speed of {{speed}} mph.
+  
+  How long does the trip take?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  time = distance / speed
+  Answer = round(time, 2)
+
+tests:
+  - seed: 54321
+    expected:
+      answer: "5 hours 0 minutes"

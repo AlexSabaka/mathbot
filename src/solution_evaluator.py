@@ -1,95 +1,38 @@
-"""Parse and evaluate solution expressions from template files.
+"""Parse and evaluate solution expressions from YAML template files.
 
-Solution section format (after --- separator):
-    variable1 = expression1
-    variable2 = expression2
-    Answer = final_expression
+Solution is pure Python code executed in a safe namespace.
+The solution must set an 'Answer' variable OR 'Answer1', 'Answer2', etc. for multi-answer problems.
 """
 
-import re
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Optional, Union
 from decimal import Decimal
 import math
+from .yaml_loader import VariableSpec
 
 
-def split_template(template_content: str) -> Tuple[str, str]:
-    """Split template into problem and solution sections.
+def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, Dict[str, Any]]:
+    """Execute solution Python code and extract Answer(s).
     
     Args:
-        template_content: Full template content
+        solution_code: Python code from YAML solution section
+        context: Dictionary of generated variable values
     
     Returns:
-        Tuple of (problem_section, solution_section)
+        Single answer value OR dict of {1: answer1, 2: answer2, ...} for multi-answer
     """
-    if '---' in template_content:
-        parts = template_content.split('---', 1)
-        return parts[0].strip(), parts[1].strip() if len(parts) > 1 else ''
-    else:
-        return template_content.strip(), ''
-
-
-def parse_solution_expressions(solution_section: str) -> list:
-    """Parse solution section into list of (variable, expression) tuples.
+    if not solution_code:
+        raise ValueError("Template has no solution code")
     
-    Args:
-        solution_section: Solution section content
+    # Create a working context (copy to avoid modifying original)
+    working_context = context.copy()
     
-    Returns:
-        List of (var_name, expression_string) tuples
-    """
-    if not solution_section:
-        return []
-    
-    expressions = []
-    lines = solution_section.strip().split('\n')
-    
-    for line in lines:
-        line = line.strip()
-        if not line or line.startswith('#') or line.startswith('{{!--'):
-            continue
-        
-        # Match: variable = expression
-        match = re.match(r'(\w+)\s*=\s*(.+)', line)
-        if match:
-            var_name = match.group(1)
-            expression = match.group(2).strip()
-            expressions.append((var_name, expression))
-    
-    return expressions
-
-
-def evaluate_expression(expression: str, context: Dict[str, Any]) -> Any:
-    """Safely evaluate a mathematical expression with given context.
-    
-    Args:
-        expression: Mathematical expression string (e.g., "{{price}} * {{quantity}}")
-        context: Dictionary of variable values
-    
-    Returns:
-        Evaluated result
-    """
-    # Create working context with numeric values (strip $ from money)
-    working_context = {}
-    for var_name, value in context.items():
+    # Convert money strings to floats for computation
+    for var_name, value in list(working_context.items()):
         if isinstance(value, str) and value.startswith('$'):
-            # Convert money string to float
             working_context[var_name] = float(value[1:])
-        elif isinstance(value, (int, float)):
-            working_context[var_name] = value
-        else:
-            # Keep non-numeric values for reference
-            working_context[var_name] = value
-    
-    # Replace {{variable}} with context values
-    for var_name, value in working_context.items():
-        if isinstance(value, (int, float)):
-            expression = expression.replace(f"{{{{{var_name}}}}}", str(value))
-    
-    # Handle exponentiation (^)
-    expression = expression.replace('^', '**')
     
     # Create safe evaluation namespace
-    safe_dict = {
+    safe_globals = {
         '__builtins__': {},
         'abs': abs,
         'round': round,
@@ -104,79 +47,115 @@ def evaluate_expression(expression: str, context: Dict[str, Any]) -> Any:
         'Decimal': Decimal,
     }
     
-    # Add numeric context variables
-    for key, val in working_context.items():
-        if isinstance(val, (int, float)):
-            safe_dict[key] = val
-    
     try:
-        result = eval(expression, safe_dict)
-        return result
+        # Execute solution code with context
+        exec(solution_code, safe_globals, working_context)
     except Exception as e:
-        raise ValueError(f"Error evaluating expression '{expression}': {e}")
+        raise ValueError(f"Error executing solution: {e}")
+    
+    # Check for Answer or numbered answers
+    if 'Answer' in working_context:
+        return working_context['Answer']
+    
+    # Check for Answer1, Answer2, etc.
+    numbered_answers = {}
+    i = 1
+    while f'Answer{i}' in working_context:
+        numbered_answers[i] = working_context[f'Answer{i}']
+        i += 1
+    
+    if numbered_answers:
+        return numbered_answers
+    
+    raise ValueError("Solution did not set 'Answer' or 'Answer1', 'Answer2', etc.")
 
 
-def compute_answer(template_content: str, context: Dict[str, Any]) -> str:
-    """Compute the expected answer from template solution section.
-    
-    Args:
-        template_content: Full template content (with problem and solution)
-        context: Dictionary of generated variable values
-    
-    Returns:
-        Computed answer as string
-    """
-    _, solution_section = split_template(template_content)
-    
-    if not solution_section:
-        raise ValueError("Template has no solution section (missing --- separator)")
-    
-    expressions = parse_solution_expressions(solution_section)
-    
-    if not expressions:
-        raise ValueError("Solution section has no valid expressions")
-    
-    # Create a working context (copy to avoid modifying original)
-    working_context = context.copy()
-    
-    # Evaluate expressions in order
-    answer = None
-    for var_name, expression in expressions:
-        result = evaluate_expression(expression, working_context)
-        working_context[var_name] = result
-        
-        # Track the Answer variable
-        if var_name == 'Answer' or var_name == 'answer':
-            answer = result
-    
-    if answer is None:
-        # If no explicit Answer variable, use last evaluated expression
-        if expressions:
-            _, last_expr = expressions[-1]
-            answer = evaluate_expression(last_expr, context)
-        else:
-            raise ValueError("Could not determine answer from solution section")
-    
-    # Format answer appropriately
-    return format_answer(answer, context)
-
-
-def format_answer(value: Any, context: Dict[str, Any]) -> str:
-    """Format answer value as string with appropriate units/formatting.
+def format_answer(value: Any, answer_spec: Optional[VariableSpec] = None) -> str:
+    """Format answer value according to Answer variable specification.
     
     Args:
         value: Computed answer value
-        context: Original context (to infer units/format)
+        answer_spec: Answer variable specification from YAML
     
     Returns:
         Formatted answer string
     """
-    # Check if any money variables in context
-    has_money = any('price' in k or 'cost' in k or 'dollar' in k for k in context.keys())
+    if answer_spec is None:
+        # No spec, try to format intelligently
+        if isinstance(value, float):
+            return f"{value:.2f}"
+        else:
+            return str(value)
     
-    if has_money and isinstance(value, (int, float, Decimal)):
-        # Format as money
+    # Format based on Answer variable type and format
+    if answer_spec.format == 'money':
         return f"${float(value):.2f}"
+    
+    elif answer_spec.format == 'percentage':
+        return f"{int(value)}%"
+    
+    elif answer_spec.format == 'ordinal':
+        from .jinja_renderer import ordinal_filter
+        return ordinal_filter(int(value))
+    
+    elif answer_spec.format == 'speed':
+        return f"{value:.2f} mph"
+    
+    elif answer_spec.format == 'length':
+        # Length values with units (meters for perimeter, dimensions)
+        if isinstance(value, (int, float)):
+            if value == int(value):
+                return f"{int(value)} meters"
+            return f"{float(value):.2f} meters"
+        return str(value)
+    
+    elif answer_spec.format == 'weight':
+        return f"{value:.2f} kg"
+    
+    elif answer_spec.format == 'temperature':
+        return f"{value:.1f}°F"
+    
+    elif answer_spec.format == 'area':
+        # Area values with square units
+        if isinstance(value, (int, float, Decimal)):
+            if value == int(value):
+                return f"{int(value)} square meters"
+            return f"{float(value):.2f} square meters"
+        return str(value)
+    
+    elif answer_spec.format == 'volume':
+        # Volume values with cubic units
+        if isinstance(value, (int, float, Decimal)):
+            if value == int(value):
+                return f"{int(value)} cubic meters"
+            return f"{float(value):.2f} cubic meters"
+        return str(value)
+    
+    elif answer_spec.type == 'time':
+        # Format time as hours/minutes
+        hours = int(value)
+        minutes = int((value - hours) * 60)
+        
+        if hours > 0 and minutes > 0:
+            return f"{hours} hour{'s' if hours != 1 else ''} {minutes} minutes"
+        elif hours > 0:
+            return f"{hours} hour{'s' if hours != 1 else ''}"
+        else:
+            return f"{minutes} minutes"
+    
+    elif answer_spec.type == 'fraction':
+        return str(value)
+    
+    elif answer_spec.type == 'integer':
+        return str(int(value))
+    
+    elif answer_spec.type == 'decimal':
+        return f"{float(value):.2f}"
+    
+    elif answer_spec.type == 'string':
+        return str(value)
+    
+    # Default formatting
     elif isinstance(value, float):
         # Round to 2 decimal places for other floats
         return f"{value:.2f}"

@@ -14,7 +14,7 @@ Mathbot is a Python library that **procedurally generates multi-step math word p
 generate_problem() → TemplateGenerator → select template → render + compute answer → return dict
 ```
 
-**IMPORTANT**: As of v2.0, this project uses a **pure template-driven system**. There are NO Python family classes. All problem generation logic is in Mustache templates.
+**IMPORTANT**: As of v0.1.2 (v2.0), this project uses a **YAML+Jinja2 template system**. There are NO Python family classes. All problem generation logic is in YAML template files with Jinja2 rendering.
 
 ### Key Files
 
@@ -22,12 +22,14 @@ generate_problem() → TemplateGenerator → select template → render + comput
 |------|---------|
 | `src/generator.py` | Public API (`generate_problem`, `generate_problems`) |
 | `src/template_generator.py` | Core generator - discovers templates, generates values, computes answers |
-| `src/variable_parser.py` | Parses variable metadata from template names |
-| `src/solution_evaluator.py` | Evaluates solution expressions after `---` separator |
-| `src/template_helpers.py` | Mustache helper lambdas (choice, plural, etc.) |
+| `src/yaml_loader.py` | YAML parsing and validation with TemplateDefinition dataclass |
+| `src/jinja_renderer.py` | Jinja2 environment with custom filters |
+| `src/variable_generator.py` | Type-aware value generation with format constraints |
+| `src/solution_evaluator.py` | Python solution execution with multi-answer support |
 | `src/providers.py` | `MathProblemProvider` - Faker provider for domain data |
 | `src/constants.py` | Configuration constants (grades, topics, families) |
-| `src/templates/` | All `.mustache` template files organized by topic |
+| `src/templates/` | All `.yaml` template files organized by topic |
+| `src/templates/SPEC.md` | **Template format specification (SOURCE OF TRUTH)** |
 
 ### Output Structure (Critical)
 
@@ -45,7 +47,8 @@ All problems return this exact dict structure:
         "problem_family": str,
         "num_steps": int,
         "expected_answer": str,  # Always string with units
-        "operations": List[str]
+        "operations": List[str],
+        "template_path": str  # Path to source template
     }
 }
 ```
@@ -59,124 +62,312 @@ All problems return this exact dict structure:
 Templates organized by math topic:
 ```
 src/templates/
-├── arithmetic/      # Shopping, sequential purchases
-├── geometry/        # Area, perimeter, shapes
-├── measurement/     # Distance, time, travel
-├── percentages/     # Growth, interest, discounts
-└── ratios/          # Sharing, splitting
+├── SPEC.md          # Template format specification (SOURCE OF TRUTH)
+├── arithmetic/      # Shopping, sequential purchases (10 templates)
+├── geometry/        # Area, perimeter, shapes (5 templates)
+├── measurement/     # Distance, time, travel (7 templates)
+├── percentages/     # Growth, interest, discounts (6 templates)
+└── ratios/          # Sharing, splitting (5 templates)
 ```
 
 **Filename Convention:**
 ```
-{grade}_{complexity}_{family}_{variant}.mustache
+{grade}_{complexity}_{family}_{variant}.yaml
 ```
 
 Examples:
-- `k3_easy_sequential_01.mustache`
-- `k7_medium_shopping_02.mustache`
+- `k3_easy_sequential_01.yaml`
+- `k7_medium_shopping_02.yaml`
 
 ### Template Structure
 
-Every template has TWO sections separated by `---`:
+YAML templates have structured sections:
 
-```mustache
-{{name_person}} bought {{qty_integer_min_2_max_5}} {{item_item_type_grocery}} for {{price_decimal_money_min_3_max_8}} each.
+```yaml
+metadata:
+  id: k3_easy_sequential_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.shopping
+  family: shopping
+  difficulty: easy
+  steps: 2
+  tags: [shopping, money, addition]
 
-Please solve this problem and provide your final answer.
----
-total = {{qty}} * {{price}}
-Answer = total
+variables:
+  name:
+    type: person
+  qty:
+    type: integer
+    min: 2
+    max: 5
+  price:
+    type: decimal
+    format: money
+    min: 3.0
+    max: 8.0
+    step: 0.25
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} bought {{qty}} items for {{price}} each.
+  Please solve this problem and provide your final answer.
+
+solution: |
+  total = qty * price
+  Answer = round(total, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$15.00"
 ```
 
 **Key Points:**
-1. **Problem text** (above `---`) uses **full variable names** with metadata
-2. **Solution section** (below `---`) uses **short variable names**
-3. The `Answer = ` line determines the expected answer
-4. Always include "Please solve this problem and provide your final answer."
+1. **metadata** - Template identification and classification
+2. **variables** - Type definitions with constraints and formats
+3. **template** - Jinja2 template text (supports filters, logic)
+4. **solution** - Python code to compute answer(s)
+5. **tests** - Seed-based test cases with expected answers
+6. Always include "Please solve this problem and provide your final answer."
+7. **For complete specification, see `src/templates/SPEC.md`**
 
-### Variable Naming Convention
+### Variable Definition (YAML)
 
+```yaml
+variables:
+  price:
+    type: decimal
+    format: money
+    min: 5.0
+    max: 20.0
+    step: 0.25
+  qty:
+    type: integer
+    min: 1
+    max: 10
+  name:
+    type: person
+  city:
+    type: location
+  discount:
+    type: integer
+    format: percentage
+    min: 10
+    max: 30
+    step: 5
 ```
-{{varname_type_constraint1_constraint2_...}}
-```
 
-**Examples:**
+**Generated Values:**
+- `price` → `$12.50` (formatted in template as `{{price}}`)
+- `qty` → `5` (raw integer)
+- `name` → `"James"` (random person name)
+- `city` → `"Springfield"` (random location)
+- `discount` → `15` (displayed as `{{discount}}%` in template)
 
-| Full Variable Name | Short Name | Type | Generated Value |
-|-------------------|------------|------|-----------------|
-| `{{price_decimal_money_min_5_max_20_step_025}}` | `price` | money | `$12.50` |
-| `{{qty_integer_min_1_max_10}}` | `qty` | integer | `5` |
-| `{{name_person}}` | `name` | person | `James` |
-| `{{city_location}}` | `city` | location | `Springfield` |
-| `{{discount_percentage_min_10_max_30_step_5}}` | `discount` | percentage | `15` |
-
-**Important**: For step values with decimals, omit decimal point: `step_025` = 0.25
+**Important**: Variables with `format` constraints get both raw value (for logic) and formatted value (for display with `_formatted` suffix)
 
 ### Available Variable Types
 
 | Type | Constraints | Example Output |
 |------|-------------|----------------|
-| `integer` | `min`, `max` | `5`, `42` |
-| `decimal_money` / `money` | `min`, `max`, `step` | `$12.50` |
-| `percentage` | `min`, `max`, `step` | `15`, `20` |
-| `person` / `name` | (none) | `James`, `Sarah` |
-| `location` / `city` | (none) | `Springfield` |
+| `integer` | `min`, `max`, `step` | `5`, `42` |
+| `decimal` | `min`, `max`, `step` | `12.50`, `3.75` |
+| `fraction` | `min`, `max` | `3/4`, `2/5` |
+| `person` | (none) | `James`, `Sarah` |
+| `location` | (none) | `Springfield`, `New York` |
 | `store` | (none) | `Johnson's Market` |
-| `weekday` / `season` / `time` | (none) | `Monday`, `spring`, `morning` |
-| `item` | `type_grocery/online/electronics` | `apples`, `laptop` |
+| `restaurant` | (none) | `Mario's Bistro` |
+| `company` | (none) | `Tech Solutions Inc` |
+| `weekday` | (none) | `Monday`, `Friday` |
+| `season` | (none) | `spring`, `winter` |
+| `time` | `min`, `max`, `step` | `2.5` (hours) |
+| `item` | `category: grocery/electronics/etc.` | `apples`, `laptop` |
+| `boolean` | (none) | `True`, `False` |
+| `string` | `choices: [...]` | Custom options |
 
-### Template Helpers
+### Available Format Constraints
 
-```mustache
-{{#choice}}Option A|Option B|Option C{{/choice}}  → Random selection
-{{#plural}}apple{{/plural}}                        → "apples"
-{{#list_and}}a, b, c{{/list_and}}                 → "a, b, and c"
-{{#format_money}}12.5{{/format_money}}            → "$12.50"
+| Format | Adds | Example |
+|--------|------|----------|
+| `money` | `$` | `$12.50` |
+| `percentage` | (number only, template adds %) | `15` |
+| `ordinal` | ordinal suffix | `3rd`, `21st` |
+| `length` | meters | `45m` (input), `62 meters` (answer) |
+| `weight` | kilograms | `75kg` |
+| `temperature` | Fahrenheit | `72.5°F` |
+| `area` | square meters | `238 square meters` |
+| `volume` | cubic meters | `150 cubic meters` |
+| `speed` | mph | `65.00 mph` |
+
+### Jinja2 Filters
+
+```jinja2
+{{ "Option A|Option B|Option C" | choice }}  → Random selection
+{{ "apple" | plural }}                        → "apples"
+{{ ["a", "b", "c"] | list_and }}             → "a, b, and c"
+{{ 12.5 | format_money }}                     → "$12.50"
+{{ 3 | ordinal }}                             → "3rd"
+{{ "hello" | capitalize }}                    → "Hello"
+```
+
+**Jinja2 Logic Support:**
+```jinja2
+{% if condition %}
+  Text when true
+{% else %}
+  Text when false
+{% endif %}
+
+{% set calculated_value = var1 + var2 %}
+{{ calculated_value }}
 ```
 
 ### Solution Section Rules
 
-1. Use **short variable names** (without metadata)
-2. Final line must be `Answer = expression`
-3. Available functions: `round()`, `str()`, `int()`, `float()`, `min()`, `max()`, `sum()`, `pow()`
-4. Money values auto-convert: `$12.50` → `12.50`
-5. For formatted output: `Answer = '$' + str(round(total, 2))`
+1. **Python code** executed in safe environment
+2. Access variables by name (e.g., `price`, `qty`)
+3. Single answer: `Answer = expression`
+4. Multiple answers: `Answer1 = expr1`, `Answer2 = expr2`, `Answer3 = expr3`
+5. Available functions: `round()`, `str()`, `int()`, `float()`, `min()`, `max()`, `sum()`, `pow()`
+6. Answer formatting determined by Answer variable's `format` specification
+7. Example:
+```python
+total = qty * price
+Answer = round(total, 2)  # Format applied based on Answer's format: money
+```
+
+### Multi-Answer Problems
+
+For problems requiring multiple outputs (e.g., area AND perimeter):
+
+```yaml
+variables:
+  Answer1:
+    type: integer
+    format: area
+  Answer2:
+    type: integer
+    format: length
+
+solution: |
+  area = length * width
+  perimeter = 2 * (length + width)
+  Answer1 = area
+  Answer2 = perimeter
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "238 square meters | 62 meters"
+```
+
+Output format: `"Answer1 | Answer2 | Answer3"` with proper formatting applied to each.
 
 ## Adding New Templates
 
 ### Step-by-Step
 
-1. Create file: `src/templates/{topic}/{grade}_{complexity}_{family}_{variant}.mustache`
-2. Write problem text with full variable names
-3. Add `---` separator
-4. Write solution expressions with short variable names
-5. End with `Answer = ` line
-6. Test: `mathbot generate --grade {grade} --topic {topic}`
+1. Create file: `src/templates/{topic}/{grade}_{complexity}_{family}_{variant}.yaml`
+2. Define metadata section (id, grade, topic, family, difficulty, steps)
+3. Define variables section with types and constraints
+4. Write template section using Jinja2 syntax
+5. Write solution section with Python code
+6. Add Answer variable(s) with appropriate format
+7. Add test cases with seeds and expected answers
+8. Test: `mathbot generate --input src/templates/{topic}/{file}.yaml`
+9. Validate: `mathbot generate --grade {grade} --topic {topic}`
 
 ### Template Checklist
 
-- [ ] Filename follows `{grade}_{complexity}_{family}_{variant}.mustache`
-- [ ] Variables use proper metadata syntax
-- [ ] Solution section uses short names only
-- [ ] Includes "Please solve this problem and provide your final answer."
-- [ ] `Answer = ` produces correct result
+- [ ] Filename follows `{grade}_{complexity}_{family}_{variant}.yaml`
+- [ ] All YAML sections present: metadata, variables, template, solution, tests
+- [ ] Variables have proper type and constraints
+- [ ] Answer variable(s) have appropriate format specification
+- [ ] Template includes "Please solve this problem and provide your final answer."
+- [ ] Solution uses raw variable names and produces correct Answer
+- [ ] Test cases provided with seeds and expected answers
 - [ ] Realistic value ranges for grade level
+- [ ] Follows specification in `src/templates/SPEC.md`
 
 ### Example Complete Template
 
-```mustache
-{{name_person}} goes shopping at {{store_store}} in {{city_location}}.
+```yaml
+metadata:
+  id: k3_easy_shopping_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.shopping
+  family: shopping
+  difficulty: easy
+  steps: 3
+  tags: [shopping, money, addition, multiplication]
 
-They buy {{qty1_integer_min_2_max_5}} {{item1_item_type_grocery_plural}} at {{price1_decimal_money_min_1_max_5_step_025}} each and {{qty2_integer_min_2_max_5}} {{item2_item_type_grocery_plural}} at {{price2_decimal_money_min_2_max_6_step_025}} each.
+variables:
+  name:
+    type: person
+  store:
+    type: store
+  city:
+    type: location
+  qty1:
+    type: integer
+    min: 2
+    max: 5
+  item1:
+    type: item
+    category: grocery
+  price1:
+    type: decimal
+    format: money
+    min: 1.0
+    max: 5.0
+    step: 0.25
+  qty2:
+    type: integer
+    min: 2
+    max: 5
+  item2:
+    type: item
+    category: grocery
+  price2:
+    type: decimal
+    format: money
+    min: 2.0
+    max: 6.0
+    step: 0.25
+  Answer:
+    type: decimal
+    format: money
 
-{{#choice}}How much does {{name_person}} spend in total?|What is the total cost?{{/choice}}
+template: |
+  {{name}} goes shopping at {{store}} in {{city}}.
+  
+  They buy {{qty1}} {{item1}} at {{price1}} each and {{qty2}} {{item2}} at {{price2}} each.
+  
+  {{ "How much does " ~ name ~ " spend in total?|What is the total cost?" | choice }}
+  
+  Please solve this problem and provide your final answer.
 
-Please solve this problem and provide your final answer.
----
-cost1 = {{qty1}} * {{price1}}
-cost2 = {{qty2}} * {{price2}}
-total = cost1 + cost2
-Answer = total
+solution: |
+  cost1 = qty1 * price1
+  cost2 = qty2 * price2
+  total = cost1 + cost2
+  Answer = round(total, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$15.75"
+  - seed: 67890
+    expected:
+      answer: "$22.50"
 ```
 
 ## Key Constants & Mappings
@@ -213,6 +404,7 @@ pytest
 # Generate sample problems (CLI testing)
 mathbot generate -c 2 -g middle -t arithmetic
 mathbot generate -s 42 -o json --file problem.json
+mathbot generate --input src/templates/arithmetic/k3_easy_sequential_01.yaml
 
 # List available options
 mathbot list
@@ -224,35 +416,40 @@ mathbot list
 
 ### "Answer computation failed"
 
-**Cause**: Template's solution section has errors
+**Cause**: Solution section has errors
 **Solutions**:
-1. Check solution section uses SHORT variable names (without metadata)
-2. Verify variable names in solution match those in problem text
+1. Check solution uses raw variable names matching `variables:` section
+2. Verify all referenced variables are defined
 3. Check for unsupported functions (only basic math + round, str, int, float allowed)
-4. Ensure `Answer = ` line exists
+4. Ensure `Answer = ` line exists (or Answer1, Answer2, etc. for multi-answer)
+5. Verify Answer variable(s) defined in `variables:` section
 
 ### Template Not Being Selected
 
-**Cause**: Template filename doesn't match criteria
+**Cause**: Template filename or metadata doesn't match criteria
 **Solutions**:
-1. Verify filename format: `{grade}_{complexity}_{family}_{variant}.mustache`
+1. Verify filename format: `{grade}_{complexity}_{family}_{variant}.yaml`
 2. Check template is in correct topic directory
-3. Verify grade/complexity match request
+3. Verify metadata.grade and metadata.difficulty match request
+4. Ensure YAML is valid (run `mathbot generate --input {file}` to test)
 
-### Variable Placeholders Showing `[name]`
+### Variable Not Rendering Correctly
 
-**Cause**: Variable type not recognized
+**Cause**: Variable not defined or wrong type
 **Solutions**:
-1. Add proper type metadata: `{{name_person}}` not just `{{name}}`
-2. Check type is in TYPE_KEYWORDS list in variable_parser.py
+1. Ensure variable defined in `variables:` section
+2. Check type is valid (see Available Variable Types)
+3. For formatted values, use `{{var_formatted}}` if you need both raw and formatted
+4. Verify YAML syntax is correct (proper indentation)
 
 ### Tests Failing After Template Changes
 
-**Cause**: Python bytecode cache or old templates
+**Cause**: Test expectations don't match new output
 **Solutions**:
-1. Clear cache: `find . -type d -name "__pycache__" -exec rm -rf {} +`
-2. Verify old template directories are removed
-3. Check template content matches expected format
+1. Update test expected answers to match new format
+2. Verify template test cases with `mathbot generate --input {file} -s {seed}`
+3. Check YAML validation passes (no errors on load)
+4. Clear pytest cache: `pytest --cache-clear`
 
 ## Utility Functions (src/utils.py)
 
@@ -291,20 +488,24 @@ fake.percentage(min=5, max=50, step=5)
 - Always test reproducibility: `seed=X` should produce identical output
 - Test parameter validation (invalid complexity, grades, topics)
 - Family-specific tests should check answer format ($ for money, "hours" for time)
+- Use `--input` flag to test specific templates during development
 
 ## Common Pitfalls
 
-1. ❌ **Don't hardcode text in Python** - All narratives in templates
-2. ❌ **Don't use floating-point for money** - Use `Decimal` or `round_money()`
-3. ❌ **Don't forget solution section** - Templates without `---` won't compute answers
-4. ❌ **Don't mix full/short names** - Full in problem, short in solution
-5. ❌ **Don't use loops in templates** - Current system doesn't support `{{#items}}` loops
+1. ❌ **Don't hardcode text in Python** - All narratives in YAML templates
+2. ❌ **Don't use floating-point for money** - Use `round()` in solution, format handles display
+3. ❌ **Don't forget Answer variable** - Must be defined in variables section
+4. ❌ **Don't use f-strings for multi-answer** - Use Answer1, Answer2, Answer3 instead
+5. ❌ **Don't forget format constraints** - Answer variables should specify format (money, percentage, etc.)
 6. ✅ **DO include "Please solve this problem"** - Tests expect this text
 7. ✅ **DO use deterministic seeds** - Same seed → identical output
-8. ✅ **DO test new templates** - Run `mathbot generate` with matching parameters
+8. ✅ **DO test new templates** - Run `mathbot generate --input {file}` first
+9. ✅ **DO follow SPEC.md** - `src/templates/SPEC.md` is the source of truth
+10. ✅ **DO use Jinja2 logic** - Templates support {% if %}, {% set %}, filters
 
 ## Documentation
 
-- [docs/INDEX.md](docs/INDEX.md) - Complete template variable reference
+- **[src/templates/SPEC.md](src/templates/SPEC.md)** - Complete template format specification **(SOURCE OF TRUTH)**
 - [CHANGELOG.md](CHANGELOG.md) - Project history and changes
 - [README.md](README.md) - User-facing documentation
+- [docs/K{1-12}_PROBLEMS.md](docs/) - Grade-level example problems

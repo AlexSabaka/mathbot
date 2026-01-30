@@ -1,0 +1,68 @@
+metadata:
+  id: k5_medium_shopping_03
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 5
+  topic: arithmetic.multi_step
+  family: shopping
+  difficulty: medium
+  steps: 2
+  tags: [money, real-world, shopping]
+
+variables:
+  name:
+    type: person
+  store:
+    type: store
+  city:
+    type: location
+  qty1:
+    type: integer
+    min: 2
+    max: 5
+  item1:
+    type: item
+    category: online
+    plural: true
+  price1:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 50.00
+    step: 0.25
+  qty2:
+    type: integer
+    min: 2
+    max: 5
+  item2:
+    type: item
+    category: online
+    plural: true
+  price2:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 50.00
+    step: 0.25
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} goes shopping at {{store}} in {{city}} looking for new clothes.
+  
+  They find {{qty1}} {{item1}} on sale for {{price1}} each. They also grab {{qty2}} {{item2}} at {{price2}} each.
+  
+  What is the final amount {{name}} spends?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  total = price1 * qty1 + price2 * qty2
+  Answer = total
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$105.00"

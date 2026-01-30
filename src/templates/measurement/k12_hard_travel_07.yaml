@@ -1,0 +1,58 @@
+metadata:
+  id: k12_hard_travel_07
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 12
+  topic: measurement.time
+  family: travel
+  difficulty: hard
+  steps: 4
+  tags: [time, distance, rate, acceleration, kinematics, calculus]
+
+variables:
+  name:
+    type: person
+  city1:
+    type: location
+  city2:
+    type: location
+  initial_speed:
+    type: integer
+    min: 30
+    max: 60
+  acceleration:
+    type: integer
+    min: 5
+    max: 15
+  time:
+    type: decimal
+    min: 1.0
+    max: 3.0
+    step: 0.5
+  Answer1:
+    type: decimal
+    format: speed
+  Answer2:
+    type: decimal
+    format: length
+
+template: |
+  {{name}} begins a road trip from {{city1}} to {{city2}}. Starting at {{initial_speed}}, they gradually accelerate at a constant rate of {{acceleration}} per hour over the next {{time}} hours. What is their final speed, and how far did they travel during this time?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  # Final speed: v = v0 + at
+  final_speed = initial_speed + (acceleration * time)
+  
+  # Distance with constant acceleration: d = v0*t + 0.5*a*t^2
+  distance = (initial_speed * time) + (0.5 * acceleration * time * time)
+  
+  Answer1 = round(final_speed, 2)
+  Answer2 = round(distance, 2)
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "65.00 mph | 154.50 miles"

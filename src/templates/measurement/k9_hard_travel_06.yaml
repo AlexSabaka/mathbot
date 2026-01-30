@@ -1,0 +1,55 @@
+metadata:
+  id: k9_hard_travel_06
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 9
+  topic: measurement.time
+  family: travel
+  difficulty: hard
+  steps: 3
+  tags: [time, distance, rate, variable_speed, algebra]
+
+variables:
+  name:
+    type: person
+  city1:
+    type: location
+  city2:
+    type: location
+  total_distance:
+    type: integer
+    min: 200
+    max: 500
+  speed1:
+    type: integer
+    min: 30
+    max: 80
+  time1:
+    type: decimal
+    min: 1.0
+    max: 4.0
+    step: 0.5
+  speed2:
+    type: integer
+    min: 30
+    max: 80
+  Answer:
+    type: time
+
+template: |
+  {{name}} is driving from {{city1}} to {{city2}}, a total distance of {{total_distance}} miles. They drive the first part at {{speed1}} mph for {{time1}} hours, then reduce their speed to {{speed2}} mph for the remainder of the trip. How long does the entire journey take?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  distance1 = speed1 * time1
+  remaining_distance = total_distance - distance1
+  time2 = remaining_distance / speed2
+  total_time = time1 + time2
+  Answer = round(total_time, 2)
+
+tests:
+  - seed: 44444
+    expected:
+      answer: "7 hours 15 minutes"

@@ -1,0 +1,53 @@
+metadata:
+  id: k7_medium_growth_02
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 7
+  topic: percentages.growth
+  family: growth
+  difficulty: medium
+  steps: 3
+  tags: [compound-interest, percentages, savings, investment]
+
+variables:
+  name:
+    type: person
+  principal:
+    type: decimal
+    format: money
+    min: 1000.0
+    max: 5000.0
+    step: 100.0
+  rate:
+    type: integer
+    format: percentage
+    min: 3
+    max: 10
+    step: 1
+  years:
+    type: integer
+    min: 2
+    max: 5
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} invests {{principal}} in a savings account that earns {{rate}}% annual interest, compounded annually.
+  
+  After {{years}} years, how much money will be in the account?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  final_amount = principal * (1 + rate / 100) ** years
+  Answer = round(final_amount, 2)
+
+tests:
+  - seed: 123
+    expected:
+      answer: "$1215.51"
+  - seed: 456
+    expected:
+      answer: "$1295.62"

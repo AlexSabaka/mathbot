@@ -1,0 +1,71 @@
+metadata:
+  id: k6_medium_sharing_02
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: ratios.percentages
+  family: sharing
+  difficulty: medium
+  steps: 3
+  tags: [percentages, inheritance, division, money]
+
+variables:
+  relation:
+    type: string
+    choices: [family estate, trust fund, will, inheritance]
+  total:
+    type: decimal
+    format: money
+    min: 50000.0
+    max: 200000.0
+    step: 5000.0
+  name1:
+    type: person
+  name2:
+    type: person
+  name3:
+    type: person
+  pct1:
+    type: integer
+    min: 25
+    max: 50
+    step: 5
+  Answer1:
+    type: decimal
+    format: money
+  Answer2:
+    type: decimal
+    format: money
+  Answer3:
+    type: decimal
+    format: money
+
+template: |
+  A {{relation}} worth {{total_formatted}} is divided among 3 heirs according to specific percentages.
+  
+  {% set pct2 = (100 - pct1) // 2 %}
+  {% set pct3 = 100 - pct1 - pct2 %}
+  {{name1}} receives {{pct1}}%, {{name2}} receives {{pct2}}%, and {{name3}} receives {{pct3}}%.
+  
+  How much does each heir receive?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  # Calculate pct2 and pct3 the same way as template
+  pct2 = (100 - pct1) // 2
+  pct3 = 100 - pct1 - pct2
+  
+  amount1 = total * (pct1 / 100)
+  amount2 = total * (pct2 / 100)
+  amount3 = total * (pct3 / 100)
+  
+  Answer1 = round(amount1, 2)
+  Answer2 = round(amount2, 2)
+  Answer3 = round(amount3, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$15000.00 | $20000.00 | $15000.00"

@@ -42,6 +42,11 @@ def format_pretty(problem: Dict, show_answer: bool = True) -> str:
     # Header
     output.append(click.style("=" * 80, fg='blue'))
     output.append(click.style(f"Problem: {problem['test_id']}", fg='cyan', bold=True))
+    
+    # Show template path if available
+    if 'template_path' in problem:
+        output.append(click.style(f"Template: {problem['template_path']}", fg='cyan'))
+    
     output.append(click.style(f"Family: {problem['task_params']['problem_family']}", fg='cyan'))
     output.append(click.style(f"Complexity: {problem['task_params']['complexity']}", fg='cyan'))
     output.append(click.style(f"Grade: {problem['task_params']['grade']}", fg='cyan'))

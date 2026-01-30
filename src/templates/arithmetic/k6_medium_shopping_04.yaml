@@ -1,0 +1,81 @@
+metadata:
+  id: k6_medium_shopping_04
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 6
+  topic: arithmetic.multi_step
+  family: shopping
+  difficulty: medium
+  steps: 3
+  tags: [money, real-world, shopping, tax, shipping]
+
+variables:
+  day:
+    type: weekday
+  name:
+    type: person
+  store:
+    type: store
+  quantity1:
+    type: integer
+    min: 2
+    max: 5
+  item1:
+    type: item
+    category: online
+    plural: true
+  price1:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 50.00
+    step: 0.25
+  quantity2:
+    type: integer
+    min: 2
+    max: 5
+  item2:
+    type: item
+    category: online
+    plural: true
+  price2:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 50.00
+    step: 0.25
+  shipping:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 15.00
+    step: 0.50
+  tax_pct:
+    type: integer
+    format: percentage
+    min: 5
+    max: 10
+    step: 1
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  It's {{day}} evening, and {{name}} is browsing {{store}}'s website looking for supplies.
+  
+  They start by adding {{quantity1}} {{item1}} to their cart at {{price1}} each. They also need {{quantity2}} {{item2}}, which are {{price2}} each.
+  
+  The subtotal is calculated, and shipping costs {{shipping}}. Sales tax of {{tax_pct}}% is applied. What is the final total?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  subtotal = price1 * quantity1 + price2 * quantity2
+  total = subtotal + shipping + subtotal * (tax_pct / 100)
+  Answer = total
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$121.95"

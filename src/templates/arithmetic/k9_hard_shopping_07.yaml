@@ -1,0 +1,74 @@
+metadata:
+  id: k9_hard_shopping_07
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 9
+  topic: arithmetic.multi_step
+  family: shopping
+  difficulty: hard
+  steps: 3
+  tags: [money, real-world, shopping]
+
+variables:
+  city:
+    type: location
+  name:
+    type: person
+  item1:
+    type: item
+    category: grocery
+    plural: true
+  item2:
+    type: item
+    category: grocery
+    plural: true
+  item1_singular:
+    type: item
+    category: grocery
+  item2_singular:
+    type: item
+    category: grocery
+  price1:
+    type: decimal
+    format: money
+    min: 2.00
+    max: 8.00
+    step: 0.25
+  price2:
+    type: decimal
+    format: money
+    min: 2.00
+    max: 8.00
+    step: 0.25
+  qty1:
+    type: integer
+    min: 2
+    max: 6
+  qty2:
+    type: integer
+    min: 2
+    max: 6
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  At a grocery store in {{city}}, {{name}} is planning a shopping trip.
+  
+  They want to buy {{item1}} and {{item2}}. Each {{item1_singular}} costs {{price1}}, and each {{item2_singular}} costs {{price2}}.
+  
+  If {{name}} buys {{qty1}} {{item1}} and {{qty2}} {{item2}}, how much will they spend in total?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  cost1 = qty1 * price1
+  cost2 = qty2 * price2
+  total = cost1 + cost2
+  Answer = total
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$28.50"

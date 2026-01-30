@@ -1,0 +1,42 @@
+metadata:
+  id: k4_easy_sharing_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: ratios.division
+  family: sharing
+  difficulty: easy
+  steps: 2
+  tags: [division, money, sharing, equal_split]
+
+variables:
+  num_people:
+    type: integer
+    min: 2
+    max: 6
+  restaurant:
+    type: restaurant
+  total:
+    type: decimal
+    format: money
+    min: 20.0
+    max: 200.0
+    step: 5.0
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  A group of {{num_people}} friends finish dinner at {{restaurant}}. The total bill comes to {{total_formatted}}, and they decide to split it equally among themselves. How much does each person pay?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  per_person = total / num_people
+  Answer = round(per_person, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$4.00"

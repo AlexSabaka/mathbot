@@ -1,0 +1,46 @@
+metadata:
+  id: k3_medium_perimeter_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: geometry.measurement
+  family: measurement
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [perimeter, fencing, real-world, rectangle]
+
+variables:
+  name:
+    type: person
+  length:
+    type: integer
+    min: 10
+    max: 30
+  width:
+    type: integer
+    min: 5
+    max: 20
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  {{name}} wants to put a fence around a rectangular yard that is {{length}} meters long and {{width}} meters wide.
+
+  How many meters of fencing does {{name}} need?
+
+  Please solve this problem.
+
+solution: |
+  # Perimeter = 2 × (length + width)
+  Answer = 2 * (length + width)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "58 meters"
+  - seed: 67890
+    expected:
+      answer: "38 meters"

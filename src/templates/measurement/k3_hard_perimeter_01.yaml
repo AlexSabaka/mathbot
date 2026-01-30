@@ -1,0 +1,47 @@
+metadata:
+  id: k3_hard_perimeter_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: geometry.measurement
+  family: measurement
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [perimeter, inverse, problem-solving, rectangle]
+
+variables:
+  perimeter:
+    type: integer
+    min: 20
+    max: 60
+    step: 2
+  length:
+    type: integer
+    min: 5
+    max: 20
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A rectangular picture frame has a perimeter of {{perimeter}} inches.
+
+  If the length is {{length}} inches, what is the width?
+
+  Please solve this problem.
+
+solution: |
+  # Perimeter = 2 × (length + width)
+  # perimeter = 2 × (length + width)
+  # width = (perimeter / 2) - length
+  Answer = (perimeter // 2) - length
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8 inches"
+  - seed: 67890
+    expected:
+      answer: "4 inches"

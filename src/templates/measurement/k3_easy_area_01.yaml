@@ -1,0 +1,45 @@
+metadata:
+  id: k3_easy_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: geometry.measurement
+  family: measurement
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [area, rectangle, measurement]
+
+variables:
+  length:
+    type: integer
+    min: 2
+    max: 12
+  width:
+    type: integer
+    min: 2
+    max: 10
+  unit:
+    type: string
+    choices: ["cm", "m", "inches", "feet"]
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a rectangle with length {{length}} {{unit}} and width {{width}} {{unit}}.
+
+  Please solve this problem.
+
+solution: |
+  # Area = length × width
+  Answer = length * width
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "28 square units"
+  - seed: 67890
+    expected:
+      answer: "18 square units"

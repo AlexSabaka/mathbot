@@ -1,0 +1,44 @@
+metadata:
+  id: k3_easy_addition_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.addition
+  family: addition
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [addition, 4-digit, basic]
+
+variables:
+  name:
+    type: person
+  name2:
+    type: person
+  num_a:
+    type: integer
+    min: 1000
+    max: 4999
+  num_b:
+    type: integer
+    min: 1000
+    max: 4999
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{num_a}} stickers. {{name2}} gives {{name}} {{num_b}} more stickers.
+  How many stickers does {{name}} have now?
+
+solution: |
+  # Add the two numbers
+  Answer = num_a + num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6609"
+  - seed: 67890
+    expected:
+      answer: "9495"

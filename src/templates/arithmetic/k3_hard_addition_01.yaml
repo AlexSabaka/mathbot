@@ -1,0 +1,46 @@
+metadata:
+  id: k3_hard_addition_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.addition
+  family: addition
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [addition, 4-digit, three-addends, word-problem, recycling]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 1000
+    max: 3500
+  num_b:
+    type: integer
+    min: 1000
+    max: 3500
+  num_c:
+    type: integer
+    min: 1000
+    max: 3500
+  Answer:
+    type: integer
+
+template: |
+  {{name}}'s school is collecting cans for recycling. Grade 3 collected {{num_a}} cans, Grade 4 collected {{num_b}} cans, and Grade 5 collected {{num_c}} cans.
+  What is the total number of cans collected by all three grades?
+
+solution: |
+  # Add all three numbers to get the total cans collected
+  Answer = num_a + num_b + num_c
+
+tests:
+  - seed: 54321
+    expected:
+      answer: "4984"
+  - seed: 98765
+    expected:
+      answer: "7418"

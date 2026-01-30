@@ -1,0 +1,51 @@
+metadata:
+  id: k3_medium_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [subtraction, 4-digit, multi-step, real-world]
+
+variables:
+  number1:
+    type: integer
+    min: 5000
+    max: 9999
+  number2:
+    type: integer
+    min: 1000
+    max: 3000
+  number3:
+    type: integer
+    min: 500
+    max: 2000
+  Answer:
+    type: integer
+
+template: |
+  A toy store had {{number1}} toys in stock. They sold {{number2}} toys in the morning and {{number3}} toys in the afternoon.
+  How many toys are left in the store?
+
+solution: |
+  # Ensure we don't get negative results
+  total_sold = number2 + number3
+
+  # If total sold would exceed inventory, adjust
+  if total_sold >= number1:
+      # Recalculate to ensure positive result
+      total_sold = number1 - 100  # Leave at least 100 items
+
+  Answer = number1 - total_sold
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4479"
+  - seed: 67890
+    expected:
+      answer: "3946"

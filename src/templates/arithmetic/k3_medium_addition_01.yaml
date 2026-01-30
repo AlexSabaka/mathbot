@@ -1,0 +1,46 @@
+metadata:
+  id: k3_medium_addition_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.addition
+  family: addition
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [addition, 4-digit, three-addends, library]
+
+variables:
+  location:
+    type: location
+  num_a:
+    type: integer
+    min: 1000
+    max: 5000
+  num_b:
+    type: integer
+    min: 1000
+    max: 3000
+  num_c:
+    type: integer
+    min: 500
+    max: 2000
+  Answer:
+    type: integer
+
+template: |
+  The {{location}} library had {{num_a}} books. This month, they received {{num_b}} new books and {{num_c}} donated books.
+  How many books does the library have in total?
+
+solution: |
+  # Add all three numbers
+  Answer = num_a + num_b + num_c
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "7108"
+  - seed: 22222
+    expected:
+      answer: "5525"

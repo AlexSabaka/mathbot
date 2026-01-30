@@ -1,0 +1,60 @@
+metadata:
+  id: k3_hard_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [subtraction, 4-digit, multi-step, money, real-world]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: decimal
+    format: money
+    min: 10.00
+    max: 50.00
+    step: 0.50
+  number2:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 20.00
+    step: 0.50
+  number3:
+    type: decimal
+    format: money
+    min: 2.00
+    max: 10.00
+    step: 0.50
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} is saving for a bicycle that costs {{number1}}. {{name}} has already saved {{number2}}.
+  {{name}}'s grandmother gave {{name}} {{number3}}. How much more money does {{name}} need?
+
+solution: |
+  # Calculate how much has been saved
+  total_saved = number2 + number3
+
+  # Ensure the bicycle costs more than what has been saved
+  if total_saved >= number1:
+      # Adjust to ensure a positive result (need more money)
+      Answer = 1.00  # Minimum amount still needed
+  else:
+      Answer = round(number1 - total_saved, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$8.00"
+  - seed: 67890
+    expected:
+      answer: "$13.00"

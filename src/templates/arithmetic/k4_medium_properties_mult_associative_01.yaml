@@ -1,0 +1,58 @@
+metadata:
+  id: k4_medium_properties_mult_associative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: medium
+  steps: 3
+  tags: [multiplication, associative, properties, mental-math]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 4
+    max: 8
+  c:
+    type: integer
+    min: 5
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  Find the product using the associative property to make it easier:
+  {{a}} × {{b}} × {{c}}
+
+solution: |
+  # Check which grouping creates easier numbers
+  # Try (a × b) × c
+  group1_inner = a * b
+  group1_total = group1_inner * c
+
+  # Try a × (b × c)
+  group2_inner = b * c
+  group2_total = a * group2_inner
+
+  # Determine which grouping is easier (round numbers are easier)
+  if group2_inner % 10 == 0 or group2_inner % 5 == 0:
+      Answer = f"Group as {a} × ({b} × {c}). First multiply {b} × {c} = {group2_inner}, then {a} × {group2_inner} = {group2_total}."
+  elif group1_inner % 10 == 0 or group1_inner % 5 == 0:
+      Answer = f"Group as ({a} × {b}) × {c}. First multiply {a} × {b} = {group1_inner}, then {group1_inner} × {c} = {group1_total}."
+  else:
+      Answer = f"One way: {a} × ({b} × {c}). First multiply {b} × {c} = {group2_inner}, then {a} × {group2_inner} = {group2_total}."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Group as 3 × (6 × 8). First multiply 6 × 8 = 48, then 3 × 48 = 144."
+
+  - seed: 67890
+    expected:
+      answer: "Group as 4 × (5 × 8). First multiply 5 × 8 = 40, then 4 × 40 = 160."

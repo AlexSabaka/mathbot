@@ -1,0 +1,46 @@
+metadata:
+  id: k4_easy_properties_mult_distributive_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: easy
+  steps: 3
+  tags: [multiplication, distributive, properties]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 9
+  b:
+    type: integer
+    min: 11
+    max: 19
+  Answer:
+    type: integer
+
+template: |
+  Use the distributive property to solve:
+  {{a}} × {{b}} = {{a}} × ({{b // 10 * 10}} + {{b % 10}})
+
+solution: |
+  # Break b into tens and ones
+  tens = (b // 10) * 10
+  ones = b % 10
+
+  # Apply distributive property: a × (tens + ones) = (a × tens) + (a × ones)
+  product_tens = a * tens
+  product_ones = a * ones
+  Answer = product_tens + product_ones
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "54"
+
+  - seed: 67890
+    expected:
+      answer: "32"

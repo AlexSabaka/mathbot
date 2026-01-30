@@ -1,0 +1,53 @@
+metadata:
+  id: k4_medium_properties_mult_identity_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: medium
+  steps: 1
+  tags: [multiplication, identity, zero, properties]
+
+variables:
+  name:
+    type: person
+  value:
+    type: integer
+    min: 0
+    max: 1
+  Answer:
+    type: string
+
+template: |
+  {{name}} says any number multiplied by {{value}} equals {% if value == 0 %}zero{% else %}the number itself{% endif %}.
+  Is {{name}} correct? Give three examples to support your answer.
+
+solution: |
+  # Generate three random examples
+  example1 = 5
+  example2 = 12
+  example3 = 25
+
+  if value == 0:
+      result1 = example1 * 0
+      result2 = example2 * 0
+      result3 = example3 * 0
+      property_name = "Zero Property"
+      Answer = f"Yes, {name} is correct. Examples: {example1} × 0 = {result1}, {example2} × 0 = {result2}, {example3} × 0 = {result3}. This is the {property_name} of Multiplication."
+  else:  # value == 1
+      result1 = example1 * 1
+      result2 = example2 * 1
+      result3 = example3 * 1
+      property_name = "Identity Property"
+      Answer = f"Yes, {name} is correct. Examples: {example1} × 1 = {result1}, {example2} × 1 = {result2}, {example3} × 1 = {result3}. This is the {property_name} of Multiplication."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Yes, Sarah is correct. Examples: 5 × 1 = 5, 12 × 1 = 12, 25 × 1 = 25. This is the Identity Property of Multiplication."
+
+  - seed: 67890
+    expected:
+      answer: "Yes, James is correct. Examples: 5 × 0 = 0, 12 × 0 = 0, 25 × 0 = 0. This is the Zero Property of Multiplication."

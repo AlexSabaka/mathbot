@@ -1,0 +1,51 @@
+metadata:
+  id: k4_hard_properties_mult_commutative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: hard
+  steps: 2
+  tags: [multiplication, commutative, properties, word-problem]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  a:
+    type: integer
+    min: 4
+    max: 12
+  b:
+    type: integer
+    min: 4
+    max: 12
+  item:
+    type: item
+    category: furniture
+  Answer:
+    type: string
+
+template: |
+  {{name1}} arranges {{a}} groups of {{b}} {{item}} in a room.
+  {{name2}} rearranges them into {{b}} groups of {{a}}.
+  Without counting, explain why both arrangements have the same total number.
+
+solution: |
+  # Calculate the total
+  total = a * b
+
+  # Explain using commutative property
+  Answer = f"Both arrangements have the same total because of the commutative property of multiplication. {name1}'s arrangement: {a} × {b} = {total} {item}. {name2}'s arrangement: {b} × {a} = {total} {item}. Since {a} × {b} = {b} × {a}, both have {total} {item}."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Both arrangements have the same total because of the commutative property of multiplication. Sarah's arrangement: 9 × 11 = 99 chairs. James's arrangement: 11 × 9 = 99 chairs. Since 9 × 11 = 11 × 9, both have 99 chairs."
+
+  - seed: 67890
+    expected:
+      answer: "Both arrangements have the same total because of the commutative property of multiplication. James's arrangement: 11 × 4 = 44 desks. Maria's arrangement: 4 × 11 = 44 desks. Since 11 × 4 = 4 × 11, both have 44 desks."

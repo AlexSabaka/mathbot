@@ -1,0 +1,52 @@
+metadata:
+  id: k4_hard_properties_mult_associative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: hard
+  steps: 5
+  tags: [multiplication, associative, properties, word-problem]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 4
+  b:
+    type: integer
+    min: 3
+    max: 6
+  c:
+    type: integer
+    min: 5
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  A warehouse has {{a}} sections. Each section has {{b}} shelves.
+  Each shelf holds {{c}} boxes.
+  Use the associative property to calculate the total boxes in two different ways.
+
+solution: |
+  # Method 1: (a × b) × c - multiply sections by shelves first
+  method1_inner = a * b
+  method1_total = method1_inner * c
+
+  # Method 2: a × (b × c) - multiply shelves by boxes first
+  method2_inner = b * c
+  method2_total = a * method2_inner
+
+  Answer = f"Method 1: ({a} × {b}) × {c}. First find total shelves: {a} × {b} = {method1_inner} shelves. Then multiply by boxes per shelf: {method1_inner} × {c} = {method1_total} boxes. Method 2: {a} × ({b} × {c}). First find boxes per section: {b} × {c} = {method2_inner} boxes. Then multiply by sections: {a} × {method2_inner} = {method2_total} boxes. Both methods give {method1_total} boxes total."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Method 1: (3 × 5) × 8. First find total shelves: 3 × 5 = 15 shelves. Then multiply by boxes per shelf: 15 × 8 = 120 boxes. Method 2: 3 × (5 × 8). First find boxes per section: 5 × 8 = 40 boxes. Then multiply by sections: 3 × 40 = 120 boxes. Both methods give 120 boxes total."
+
+  - seed: 67890
+    expected:
+      answer: "Method 1: (4 × 3) × 8. First find total shelves: 4 × 3 = 12 shelves. Then multiply by boxes per shelf: 12 × 8 = 96 boxes. Method 2: 4 × (3 × 8). First find boxes per section: 3 × 8 = 24 boxes. Then multiply by sections: 4 × 24 = 96 boxes. Both methods give 96 boxes total."

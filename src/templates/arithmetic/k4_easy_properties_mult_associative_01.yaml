@@ -1,0 +1,53 @@
+metadata:
+  id: k4_easy_properties_mult_associative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: easy
+  steps: 4
+  tags: [multiplication, associative, properties]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 2
+    max: 5
+  c:
+    type: integer
+    min: 2
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  Calculate: ({{a}} × {{b}}) × {{c}}
+  Then calculate: {{a}} × ({{b}} × {{c}})
+  Are the results the same?
+
+solution: |
+  # Calculate left side: (a × b) × c
+  left_inner = a * b
+  left_result = left_inner * c
+
+  # Calculate right side: a × (b × c)
+  right_inner = b * c
+  right_result = a * right_inner
+
+  # Create the answer
+  Answer = f"First calculation: ({a} × {b}) × {c} = {left_inner} × {c} = {left_result}. Second calculation: {a} × ({b} × {c}) = {a} × {right_inner} = {right_result}. Yes, both results are {left_result}."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "First calculation: (3 × 4) × 2 = 12 × 2 = 24. Second calculation: 3 × (4 × 2) = 3 × 8 = 24. Yes, both results are 24."
+
+  - seed: 67890
+    expected:
+      answer: "First calculation: (4 × 2) × 3 = 8 × 3 = 24. Second calculation: 4 × (2 × 3) = 4 × 6 = 24. Yes, both results are 24."

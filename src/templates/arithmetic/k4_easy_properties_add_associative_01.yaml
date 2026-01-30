@@ -1,0 +1,53 @@
+metadata:
+  id: k4_easy_properties_add_associative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: easy
+  steps: 4
+  tags: [addition, associative, properties]
+
+variables:
+  a:
+    type: integer
+    min: 5
+    max: 20
+  b:
+    type: integer
+    min: 5
+    max: 20
+  c:
+    type: integer
+    min: 5
+    max: 20
+  Answer:
+    type: string
+
+template: |
+  Calculate using the associative property:
+  ({{a}} + {{b}}) + {{c}} = {{a}} + ({{b}} + {{c}})
+  Show that both sides are equal.
+
+solution: |
+  # Calculate left side: (a + b) + c
+  left_inner = a + b
+  left_result = left_inner + c
+
+  # Calculate right side: a + (b + c)
+  right_inner = b + c
+  right_result = a + right_inner
+
+  # Create the answer showing both calculations
+  Answer = f"Left side: ({a} + {b}) + {c} = {left_inner} + {c} = {left_result}. Right side: {a} + ({b} + {c}) = {a} + {right_inner} = {right_result}. Both sides equal {left_result}."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Left side: (15 + 18) + 12 = 33 + 12 = 45. Right side: 15 + (18 + 12) = 15 + 30 = 45. Both sides equal 45."
+
+  - seed: 67890
+    expected:
+      answer: "Left side: (19 + 7) + 11 = 26 + 11 = 37. Right side: 19 + (7 + 11) = 19 + 18 = 37. Both sides equal 37."

@@ -1,0 +1,48 @@
+metadata:
+  id: k4_medium_properties_mult_commutative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: medium
+  steps: 2
+  tags: [multiplication, commutative, properties, area]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 15
+  b:
+    type: integer
+    min: 3
+    max: 15
+  item:
+    type: item
+    category: school
+  Answer:
+    type: string
+
+template: |
+  A rectangle has {{a}} rows of {{item}} with {{b}} in each row.
+  Another rectangle has {{b}} rows with {{a}} in each row.
+  Do both rectangles have the same total? Explain using the commutative property.
+
+solution: |
+  # Calculate both arrangements
+  total1 = a * b
+  total2 = b * a
+
+  # Explain the commutative property
+  Answer = f"Yes, both rectangles have the same total. The first rectangle has {a} × {b} = {total1} {item}. The second rectangle has {b} × {a} = {total2} {item}. The commutative property of multiplication shows that {a} × {b} = {b} × {a} = {total1}."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Yes, both rectangles have the same total. The first rectangle has 9 × 12 = 108 pencils. The second rectangle has 12 × 9 = 108 pencils. The commutative property of multiplication shows that 9 × 12 = 12 × 9 = 108."
+
+  - seed: 67890
+    expected:
+      answer: "Yes, both rectangles have the same total. The first rectangle has 11 × 4 = 44 pens. The second rectangle has 4 × 11 = 44 pens. The commutative property of multiplication shows that 11 × 4 = 4 × 11 = 44."

@@ -1,0 +1,53 @@
+metadata:
+  id: k4_hard_properties_add_commutative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: hard
+  steps: 2
+  tags: [addition, commutative, properties, word-problem]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  a:
+    type: integer
+    min: 50
+    max: 200
+  b:
+    type: integer
+    min: 50
+    max: 200
+  item:
+    type: item
+    category: school
+  Answer:
+    type: string
+
+template: |
+  {{name1}} has {{a}} {{item}}. {{name2}} has {{b}} {{item}}.
+  {{name1}} says: "Together we have {{a}} + {{b}} {{item}}."
+  {{name2}} says: "Together we have {{b}} + {{a}} {{item}}."
+  Who is correct? Use the commutative property to explain your answer.
+
+solution: |
+  # Calculate both expressions
+  sum1 = a + b
+  sum2 = b + a
+
+  # Both are correct due to commutative property
+  Answer = f"Both are correct. The commutative property of addition states that the order of addends does not change the sum. {a} + {b} = {sum1} and {b} + {a} = {sum2}, so they have {sum1} {item} together."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Both are correct. The commutative property of addition states that the order of addends does not change the sum. 124 + 167 = 291 and 167 + 124 = 291, so they have 291 pencils together."
+
+  - seed: 67890
+    expected:
+      answer: "Both are correct. The commutative property of addition states that the order of addends does not change the sum. 156 + 78 = 234 and 78 + 156 = 234, so they have 234 pens together."

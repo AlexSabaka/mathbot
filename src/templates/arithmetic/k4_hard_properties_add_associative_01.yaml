@@ -1,0 +1,58 @@
+metadata:
+  id: k4_hard_properties_add_associative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: hard
+  steps: 5
+  tags: [addition, associative, properties, word-problem]
+
+variables:
+  place:
+    type: store
+  a:
+    type: integer
+    min: 100
+    max: 300
+  b:
+    type: integer
+    min: 100
+    max: 300
+  c:
+    type: integer
+    min: 100
+    max: 300
+  Answer:
+    type: string
+
+template: |
+  A {{place}} received donations over three days:
+  - Monday: {{a}} items
+  - Tuesday: {{b}} items
+  - Wednesday: {{c}} items
+  Use the associative property to find the total in the easiest way possible.
+  Show two different groupings and prove they give the same answer.
+
+solution: |
+  # Calculate both groupings
+  # Grouping 1: (a + b) + c
+  group1_inner = a + b
+  group1_total = group1_inner + c
+
+  # Grouping 2: a + (b + c)
+  group2_inner = b + c
+  group2_total = a + group2_inner
+
+  Answer = f"Grouping 1: ({a} + {b}) + {c} = {group1_inner} + {c} = {group1_total} items. Grouping 2: {a} + ({b} + {c}) = {a} + {group2_inner} = {group2_total} items. Both groupings give {group1_total} items total."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Grouping 1: (214 + 267) + 178 = 481 + 178 = 659 items. Grouping 2: 214 + (267 + 178) = 214 + 445 = 659 items. Both groupings give 659 items total."
+
+  - seed: 67890
+    expected:
+      answer: "Grouping 1: (234 + 156) + 211 = 390 + 211 = 601 items. Grouping 2: 234 + (156 + 211) = 234 + 367 = 601 items. Both groupings give 601 items total."

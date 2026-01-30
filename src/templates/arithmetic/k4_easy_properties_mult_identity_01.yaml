@@ -1,0 +1,47 @@
+metadata:
+  id: k4_easy_properties_mult_identity_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: easy
+  steps: 2
+  tags: [multiplication, identity, zero, properties]
+
+variables:
+  a:
+    type: integer
+    min: 15
+    max: 999
+  b:
+    type: integer
+    min: 15
+    max: 999
+  Answer:
+    type: string
+
+template: |
+  Solve:
+  a) {{a}} × 1 = _____
+  b) {{b}} × 0 = _____
+  Name the property used in each.
+
+solution: |
+  # Identity property: any number × 1 = that number
+  result_a = a * 1
+
+  # Zero property: any number × 0 = 0
+  result_b = b * 0
+
+  Answer = f"a) {a} × 1 = {result_a} (Identity Property of Multiplication). b) {b} × 0 = {result_b} (Zero Property of Multiplication)."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "a) 456 × 1 = 456 (Identity Property of Multiplication). b) 567 × 0 = 0 (Zero Property of Multiplication)."
+
+  - seed: 67890
+    expected:
+      answer: "a) 789 × 1 = 789 (Identity Property of Multiplication). b) 234 × 0 = 0 (Zero Property of Multiplication)."

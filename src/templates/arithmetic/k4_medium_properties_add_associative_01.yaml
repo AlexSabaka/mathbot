@@ -1,0 +1,57 @@
+metadata:
+  id: k4_medium_properties_add_associative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: medium
+  steps: 3
+  tags: [addition, associative, properties, mental-math]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 25
+    max: 75
+  b:
+    type: integer
+    min: 25
+    max: 50
+  c:
+    type: integer
+    min: 25
+    max: 50
+  Answer:
+    type: string
+
+template: |
+  {{name}} needs to add {{a}} + {{b}} + {{c}}.
+  Regroup the numbers to make the addition easier, then find the sum.
+
+solution: |
+  # Check if b + c makes a round number (multiple of 10, 25, 50, or 100)
+  sum_bc = b + c
+  sum_ab = a + b
+  total = a + b + c
+
+  # Determine which grouping is easier
+  # If b + c ends in 0 or 5, or is a round number, it's easier
+  if sum_bc % 10 == 0 or sum_bc % 25 == 0:
+      Answer = f"Regroup as {a} + ({b} + {c}). First add {b} + {c} = {sum_bc}, then add {a} + {sum_bc} = {total}."
+  elif sum_ab % 10 == 0 or sum_ab % 25 == 0:
+      Answer = f"Regroup as ({a} + {b}) + {c}. First add {a} + {b} = {sum_ab}, then add {sum_ab} + {c} = {total}."
+  else:
+      Answer = f"One way to regroup: {a} + ({b} + {c}). First add {b} + {c} = {sum_bc}, then add {a} + {sum_bc} = {total}."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Regroup as 53 + (37 + 35). First add 37 + 35 = 72, then add 53 + 72 = 125."
+
+  - seed: 67890
+    expected:
+      answer: "Regroup as 58 + (42 + 30). First add 42 + 30 = 72, then add 58 + 72 = 130."

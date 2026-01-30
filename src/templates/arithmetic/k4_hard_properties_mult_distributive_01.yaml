@@ -1,0 +1,53 @@
+metadata:
+  id: k4_hard_properties_mult_distributive_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: hard
+  steps: 5
+  tags: [multiplication, distributive, properties, word-problem]
+
+variables:
+  place:
+    type: location
+  a:
+    type: integer
+    min: 6
+    max: 9
+  b:
+    type: integer
+    min: 30
+    max: 60
+  c:
+    type: integer
+    min: 20
+    max: 40
+  Answer:
+    type: string
+
+template: |
+  A theater has {{a}} sections.
+  Each section has {{b}} seats in the lower level and {{c}} seats in the upper level.
+  Use the distributive property to find the total number of seats.
+  Write the equation and solve.
+
+solution: |
+  # Apply distributive property: a × (b + c) = (a × b) + (a × c)
+  seats_per_section = b + c
+  lower_total = a * b
+  upper_total = a * c
+  total_seats = lower_total + upper_total
+
+  Answer = f"Equation: {a} × ({b} + {c}) = ({a} × {b}) + ({a} × {c}). Solution: ({a} × {b}) + ({a} × {c}) = {lower_total} + {upper_total} = {total_seats} seats total."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Equation: 8 × (45 + 32) = (8 × 45) + (8 × 32). Solution: (8 × 45) + (8 × 32) = 360 + 256 = 616 seats total."
+
+  - seed: 67890
+    expected:
+      answer: "Equation: 9 × (42 + 28) = (9 × 42) + (9 × 28). Solution: (9 × 42) + (9 × 28) = 378 + 252 = 630 seats total."

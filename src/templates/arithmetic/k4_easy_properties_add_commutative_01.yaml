@@ -1,0 +1,49 @@
+metadata:
+  id: k4_easy_properties_add_commutative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: easy
+  steps: 2
+  tags: [addition, commutative, properties]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 10
+    max: 99
+  b:
+    type: integer
+    min: 10
+    max: 99
+  Answer:
+    type: string
+
+template: |
+  {{name}} says that {{a}} + {{b}} is the same as {{b}} + {{a}}.
+  Is {{name}} correct? Explain why using the commutative property.
+
+solution: |
+  # Calculate both expressions
+  sum1 = a + b
+  sum2 = b + a
+
+  # Both should be equal due to commutative property
+  if sum1 == sum2:
+      Answer = f"Yes, {name} is correct. The commutative property of addition states that changing the order of addends does not change the sum. Both {a} + {b} and {b} + {a} equal {sum1}."
+  else:
+      Answer = f"No, {name} is incorrect."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Yes, Sarah is correct. The commutative property of addition states that changing the order of addends does not change the sum. Both 45 + 67 and 67 + 45 equal 112."
+
+  - seed: 67890
+    expected:
+      answer: "Yes, James is correct. The commutative property of addition states that changing the order of addends does not change the sum. Both 78 + 23 and 23 + 78 equal 101."

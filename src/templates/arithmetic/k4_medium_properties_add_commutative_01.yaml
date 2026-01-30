@@ -1,0 +1,40 @@
+metadata:
+  id: k4_medium_properties_add_commutative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: medium
+  steps: 1
+  tags: [addition, commutative, properties, fill-in-blank]
+
+variables:
+  a:
+    type: integer
+    min: 100
+    max: 999
+  b:
+    type: integer
+    min: 100
+    max: 999
+  Answer:
+    type: integer
+
+template: |
+  Fill in the blank using the commutative property of addition:
+  {{a}} + {{b}} = _____ + {{a}}
+
+solution: |
+  # The commutative property means the missing number is b
+  Answer = b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "567"
+
+  - seed: 67890
+    expected:
+      answer: "234"

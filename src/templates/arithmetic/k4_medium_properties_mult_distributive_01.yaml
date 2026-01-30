@@ -1,0 +1,51 @@
+metadata:
+  id: k4_medium_properties_mult_distributive_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: medium
+  steps: 4
+  tags: [multiplication, distributive, properties]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 3
+    max: 9
+  b:
+    type: integer
+    min: 23
+    max: 47
+  Answer:
+    type: string
+
+template: |
+  {{name}} wants to multiply {{a}} × {{b}}.
+  Break apart {{b}} to make the multiplication easier using the distributive property.
+  Show your work.
+
+solution: |
+  # Break b into tens and ones
+  tens = (b // 10) * 10
+  ones = b % 10
+
+  # Apply distributive property
+  product_tens = a * tens
+  product_ones = a * ones
+  total = product_tens + product_ones
+
+  Answer = f"{a} × {b} = {a} × ({tens} + {ones}). Using the distributive property: ({a} × {tens}) + ({a} × {ones}) = {product_tens} + {product_ones} = {total}."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6 × 34 = 6 × (30 + 4). Using the distributive property: (6 × 30) + (6 × 4) = 180 + 24 = 204."
+
+  - seed: 67890
+    expected:
+      answer: "8 × 26 = 8 × (20 + 6). Using the distributive property: (8 × 20) + (8 × 6) = 160 + 48 = 208."

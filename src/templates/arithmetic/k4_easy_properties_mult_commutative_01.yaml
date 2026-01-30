@@ -1,0 +1,43 @@
+metadata:
+  id: k4_easy_properties_mult_commutative_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.properties
+  family: properties
+  difficulty: easy
+  steps: 2
+  tags: [multiplication, commutative, properties]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 12
+  b:
+    type: integer
+    min: 2
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  Show that {{a}} × {{b}} = {{b}} × {{a}}
+
+solution: |
+  # Calculate both products
+  product1 = a * b
+  product2 = b * a
+
+  # Show both calculations
+  Answer = f"{a} × {b} = {product1} and {b} × {a} = {product2}. Both equal {product1}, showing the commutative property."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6 × 9 = 54 and 9 × 6 = 54. Both equal 54, showing the commutative property."
+
+  - seed: 67890
+    expected:
+      answer: "8 × 3 = 24 and 3 × 8 = 24. Both equal 24, showing the commutative property."

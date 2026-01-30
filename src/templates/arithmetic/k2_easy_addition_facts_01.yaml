@@ -1,0 +1,40 @@
+metadata:
+  id: k2_easy_addition_facts_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [addition, facts, basic, table]
+
+variables:
+  num_a:
+    type: integer
+    min: 0
+    max: 10
+  num_b:
+    type: integer
+    min: 0
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  Complete the addition fact: {{num_a}} + {{num_b}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a + num_b
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "8"
+  - seed: 88888
+    expected:
+      answer: "11"

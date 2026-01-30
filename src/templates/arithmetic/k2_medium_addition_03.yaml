@@ -1,0 +1,40 @@
+metadata:
+  id: k2_medium_addition_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [addition, regrouping, three-digit]
+
+variables:
+  num_a:
+    type: integer
+    min: 75
+    max: 189
+  num_b:
+    type: integer
+    min: 60
+    max: 175
+  Answer:
+    type: integer
+
+template: |
+  Find the sum of {{num_a}} and {{num_b}}.
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a + num_b
+
+tests:
+  - seed: 55667
+    expected:
+      answer: "315"
+  - seed: 99001
+    expected:
+      answer: "162"

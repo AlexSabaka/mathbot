@@ -1,0 +1,48 @@
+metadata:
+  id: k2_easy_addition_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [addition, regrouping, word-problem, items]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 18
+    max: 39
+  item:
+    type: item
+    category: grocery
+  num_b:
+    type: integer
+    min: 12
+    max: 25
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{num_a}} {{item}}.
+  {% if name[-1] == 's' %}{{name}}' gets{% else %}{{name}} gets{% endif %} {{num_b}} more.
+  
+  How many does {% if name[-1] == 's' %}{{name}}{% else %}{{name}}{% endif %} have now?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a + num_b
+
+tests:
+  - seed: 22334
+    expected:
+      answer: "41"
+  - seed: 88990
+    expected:
+      answer: "53"

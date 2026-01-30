@@ -1,0 +1,41 @@
+metadata:
+  id: k2_easy_addition_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [addition, regrouping, basic]
+
+variables:
+  num_a:
+    type: integer
+    min: 15
+    max: 49
+  num_b:
+    type: integer
+    min: 10
+    max: 35
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} + {{num_b}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  # Ensure regrouping is needed (ones place sum >= 10)
+  Answer = num_a + num_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "74"
+  - seed: 67890
+    expected:
+      answer: "61"

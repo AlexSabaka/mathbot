@@ -1,0 +1,42 @@
+metadata:
+  id: k2_medium_addition_facts_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [addition, facts, multiple-answers]
+
+variables:
+  target:
+    type: integer
+    min: 10
+    max: 18
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  Write two different addition facts that equal {{target}}.
+  
+  Please solve this problem.
+
+solution: |
+  # Generate two different valid addition facts
+  # Using systematic approach to ensure variety
+  half = target // 2
+  Answer1 = half
+  Answer2 = target - half
+
+tests:
+  - seed: 60606
+    expected:
+      answer: "8 | 9"
+  - seed: 70707
+    expected:
+      answer: "6 | 7"

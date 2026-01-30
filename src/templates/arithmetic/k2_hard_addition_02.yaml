@@ -1,0 +1,56 @@
+metadata:
+  id: k2_hard_addition_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [addition, regrouping, word-problem, multi-step]
+
+variables:
+  name:
+    type: person
+  target:
+    type: integer
+    min: 400
+    max: 600
+  num_a:
+    type: integer
+    min: 100
+    max: 250
+  friend:
+    type: person
+  num_b:
+    type: integer
+    min: 75
+    max: 200
+  item:
+    type: item
+    category: online
+  Answer:
+    type: integer
+
+template: |
+  {{name}} needs {{target}} {{item}} for a project.
+  {% if name[-1] == 's' %}{{name}}' already has{% else %}{{name}} already has{% endif %} {{num_a}}.
+  {{friend}} gave {% if name[-1] == 's' %}{{name}}{% else %}{{name}}{% endif %} {{num_b}} more.
+  
+  How many more does {% if name[-1] == 's' %}{{name}}{% else %}{{name}}{% endif %} need?
+  
+  Please solve this problem.
+
+solution: |
+  has_now = num_a + num_b
+  Answer = target - has_now
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "244"
+  - seed: 44444
+    expected:
+      answer: "132"

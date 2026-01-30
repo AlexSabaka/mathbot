@@ -1,0 +1,40 @@
+metadata:
+  id: k2_medium_addition_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: medium
+  steps: 1
+  culture: en-US
+  tags: [addition, regrouping, large-numbers]
+
+variables:
+  num_a:
+    type: integer
+    min: 50
+    max: 199
+  num_b:
+    type: integer
+    min: 50
+    max: 150
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} + {{num_b}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a + num_b
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "230"
+  - seed: 77889
+    expected:
+      answer: "179"

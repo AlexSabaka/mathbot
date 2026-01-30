@@ -1,0 +1,65 @@
+metadata:
+  id: k2_medium_addition_facts_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [addition, facts, table, multiple-answers]
+
+variables:
+  col_1:
+    type: integer
+    min: 1
+    max: 10
+  col_2:
+    type: integer
+    min: 1
+    max: 10
+  col_3:
+    type: integer
+    min: 1
+    max: 10
+  col_4:
+    type: integer
+    min: 1
+    max: 10
+  row_num:
+    type: integer
+    min: 1
+    max: 10
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+  Answer4:
+    type: integer
+
+template: |
+  Fill in the missing numbers in this addition table row:
+  
+  | + | {{col_1}} | {{col_2}} | {{col_3}} | {{col_4}} |
+  |---|---|---|---|---|
+  | {{row_num}} |___|___|___|___|
+  
+  Please solve this problem.
+
+solution: |
+  Answer1 = row_num + col_1
+  Answer2 = row_num + col_2
+  Answer3 = row_num + col_3
+  Answer4 = row_num + col_4
+
+tests:
+  - seed: 40404
+    expected:
+      answer: "16 | 17 | 16 | 16"
+  - seed: 50505
+    expected:
+      answer: "14 | 11 | 12 | 15"

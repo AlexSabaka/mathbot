@@ -1,0 +1,45 @@
+metadata:
+  id: k2_hard_addition_facts_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [addition, facts, digits, multiple-answers]
+
+variables:
+  digit_a:
+    type: integer
+    min: 2
+    max: 7
+  digit_b:
+    type: integer
+    min: 2
+    max: 6
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  Use the digits {{digit_a}}, {{digit_b}}, and {{digit_a + digit_b}} to make two addition equations.
+  
+  Please solve this problem.
+
+solution: |
+  # Create the two equations showing commutative property
+  digit_c = digit_a + digit_b
+  Answer1 = digit_c  # digit_a + digit_b = digit_c
+  Answer2 = digit_c  # digit_b + digit_a = digit_c
+
+tests:
+  - seed: 12121
+    expected:
+      answer: "12 | 12"
+  - seed: 23232
+    expected:
+      answer: "13 | 13"

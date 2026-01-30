@@ -1,0 +1,46 @@
+metadata:
+  id: k2_hard_addition_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [addition, regrouping, large-numbers, three-addends]
+
+variables:
+  num_a:
+    type: integer
+    min: 75
+    max: 199
+  num_b:
+    type: integer
+    min: 100
+    max: 249
+  num_c:
+    type: integer
+    min: 50
+    max: 125
+  Answer:
+    type: integer
+
+template: |
+  Add {{num_a}}, {{num_b}}, and {{num_c}}.
+  
+  What is the total?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a + num_b + num_c
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "315"
+  - seed: 66666
+    expected:
+      answer: "374"

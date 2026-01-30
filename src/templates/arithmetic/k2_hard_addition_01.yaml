@@ -1,0 +1,44 @@
+metadata:
+  id: k2_hard_addition_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [addition, regrouping, three-addends]
+
+variables:
+  num_a:
+    type: integer
+    min: 50
+    max: 199
+  num_b:
+    type: integer
+    min: 50
+    max: 199
+  num_c:
+    type: integer
+    min: 50
+    max: 150
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} + {{num_b}} + {{num_c}} = ___
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a + num_b + num_c
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "285"
+  - seed: 22222
+    expected:
+      answer: "356"

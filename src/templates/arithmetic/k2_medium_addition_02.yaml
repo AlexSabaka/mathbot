@@ -1,0 +1,50 @@
+metadata:
+  id: k2_medium_addition_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [addition, regrouping, word-problem, items]
+
+variables:
+  name_1:
+    type: person
+  name_2:
+    type: person
+  num_a:
+    type: integer
+    min: 100
+    max: 299
+  num_b:
+    type: integer
+    min: 100
+    max: 250
+  item:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name_1}} collected {{num_a}} {{item}}.
+  {{name_2}} collected {{num_b}} {{item}}.
+  
+  How many did they collect together?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = num_a + num_b
+
+tests:
+  - seed: 44556
+    expected:
+      answer: "459"
+  - seed: 66778
+    expected:
+      answer: "357"

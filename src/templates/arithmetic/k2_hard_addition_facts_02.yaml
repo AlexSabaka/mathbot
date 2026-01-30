@@ -1,0 +1,46 @@
+metadata:
+  id: k2_hard_addition_facts_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.addition
+  family: addition
+  difficulty: hard
+  steps: 1
+  culture: en-US
+  tags: [addition, facts, commutative-property]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 5
+    max: 15
+  num_b:
+    type: integer
+    min: 5
+    max: 12
+  Answer:
+    type: string
+    choices: ["Yes"]
+
+template: |
+  {{name}} says that {{num_a}} + {{num_b}} = {{num_b}} + {{num_a}}.
+  
+  Is this always true? What property is this?
+  
+  Please solve this problem.
+
+solution: |
+  # The commutative property always holds for addition
+  Answer = "Yes"
+
+tests:
+  - seed: 34343
+    expected:
+      answer: "Yes"
+  - seed: 45454
+    expected:
+      answer: "Yes"

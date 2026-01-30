@@ -1,0 +1,83 @@
+metadata:
+  id: k2_hard_calendar_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement
+  family: calendar
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [calendar, date-arithmetic, month-crossing, addition]
+
+variables:
+  event:
+    type: string
+    choices: ["school play", "field trip", "concert", "birthday party", "science fair"]
+  num_days:
+    type: integer
+    min: 10
+    max: 25
+  start_month:
+    type: string
+    choices: ["January", "March", "April", "May", "June", "September", "October"]
+  start_date:
+    type: integer
+    min: 20
+    max: 28
+  Answer:
+    type: string
+
+template: |
+  There are {{num_days}} days until the {{event}}.
+  
+  Today is {{start_month}} {{start_date}}.
+  
+  What date is the {{event}}?
+  
+  Please solve this problem.
+
+solution: |
+  # Month data: (name, days, next_month_name)
+  month_data = {
+      "January": (31, "February"),
+      "March": (31, "April"),
+      "April": (30, "May"),
+      "May": (31, "June"),
+      "June": (30, "July"),
+      "September": (30, "October"),
+      "October": (31, "November")
+  }
+  
+  days_in_month, next_month = month_data[start_month]
+  
+  # Calculate target date
+  target_date = start_date + num_days
+  
+  # Determine suffix
+  def get_suffix(day):
+      if day in [1, 21, 31]:
+          return "st"
+      elif day in [2, 22]:
+          return "nd"
+      elif day in [3, 23]:
+          return "rd"
+      else:
+          return "th"
+  
+  # Check if we cross into next month
+  if target_date <= days_in_month:
+      Answer = start_month + " " + str(target_date) + get_suffix(target_date)
+  else:
+      # Days into next month
+      overflow_days = target_date - days_in_month
+      Answer = next_month + " " + str(overflow_days) + get_suffix(overflow_days)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "October 4th"
+  - seed: 100
+    expected:
+      answer: "June 15th"

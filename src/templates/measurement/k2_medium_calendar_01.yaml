@@ -1,0 +1,53 @@
+metadata:
+  id: k2_medium_calendar_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement
+  family: calendar
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [calendar, days, date-arithmetic, weekday-calculation]
+
+variables:
+  month:
+    type: string
+    choices: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+  start_day:
+    type: string
+    choices: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  target_date:
+    type: integer
+    min: 10
+    max: 20
+  Answer:
+    type: string
+
+template: |
+  {{month}} starts on a {{start_day}}.
+  
+  What day of the week is {{month}} {{target_date}}?
+  
+  Please solve this problem.
+
+solution: |
+  # Days from start (day 1) to target date
+  days_passed = target_date - 1
+  
+  # Map weekdays to indices
+  days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  start_index = days.index(start_day)
+  
+  # Calculate target day
+  target_index = (start_index + days_passed) % 7
+  Answer = days[target_index]
+
+tests:
+  - seed: 42
+    expected:
+      answer: "Wednesday"
+  - seed: 100
+    expected:
+      answer: "Saturday"

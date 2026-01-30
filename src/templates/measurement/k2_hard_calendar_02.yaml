@@ -1,0 +1,46 @@
+metadata:
+  id: k2_hard_calendar_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement
+  family: calendar
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [calendar, days, weekday-sequence, modulo]
+
+variables:
+  day_of_week:
+    type: string
+    choices: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+  direction:
+    type: string
+    choices: ["before", "after"]
+  Answer:
+    type: string
+
+template: |
+  What day comes {{direction}} {{day_of_week}}?
+  
+  Please solve this problem.
+
+solution: |
+  days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  current_index = days.index(day_of_week)
+  
+  if direction == "after":
+      next_index = (current_index + 1) % 7
+  else:  # before
+      next_index = (current_index - 1) % 7
+  
+  Answer = days[next_index]
+
+tests:
+  - seed: 42
+    expected:
+      answer: "Sunday"
+  - seed: 100
+    expected:
+      answer: "Wednesday"

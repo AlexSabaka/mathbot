@@ -1,0 +1,32 @@
+metadata:
+  id: k2_easy_calendar_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement
+  family: calendar
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [calendar, months, year, basic-facts]
+
+variables:
+  Answer:
+    type: string
+
+template: |
+  How many months are in a year?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = "12 months"
+
+tests:
+  - seed: 42
+    expected:
+      answer: "12 months"
+  - seed: 100
+    expected:
+      answer: "12 months"

@@ -1,0 +1,72 @@
+metadata:
+  id: k2_medium_calendar_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement
+  family: calendar
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [calendar, days, counting, weekday-frequency]
+
+variables:
+  name:
+    type: person
+  day_of_week:
+    type: string
+    choices: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  month:
+    type: string
+    choices: ["January", "February", "March", "April", "May", "June"]
+  start_day:
+    type: string
+    choices: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  Answer:
+    type: string
+
+template: |
+  {{name}} has soccer practice every {{day_of_week}}.
+  
+  In {{month}}, the 1st falls on a {{start_day}}.
+  
+  How many times will {{name}} have soccer practice in {{month}}?
+  
+  Please solve this problem.
+
+solution: |
+  # Month lengths
+  month_days = {
+      "January": 31, "February": 28, "March": 31,
+      "April": 30, "May": 31, "June": 30
+  }
+  
+  # Map days to indices
+  days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  start_index = days.index(start_day)
+  target_index = days.index(day_of_week)
+  
+  # Find first occurrence of target day
+  days_until_first = (target_index - start_index) % 7
+  if days_until_first == 0:
+      first_date = 1
+  else:
+      first_date = 1 + days_until_first
+  
+  # Count occurrences
+  count = 0
+  current_date = first_date
+  while current_date <= month_days[month]:
+      count += 1
+      current_date += 7
+  
+  Answer = str(count) + " times"
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4 times"
+  - seed: 100
+    expected:
+      answer: "4 times"

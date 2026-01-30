@@ -1,0 +1,78 @@
+metadata:
+  id: k2_medium_calendar_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement
+  family: calendar
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [calendar, weeks, date-arithmetic, addition]
+
+variables:
+  name:
+    type: person
+  month:
+    type: string
+    choices: ["January", "March", "May", "July", "August", "October"]
+  start_date:
+    type: integer
+    min: 1
+    max: 10
+  num_weeks:
+    type: integer
+    min: 1
+    max: 3
+  event:
+    type: string
+    choices: ["party", "playdate", "picnic", "game"]
+  Answer:
+    type: string
+
+template: |
+  {{name}}'s birthday is on {{month}} {{start_date}}.
+  
+  {{name}}'s {{event}} is {{num_weeks}} {% if num_weeks == 1 %}week{% else %}weeks{% endif %} later.
+  
+  What is the date of the {{event}}?
+  
+  Please solve this problem.
+
+solution: |
+  # Calculate days to add
+  days_to_add = num_weeks * 7
+  
+  # Calculate new date
+  new_date = start_date + days_to_add
+  
+  # Format answer
+  if month == "January":
+      month_name = "January"
+      suffix = "st" if new_date in [1, 21, 31] else ("nd" if new_date in [2, 22] else ("rd" if new_date in [3, 23] else "th"))
+  elif month == "March":
+      month_name = "March"
+      suffix = "st" if new_date in [1, 21, 31] else ("nd" if new_date in [2, 22] else ("rd" if new_date in [3, 23] else "th"))
+  elif month == "May":
+      month_name = "May"
+      suffix = "st" if new_date in [1, 21, 31] else ("nd" if new_date in [2, 22] else ("rd" if new_date in [3, 23] else "th"))
+  elif month == "July":
+      month_name = "July"
+      suffix = "st" if new_date in [1, 21, 31] else ("nd" if new_date in [2, 22] else ("rd" if new_date in [3, 23] else "th"))
+  elif month == "August":
+      month_name = "August"
+      suffix = "st" if new_date in [1, 21, 31] else ("nd" if new_date in [2, 22] else ("rd" if new_date in [3, 23] else "th"))
+  else:  # October
+      month_name = "October"
+      suffix = "st" if new_date in [1, 21, 31] else ("nd" if new_date in [2, 22] else ("rd" if new_date in [3, 23] else "th"))
+  
+  Answer = month_name + " " + str(new_date) + suffix
+
+tests:
+  - seed: 42
+    expected:
+      answer: "May 11th"
+  - seed: 100
+    expected:
+      answer: "March 28th"

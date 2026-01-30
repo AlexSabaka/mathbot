@@ -1,0 +1,92 @@
+metadata:
+  id: k2_hard_calendar_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement
+  family: calendar
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [calendar, comparison, date-arithmetic, multi-step]
+
+variables:
+  name_1:
+    type: person
+  name_2:
+    type: person
+  start_month:
+    type: string
+    choices: ["February", "March", "April"]
+  start_date_1:
+    type: integer
+    min: 15
+    max: 22
+  num_days_1:
+    type: integer
+    min: 8
+    max: 15
+  start_date_2:
+    type: integer
+    min: 20
+    max: 26
+  num_days_2:
+    type: integer
+    min: 3
+    max: 7
+  Answer:
+    type: string
+
+template: |
+  {{name_1}} started reading a book on {{start_month}} {{start_date_1}}.
+  
+  {{name_1}} finished {{num_days_1}} days later.
+  
+  {{name_2}} started the same book on {{start_month}} {{start_date_2}} and took {{num_days_2}} days to finish.
+  
+  Who finished first?
+  
+  Please solve this problem.
+
+solution: |
+  # Month data
+  month_data = {
+      "February": (28, "March"),
+      "March": (31, "April"),
+      "April": (30, "May")
+  }
+  
+  days_in_month, next_month = month_data[start_month]
+  
+  # Calculate finish dates
+  finish_date_1 = start_date_1 + num_days_1
+  finish_date_2 = start_date_2 + num_days_2
+  
+  # Convert to comparable format (days from start of month)
+  # For simplicity, if crossing month boundary, add days_in_month
+  if finish_date_1 > days_in_month:
+      finish_day_1 = finish_date_1  # Higher means later
+  else:
+      finish_day_1 = finish_date_1
+  
+  if finish_date_2 > days_in_month:
+      finish_day_2 = finish_date_2  # Higher means later
+  else:
+      finish_day_2 = finish_date_2
+  
+  # Compare
+  if finish_day_1 < finish_day_2:
+      Answer = name_1 + " finished first"
+  elif finish_day_2 < finish_day_1:
+      Answer = name_2 + " finished first"
+  else:
+      Answer = "They both finished on the same day"
+
+tests:
+  - seed: 42
+    expected:
+      answer: "James finished first"
+  - seed: 100
+    expected:
+      answer: "Lee finished first"

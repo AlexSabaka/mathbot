@@ -1,0 +1,44 @@
+metadata:
+  id: k4_medium_symmetry_point_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [symmetry, point symmetry, coordinates]
+
+variables:
+  name:
+    type: person
+  x:
+    type: integer
+    min: 1
+    max: 5
+  y:
+    type: integer
+    min: 1
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  {{name}} draws a design with point symmetry.
+  If one corner is at ({{x}}, {{y}}) from the center, where is the matching point?
+
+solution: |
+  # Point symmetry about origin: (x, y) -> (-x, -y)
+  matched_x = -x
+  matched_y = -y
+  Answer = f"({matched_x}, {matched_y})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "(-3, -4)"
+  - seed: 67890
+    expected:
+      answer: "(-5, -3)"

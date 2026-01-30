@@ -1,0 +1,36 @@
+metadata:
+  id: k4_medium_symmetry_rotation_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [symmetry, rotational symmetry, angle calculation]
+
+variables:
+  order:
+    type: integer
+    min: 2
+    max: 6
+  Answer:
+    type: integer
+
+template: |
+  A shape has rotational symmetry of order {{order}}.
+  What is the smallest angle you can rotate it and have it look the same?
+
+solution: |
+  # Angle of rotation = 360 / order
+  Answer = 360 // order
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "120"
+  - seed: 67890
+    expected:
+      answer: "90"

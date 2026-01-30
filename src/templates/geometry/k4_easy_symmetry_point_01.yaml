@@ -1,0 +1,38 @@
+metadata:
+  id: k4_easy_symmetry_point_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [symmetry, point symmetry, shapes]
+
+variables:
+  shape:
+    type: choice
+    choices: [parallelogram, rectangle, trapezoid, square, rhombus]
+  Answer:
+    type: string
+
+template: |
+  Does the shape {{shape}} have point symmetry?
+
+solution: |
+  # Parallelogram, rectangle, square, and rhombus have point symmetry
+  # Trapezoid does not (unless it's a special case like a rectangle)
+  if shape == "trapezoid":
+      Answer = "no"
+  else:
+      Answer = "yes"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "no"
+  - seed: 67890
+    expected:
+      answer: "yes"

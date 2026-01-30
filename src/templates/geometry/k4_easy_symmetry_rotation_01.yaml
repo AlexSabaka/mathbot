@@ -1,0 +1,38 @@
+metadata:
+  id: k4_easy_symmetry_rotation_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [symmetry, rotational symmetry, letters]
+
+variables:
+  letter:
+    type: choice
+    choices: [H, I, N, O, S, X, Z]
+  Answer:
+    type: string
+
+template: |
+  Does the letter {{letter}} have rotational symmetry?
+  If yes, what is the smallest angle of rotation?
+
+solution: |
+  # All these letters have 180-degree rotational symmetry
+  if letter in ["H", "I", "N", "O", "S", "X", "Z"]:
+      Answer = "yes, 180 degrees"
+  else:
+      Answer = "no"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "yes, 180 degrees"
+  - seed: 67890
+    expected:
+      answer: "yes, 180 degrees"

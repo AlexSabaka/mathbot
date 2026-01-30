@@ -39,7 +39,19 @@ PROBLEM_FAMILIES = [
     "metric",
     "area",
     "shapes2d",
-    "shapes3d"
+    "shapes3d",
+    "multiplication",
+    "division",
+    "fractions",
+    "properties",
+    "factors_multiples",
+    "divisibility",
+    "fraction_operations",
+    "decimal_operations",
+    "angles",
+    "triangles",
+    "quadrilaterals",
+    "symmetry"
 ]
 
 # Grade to max complexity mapping
@@ -95,7 +107,19 @@ FAMILY_TOPIC_SUPPORT = {
     "metric": ["measurement"],
     "area": ["measurement", "geometry"],
     "shapes2d": ["geometry"],
-    "shapes3d": ["geometry"]
+    "shapes3d": ["geometry"],
+    "multiplication": ["arithmetic"],
+    "division": ["arithmetic"],
+    "fractions": ["fractions"],
+    "properties": ["arithmetic"],  # properties of addition and multiplication
+    "factors_multiples": ["arithmetic"],  # factors, multiples, GCF, LCM
+    "divisibility": ["arithmetic"],  # divisibility rules and tests
+    "fraction_operations": ["fractions"],  # add, subtract, multiply, divide fractions
+    "decimal_operations": ["arithmetic"],  # decimal operations
+    "angles": ["geometry"],  # angle measurement and relationships
+    "triangles": ["geometry"],  # triangle classification and properties
+    "quadrilaterals": ["geometry"],  # quadrilateral identification and properties
+    "symmetry": ["geometry"]  # lines of symmetry, rotational, point, reflexive
 }
 
 # Topics that require specific problem types (these need special handling)

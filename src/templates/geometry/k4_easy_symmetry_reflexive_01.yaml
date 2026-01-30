@@ -1,0 +1,49 @@
+metadata:
+  id: k4_easy_symmetry_reflexive_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [symmetry, reflexive symmetry, reflection, coordinates]
+
+variables:
+  line_type:
+    type: choice
+    choices: [vertical, horizontal]
+  x1:
+    type: integer
+    min: 1
+    max: 4
+  y1:
+    type: integer
+    min: 1
+    max: 4
+  Answer:
+    type: string
+
+template: |
+  Complete the figure so it has reflexive symmetry about the {{line_type}} line.
+  Starting point: ({{x1}}, {{y1}})
+
+  What are the coordinates of the reflected point?
+
+solution: |
+  # For vertical line through origin (x=0): (x, y) -> (-x, y)
+  # For horizontal line through origin (y=0): (x, y) -> (x, -y)
+  if line_type == "vertical":
+      Answer = f"({-x1}, {y1})"
+  else:  # horizontal
+      Answer = f"({x1}, {-y1})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "(2, -3)"
+  - seed: 67890
+    expected:
+      answer: "(-4, 2)"

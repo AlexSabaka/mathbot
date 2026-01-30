@@ -1,0 +1,47 @@
+metadata:
+  id: k4_hard_symmetry_rotation_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [symmetry, rotational symmetry, lines of symmetry, logo design]
+
+variables:
+  name:
+    type: person
+  num_symmetries:
+    type: integer
+    min: 3
+    max: 8
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} designs a logo with rotational symmetry of order {{num_symmetries}}.
+
+  a) What is the angle of rotation?
+  b) If {{name}} also wants {{num_symmetries}} lines of symmetry, what shape could the logo be based on?
+
+solution: |
+  # a) Angle of rotation
+  Answer1 = 360 // num_symmetries
+
+  # b) Number of lines of symmetry (for regular polygon with n sides = n)
+  Answer2 = num_symmetries
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "72"
+      answer2: "5"
+  - seed: 67890
+    expected:
+      answer1: "60"
+      answer2: "6"

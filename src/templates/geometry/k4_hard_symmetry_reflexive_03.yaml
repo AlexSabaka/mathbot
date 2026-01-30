@@ -1,0 +1,51 @@
+metadata:
+  id: k4_hard_symmetry_reflexive_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [symmetry, reflexive symmetry, reflection, diagonal, coordinates]
+
+variables:
+  a:
+    type: integer
+    min: 1
+    max: 5
+  px:
+    type: integer
+    min: 2
+    max: 6
+  py:
+    type: integer
+    min: 0
+    max: 2
+  Answer:
+    type: string
+
+template: |
+  A shape is reflected over a line passing through points (0, 0) and ({{a}}, {{a}}).
+  Point P at ({{px}}, {{py}}) reflects to point P'.
+
+  Find the coordinates of P'.
+
+  Hint: This line has the equation y = x.
+
+solution: |
+  # For reflection over y = x: (x, y) -> (y, x)
+  # The diagonal line y = x reflects by swapping coordinates
+  p_prime_x = py
+  p_prime_y = px
+  Answer = f"({p_prime_x}, {p_prime_y})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "(1, 4)"
+  - seed: 67890
+    expected:
+      answer: "(2, 6)"

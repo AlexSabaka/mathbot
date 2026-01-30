@@ -1,0 +1,65 @@
+metadata:
+  id: k4_hard_symmetry_point_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [symmetry, point symmetry, coordinates, quadrilateral]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 8
+  b:
+    type: integer
+    min: 2
+    max: 8
+  c:
+    type: integer
+    min: -8
+    max: -2
+  d:
+    type: integer
+    min: 2
+    max: 8
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+
+template: |
+  A figure has point symmetry around the origin (0, 0).
+  Point A is at ({{a}}, {{b}}).
+  Point B is at ({{c}}, {{d}}).
+
+  a) Where is the point symmetric to A?
+  b) Where is the point symmetric to B?
+  c) If the figure is a quadrilateral with vertices A, B, A', B', what type of quadrilateral is it?
+
+solution: |
+  # Point symmetry about origin: (x, y) -> (-x, -y)
+  a_prime_x = -a
+  a_prime_y = -b
+  Answer1 = f"({a_prime_x}, {a_prime_y})"
+
+  b_prime_x = -c
+  b_prime_y = -d
+  Answer2 = f"({b_prime_x}, {b_prime_y})"
+
+  # A quadrilateral with point symmetry is a parallelogram
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "(-5, -6)"
+      answer2: "(3, -7)"
+  - seed: 67890
+    expected:
+      answer1: "(-8, -7)"
+      answer2: "(4, -8)"

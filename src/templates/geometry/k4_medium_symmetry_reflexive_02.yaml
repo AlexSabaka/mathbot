@@ -1,0 +1,74 @@
+metadata:
+  id: k4_medium_symmetry_reflexive_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: medium
+  steps: 3
+  culture: en-US
+  tags: [symmetry, reflexive symmetry, reflection, coordinates]
+
+variables:
+  line_type:
+    type: choice
+    choices: [vertical, horizontal]
+  line_pos:
+    type: integer
+    min: 1
+    max: 3
+  x1:
+    type: integer
+    min: 1
+    max: 6
+  y1:
+    type: integer
+    min: 1
+    max: 6
+  x2:
+    type: integer
+    min: 1
+    max: 6
+  y2:
+    type: integer
+    min: 1
+    max: 6
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+
+template: |
+  Complete the figure so it has reflexive symmetry about the {{line_type}} line at {{line_type}}={{line_pos}}.
+  Given points on one side: ({{x1}}, {{y1}}) and ({{x2}}, {{y2}})
+
+  Find the reflected points.
+
+solution: |
+  # For vertical line x=a: (x, y) -> (2a-x, y)
+  # For horizontal line y=b: (x, y) -> (x, 2b-y)
+  if line_type == "vertical":
+      reflected_x1 = 2 * line_pos - x1
+      reflected_y1 = y1
+      reflected_x2 = 2 * line_pos - x2
+      reflected_y2 = y2
+  else:  # horizontal
+      reflected_x1 = x1
+      reflected_y1 = 2 * line_pos - y1
+      reflected_x2 = x2
+      reflected_y2 = 2 * line_pos - y2
+
+  Answer1 = f"({reflected_x1}, {reflected_y1})"
+  Answer2 = f"({reflected_x2}, {reflected_y2})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "(3, 0)"
+      answer2: "(3, -1)"
+  - seed: 67890
+    expected:
+      answer1: "(-1, 4)"
+      answer2: "(0, 5)"

@@ -1,0 +1,43 @@
+metadata:
+  id: k2_medium_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.area
+  family: area
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [area, rectangle, multiplication]
+
+variables:
+  length:
+    type: integer
+    min: 3
+    max: 10
+  width:
+    type: integer
+    min: 2
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  A rectangle is {{length}} units long and {{width}} units wide.
+  
+  What is its area?
+  
+  Please solve this problem.
+
+solution: |
+  # Area = length × width
+  Answer = length * width
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "28 square units"
+  - seed: 67890
+    expected:
+      answer: "18 square units"

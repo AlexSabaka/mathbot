@@ -1,0 +1,37 @@
+metadata:
+  id: k2_easy_metric_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [metric, length, unit_selection]
+
+variables:
+  object:
+    type: string
+    choices: ["pencil", "crayon", "eraser", "paperclip", "small toy"]
+  Answer:
+    type: string
+    choices: ["centimeters"]
+
+template: |
+  Which unit would you use to measure a {{object}}: centimeters, meters, or kilometers?
+  
+  Please solve this problem.
+
+solution: |
+  # Small objects are measured in centimeters
+  Answer = "centimeters"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "centimeters"
+  - seed: 67890
+    expected:
+      answer: "centimeters"

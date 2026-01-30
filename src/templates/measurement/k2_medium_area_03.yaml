@@ -1,0 +1,63 @@
+metadata:
+  id: k2_medium_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.area
+  family: area
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [area, comparison, rectangles]
+
+variables:
+  name_a:
+    type: person
+  name_b:
+    type: person
+  length_a:
+    type: integer
+    min: 4
+    max: 9
+  width_a:
+    type: integer
+    min: 3
+    max: 7
+  length_b:
+    type: integer
+    min: 5
+    max: 10
+  width_b:
+    type: integer
+    min: 2
+    max: 6
+  Answer:
+    type: string
+
+template: |
+  {{name_a}} has a rectangle that is {{length_a}} units by {{width_a}} units.
+  {{name_b}} has a rectangle that is {{length_b}} units by {{width_b}} units.
+  
+  Whose rectangle has a larger area?
+  
+  Please solve this problem.
+
+solution: |
+  # Calculate both areas and compare
+  area_a = length_a * width_a
+  area_b = length_b * width_b
+  if area_a > area_b:
+      Answer = name_a
+  elif area_b > area_a:
+      Answer = name_b
+  else:
+      Answer = "same area"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "James"
+  - seed: 67890
+    expected:
+      answer: "Sarah"

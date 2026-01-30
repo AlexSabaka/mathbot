@@ -1,0 +1,57 @@
+metadata:
+  id: k2_hard_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.area
+  family: area
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [area, division, tiling, real-world]
+
+variables:
+  name:
+    type: person
+  object:
+    type: string
+    choices: ["table", "board", "tray", "surface", "panel"]
+  length:
+    type: integer
+    min: 8
+    max: 16
+    step: 2
+  width:
+    type: integer
+    min: 6
+    max: 12
+    step: 2
+  tile_size:
+    type: integer
+    min: 2
+    max: 4
+    step: 2
+  Answer:
+    type: integer
+
+template: |
+  {{name}} wants to cover a {{object}} that is {{length}} cm by {{width}} cm with square tiles that are {{tile_size}} cm on each side.
+  
+  How many tiles does {% if name[-1].lower() in ['a', 'e', 'i', 'o', 'u'] %}{{name}}{% else %}{{name}}{% endif %} need?
+  
+  Please solve this problem.
+
+solution: |
+  # Calculate area and divide by tile area
+  total_area = length * width
+  tile_area = tile_size * tile_size
+  Answer = total_area // tile_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "24 tiles"
+  - seed: 67890
+    expected:
+      answer: "12 tiles"

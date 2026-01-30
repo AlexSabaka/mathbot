@@ -1,0 +1,44 @@
+metadata:
+  id: k2_easy_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.area
+  family: area
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [area, comparison, squares]
+
+variables:
+  squares_a:
+    type: integer
+    min: 8
+    max: 18
+  squares_b:
+    type: integer
+    min: 6
+    max: 15
+  Answer:
+    type: integer
+
+template: |
+  Which shape has more area, a rectangle with {{squares_a}} squares or a rectangle with {{squares_b}} squares?
+  
+  Please solve this problem.
+
+solution: |
+  # The one with more squares has more area
+  if squares_a > squares_b:
+      Answer = squares_a
+  else:
+      Answer = squares_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "15 squares"
+  - seed: 67890
+    expected:
+      answer: "12 squares"

@@ -1,0 +1,50 @@
+metadata:
+  id: k2_hard_metric_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [metric, mass, conversion, grams, kilograms, division]
+
+variables:
+  object:
+    type: string
+    choices: ["apple", "orange", "toy car", "book", "box"]
+  object_plural:
+    type: string
+    choices: ["apples", "oranges", "toy cars", "books", "boxes"]
+  mass:
+    type: integer
+    min: 100
+    max: 500
+    step: 50
+  target:
+    type: integer
+    min: 1
+    max: 3
+  Answer:
+    type: integer
+
+template: |
+  {% set object_map = {"apple": "apples", "orange": "oranges", "toy car": "toy cars", "book": "books", "box": "boxes"} %}
+  A {{object}} weighs {{mass}} grams. How many {{object_map[object]}} would it take to weigh {{target}} {% if target == 1 %}kilogram{% else %}kilograms{% endif %}?
+  
+  Please solve this problem.
+
+solution: |
+  # Convert kg to grams (1 kg = 1000 g) and divide
+  total_grams = target * 1000
+  Answer = total_grams // mass
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5 apples"
+  - seed: 67890
+    expected:
+      answer: "10 oranges"

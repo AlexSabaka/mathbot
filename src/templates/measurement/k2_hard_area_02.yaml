@@ -1,0 +1,43 @@
+metadata:
+  id: k2_hard_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.area
+  family: area
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [area, multiplication, composite]
+
+variables:
+  small_rect_count:
+    type: integer
+    min: 2
+    max: 6
+  small_area:
+    type: integer
+    min: 4
+    max: 12
+  Answer:
+    type: integer
+
+template: |
+  A large rectangle is made up of {{small_rect_count}} smaller rectangles. Each small rectangle has an area of {{small_area}} square units.
+  
+  What is the area of the large rectangle?
+  
+  Please solve this problem.
+
+solution: |
+  # Multiply count by individual area
+  Answer = small_rect_count * small_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "24 square units"
+  - seed: 67890
+    expected:
+      answer: "18 square units"

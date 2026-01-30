@@ -1,0 +1,51 @@
+metadata:
+  id: k2_medium_metric_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [metric, length, subtraction, comparison]
+
+variables:
+  name:
+    type: person
+  object_a:
+    type: string
+    choices: ["ribbon", "string", "rope", "tape", "wire"]
+  object_b:
+    type: string
+    choices: ["yarn", "cord", "thread", "strip", "piece"]
+  length_a:
+    type: integer
+    min: 50
+    max: 99
+  length_b:
+    type: integer
+    min: 20
+    max: 70
+  Answer:
+    type: integer
+
+template: |
+  {{name}}'s {{object_a}} is {{length_a}} cm long. {% if name[-1] == 's' %}{{name}}'{% else %}{{name}}'s{% endif %} {{object_b}} is {{length_b}} cm long.
+  
+  How much longer is the {% if length_a > length_b %}{{object_a}}{% else %}{{object_b}}{% endif %}?
+  
+  Please solve this problem.
+
+solution: |
+  # Find the difference between the two lengths
+  Answer = abs(length_a - length_b)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "38 cm"
+  - seed: 67890
+    expected:
+      answer: "18 cm"

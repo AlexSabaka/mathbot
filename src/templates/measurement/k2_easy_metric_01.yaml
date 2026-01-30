@@ -1,0 +1,37 @@
+metadata:
+  id: k2_easy_metric_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [metric, length, conversion, centimeters, meters]
+
+variables:
+  number:
+    type: integer
+    min: 1
+    max: 5
+  Answer:
+    type: integer
+
+template: |
+  How many centimeters are in {{number}} {% if number == 1 %}meter{% else %}meters{% endif %}?
+  
+  Please solve this problem.
+
+solution: |
+  # 1 meter = 100 centimeters
+  Answer = number * 100
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "200 centimeters"
+  - seed: 67890
+    expected:
+      answer: "100 centimeters"

@@ -1,0 +1,48 @@
+metadata:
+  id: k2_medium_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.area
+  family: area
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [area, rectangle, real-world, centimeters]
+
+variables:
+  name:
+    type: person
+  object:
+    type: string
+    choices: ["book cover", "card", "mat", "paper", "poster"]
+  length_a:
+    type: integer
+    min: 5
+    max: 12
+  width_a:
+    type: integer
+    min: 3
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  {{name}}'s {{object}} is {{length_a}} cm long and {{width_a}} cm wide.
+  
+  What is the area?
+  
+  Please solve this problem.
+
+solution: |
+  # Area = length × width
+  Answer = length_a * width_a
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "40 square centimeters"
+  - seed: 67890
+    expected:
+      answer: "42 square centimeters"

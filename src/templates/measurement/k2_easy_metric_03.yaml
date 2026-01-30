@@ -1,0 +1,37 @@
+metadata:
+  id: k2_easy_metric_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [metric, length, unit_selection]
+
+variables:
+  object:
+    type: string
+    choices: ["classroom", "hallway", "playground", "gym", "cafeteria", "library"]
+  Answer:
+    type: string
+    choices: ["meters"]
+
+template: |
+  Which unit would you use to measure a {{object}}: centimeters, meters, or kilometers?
+  
+  Please solve this problem.
+
+solution: |
+  # Medium-sized spaces are measured in meters
+  Answer = "meters"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "meters"
+  - seed: 67890
+    expected:
+      answer: "meters"

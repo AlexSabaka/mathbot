@@ -1,0 +1,41 @@
+metadata:
+  id: k2_medium_metric_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [metric, length, conversion, centimeters, meters]
+
+variables:
+  value:
+    type: integer
+    min: 105
+    max: 395
+    step: 5
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  Convert: {{value}} cm = ___ m ___ cm
+  
+  Please solve this problem.
+
+solution: |
+  # Convert centimeters to meters and remaining centimeters
+  Answer1 = value // 100  # whole meters
+  Answer2 = value % 100   # remaining centimeters
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3 m 50 cm"
+  - seed: 67890
+    expected:
+      answer: "1 m 5 cm"

@@ -1,0 +1,44 @@
+metadata:
+  id: k2_easy_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.area
+  family: area
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [area, counting, shapes]
+
+variables:
+  name:
+    type: person
+  shape:
+    type: string
+    choices: ["square", "rectangle"]
+  units:
+    type: integer
+    min: 9
+    max: 20
+  Answer:
+    type: integer
+
+template: |
+  {{name}} drew a {{shape}} made of {{units}} square units.
+  
+  What is the area of {{name}}'s {{shape}}?
+  
+  Please solve this problem.
+
+solution: |
+  # The area equals the number of square units
+  Answer = units
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "12 square units"
+  - seed: 67890
+    expected:
+      answer: "9 square units"

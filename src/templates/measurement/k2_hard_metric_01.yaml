@@ -1,0 +1,48 @@
+metadata:
+  id: k2_hard_metric_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [metric, length, distance, conversion, meters, kilometers]
+
+variables:
+  name:
+    type: person
+  distance_a:
+    type: integer
+    min: 400
+    max: 900
+    step: 100
+  distance_b:
+    type: integer
+    min: 600
+    max: 1400
+    step: 100
+  Answer:
+    type: integer
+
+template: |
+  {{name}} ran {{distance_a}} meters in the morning and {{distance_b}} meters in the afternoon.
+  
+  How many kilometers did {% if name[-1].lower() in ['a', 'e', 'i', 'o', 'u'] %}{{name}}{% else %}{{name}}{% endif %} run in total?
+  
+  Please solve this problem.
+
+solution: |
+  # Add distances and convert to kilometers (1000m = 1km)
+  total_meters = distance_a + distance_b
+  Answer = total_meters // 1000
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2 kilometers"
+  - seed: 67890
+    expected:
+      answer: "1 kilometer"

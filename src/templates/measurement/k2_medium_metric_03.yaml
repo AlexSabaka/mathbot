@@ -1,0 +1,48 @@
+metadata:
+  id: k2_medium_metric_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: measurement.metric
+  family: metric
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [metric, length, addition]
+
+variables:
+  name:
+    type: person
+  object:
+    type: string
+    choices: ["pencil", "stick", "ruler", "rod", "tube"]
+  length_a:
+    type: integer
+    min: 25
+    max: 55
+  length_b:
+    type: integer
+    min: 30
+    max: 60
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has two {{object}}s. One is {{length_a}} cm long and the other is {{length_b}} cm long.
+  
+  If {{name}} puts them end to end, how long will they be together?
+  
+  Please solve this problem.
+
+solution: |
+  # Add the two lengths
+  Answer = length_a + length_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "86 cm"
+  - seed: 67890
+    expected:
+      answer: "80 cm"

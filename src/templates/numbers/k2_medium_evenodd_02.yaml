@@ -1,0 +1,54 @@
+metadata:
+  id: k2_medium_evenodd_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.even_odd
+  family: even_odd
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, even, odd, parity, patterns, sequences]
+
+variables:
+  pattern_type:
+    type: string
+    choices: [even, odd]
+  start:
+    type: integer
+    min: 2
+    max: 20
+    step: 2
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  {% if pattern_type == 'even' %}
+  {% set num_1 = start %}
+  {% set num_2 = start + 2 %}
+  {% set num_4 = start + 6 %}
+  {% else %}
+  {% set num_1 = start + 1 %}
+  {% set num_2 = start + 3 %}
+  {% set num_4 = start + 7 %}
+  {% endif %}
+  Fill in the missing numbers in this pattern of {{pattern_type}} numbers: {{num_1}}, {{num_2}}, ___, {{num_4}}, ___
+
+solution: |
+  if pattern_type == 'even':
+      Answer1 = start + 4
+      Answer2 = start + 8
+  else:
+      Answer1 = start + 5
+      Answer2 = start + 9
+
+tests:
+  - seed: 42
+    expected:
+      answer: "18 | 22"
+  - seed: 100
+    expected:
+      answer: "15 | 19"

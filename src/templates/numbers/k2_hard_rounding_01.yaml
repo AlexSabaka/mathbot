@@ -1,0 +1,39 @@
+metadata:
+  id: k2_hard_rounding_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.rounding
+  family: rounding
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [numbers, rounding, tens, money, estimation]
+
+variables:
+  name:
+    type: person
+  object:
+    type: string
+    choices: [toy, book, game, puzzle, art set, backpack, lunch box, water bottle]
+  price:
+    type: integer
+    min: 11
+    max: 49
+  Answer:
+    type: integer
+
+template: |
+  A {{object}} costs ${{price}}. {{name}} wants to estimate if {{ "he|she" | choice }} has enough money. Round the price to the nearest ten to help estimate.
+
+solution: |
+  Answer = round(price, -1)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "40"
+  - seed: 100
+    expected:
+      answer: "30"

@@ -49,8 +49,6 @@ variables:
 
 template: |
   After a meal together in {{city}}, {{name1}}, {{name2}}, and {{name3}} receive a bill totaling {{total_formatted}}. They agree to split the cost in the ratio {{ratio1}}:{{ratio2}}:{{ratio3}} based on what each person ordered. How much does each person pay?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   total_parts = ratio1 + ratio2 + ratio3

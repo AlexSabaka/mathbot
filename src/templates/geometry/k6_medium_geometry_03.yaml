@@ -51,8 +51,6 @@ template: |
   {% if has_gate %}However, there's already a {{gate_width}}m-wide gate installed, so no fencing is needed for that section. {% endif %}
   
   What is the total cost of the fencing project?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   if is_square:

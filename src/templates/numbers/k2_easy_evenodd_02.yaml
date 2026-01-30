@@ -1,0 +1,51 @@
+metadata:
+  id: k2_easy_evenodd_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.even_odd
+  family: even_odd
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [numbers, even, odd, parity, identify]
+
+variables:
+  num_1:
+    type: integer
+    min: 1
+    max: 30
+  num_2:
+    type: integer
+    min: 1
+    max: 30
+  num_3:
+    type: integer
+    min: 1
+    max: 30
+  num_4:
+    type: integer
+    min: 1
+    max: 30
+  num_5:
+    type: integer
+    min: 1
+    max: 30
+  Answer:
+    type: string
+
+template: |
+  Circle all the even numbers: {{num_1}}, {{num_2}}, {{num_3}}, {{num_4}}, {{num_5}}
+
+solution: |
+  evens = [n for n in [num_1, num_2, num_3, num_4, num_5] if n % 2 == 0]
+  Answer = ', '.join(str(n) for n in evens) if evens else 'none'
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4, 12, 22"
+  - seed: 100
+    expected:
+      answer: "8, 18, 26"

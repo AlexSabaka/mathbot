@@ -49,8 +49,6 @@ template: |
   Using π = 3.14, what are the circumference and area?{% elif calculation_type == 'area_only' %}Using π = 3.14, what is the area?{% elif calculation_type == 'cost' %}The project requires materials that cost {{cost_per_sqm}} per square meter.
   
   Using π = 3.14, what is the total cost to cover the area?{% endif %}
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   pi = 3.14

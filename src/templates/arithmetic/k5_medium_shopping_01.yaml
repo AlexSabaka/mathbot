@@ -69,8 +69,6 @@ template: |
   They buy {{qty1}} {{item1}} at {{price1}} each, {{qty2}} {{item2}} at {{price2}} each, and {{qty3}} {{item3}} at {{price3}} each.
   
   {{ "The store offers a 15% discount. How much does " ~ name ~ " pay after the discount?|After a 15% discount, what's the final cost?" | choice }}
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   subtotal = qty1 * price1 + qty2 * price2 + qty3 * price3

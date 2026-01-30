@@ -44,8 +44,6 @@ template: |
   {% if add_waste %}The contractor recommends ordering {{waste_percent}}% extra tiles to account for cuts and breakage.
   
   How many tiles should be ordered in total?{% else %}How many tiles are needed to cover the floor?{% endif %}
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   room_area = room_length * room_width

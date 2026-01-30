@@ -59,8 +59,6 @@ template: |
   The team decides to split the prize proportionally based on hours worked.
   
   How much does each person receive?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   total_hours = hours1 + hours2 + hours3

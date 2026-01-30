@@ -1,0 +1,39 @@
+metadata:
+  id: k2_medium_rounding_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.rounding
+  family: rounding
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, rounding, tens, word-problem]
+
+variables:
+  name:
+    type: person
+  number:
+    type: integer
+    min: 100
+    max: 500
+  object:
+    type: string
+    choices: [baseball cards, stickers, marbles, coins, stamps, buttons, beads, paper clips]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{number}} {{object}}. About how many is that, rounded to the nearest ten?
+
+solution: |
+  Answer = round(number, -1)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "250"
+  - seed: 100
+    expected:
+      answer: "370"

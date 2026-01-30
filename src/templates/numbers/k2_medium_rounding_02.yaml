@@ -1,0 +1,34 @@
+metadata:
+  id: k2_medium_rounding_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.rounding
+  family: rounding
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, rounding, hundreds, place-value]
+
+variables:
+  number:
+    type: integer
+    min: 100
+    max: 999
+  Answer:
+    type: integer
+
+template: |
+  Round {{number}} to the nearest hundred.
+
+solution: |
+  Answer = round(number, -2)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "700"
+  - seed: 100
+    expected:
+      answer: "500"

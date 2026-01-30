@@ -66,8 +66,6 @@ template: |
   The third stop is {{distance3}} miles away at {{speed3}} mph, taking {{delivery3}} minutes for delivery.
   
   How long does the entire delivery route take?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   travel_time1 = distance1 / speed1

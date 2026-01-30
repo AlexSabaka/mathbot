@@ -57,8 +57,6 @@ template: |
   {% if has_second_flight %}{{name}} then flies to {{city3}}, covering another {{distance2}} miles at {{speed2}} mph.{% endif %}
   
   What's the total travel time?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   flight_time1 = distance1 / speed1

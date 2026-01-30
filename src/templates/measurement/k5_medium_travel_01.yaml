@@ -34,8 +34,6 @@ template: |
   The trip is {{distance}} miles long, and they drive at an average speed of {{speed}} mph.
   
   What's the total travel time?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   time = distance / speed

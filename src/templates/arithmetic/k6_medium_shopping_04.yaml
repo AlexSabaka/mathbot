@@ -67,8 +67,6 @@ template: |
   They start by adding {{quantity1}} {{item1}} to their cart at {{price1}} each. They also need {{quantity2}} {{item2}}, which are {{price2}} each.
   
   The subtotal is calculated, and shipping costs {{shipping}}. Sales tax of {{tax_pct}}% is applied. What is the final total?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   subtotal = price1 * quantity1 + price2 * quantity2

@@ -79,8 +79,6 @@ template: |
   {% if year3 %}The third year brings {{rate3}}% interest on the current balance. {% endif %}
   
   What is the total amount in {{name}}'s account?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   balance = principal * (1 + rate1 / 100)

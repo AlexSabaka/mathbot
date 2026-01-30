@@ -1,0 +1,42 @@
+metadata:
+  id: k2_medium_evenodd_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.even_odd
+  family: even_odd
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, even, odd, parity, sharing, word-problem]
+
+variables:
+  name:
+    type: person
+  number:
+    type: integer
+    min: 10
+    max: 50
+  object:
+    type: string
+    choices: [strawberries, cookies, candies, marbles, stickers, crayons, pencils, toys]
+  Answer:
+    type: string
+
+template: |
+  {{name}} picked {{number}} {{object}}. Can {% if name[-1] == 's' %}they{% else %}{{ "she|he" | choice }}{% endif %} share them equally with a friend without any left over? Why?
+
+solution: |
+  if number % 2 == 0:
+      Answer = "Yes, because " + str(number) + " is an even number."
+  else:
+      Answer = "No, because " + str(number) + " is an odd number."
+
+tests:
+  - seed: 42
+    expected:
+      answer: "No, because 23 is an odd number."
+  - seed: 100
+    expected:
+      answer: "Yes, because 36 is an even number."

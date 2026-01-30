@@ -49,8 +49,6 @@ template: |
   {{name1}} receives {{pct1}}%, {{name2}} receives {{pct2}}%, and {{name3}} receives {{pct3}}%.
   
   How much does each heir receive?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   # Calculate pct2 and pct3 the same way as template

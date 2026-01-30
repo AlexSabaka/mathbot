@@ -69,8 +69,6 @@ template: |
   {% if has_expense %}However, the company must cover {{expense}} in one-time acquisition costs. {% endif %}
   
   What is {{company}}'s net revenue after these changes?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   revenue = initial_revenue * (1 + rate1 / 100)

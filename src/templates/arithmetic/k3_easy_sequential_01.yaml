@@ -39,8 +39,6 @@ variables:
 
 template: |
   {{name}} went to {{store}} and bought {{item1}} for {{price1}} and {{item2}} for {{price2}}. What was the total cost?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   total_cost = price1 + price2

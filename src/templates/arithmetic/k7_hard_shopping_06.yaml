@@ -63,8 +63,6 @@ template: |
   {{name}} picks up {{frac1_num}}/{{frac1_den}} pound of {{item1}} and {{frac2_num}}/{{frac2_den}} pound of {{item2}}.
   
   What's the total cost of these items?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   cost1 = price1 * frac1_num / frac1_den

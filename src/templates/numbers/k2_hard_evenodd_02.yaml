@@ -1,0 +1,46 @@
+metadata:
+  id: k2_hard_evenodd_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.even_odd
+  family: even_odd
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [numbers, even, odd, parity, comparison, largest]
+
+variables:
+  parity:
+    type: string
+    choices: [even, odd]
+  limit:
+    type: integer
+    min: 50
+    max: 200
+  Answer:
+    type: integer
+
+template: |
+  What is the largest {{parity}} number less than {{limit}}?
+
+solution: |
+  if parity == 'even':
+      if (limit - 1) % 2 == 0:
+          Answer = limit - 1
+      else:
+          Answer = limit - 2
+  else:  # odd
+      if (limit - 1) % 2 == 1:
+          Answer = limit - 1
+      else:
+          Answer = limit - 2
+
+tests:
+  - seed: 42
+    expected:
+      answer: "85"
+  - seed: 100
+    expected:
+      answer: "124"

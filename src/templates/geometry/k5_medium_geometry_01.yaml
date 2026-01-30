@@ -30,8 +30,6 @@ variables:
 
 template: |
   A {{location}} features a rectangular garden measuring {{length}}m in length and {{width}}m in width. The gardener needs to know both the area for planting and the perimeter for installing a border. What are the area and perimeter of the garden?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   area = length * width

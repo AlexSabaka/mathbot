@@ -1,0 +1,34 @@
+metadata:
+  id: k2_easy_rounding_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.rounding
+  family: rounding
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [numbers, rounding, tens, place-value]
+
+variables:
+  number:
+    type: integer
+    min: 10
+    max: 99
+  Answer:
+    type: integer
+
+template: |
+  Round {{number}} to the nearest ten.
+
+solution: |
+  Answer = round(number, -1)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "30"
+  - seed: 100
+    expected:
+      answer: "70"

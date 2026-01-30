@@ -53,11 +53,9 @@ template: |
   
   After a {{walk_minutes}}-minute walk to the station, they board a train that travels {{distance1}} miles at {{speed1}} mph.
   
-  {{#has_transfer}}After waiting {{wait_minutes}} minutes for a connection, {{name}} takes another bus for {{distance2}} miles at {{speed2}} mph.{{/has_transfer}}
+  {% if has_transfer %}After waiting {{wait_minutes}} minutes for a connection, {{name}} takes another bus for {{distance2}} miles at {{speed2}} mph.{% endif %}
   
   How long is the entire commute?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   walk_hours = walk_minutes / 60

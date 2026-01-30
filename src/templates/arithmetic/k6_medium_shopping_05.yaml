@@ -55,8 +55,6 @@ template: |
   They pick up {{qty1}} {{item1}} at {{price1}} each. They also select {{qty2}} {{item2}} at {{price2}} each.
   
   How much will {{name}} pay?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   total = price1 * qty1 + price2 * qty2

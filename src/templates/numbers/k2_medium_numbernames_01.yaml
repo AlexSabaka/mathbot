@@ -1,0 +1,39 @@
+metadata:
+  id: k2_medium_numbernames_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.number_names
+  family: number_names
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, number-names, place-value, three-digit]
+
+variables:
+  name:
+    type: person
+  number:
+    type: integer
+    min: 100
+    max: 999
+  object:
+    type: string
+    choices: [apples, stickers, marbles, crayons, coins, baseball cards, buttons, paper clips]
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{number}} {{object}}. Write this number in words.
+
+solution: |
+  Answer = number_to_words(number)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "two hundred fifty-four"
+  - seed: 100
+    expected:
+      answer: "five hundred twelve"

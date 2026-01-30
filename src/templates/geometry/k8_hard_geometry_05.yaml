@@ -45,8 +45,6 @@ template: |
   {% if calculation_type == 'square_both' %}They need to know both the side length of the new square and its perimeter for planning the boundary.
   
   What are the side length and perimeter of the square field?{% else %}What is the side length of the square field?{% endif %}{% else %}What is the area of the field?{% endif %}
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   area = length * width

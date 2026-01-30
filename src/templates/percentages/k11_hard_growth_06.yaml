@@ -36,8 +36,6 @@ variables:
 
 template: |
   {{name}} invests {{principal}} in an account earning {{rate}}% annual interest, compounded yearly. They want to know how long it will take for their investment to reach {{target_amount}}. Using the formula t = log(A/P) / log(1 + r), where A is the target amount, P is the principal, and r is the rate (as a decimal), how many years will it take?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   if target_amount <= principal:

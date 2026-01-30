@@ -1,0 +1,46 @@
+metadata:
+  id: k2_hard_evenodd_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.even_odd
+  family: even_odd
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [numbers, even, odd, parity, addition, properties]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 5
+    max: 25
+  num_b:
+    type: integer
+    min: 5
+    max: 25
+  Answer:
+    type: string
+
+template: |
+  {% set sum_result = num_a + num_b %}
+  {% set parity_a = 'odd' if num_a % 2 == 1 else 'even' %}
+  {% set parity_b = 'odd' if num_b % 2 == 1 else 'even' %}
+  {% set result_parity = 'even' if sum_result % 2 == 0 else 'odd' %}
+  {{name}} says that {{num_a}} + {{num_b}} will be {{result_parity}}. Is {{ "he|she" | choice }} correct? Explain.
+
+solution: |
+  sum_result = num_a + num_b
+  parity_a = 'odd' if num_a % 2 == 1 else 'even'
+  parity_b = 'odd' if num_b % 2 == 1 else 'even'
+  result_parity = 'even' if sum_result % 2 == 0 else 'odd'
+  
+  Answer = "Yes, correct. " + parity_a.capitalize() + " + " + parity_b + " = " + result_parity + ". " + str(num_a) + " + " + str(num_b) + " = " + str(sum_result) + ", which is " + result_parity + "."
+
+tests:
+  - seed: 42
+    expected:
+      answer: "Yes, correct. Odd + odd = even. 15 + 9 = 24, which is even."

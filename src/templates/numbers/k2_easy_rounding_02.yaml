@@ -1,0 +1,48 @@
+metadata:
+  id: k2_easy_rounding_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.rounding
+  family: rounding
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [numbers, rounding, tens, comparison]
+
+variables:
+  ones_digit:
+    type: integer
+    min: 1
+    max: 9
+  tens_digit:
+    type: integer
+    min: 1
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  {% set number = tens_digit * 10 + ones_digit %}
+  {% set lower_ten = tens_digit * 10 %}
+  {% set upper_ten = (tens_digit + 1) * 10 %}
+  Is {{number}} closer to {{lower_ten}} or {{upper_ten}}?
+
+solution: |
+  number = tens_digit * 10 + ones_digit
+  lower_ten = tens_digit * 10
+  upper_ten = (tens_digit + 1) * 10
+  
+  if ones_digit < 5:
+      Answer = lower_ten
+  else:
+      Answer = upper_ten
+
+tests:
+  - seed: 42
+    expected:
+      answer: "70"
+  - seed: 100
+    expected:
+      answer: "40"

@@ -84,8 +84,6 @@ template: |
   {% if has_operating_cost %}However, they first need to pay {{operating_cost_formatted}} in operating costs before distributing the remaining profit. {% endif %}
   
   How much {% if has_operating_cost %}does each partner receive?{% else %}profit does each partner receive?{% endif %}
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   # Calculate distributable profit

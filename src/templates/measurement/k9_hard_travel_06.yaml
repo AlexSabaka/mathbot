@@ -39,8 +39,6 @@ variables:
 
 template: |
   {{name}} is driving from {{city1}} to {{city2}}, a total distance of {{total_distance}} miles. They drive the first part at {{speed1}} mph for {{time1}} hours, then reduce their speed to {{speed2}} mph for the remainder of the trip. How long does the entire journey take?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   distance1 = speed1 * time1

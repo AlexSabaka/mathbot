@@ -48,8 +48,6 @@ template: |
   {% if has_migration %}{% if migration < 0 %}However, {{migration|abs}} residents move away to other cities. {% endif %}{% endif %}
   
   What is the current population of {{city}}?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   final_pop = initial_pop * (1 + rate / 100) ** years

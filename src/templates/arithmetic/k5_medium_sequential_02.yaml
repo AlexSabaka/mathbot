@@ -51,8 +51,6 @@ variables:
 
 template: |
   {{name}} bought {{quantity1}} {{item1}} at {{price1}} each and {{quantity2}} {{item2}} at {{price2}} each. The store offered a {{discount}}% discount on the total. {{ "How much did " ~ name ~ " pay after the discount?|What was the final price after the discount?|How much did the purchase cost after applying the discount?" | choice }}
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   cost1 = quantity1 * price1

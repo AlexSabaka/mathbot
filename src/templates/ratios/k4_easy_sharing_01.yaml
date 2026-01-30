@@ -29,8 +29,6 @@ variables:
 
 template: |
   A group of {{num_people}} friends finish dinner at {{restaurant}}. The total bill comes to {{total_formatted}}, and they decide to split it equally among themselves. How much does each person pay?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   per_person = total / num_people

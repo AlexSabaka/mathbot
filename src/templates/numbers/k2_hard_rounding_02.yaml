@@ -1,0 +1,44 @@
+metadata:
+  id: k2_hard_rounding_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.rounding
+  family: rounding
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [numbers, rounding, tens, inverse, reasoning]
+
+variables:
+  name:
+    type: person
+  rounded_tens:
+    type: integer
+    min: 2
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  {% set rounded_value = rounded_tens * 10 %}
+  {{name}} rounded a number to {{rounded_value}}. What are all the possible numbers {{ "he|she" | choice }} could have started with? (Round to nearest ten)
+
+solution: |
+  rounded_value = rounded_tens * 10
+  
+  # Numbers that round to rounded_value: from (rounded_value - 5) to (rounded_value + 4)
+  start = max(1, rounded_value - 5)
+  end = rounded_value + 4
+  
+  possible = [str(n) for n in range(start, end + 1)]
+  Answer = ', '.join(possible)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "45, 46, 47, 48, 49, 50, 51, 52, 53, 54"
+  - seed: 100
+    expected:
+      answer: "75, 76, 77, 78, 79, 80, 81, 82, 83, 84"

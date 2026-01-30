@@ -59,8 +59,6 @@ template: |
   They want to buy {{item1}} and {{item2}}. Each {{item1_singular}} costs {{price1}}, and each {{item2_singular}} costs {{price2}}.
   
   If {{name}} buys {{qty1}} {{item1}} and {{qty2}} {{item2}}, how much will they spend in total?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   cost1 = qty1 * price1

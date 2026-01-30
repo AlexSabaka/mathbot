@@ -55,8 +55,6 @@ template: |
   They find {{qty1}} {{item1}} on sale for {{price1}} each. They also grab {{qty2}} {{item2}} at {{price2}} each.
   
   What is the final amount {{name}} spends?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   total = price1 * qty1 + price2 * qty2

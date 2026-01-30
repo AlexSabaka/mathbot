@@ -1,0 +1,37 @@
+metadata:
+  id: k2_medium_numbernames_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.number_names
+  family: number_names
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, number-names, place-value, multiple-choice]
+
+variables:
+  target:
+    type: integer
+    min: 20
+    max: 99
+  Answer:
+    type: integer
+
+template: |
+  {% set swapped = (target % 10) * 10 + (target // 10) %}
+  {% set option_b = target + 1 %}
+  {% set option_c = target * 10 %}
+  Circle the number that matches the word "{{target | number_to_words}}": {{swapped}}, {{target}}, {{option_b}}, {{option_c}}
+
+solution: |
+  Answer = target
+
+tests:
+  - seed: 42
+    expected:
+      answer: "72"
+  - seed: 100
+    expected:
+      answer: "45"

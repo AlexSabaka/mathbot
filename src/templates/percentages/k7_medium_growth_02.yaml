@@ -37,8 +37,6 @@ template: |
   {{name}} invests {{principal}} in a savings account that earns {{rate}}% annual interest, compounded annually.
   
   After {{years}} years, how much money will be in the account?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   final_amount = principal * (1 + rate / 100) ** years

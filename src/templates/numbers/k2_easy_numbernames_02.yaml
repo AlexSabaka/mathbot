@@ -1,0 +1,34 @@
+metadata:
+  id: k2_easy_numbernames_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: numbers.number_names
+  family: number_names
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [numbers, number-names, place-value]
+
+variables:
+  number:
+    type: integer
+    min: 1
+    max: 100
+  Answer:
+    type: integer
+
+template: |
+  What number is "{{number | number_to_words}}"?
+
+solution: |
+  Answer = number
+
+tests:
+  - seed: 42
+    expected:
+      answer: "47"
+  - seed: 100
+    expected:
+      answer: "63"

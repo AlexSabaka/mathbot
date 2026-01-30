@@ -1,0 +1,45 @@
+metadata:
+  id: k1_medium_patterns_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.patterns
+  family: patterns
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [patterns, ABB-pattern, multi-answer]
+
+variables:
+  elem_1:
+    type: string
+    choices: [circle, square, triangle, star]
+  elem_2:
+    type: string
+    choices: [heart, diamond, hexagon, pentagon]
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+  Answer3:
+    type: string
+
+template: |
+  Complete the pattern:
+  
+  {{elem_1}}, {{elem_2}}, {{elem_2}}, ___, ___, ___
+
+solution: |
+  # ABB pattern repeats
+  Answer1 = elem_1
+  Answer2 = elem_2
+  Answer3 = elem_2
+
+tests:
+  - seed: 42
+    expected:
+      answer: "triangle | hexagon | hexagon"
+  - seed: 100
+    expected:
+      answer: "square | diamond | diamond"

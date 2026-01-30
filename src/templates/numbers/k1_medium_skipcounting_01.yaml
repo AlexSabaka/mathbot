@@ -1,0 +1,44 @@
+metadata:
+  id: k1_medium_skipcounting_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.skip_counting
+  family: skip_counting
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, skip-counting, word-problem]
+
+variables:
+  name:
+    type: person
+  skip_value:
+    type: integer
+    choices: [2, 5, 10]
+  num_terms:
+    type: integer
+    min: 3
+    max: 4
+  Answer:
+    type: string
+
+template: |
+  {{name}} is skip counting by {{skip_value}}s starting at {{skip_value}}.
+  
+  What are the next {{num_terms}} numbers {{name}} will say?
+
+solution: |
+  numbers = []
+  for i in range(2, num_terms + 2):
+      numbers.append(str(skip_value * i))
+  Answer = ', '.join(numbers)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4, 6, 8, 10"
+  - seed: 100
+    expected:
+      answer: "20, 30, 40"

@@ -1,0 +1,42 @@
+metadata:
+  id: k1_easy_patterns_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.patterns
+  family: patterns
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [patterns, repetition, simple-pattern]
+
+variables:
+  elem_1:
+    type: string
+    choices: [cat, dog, bird, fish, apple, banana]
+  elem_2:
+    type: string
+    choices: [lion, tiger, bear, shark, orange, grape]
+  elem_3:
+    type: string
+    choices: [mouse, rabbit, frog, turtle, pear, plum]
+  Answer:
+    type: string
+
+template: |
+  Continue the pattern. What comes next?
+  
+  {{elem_1}}, {{elem_2}}, {{elem_3}}, {{elem_1}}, {{elem_2}}, {{elem_3}}, {{elem_1}}, ___
+
+solution: |
+  # ABC pattern, after elem_1 comes elem_2
+  Answer = elem_2
+
+tests:
+  - seed: 42
+    expected:
+      answer: "shark"
+  - seed: 100
+    expected:
+      answer: "tiger"

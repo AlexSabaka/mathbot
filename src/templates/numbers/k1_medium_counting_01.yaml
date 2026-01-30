@@ -1,0 +1,46 @@
+metadata:
+  id: k1_medium_counting_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.counting
+  family: counting
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, counting, addition, multiple-groups]
+
+variables:
+  count_a:
+    type: integer
+    min: 1
+    max: 5
+  count_b:
+    type: integer
+    min: 1
+    max: 5
+  object_a:
+    type: item
+    category: grocery
+  object_b:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  There are {{count_a}} {{object_a}} and {{count_b}} {{object_b}}.
+  
+  Count all the items. How many items are there in total?
+
+solution: |
+  Answer = count_a + count_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "8"
+  - seed: 100
+    expected:
+      answer: "6"

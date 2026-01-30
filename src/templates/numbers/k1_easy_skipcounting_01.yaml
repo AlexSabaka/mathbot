@@ -1,0 +1,38 @@
+metadata:
+  id: k1_easy_skipcounting_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.skip_counting
+  family: skip_counting
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [numbers, skip-counting, patterns, sequences]
+
+variables:
+  skip_value:
+    type: integer
+    choices: [2, 5, 10]
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  Skip count by {{skip_value}}s. Fill in the blanks:
+  
+  {{skip_value}}, ___, {{skip_value * 3}}, ___, {{skip_value * 5}}
+
+solution: |
+  Answer1 = skip_value * 2
+  Answer2 = skip_value * 4
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4 | 8"
+  - seed: 100
+    expected:
+      answer: "10 | 20"

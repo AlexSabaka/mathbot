@@ -1,0 +1,42 @@
+metadata:
+  id: k1_easy_skipcounting_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.skip_counting
+  family: skip_counting
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [numbers, skip-counting, patterns, fill-in]
+
+variables:
+  skip_value:
+    type: integer
+    choices: [2, 5, 10]
+  start_multiplier:
+    type: integer
+    min: 2
+    max: 4
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  Continue the skip counting pattern by {{skip_value}}s:
+  
+  {{skip_value * start_multiplier}}, ___, {{skip_value * (start_multiplier + 2)}}, ___
+
+solution: |
+  Answer1 = skip_value * (start_multiplier + 1)
+  Answer2 = skip_value * (start_multiplier + 3)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "6 | 10"
+  - seed: 100
+    expected:
+      answer: "20 | 30"

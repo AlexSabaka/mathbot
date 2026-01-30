@@ -1,0 +1,43 @@
+metadata:
+  id: k1_hard_skipcounting_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.skip_counting
+  family: skip_counting
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [numbers, skip-counting, patterns, rule-identification]
+
+variables:
+  name:
+    type: person
+  skip_value:
+    type: integer
+    choices: [2, 5, 10]
+  start_multiplier:
+    type: integer
+    min: 3
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  {{name}} created this number pattern: {{skip_value * start_multiplier}}, {{skip_value * (start_multiplier + 1)}}, {{skip_value * (start_multiplier + 2)}}, {{skip_value * (start_multiplier + 3)}}
+  
+  What is the pattern rule? What are the next 2 numbers?
+
+solution: |
+  next1 = skip_value * (start_multiplier + 4)
+  next2 = skip_value * (start_multiplier + 5)
+  Answer = str(next1) + ', ' + str(next2)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "12, 14"
+  - seed: 100
+    expected:
+      answer: "60, 70"

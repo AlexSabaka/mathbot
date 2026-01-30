@@ -1,0 +1,51 @@
+metadata:
+  id: k1_medium_counting_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.counting
+  family: counting
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, counting, addition, word-problem]
+
+variables:
+  name:
+    type: person
+  count_a:
+    type: integer
+    min: 1
+    max: 5
+  count_b:
+    type: integer
+    min: 1
+    max: 5
+  object:
+    type: item
+    category: online
+  location_a:
+    type: string
+    choices: [on the table, in the box, on the shelf, in the basket, on the floor]
+  location_b:
+    type: string
+    choices: [in the closet, under the bed, in the drawer, on the chair, by the door]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{count_a}} {{object}} {{location_a}} and {{count_b}} {{object}} {{location_b}}.
+  
+  How many {{object}} does {{name}} have altogether?
+
+solution: |
+  Answer = count_a + count_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "8"
+  - seed: 100
+    expected:
+      answer: "6"

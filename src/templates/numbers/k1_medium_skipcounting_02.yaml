@@ -1,0 +1,51 @@
+metadata:
+  id: k1_medium_skipcounting_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.skip_counting
+  family: skip_counting
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, skip-counting, sequences, patterns]
+
+variables:
+  name:
+    type: person
+  skip_value:
+    type: integer
+    choices: [2, 5, 10]
+  start_at:
+    type: integer
+    choices: [0, 1]
+  num_terms:
+    type: integer
+    min: 3
+    max: 4
+  object:
+    type: item
+    category: grocery
+  Answer:
+    type: string
+
+template: |
+  {{name}} is counting {{object}} by {{skip_value}}s.
+  
+  {{name}} starts at {{start_at * skip_value if start_at == 0 else skip_value}}. What are the next {{num_terms}} numbers?
+
+solution: |
+  start_value = start_at * skip_value if start_at == 0 else skip_value
+  numbers = []
+  for i in range(1, num_terms + 1):
+      numbers.append(str(start_value + skip_value * i))
+  Answer = ', '.join(numbers)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4, 6, 8, 10"
+  - seed: 100
+    expected:
+      answer: "10, 20, 30"

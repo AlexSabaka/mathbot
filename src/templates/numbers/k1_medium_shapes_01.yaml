@@ -1,0 +1,42 @@
+metadata:
+  id: k1_medium_shapes_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.patterns
+  family: patterns
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [patterns, shapes, continuation]
+
+variables:
+  shape_a:
+    type: string
+    choices: [triangle, square, circle]
+  shape_b:
+    type: string
+    choices: [star, heart, diamond]
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+
+template: |
+  Continue the pattern. Draw the next 2 shapes:
+  
+  {{shape_a}}, {{shape_b}}, {{shape_a}}, {{shape_b}}, {{shape_a}}, {{shape_b}}, ___, ___
+
+solution: |
+  # AB pattern continues
+  Answer1 = shape_a
+  Answer2 = shape_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "circle | diamond"
+  - seed: 100
+    expected:
+      answer: "square | heart"

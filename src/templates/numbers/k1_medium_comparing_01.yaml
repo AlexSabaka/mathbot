@@ -1,0 +1,42 @@
+metadata:
+  id: k1_medium_comparing_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.comparing
+  family: comparing
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [numbers, comparing, maximum, three-numbers]
+
+variables:
+  num_a:
+    type: integer
+    min: 1
+    max: 20
+  num_b:
+    type: integer
+    min: 1
+    max: 20
+  num_c:
+    type: integer
+    min: 1
+    max: 20
+  Answer:
+    type: integer
+
+template: |
+  Circle the biggest number: {{num_a}}, {{num_b}}, {{num_c}}
+
+solution: |
+  Answer = max(num_a, num_b, num_c)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "19"
+  - seed: 100
+    expected:
+      answer: "18"

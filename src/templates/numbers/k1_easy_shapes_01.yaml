@@ -1,0 +1,38 @@
+metadata:
+  id: k1_easy_shapes_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.patterns
+  family: patterns
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [patterns, shapes, odd-one-out]
+
+variables:
+  shape_a:
+    type: string
+    choices: [circle, square, triangle, rectangle]
+  shape_b:
+    type: string
+    choices: [heart, star, diamond, hexagon]
+  Answer:
+    type: string
+
+template: |
+  Which shape is different?
+  
+  {{shape_a}}, {{shape_a}}, {{shape_a}}, {{shape_b}}
+
+solution: |
+  Answer = shape_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "hexagon"
+  - seed: 100
+    expected:
+      answer: "heart"

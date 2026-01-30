@@ -1,0 +1,43 @@
+metadata:
+  id: k1_hard_counting_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.counting
+  family: counting
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [numbers, counting, sequences, patterns, missing-numbers]
+
+variables:
+  start_num:
+    type: integer
+    min: 1
+    max: 15
+  gap_length:
+    type: integer
+    min: 3
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  Start at {{start_num}} and count up to {{start_num + gap_length}}.
+  
+  Write the missing numbers: {{start_num}}, {{ "___" | repeat(gap_length - 1, ", ") }}, {{start_num + gap_length}}
+
+solution: |
+  missing = []
+  for i in range(start_num + 1, start_num + gap_length):
+      missing.append(str(i))
+  Answer = ', '.join(missing)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "8, 9, 10"
+  - seed: 100
+    expected:
+      answer: "4, 5, 6"

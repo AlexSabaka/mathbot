@@ -1,0 +1,51 @@
+metadata:
+  id: k1_hard_comparing_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.comparing
+  family: comparing
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [numbers, comparing, ordering, sorting, descending]
+
+variables:
+  num_a:
+    type: integer
+    min: 1
+    max: 20
+  num_b:
+    type: integer
+    min: 1
+    max: 20
+  num_c:
+    type: integer
+    min: 1
+    max: 20
+  num_d:
+    type: integer
+    min: 1
+    max: 20
+  num_e:
+    type: integer
+    min: 1
+    max: 20
+  Answer:
+    type: string
+
+template: |
+  Put these numbers in order from biggest to smallest: {{num_a}}, {{num_b}}, {{num_c}}, {{num_d}}, {{num_e}}
+
+solution: |
+  numbers = sorted([num_a, num_b, num_c, num_d, num_e], reverse=True)
+  Answer = ', '.join(str(n) for n in numbers)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "19, 17, 7, 7, 3"
+  - seed: 100
+    expected:
+      answer: "18, 12, 9, 9, 4"

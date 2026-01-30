@@ -1,0 +1,41 @@
+metadata:
+  id: k1_hard_patterns_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.patterns
+  family: patterns
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [patterns, number-patterns, skip-counting]
+
+variables:
+  start:
+    type: integer
+    choices: [1, 2]
+  step:
+    type: integer
+    choices: [2]
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  Look at the pattern: {{start}}, {{start + step}}, {{start + 2*step}}, {{start + 3*step}}, {{start + 4*step}}
+  
+  What is the pattern rule? What are the next 2 numbers?
+
+solution: |
+  Answer1 = start + 5 * step
+  Answer2 = start + 6 * step
+
+tests:
+  - seed: 42
+    expected:
+      answer: "13 | 15"
+  - seed: 100
+    expected:
+      answer: "11 | 13"

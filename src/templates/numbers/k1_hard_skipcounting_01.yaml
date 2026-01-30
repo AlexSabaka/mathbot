@@ -1,0 +1,43 @@
+metadata:
+  id: k1_hard_skipcounting_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.skip_counting
+  family: skip_counting
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [numbers, skip-counting, patterns, pattern-identification]
+
+variables:
+  skip_value:
+    type: integer
+    choices: [2, 5, 10]
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+
+template: |
+  Complete the pattern by skip counting:
+  
+  {{skip_value}}, {{skip_value * 2}}, ___, ___, {{skip_value * 5}}, ___
+  
+  What number comes next? Is this skip counting by {{skip_value}}s?
+
+solution: |
+  Answer1 = skip_value * 3
+  Answer2 = skip_value * 4
+  Answer3 = skip_value * 6
+
+tests:
+  - seed: 42
+    expected:
+      answer: "6 | 8 | 12"
+  - seed: 100
+    expected:
+      answer: "30 | 40 | 60"

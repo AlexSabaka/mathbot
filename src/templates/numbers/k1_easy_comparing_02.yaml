@@ -1,0 +1,38 @@
+metadata:
+  id: k1_easy_comparing_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.comparing
+  family: comparing
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [numbers, comparing, less-than, smallest]
+
+variables:
+  num_a:
+    type: integer
+    min: 1
+    max: 10
+  num_b:
+    type: integer
+    min: 1
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  Which number is smaller: {{num_a}} or {{num_b}}?
+
+solution: |
+  Answer = min(num_a, num_b)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "3"
+  - seed: 100
+    expected:
+      answer: "4"

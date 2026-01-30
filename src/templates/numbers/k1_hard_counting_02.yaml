@@ -1,0 +1,45 @@
+metadata:
+  id: k1_hard_counting_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.counting
+  family: counting
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [numbers, counting, sequences, forward-counting]
+
+variables:
+  name:
+    type: person
+  start_num:
+    type: integer
+    min: 5
+    max: 12
+  count_steps:
+    type: integer
+    min: 3
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  {{name}} is counting forward from {{start_num}}.
+  
+  Write the next {{count_steps}} numbers that {{name}} will say: {{start_num}}, ___, ___, ___
+
+solution: |
+  numbers = []
+  for i in range(1, count_steps + 1):
+      numbers.append(str(start_num + i))
+  Answer = ', '.join(numbers)
+
+tests:
+  - seed: 42
+    expected:
+      answer: "8, 9, 10, 11"
+  - seed: 100
+    expected:
+      answer: "6, 7, 8, 9"

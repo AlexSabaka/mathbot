@@ -1,0 +1,39 @@
+metadata:
+  id: k1_easy_patterns_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: numbers.patterns
+  family: patterns
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [patterns, AB-pattern, sequences]
+
+variables:
+  elem_1:
+    type: string
+    choices: [red, blue, green, yellow, circle, square, triangle]
+  elem_2:
+    type: string
+    choices: [purple, orange, pink, brown, star, heart, diamond]
+  Answer:
+    type: string
+
+template: |
+  What comes next in the pattern?
+  
+  {{elem_1}}, {{elem_2}}, {{elem_1}}, {{elem_2}}, ___
+
+solution: |
+  # AB pattern repeats, so after elem_2 comes elem_1
+  Answer = elem_1
+
+tests:
+  - seed: 42
+    expected:
+      answer: "circle"
+  - seed: 100
+    expected:
+      answer: "blue"

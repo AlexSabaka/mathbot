@@ -115,7 +115,6 @@ variables:
 
 template: |
   {{name}} bought {{qty}} items for {{price}} each.
-  Please solve this problem and provide your final answer.
 
 solution: |
   total = qty * price
@@ -133,8 +132,7 @@ tests:
 3. **template** - Jinja2 template text (supports filters, logic)
 4. **solution** - Python code to compute answer(s)
 5. **tests** - Seed-based test cases with expected answers
-6. Always include "Please solve this problem and provide your final answer."
-7. **For complete specification, see `src/templates/SPEC.md`**
+6. **For complete specification, see `src/templates/SPEC.md`**
 
 ### Variable Definition (YAML)
 
@@ -212,6 +210,7 @@ variables:
 {{ ["a", "b", "c"] | list_and }}             → "a, b, and c"
 {{ 12.5 | format_money }}                     → "$12.50"
 {{ 3 | ordinal }}                             → "3rd"
+{{ 254 | number_to_words }}                   → "two hundred fifty-four"
 {{ "hello" | capitalize }}                    → "Hello"
 ```
 
@@ -233,7 +232,7 @@ variables:
 2. Access variables by name (e.g., `price`, `qty`)
 3. Single answer: `Answer = expression`
 4. Multiple answers: `Answer1 = expr1`, `Answer2 = expr2`, `Answer3 = expr3`
-5. Available functions: `round()`, `str()`, `int()`, `float()`, `min()`, `max()`, `sum()`, `pow()`
+5. Available functions: `abs()`, `round()`, `str()`, `int()`, `float()`, `min()`, `max()`, `sum()`, `pow()`, `len()`, `list()`, `range()`, `sorted()`, `enumerate()`, `zip()`, `map()`, `filter()`, `any()`, `all()`, `math.*`
 6. Answer formatting determined by Answer variable's `format` specification
 7. Example:
 ```python
@@ -288,7 +287,6 @@ Output format: `"Answer1 | Answer2 | Answer3"` with proper formatting applied to
 - [ ] All YAML sections present: metadata, variables, template, solution, tests
 - [ ] Variables have proper type and constraints
 - [ ] Answer variable(s) have appropriate format specification
-- [ ] Template includes "Please solve this problem and provide your final answer."
 - [ ] Solution uses raw variable names and produces correct Answer
 - [ ] Test cases provided with seeds and expected answers
 - [ ] Realistic value ranges for grade level
@@ -307,6 +305,7 @@ metadata:
   family: shopping
   difficulty: easy
   steps: 3
+  culture: en-US
   tags: [shopping, money, addition, multiplication]
 
 variables:
@@ -352,8 +351,6 @@ template: |
   They buy {{qty1}} {{item1}} at {{price1}} each and {{qty2}} {{item2}} at {{price2}} each.
   
   {{ "How much does " ~ name ~ " spend in total?|What is the total cost?" | choice }}
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   cost1 = qty1 * price1
@@ -492,16 +489,16 @@ fake.percentage(min=5, max=50, step=5)
 
 ## Common Pitfalls
 
-1. ❌ **Don't hardcode text in Python** - All narratives in YAML templates
-2. ❌ **Don't use floating-point for money** - Use `round()` in solution, format handles display
-3. ❌ **Don't forget Answer variable** - Must be defined in variables section
-4. ❌ **Don't use f-strings for multi-answer** - Use Answer1, Answer2, Answer3 instead
-5. ❌ **Don't forget format constraints** - Answer variables should specify format (money, percentage, etc.)
-6. ✅ **DO include "Please solve this problem"** - Tests expect this text
-7. ✅ **DO use deterministic seeds** - Same seed → identical output
-8. ✅ **DO test new templates** - Run `mathbot generate --input {file}` first
-9. ✅ **DO follow SPEC.md** - `src/templates/SPEC.md` is the source of truth
-10. ✅ **DO use Jinja2 logic** - Templates support {% if %}, {% set %}, filters
+1. **DON'T hardcode text in Python** - All narratives in YAML templates
+2. **DON'T use floating-point for money** - Use `round()` in solution, format handles display
+3. **DON'T forget Answer variable** - Must be defined in variables section
+4. **DON'T use f-strings for multi-answer** - Use Answer1, Answer2, Answer3 instead
+5. **DON'T forget format constraints** - Answer variables should specify format (money, percentage, etc.)
+6. **DO include "Please solve this problem"** - Tests expect this text
+7. **DO use deterministic seeds** - Same seed → identical output
+8. **DO test new templates** - Run `mathbot generate --input {file}` first
+9. **DO follow SPEC.md** - `src/templates/SPEC.md` is the source of truth
+10. **DO use Jinja2 logic** - Templates support {% if %}, {% set %}, filters
 
 ## Documentation
 

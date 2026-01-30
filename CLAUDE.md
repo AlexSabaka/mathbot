@@ -73,7 +73,7 @@ Problems must follow this exact structure:
   "test_id": "math_0001_sequential_purchase",
   "task_type": "multi_step_math",
   "config_name": "purchase_medium_arithmetic",
-  "problem": "Sarah goes shopping in Seattle.\n- She buys 5 apples at $1.20 each\n- She buys 3 oranges at $0.80 each with discount of 10%\n- She gets a 15% discount on the total\nHow much does Sarah spend?\n\nPlease solve this problem and provide your final answer.",
+  "problem": "Sarah goes shopping in Seattle.\n- She buys 5 apples at $1.20 each\n- She buys 3 oranges at $0.80 each with discount of 10%\n- She gets a 15% discount on the total\nHow much does Sarah spend?",
   "task_params": {
     "complexity": 2,
     "grade": "middle",

@@ -76,8 +76,6 @@ template: |
   The total bill comes to {{total}}, and they decide to split it equally.
   
   How much does each person pay?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   # All variables from 'variables' section are available
@@ -373,11 +371,10 @@ Mathbot provides template helpers (from `template_helpers.py`):
 
 ### Template Requirements
 
-1. Must end with: `"Please solve this problem and provide your final answer."`
-2. Use clear, age-appropriate language for grade level
-3. Provide sufficient context
-4. Ask a specific question
-5. Use variables, not hardcoded values
+1. Use clear, age-appropriate language for grade level
+2. Provide sufficient context
+3. Ask a specific question
+4. Use variables, not hardcoded values
 
 ---
 
@@ -616,8 +613,6 @@ template: |
   The third year brings {{rate3}}% interest on the current balance.
   
   What is the total amount in {{name}}'s account after three years?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   # Year 1: Apply first interest rate
@@ -901,8 +896,6 @@ variables:
 
 template: |
   What is {{a}} + {{b}}?
-  
-  Please solve this problem and provide your final answer.
 
 solution: |
   Answer = a + b

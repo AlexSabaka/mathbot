@@ -1,0 +1,40 @@
+metadata:
+  id: k2_medium_shapes3d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes3d
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [shapes, 3d, properties, identification, multi-answer]
+
+variables:
+  shape_3d:
+    type: string
+    choices: [cube, rectangular prism]
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+
+template: |
+  A {{shape_3d}} has how many faces, edges, and vertices?
+
+solution: |
+  # Both cube and rectangular prism have same counts
+  Answer1 = 6   # faces
+  Answer2 = 12  # edges
+  Answer3 = 8   # vertices
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6 | 12 | 8"
+  - seed: 67890
+    expected:
+      answer: "6 | 12 | 8"

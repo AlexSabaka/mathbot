@@ -1,0 +1,52 @@
+metadata:
+  id: k2_medium_shapes3d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes3d
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [shapes, 3d, properties, comparison]
+
+variables:
+  name:
+    type: person
+  shape_a:
+    type: string
+    choices: [cube, sphere, cylinder]
+  shape_b:
+    type: string
+    choices: [cone, pyramid, rectangular prism]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has a {{shape_a}} and a {{shape_b}}. Which shape has more faces?
+
+solution: |
+  shape_faces = {
+      'cube': 6,
+      'sphere': 1,
+      'cylinder': 3,
+      'cone': 2,
+      'pyramid': 5,
+      'rectangular prism': 6
+  }
+  faces_a = shape_faces[shape_a]
+  faces_b = shape_faces[shape_b]
+  
+  if faces_a > faces_b:
+      Answer = faces_a
+  else:
+      Answer = faces_b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5"
+  - seed: 67890
+    expected:
+      answer: "6"

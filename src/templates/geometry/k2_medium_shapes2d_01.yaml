@@ -1,0 +1,41 @@
+metadata:
+  id: k2_medium_shapes2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [shapes, 2d, properties, identification]
+
+variables:
+  name:
+    type: person
+  num_sides:
+    type: integer
+    choices: [3, 4, 5, 6]
+  Answer:
+    type: string
+
+template: |
+  {{name}} drew a shape with {{num_sides}} sides and {{num_sides}} corners. What shape did {{name}} draw?
+
+solution: |
+  sides_to_shape = {
+      3: 'triangle',
+      4: 'square',
+      5: 'pentagon',
+      6: 'hexagon'
+  }
+  Answer = sides_to_shape[num_sides]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "pentagon"
+  - seed: 11111
+    expected:
+      answer: "hexagon"

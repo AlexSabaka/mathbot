@@ -1,0 +1,43 @@
+metadata:
+  id: k2_hard_shapes3d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes3d
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [shapes, 3d, properties, reasoning]
+
+variables:
+  name:
+    type: person
+  shape_a:
+    type: string
+    choices: [cylinder, cone]
+  shape_b:
+    type: string
+    choices: [cube, sphere]
+  Answer:
+    type: string
+
+template: |
+  {{name}} has a {{shape_a}} and a {{shape_b}}. Both shapes can roll. A {{shape_a}} has a curved surface and a {{shape_b}} {% if shape_b == 'sphere' %}has a curved surface{% else %}has flat faces{% endif %}. What shape has both a curved surface and at least one flat face?
+
+solution: |
+  # Cylinder and cone both have curved surfaces and flat faces
+  # Answer depends on which was mentioned
+  if shape_a == 'cylinder':
+      Answer = "cylinder"
+  else:
+      Answer = "cone"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "cylinder"
+  - seed: 67890
+    expected:
+      answer: "cone"

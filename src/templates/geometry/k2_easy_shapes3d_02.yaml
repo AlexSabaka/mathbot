@@ -1,0 +1,40 @@
+metadata:
+  id: k2_easy_shapes3d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes3d
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [shapes, 3d, faces, counting]
+
+variables:
+  shape_3d:
+    type: string
+    choices: [cube, rectangular prism, cylinder, cone, sphere]
+  Answer:
+    type: integer
+
+template: |
+  How many faces does a {{shape_3d}} have?
+
+solution: |
+  shape_faces = {
+      'cube': 6,
+      'rectangular prism': 6,
+      'cylinder': 3,
+      'cone': 2,
+      'sphere': 1
+  }
+  Answer = shape_faces[shape_3d]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6"
+  - seed: 67890
+    expected:
+      answer: "6"

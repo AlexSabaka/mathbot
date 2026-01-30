@@ -1,0 +1,43 @@
+metadata:
+  id: k2_medium_shapes2d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [shapes, 2d, sides, corners, multi-answer]
+
+variables:
+  shape:
+    type: string
+    choices: [triangle, square, pentagon, hexagon]
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  A {{shape}} has how many sides and corners?
+
+solution: |
+  shape_data = {
+      'triangle': (3, 3),
+      'square': (4, 4),
+      'pentagon': (5, 5),
+      'hexagon': (6, 6)
+  }
+  sides, corners = shape_data[shape]
+  Answer1 = sides
+  Answer2 = corners
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6 | 6"
+  - seed: 67890
+    expected:
+      answer: "4 | 4"

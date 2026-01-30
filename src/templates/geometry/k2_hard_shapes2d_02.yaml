@@ -1,0 +1,32 @@
+metadata:
+  id: k2_hard_shapes2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [shapes, 2d, sorting, classification]
+
+variables:
+  name:
+    type: person
+  Answer:
+    type: string
+
+template: |
+  {{name}} has these shapes: triangle, rectangle, pentagon, square, hexagon. Sort them into two groups: shapes with 4 sides and shapes without 4 sides. Which shapes have 4 sides?
+
+solution: |
+  Answer = "rectangle, square"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "rectangle, square"
+  - seed: 67890
+    expected:
+      answer: "rectangle, square"

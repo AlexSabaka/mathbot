@@ -1,0 +1,40 @@
+metadata:
+  id: k2_easy_shapes2d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [shapes, 2d, corners, counting]
+
+variables:
+  shape:
+    type: string
+    choices: [triangle, square, rectangle, pentagon, hexagon]
+  Answer:
+    type: integer
+
+template: |
+  How many corners does a {{shape}} have?
+
+solution: |
+  shape_corners = {
+      'triangle': 3,
+      'square': 4,
+      'rectangle': 4,
+      'pentagon': 5,
+      'hexagon': 6
+  }
+  Answer = shape_corners[shape]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4"
+  - seed: 67890
+    expected:
+      answer: "5"

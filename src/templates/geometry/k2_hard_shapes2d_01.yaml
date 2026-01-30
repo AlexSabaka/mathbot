@@ -1,0 +1,38 @@
+metadata:
+  id: k2_hard_shapes2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [shapes, 2d, cutting, transformation]
+
+variables:
+  name:
+    type: person
+  original_shape:
+    type: string
+    choices: [square, rectangle]
+  Answer:
+    type: string
+
+template: |
+  {{name}} cut a {{original_shape}} in half with a straight line. What two shapes could {{name}} make?
+
+solution: |
+  if original_shape == 'square':
+      Answer = "Two rectangles or two triangles"
+  else:  # rectangle
+      Answer = "Two rectangles or two triangles"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Two rectangles or two triangles"
+  - seed: 67890
+    expected:
+      answer: "Two rectangles or two triangles"

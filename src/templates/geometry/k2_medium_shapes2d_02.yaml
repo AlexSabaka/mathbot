@@ -1,0 +1,51 @@
+metadata:
+  id: k2_medium_shapes2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [shapes, 2d, comparison, properties]
+
+variables:
+  shape_a:
+    type: string
+    choices: [square, rectangle]
+  shape_b:
+    type: string
+    choices: [triangle, pentagon, hexagon]
+  Answer:
+    type: string
+
+template: |
+  How is a {{shape_a}} different from a {{shape_b}}? Name 1 difference.
+
+solution: |
+  shape_sides = {
+      'triangle': 3,
+      'square': 4,
+      'rectangle': 4,
+      'pentagon': 5,
+      'hexagon': 6
+  }
+  sides_a = shape_sides[shape_a]
+  sides_b = shape_sides[shape_b]
+  
+  if sides_a != sides_b:
+      Answer = f"A {shape_a} has {sides_a} sides; a {shape_b} has {sides_b} sides"
+  elif shape_a == 'square' and shape_b == 'rectangle':
+      Answer = "A square has all equal sides; a rectangle has 2 pairs of equal sides"
+  else:
+      Answer = f"A {shape_a} and {shape_b} have different properties"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "A rectangle has 4 sides; a hexagon has 6 sides"
+  - seed: 67890
+    expected:
+      answer: "A square has 4 sides; a triangle has 3 sides"

@@ -1,0 +1,40 @@
+metadata:
+  id: k2_easy_shapes3d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes3d
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [shapes, 3d, real-world, identification]
+
+variables:
+  real_object:
+    type: string
+    choices: [soup can, ball, box, ice cream cone, dice]
+  Answer:
+    type: string
+
+template: |
+  What 3D shape is a {{real_object}} shaped like?
+
+solution: |
+  object_to_shape = {
+      'soup can': 'cylinder',
+      'ball': 'sphere',
+      'box': 'rectangular prism',
+      'ice cream cone': 'cone',
+      'dice': 'cube'
+  }
+  Answer = object_to_shape[real_object]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "cone"
+  - seed: 67890
+    expected:
+      answer: "cube"

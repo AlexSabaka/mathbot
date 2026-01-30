@@ -1,0 +1,43 @@
+metadata:
+  id: k2_hard_shapes3d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes3d
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [shapes, 3d, stacking, spatial-reasoning]
+
+variables:
+  name:
+    type: person
+  num_cubes:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: integer
+
+template: |
+  {{name}} stacked {{num_cubes}} cubes in a row. How many faces can you see from the outside? (Not counting the bottom)
+
+solution: |
+  # Each cube has 6 faces
+  # Bottom faces not counted: num_cubes faces
+  # Hidden faces where cubes touch: (num_cubes - 1) * 2 faces
+  total_faces = num_cubes * 6
+  hidden_bottom = num_cubes
+  hidden_touching = (num_cubes - 1) * 2
+  visible_faces = total_faces - hidden_bottom - hidden_touching
+  Answer = visible_faces
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "11"
+  - seed: 67890
+    expected:
+      answer: "14"

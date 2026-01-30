@@ -1,0 +1,41 @@
+metadata:
+  id: k2_easy_shapes2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [shapes, 2d, sides, counting]
+
+variables:
+  shape:
+    type: string
+    choices: [triangle, square, rectangle, pentagon, hexagon, octagon]
+  Answer:
+    type: integer
+
+template: |
+  How many sides does a {{shape}} have?
+
+solution: |
+  shape_sides = {
+      'triangle': 3,
+      'square': 4,
+      'rectangle': 4,
+      'pentagon': 5,
+      'hexagon': 6,
+      'octagon': 8
+  }
+  Answer = shape_sides[shape]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5"
+  - seed: 67890
+    expected:
+      answer: "4"

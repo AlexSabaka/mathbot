@@ -1,0 +1,46 @@
+metadata:
+  id: k2_hard_shapes2d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [shapes, 2d, properties, reasoning]
+
+variables:
+  name:
+    type: person
+  shape_a:
+    type: string
+    choices: [triangle, square, pentagon]
+  shape_b:
+    type: string
+    choices: [square, rectangle, hexagon]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has a {{shape_a}} and a {{shape_b}}. How many total sides do both shapes have together?
+
+solution: |
+  shape_sides = {
+      'triangle': 3,
+      'square': 4,
+      'rectangle': 4,
+      'pentagon': 5,
+      'hexagon': 6
+  }
+  total_sides = shape_sides[shape_a] + shape_sides[shape_b]
+  Answer = total_sides
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8"
+  - seed: 67890
+    expected:
+      answer: "7"

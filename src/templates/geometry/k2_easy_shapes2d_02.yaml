@@ -1,0 +1,41 @@
+metadata:
+  id: k2_easy_shapes2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes2d
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [shapes, 2d, sides, naming]
+
+variables:
+  num_sides:
+    type: integer
+    choices: [3, 4, 5, 6, 8]
+  Answer:
+    type: string
+
+template: |
+  Name a shape that has {{num_sides}} sides.
+
+solution: |
+  sides_to_shape = {
+      3: 'triangle',
+      4: 'square',
+      5: 'pentagon',
+      6: 'hexagon',
+      7: 'heptagon',
+      8: 'octagon'
+  }
+  Answer = sides_to_shape[num_sides]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "hexagon"
+  - seed: 67890
+    expected:
+      answer: "square"

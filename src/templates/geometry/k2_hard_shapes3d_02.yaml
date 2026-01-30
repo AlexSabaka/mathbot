@@ -1,0 +1,38 @@
+metadata:
+  id: k2_hard_shapes3d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: geometry.shapes
+  family: shapes3d
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [shapes, 3d, nets, unfolding]
+
+variables:
+  shape_3d:
+    type: string
+    choices: [cube, cylinder, cone]
+  Answer:
+    type: string
+
+template: |
+  If you unfold a {{shape_3d}}, what 2D shapes would you see in the net?
+
+solution: |
+  shape_nets = {
+      'cube': '6 squares',
+      'cylinder': '2 circles and 1 rectangle',
+      'cone': '1 circle and 1 curved triangle'
+  }
+  Answer = shape_nets[shape_3d]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1 circle and 1 curved triangle"
+  - seed: 67890
+    expected:
+      answer: "6 squares"

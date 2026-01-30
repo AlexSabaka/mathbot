@@ -1,0 +1,49 @@
+metadata:
+  id: k1_hard_length_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: length
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [measurement, length, subtraction, difference]
+
+variables:
+  object_a:
+    type: string
+    choices: [red ribbon, blue string, green rope, yellow tape]
+  object_b:
+    type: string
+    choices: [purple ribbon, orange string, pink rope, white tape]
+  count_a:
+    type: integer
+    min: 8
+    max: 15
+  count_b:
+    type: integer
+    min: 5
+    max: 12
+  units:
+    type: string
+    choices: [blocks, cubes, steps, clips]
+  Answer:
+    type: integer
+
+template: |
+  The {{object_a}} is {{count_a}} {{units}} long. The {{object_b}} is {{count_b}} {{units}} long.
+  
+  How much longer is the {{object_a}}?
+
+solution: |
+  Answer = count_a - count_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4"
+  - seed: 100
+    expected:
+      answer: "4"

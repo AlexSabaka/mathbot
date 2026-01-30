@@ -1,0 +1,41 @@
+metadata:
+  id: k1_easy_length_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: length
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [measurement, length, comparison]
+
+variables:
+  object_a:
+    type: string
+    choices: [pencil, stick, ribbon, rope, string]
+  object_b:
+    type: string
+    choices: [crayon, twig, thread, wire, stripe]
+  is_longer:
+    type: boolean
+    probability: 0.5
+  Answer:
+    type: string
+
+template: |
+  Which object is longer: the {{object_a}} or the {{object_b}}?
+  
+  The {{object_a}} is {{"longer" if is_longer else "shorter"}} than the {{object_b}}.
+
+solution: |
+  Answer = object_a if is_longer else object_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "rope"
+  - seed: 100
+    expected:
+      answer: "ribbon"

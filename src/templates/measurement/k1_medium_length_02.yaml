@@ -1,0 +1,44 @@
+metadata:
+  id: k1_medium_length_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: length
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [measurement, length, comparison-with-units]
+
+variables:
+  name:
+    type: person
+  item:
+    type: string
+    choices: [pencil, crayon, marker, eraser, ruler]
+  unit:
+    type: string
+    choices: [cubes, blocks, clips]
+  length:
+    type: integer
+    min: 4
+    max: 9
+  Answer:
+    type: integer
+
+template: |
+  {{name}} measured a {{item}} with {{unit}}. The {{item}} is {{length}} {{unit}} long.
+  
+  How many {{unit}} long is the {{item}}?
+
+solution: |
+  Answer = length
+
+tests:
+  - seed: 42
+    expected:
+      answer: "7"
+  - seed: 100
+    expected:
+      answer: "8"

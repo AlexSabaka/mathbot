@@ -1,0 +1,41 @@
+metadata:
+  id: k1_easy_length_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: length
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [measurement, height, comparison, taller]
+
+variables:
+  object_a:
+    type: string
+    choices: [tree, building, tower, ladder, flagpole]
+  object_b:
+    type: string
+    choices: [bush, house, fence, stool, sign]
+  is_taller:
+    type: boolean
+    probability: 0.5
+  Answer:
+    type: string
+
+template: |
+  Which object is taller: the {{object_a}} or the {{object_b}}?
+  
+  The {{object_a}} is {{"taller" if is_taller else "shorter"}} than the {{object_b}}.
+
+solution: |
+  Answer = object_a if is_taller else object_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "flagpole"
+  - seed: 100
+    expected:
+      answer: "building"

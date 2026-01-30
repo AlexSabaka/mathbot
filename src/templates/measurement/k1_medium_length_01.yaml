@@ -1,0 +1,42 @@
+metadata:
+  id: k1_medium_length_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: length
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [measurement, length, informal-units]
+
+variables:
+  item:
+    type: string
+    choices: [book, desk, paper, shoe, backpack]
+  unit:
+    type: string
+    choices: [paperclips, cubes, blocks, hands]
+  actual_length:
+    type: integer
+    min: 3
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  Use {{unit}} to measure the {{item}}. The {{item}} is about {{actual_length}} {{unit}} long.
+  
+  How many {{unit}} long is the {{item}}?
+
+solution: |
+  Answer = actual_length
+
+tests:
+  - seed: 42
+    expected:
+      answer: "7"
+  - seed: 100
+    expected:
+      answer: "4"

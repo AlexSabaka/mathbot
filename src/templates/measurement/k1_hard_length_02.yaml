@@ -1,0 +1,47 @@
+metadata:
+  id: k1_hard_length_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: length
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [measurement, length, comparison, difference]
+
+variables:
+  name_a:
+    type: person
+  name_b:
+    type: person
+  count_a:
+    type: integer
+    min: 5
+    max: 12
+  count_b:
+    type: integer
+    min: 8
+    max: 15
+  units:
+    type: string
+    choices: [blocks, cubes, steps]
+  Answer:
+    type: integer
+
+template: |
+  {{name_a}}'s path is {{count_a}} {{units}} long. {{name_b}}'s path is {{count_b}} {{units}} long.
+  
+  How much shorter is {{name_a}}'s path?
+
+solution: |
+  Answer = count_b - count_a
+
+tests:
+  - seed: 42
+    expected:
+      answer: "5"
+  - seed: 100
+    expected:
+      answer: "3"

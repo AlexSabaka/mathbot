@@ -1,0 +1,43 @@
+metadata:
+  id: k1_medium_weight_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: weight
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [measurement, weight, balance, equality]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 2
+    max: 6
+  object:
+    type: string
+    choices: [blocks, cubes, marbles, coins]
+  Answer:
+    type: string
+
+template: |
+  {{name}} puts {{num_a}} {{object}} on one side of a balance scale.
+  
+  What could {{name}} put on the other side to make it balance?
+  a) {{num_a}} {{object}}
+  b) {{num_a + 2}} {{object}}
+
+solution: |
+  Answer = 'a) ' + str(num_a) + ' ' + object
+
+tests:
+  - seed: 42
+    expected:
+      answer: "a) 3 marbles"
+  - seed: 100
+    expected:
+      answer: "a) 4 blocks"

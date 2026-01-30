@@ -1,0 +1,40 @@
+metadata:
+  id: k4_medium_mult_tables_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: medium
+  steps: 2
+  tags: [multiplication, tables, missing-factor]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 9
+  b:
+    type: integer
+    min: 4
+    max: 12
+  Answer:
+    type: integer
+
+template: |
+  Find the missing number:
+  {{a}} × _____ = {{a * b}}
+
+solution: |
+  # The missing number is b (since a × b = product)
+  Answer = b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6"
+
+  - seed: 67890
+    expected:
+      answer: "5"

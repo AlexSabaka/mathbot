@@ -1,0 +1,67 @@
+metadata:
+  id: k4_hard_multiples_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: hard
+  steps: 3
+  tags: [multiples, lcm, time, real-world]
+
+variables:
+  destination1:
+    type: location
+  destination2:
+    type: location
+  a:
+    type: integer
+    min: 6
+    max: 15
+  b:
+    type: integer
+    min: 8
+    max: 20
+  start_hour:
+    type: integer
+    min: 7
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Buses to {{destination1}} leave every {{a}} minutes.
+  Buses to {{destination2}} leave every {{b}} minutes.
+  If both buses leave the station at {{start_hour}}:00 AM, when will they next leave at the same time?
+
+solution: |
+  # Find LCM of a and b
+  lcm = None
+  for i in range(1, 200):
+    multiple_a = a * i
+    if multiple_a % b == 0:
+      lcm = multiple_a
+      break
+
+  # Calculate time
+  hours_to_add = lcm // 60
+  minutes_remaining = lcm % 60
+
+  new_hour = start_hour + hours_to_add
+  new_minute = minutes_remaining
+
+  # Format time
+  if new_minute == 0:
+    Answer = f"{new_hour}:00 AM"
+  else:
+    Answer = f"{new_hour}:{new_minute:02d} AM"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8:00 AM"
+
+  - seed: 67890
+    expected:
+      answer: "9:20 AM"

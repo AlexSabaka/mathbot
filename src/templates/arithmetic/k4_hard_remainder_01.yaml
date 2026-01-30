@@ -1,0 +1,47 @@
+metadata:
+  id: k4_hard_remainder_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: hard
+  steps: 2
+  tags: [division, remainder, problem-solving, reverse]
+
+variables:
+  d:
+    type: integer
+    min: 5
+    max: 9
+  q:
+    type: integer
+    min: 10
+    max: 20
+  r:
+    type: integer
+    min: 1
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  When a number is divided by {{d}}, the quotient is {{q}} and the remainder is {{r}}.
+  What is the number?
+
+solution: |
+  # Ensure remainder is less than divisor
+  r = r % d
+
+  # Formula: number = divisor × quotient + remainder
+  Answer = d * q + r
+
+tests:
+  - seed: 12345
+    expected:
+      answer: 81
+
+  - seed: 67890
+    expected:
+      answer: 109

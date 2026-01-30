@@ -1,0 +1,52 @@
+metadata:
+  id: k4_medium_multiples_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: medium
+  steps: 2
+  tags: [multiples, lcm, least-common-multiple]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  a:
+    type: integer
+    min: 3
+    max: 6
+  b:
+    type: integer
+    min: 4
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  {{name1}} counts by {{a}}s starting from {{a}}.
+  {{name2}} counts by {{b}}s starting from {{b}}.
+  What is the smallest number they will BOTH say?
+
+solution: |
+  # Find LCM by checking multiples of a
+  lcm = None
+  for i in range(1, 100):
+    multiple_a = a * i
+    if multiple_a % b == 0:
+      lcm = multiple_a
+      break
+
+  Answer = lcm
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "20"
+
+  - seed: 67890
+    expected:
+      answer: "40"

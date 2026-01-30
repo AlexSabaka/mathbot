@@ -1,0 +1,51 @@
+metadata:
+  id: k4_medium_remainder_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: medium
+  steps: 2
+  tags: [division, remainder, real-world, sharing]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: grocery
+  n:
+    type: integer
+    min: 50
+    max: 200
+  d:
+    type: integer
+    min: 6
+    max: 9
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} divides {{n}} {{item}} equally among {{d}} friends.
+  How many whole {{item}} does each friend get?
+  How many are left over?
+
+solution: |
+  # Calculate quotient and remainder
+  Answer1 = n // d  # Each friend gets this many
+  Answer2 = n % d   # This many left over
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: 60
+      answer2: 0
+
+  - seed: 67890
+    expected:
+      answer1: 54
+      answer2: 1

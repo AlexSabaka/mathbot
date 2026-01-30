@@ -1,0 +1,63 @@
+metadata:
+  id: k4_hard_factors_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: hard
+  steps: 3
+  tags: [factors, gcf, greatest-common-factor]
+
+variables:
+  # Generate two numbers that share common factors
+  a:
+    type: integer
+    min: 12
+    max: 48
+  b:
+    type: integer
+    min: 12
+    max: 48
+  Answer:
+    type: string
+
+template: |
+  Find all the common factors of {{a}} and {{b}}.
+  What is the greatest common factor (GCF)?
+
+solution: |
+  # Find factors of a
+  factors_a = []
+  for i in range(1, a + 1):
+    if a % i == 0:
+      factors_a.append(i)
+
+  # Find factors of b
+  factors_b = []
+  for i in range(1, b + 1):
+    if b % i == 0:
+      factors_b.append(i)
+
+  # Find common factors
+  common_factors = []
+  for f in factors_a:
+    if f in factors_b:
+      common_factors.append(f)
+
+  # GCF is the largest common factor
+  gcf = max(common_factors)
+
+  # Format answer
+  common_str = ", ".join(str(f) for f in common_factors)
+  Answer = f"Common factors: {common_str}; GCF: {gcf}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Common factors: 1, 2, 3, 6; GCF: 6"
+
+  - seed: 67890
+    expected:
+      answer: "Common factors: 1, 2, 3, 4, 6, 8, 12; GCF: 12"

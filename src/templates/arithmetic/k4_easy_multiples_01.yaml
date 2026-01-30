@@ -1,0 +1,44 @@
+metadata:
+  id: k4_easy_multiples_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: easy
+  steps: 1
+  tags: [multiples, multiplication]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 9
+  n:
+    type: integer
+    min: 5
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  List the first {{n}} multiples of {{a}}.
+
+solution: |
+  # Generate first n multiples
+  multiples = []
+  for i in range(1, n + 1):
+    multiples.append(a * i)
+
+  # Format as comma-separated string
+  Answer = ", ".join(str(m) for m in multiples)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4, 8, 12, 16, 20, 24"
+
+  - seed: 67890
+    expected:
+      answer: "8, 16, 24, 32, 40"

@@ -1,0 +1,39 @@
+metadata:
+  id: k4_easy_mult_tables_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: easy
+  steps: 1
+  tags: [multiplication, tables, basic]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 9
+  b:
+    type: integer
+    min: 4
+    max: 12
+  Answer:
+    type: integer
+
+template: |
+  Complete the multiplication:
+  {{a}} × {{b}} = _____
+
+solution: |
+  Answer = a * b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "24"
+
+  - seed: 67890
+    expected:
+      answer: "40"

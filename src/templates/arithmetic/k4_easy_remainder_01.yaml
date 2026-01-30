@@ -1,0 +1,39 @@
+metadata:
+  id: k4_easy_remainder_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: easy
+  steps: 1
+  tags: [division, remainder, modulo]
+
+variables:
+  n:
+    type: integer
+    min: 20
+    max: 99
+  d:
+    type: integer
+    min: 3
+    max: 9
+  Answer:
+    type: integer
+
+template: |
+  What is the remainder when {{n}} is divided by {{d}}?
+
+solution: |
+  # Calculate remainder
+  Answer = n % d
+
+tests:
+  - seed: 12345
+    expected:
+      answer: 6
+
+  - seed: 67890
+    expected:
+      answer: 1

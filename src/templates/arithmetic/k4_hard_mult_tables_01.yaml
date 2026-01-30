@@ -1,0 +1,55 @@
+metadata:
+  id: k4_hard_mult_tables_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: hard
+  steps: 3
+  tags: [multiplication, tables, related-facts]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 6
+    max: 9
+  b:
+    type: integer
+    min: 7
+    max: 9
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+
+template: |
+  {{name}} knows that {{a}} × {{b}} = {{a * b}}.
+  Use this fact to quickly calculate:
+  a) {{a}} × {{b + 1}} = _____
+  b) {{a}} × {{b - 1}} = _____
+  c) {{a * 2}} × {{b}} = _____
+
+solution: |
+  # a) a × (b+1) = a × b + a
+  Answer1 = a * (b + 1)
+
+  # b) a × (b-1) = a × b - a
+  Answer2 = a * (b - 1)
+
+  # c) (a×2) × b = 2 × (a × b)
+  Answer3 = (a * 2) * b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "54, 48, 96"
+
+  - seed: 67890
+    expected:
+      answer: "72, 64, 128"

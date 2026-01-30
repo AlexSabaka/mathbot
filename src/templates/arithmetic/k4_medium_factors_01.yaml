@@ -1,0 +1,47 @@
+metadata:
+  id: k4_medium_factors_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.multiplication
+  family: factors_multiples
+  difficulty: medium
+  steps: 2
+  tags: [factors, multiplication, division, real-world]
+
+variables:
+  name:
+    type: person
+  n:
+    type: integer
+    min: 24
+    max: 60
+  item_plural:
+    type: item
+    category: grocery
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{n}} {{item_plural}} to share equally among friends.
+  List all the possible group sizes {{name}} could make with no {{item_plural}} left over.
+
+solution: |
+  # Find all factors (possible group sizes)
+  factors = []
+  for i in range(1, n + 1):
+    if n % i == 0:
+      factors.append(i)
+
+  # Format as comma-separated string
+  Answer = ", ".join(str(f) for f in factors)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1, 2, 3, 4, 6, 8, 12, 16, 24, 48"
+
+  - seed: 67890
+    expected:
+      answer: "1, 2, 3, 4, 6, 8, 12, 16, 24, 48"

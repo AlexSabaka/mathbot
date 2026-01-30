@@ -1,0 +1,37 @@
+metadata:
+  id: k4_medium_quadrilaterals_identify_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [quadrilaterals, identification, parallelogram]
+
+variables:
+  name:
+    type: person
+  Answer:
+    type: string
+
+template: |
+  {{name}} draws a quadrilateral with these properties:
+  - Opposite sides are parallel
+  - Opposite sides are equal
+  - Angles are NOT right angles
+  What shape did {{name}} draw?
+
+solution: |
+  # This describes a parallelogram (not rectangle since no right angles)
+  Answer = "parallelogram"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "parallelogram"
+  - seed: 67890
+    expected:
+      answer: "parallelogram"

@@ -1,0 +1,48 @@
+metadata:
+  id: k4_medium_quadrilaterals_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [quadrilaterals, area, rectangle, real-world, garden]
+
+variables:
+  name:
+    type: person
+  length:
+    type: integer
+    min: 8
+    max: 20
+  width:
+    type: integer
+    min: 5
+    max: 15
+  unit:
+    type: string
+    choices: [meters, feet]
+  context:
+    type: string
+    choices: [garden, patio, playground, parking lot]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has a rectangular {{context}} that is {{length}} {{unit}} long and {{width}} {{unit}} wide.
+  What is the area of the {{context}}?
+
+solution: |
+  # Area of rectangle = length × width
+  Answer = length * width
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "128"
+  - seed: 67890
+    expected:
+      answer: "140"

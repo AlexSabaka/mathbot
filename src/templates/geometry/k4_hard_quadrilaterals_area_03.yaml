@@ -1,0 +1,55 @@
+metadata:
+  id: k4_hard_quadrilaterals_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [quadrilaterals, area, tiling, division, real-world]
+
+variables:
+  name:
+    type: person
+  length:
+    type: integer
+    min: 8
+    max: 20
+  width:
+    type: integer
+    min: 5
+    max: 15
+  tile_size:
+    type: integer
+    choices: [1, 2]
+  unit:
+    type: string
+    choices: [meters, feet]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} wants to tile a rectangular floor that is {{length}} {{unit}} long and {{width}} {{unit}} wide.
+  Each square tile has sides of {{tile_size}} {{unit}}.
+  How many tiles does {{name}} need?
+
+solution: |
+  # Step 1: Calculate floor area
+  floor_area = length * width
+
+  # Step 2: Calculate tile area
+  tile_area = tile_size * tile_size
+
+  # Step 3: Divide floor area by tile area
+  Answer = floor_area // tile_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "128"
+  - seed: 67890
+    expected:
+      answer: "35"

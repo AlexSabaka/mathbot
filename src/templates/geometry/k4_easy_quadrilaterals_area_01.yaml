@@ -1,0 +1,55 @@
+metadata:
+  id: k4_easy_quadrilaterals_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [quadrilaterals, area, rectangle, square]
+
+variables:
+  shape_type:
+    type: string
+    choices: [rectangle, square]
+  length:
+    type: integer
+    min: 5
+    max: 15
+  width:
+    type: integer
+    min: 3
+    max: 10
+  unit:
+    type: string
+    choices: [cm, m]
+  Answer:
+    type: integer
+
+template: |
+  {% if shape_type == 'square' %}
+  A square has a side length of {{length}} {{unit}}.
+  What is its area?
+  {% else %}
+  A rectangle has a length of {{length}} {{unit}} and a width of {{width}} {{unit}}.
+  What is its area?
+  {% endif %}
+
+solution: |
+  if shape_type == 'square':
+      # Area of square = side × side
+      Answer = length * length
+  else:  # rectangle
+      # Area of rectangle = length × width
+      Answer = length * width
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "64"
+  - seed: 67890
+    expected:
+      answer: "100"

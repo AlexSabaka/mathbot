@@ -1,0 +1,61 @@
+metadata:
+  id: k4_easy_quadrilaterals_properties_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [quadrilaterals, perimeter, rectangle, square, rhombus]
+
+variables:
+  shape_type:
+    type: string
+    choices: [rectangle, square, rhombus]
+  side_length:
+    type: integer
+    min: 3
+    max: 15
+  width:
+    type: integer
+    min: 3
+    max: 12
+  unit:
+    type: string
+    choices: [cm, m, inches]
+  Answer:
+    type: integer
+
+template: |
+  {% if shape_type == 'square' %}
+  A square has a side length of {{side_length}} {{unit}}.
+  What is its perimeter?
+  {% elif shape_type == 'rhombus' %}
+  A rhombus has a side length of {{side_length}} {{unit}}.
+  What is its perimeter?
+  {% else %}
+  A rectangle has a length of {{side_length}} {{unit}} and a width of {{width}} {{unit}}.
+  What is its perimeter?
+  {% endif %}
+
+solution: |
+  if shape_type == 'square':
+      # Perimeter of square = 4 × side
+      Answer = 4 * side_length
+  elif shape_type == 'rhombus':
+      # Perimeter of rhombus = 4 × side (all sides equal)
+      Answer = 4 * side_length
+  else:  # rectangle
+      # Perimeter of rectangle = 2(length + width)
+      Answer = 2 * (side_length + width)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "32"
+  - seed: 67890
+    expected:
+      answer: "40"

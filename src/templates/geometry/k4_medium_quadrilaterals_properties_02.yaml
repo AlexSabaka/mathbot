@@ -1,0 +1,69 @@
+metadata:
+  id: k4_medium_quadrilaterals_properties_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: medium
+  steps: 3
+  culture: en-US
+  tags: [quadrilaterals, parallelogram, perimeter, angles]
+
+variables:
+  base:
+    type: integer
+    min: 8
+    max: 20
+  side:
+    type: integer
+    min: 5
+    max: 12
+  angle:
+    type: integer
+    min: 40
+    max: 80
+    step: 5
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+  Answer4:
+    type: integer
+
+template: |
+  A parallelogram has a base of {{base}} cm and a side of {{side}} cm.
+  What is the perimeter?
+  If one angle is {{angle}}°, what are all four angles?
+
+solution: |
+  # Perimeter of parallelogram = 2(base + side)
+  Answer1 = 2 * (base + side)
+
+  # In a parallelogram, opposite angles are equal
+  # Consecutive angles are supplementary (sum to 180°)
+  # So if one angle is {{angle}}°, the angles are:
+  # angle, (180 - angle), angle, (180 - angle)
+  angle_2 = 180 - angle
+
+  # Store all four angles
+  Answer2 = angle
+  Answer3 = angle_2
+  Answer4 = angle
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "48"
+      answer2: "60"
+      answer3: "120"
+      answer4: "60"
+  - seed: 67890
+    expected:
+      answer1: "52"
+      answer2: "75"
+      answer3: "105"
+      answer4: "75"

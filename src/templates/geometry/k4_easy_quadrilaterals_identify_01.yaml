@@ -1,0 +1,57 @@
+metadata:
+  id: k4_easy_quadrilaterals_identify_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [quadrilaterals, identification, properties]
+
+variables:
+  property_1:
+    type: string
+    choices: [4 equal sides, 4 right angles, opposite sides parallel, opposite sides equal]
+  property_2:
+    type: string
+    choices: [4 equal sides, 4 right angles, opposite sides parallel, opposite sides equal]
+  Answer:
+    type: string
+
+template: |
+  A quadrilateral has {{property_1}} and {{property_2}}.
+  What type of quadrilateral is it?
+
+solution: |
+  # Determine shape based on properties
+  props = sorted([property_1, property_2])
+
+  # Square has all properties
+  if '4 equal sides' in props and '4 right angles' in props:
+      Answer = "square"
+  # Rectangle has right angles and parallel sides
+  elif '4 right angles' in props and 'opposite sides parallel' in props:
+      Answer = "rectangle"
+  # Rhombus has equal sides and parallel sides
+  elif '4 equal sides' in props and 'opposite sides parallel' in props:
+      Answer = "rhombus"
+  # Generic cases
+  elif '4 equal sides' in props and 'opposite sides equal' in props:
+      Answer = "rhombus"
+  elif '4 right angles' in props and 'opposite sides equal' in props:
+      Answer = "rectangle"
+  elif 'opposite sides parallel' in props and 'opposite sides equal' in props:
+      Answer = "parallelogram"
+  else:
+      Answer = "quadrilateral"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "square"
+  - seed: 67890
+    expected:
+      answer: "rectangle"

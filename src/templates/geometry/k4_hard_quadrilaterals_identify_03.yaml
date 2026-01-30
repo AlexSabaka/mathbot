@@ -1,0 +1,80 @@
+metadata:
+  id: k4_hard_quadrilaterals_identify_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.quadrilaterals
+  family: quadrilaterals
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [quadrilaterals, identification, riddle, logic]
+
+variables:
+  parallel_pairs:
+    type: integer
+    min: 1
+    max: 2
+  equal_sides:
+    type: integer
+    choices: [0, 2, 4]
+  right_angles:
+    type: integer
+    choices: [0, 4]
+  Answer:
+    type: string
+
+template: |
+  I am a quadrilateral.
+  - I have exactly {{parallel_pairs}} pair(s) of parallel sides.
+  - I have {{equal_sides}} equal sides.
+  - I have {{right_angles}} right angles.
+  What could I be? List all possibilities.
+
+solution: |
+  # Determine possible shapes based on properties
+  possibilities = []
+
+  # 2 pairs parallel, 4 equal sides, 4 right angles = square
+  if parallel_pairs == 2 and equal_sides == 4 and right_angles == 4:
+      possibilities.append("square")
+  # 2 pairs parallel, 4 equal sides, 0 right angles = rhombus
+  elif parallel_pairs == 2 and equal_sides == 4 and right_angles == 0:
+      possibilities.append("rhombus")
+  # 2 pairs parallel, 0 equal sides, 4 right angles = rectangle
+  elif parallel_pairs == 2 and equal_sides == 0 and right_angles == 4:
+      possibilities.append("rectangle")
+  # 2 pairs parallel, 0 equal sides, 0 right angles = parallelogram
+  elif parallel_pairs == 2 and equal_sides == 0 and right_angles == 0:
+      possibilities.append("parallelogram")
+  # 2 pairs parallel, 2 equal sides = could be rectangle or parallelogram
+  elif parallel_pairs == 2 and equal_sides == 2 and right_angles == 4:
+      possibilities.append("rectangle")
+  elif parallel_pairs == 2 and equal_sides == 2 and right_angles == 0:
+      possibilities.append("parallelogram")
+  # 1 pair parallel = trapezoid
+  elif parallel_pairs == 1 and right_angles == 0:
+      if equal_sides == 2:
+          possibilities.append("isosceles trapezoid")
+      else:
+          possibilities.append("trapezoid")
+  elif parallel_pairs == 1 and right_angles == 4:
+      possibilities.append("trapezoid")
+
+  # Format answer
+  if len(possibilities) == 1:
+      Answer = possibilities[0]
+  else:
+      Answer = " or ".join(possibilities)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "square"
+  - seed: 67890
+    expected:
+      answer: "parallelogram"
+  - seed: 11111
+    expected:
+      answer: "trapezoid"

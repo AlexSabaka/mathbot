@@ -1,0 +1,44 @@
+metadata:
+  id: k4_easy_symmetry_lines_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [symmetry, lines of symmetry, shapes, reflection]
+
+variables:
+  shape:
+    type: choice
+    choices: [square, rectangle, equilateral triangle, circle, regular hexagon]
+  Answer:
+    type: integer
+
+template: |
+  How many lines of symmetry does a {{shape}} have?
+
+solution: |
+  if shape == "square":
+      Answer = 4
+  elif shape == "rectangle":
+      Answer = 2
+  elif shape == "equilateral triangle":
+      Answer = 3
+  elif shape == "circle":
+      Answer = -1  # infinite, but we'll handle this specially
+  elif shape == "regular hexagon":
+      Answer = 6
+  else:
+      Answer = 0
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4"
+  - seed: 67890
+    expected:
+      answer: "2"

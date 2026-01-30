@@ -1,0 +1,36 @@
+metadata:
+  id: k4_medium_angles_supplementary_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [angles, supplementary, relationships, drawing]
+
+variables:
+  angle:
+    type: integer
+    min: 20
+    max: 160
+  Answer:
+    type: integer
+
+template: |
+  Two angles are supplementary. One angle measures {{angle}} degrees.
+  What is the measure of the other angle?
+  Draw and label both angles.
+
+solution: |
+  Answer = 180 - angle
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "65"
+  - seed: 67890
+    expected:
+      answer: "83"

@@ -1,0 +1,49 @@
+metadata:
+  id: k4_easy_triangles_angles_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [triangles, angles, classification]
+
+variables:
+  angle1:
+    type: integer
+    min: 30
+    max: 60
+  angle2:
+    type: integer
+    min: 30
+    max: 60
+  Answer:
+    type: string
+
+template: |
+  A triangle has angles measuring {{angle1}}°, {{angle2}}°, and a third angle.
+  What type of triangle is it based on its angles? (acute, right, or obtuse)
+
+solution: |
+  # Calculate the third angle
+  angle3 = 180 - angle1 - angle2
+
+  # Classify by angles
+  if angle1 == 90 or angle2 == 90 or angle3 == 90:
+      Answer = "right"
+  elif angle1 > 90 or angle2 > 90 or angle3 > 90:
+      Answer = "obtuse"
+  else:
+      # All angles less than 90
+      Answer = "acute"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "acute"
+  - seed: 67890
+    expected:
+      answer: "obtuse"

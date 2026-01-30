@@ -1,0 +1,51 @@
+metadata:
+  id: k4_easy_triangles_sides_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [triangles, classification, sides]
+
+variables:
+  side1:
+    type: integer
+    min: 3
+    max: 12
+  side2:
+    type: integer
+    min: 3
+    max: 12
+  side3:
+    type: integer
+    min: 3
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  A triangle has sides measuring {{side1}} cm, {{side2}} cm, and {{side3}} cm.
+  What type of triangle is it? (equilateral, isosceles, or scalene)
+
+solution: |
+  # Check if all three sides are equal
+  if side1 == side2 == side3:
+      Answer = "equilateral"
+  # Check if exactly two sides are equal
+  elif side1 == side2 or side1 == side3 or side2 == side3:
+      Answer = "isosceles"
+  # All sides are different
+  else:
+      Answer = "scalene"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "isosceles"
+  - seed: 67890
+    expected:
+      answer: "scalene"

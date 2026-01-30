@@ -1,0 +1,54 @@
+metadata:
+  id: k4_easy_triangles_classify_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [triangles, classification, sides, angles]
+
+variables:
+  side1:
+    type: integer
+    min: 5
+    max: 10
+  side2:
+    type: integer
+    min: 5
+    max: 10
+  side3:
+    type: integer
+    min: 5
+    max: 10
+  angle1:
+    type: integer
+    min: 40
+    max: 70
+  Answer:
+    type: string
+
+template: |
+  A triangle has sides of {{side1}} cm, {{side2}} cm, and {{side3}} cm.
+  One of its angles is {{angle1}} degrees.
+  Classify this triangle by its sides.
+
+solution: |
+  # Classify by sides
+  if side1 == side2 == side3:
+      Answer = "equilateral"
+  elif side1 == side2 or side1 == side3 or side2 == side3:
+      Answer = "isosceles"
+  else:
+      Answer = "scalene"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "scalene"
+  - seed: 67890
+    expected:
+      answer: "scalene"

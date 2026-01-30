@@ -1,0 +1,45 @@
+metadata:
+  id: k4_medium_lines_types_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [lines, parallel, perpendicular, drawing, labeling]
+
+variables:
+  line1_letter:
+    type: string
+    choices: [A, B, C, D, E, F, G, H, I, J, K, L, M]
+  line2_letter:
+    type: string
+    choices: [N, O, P, Q, R, S, T, U, V, W, X, Y, Z]
+  relationship:
+    type: string
+    choices: [parallel, perpendicular]
+  Answer:
+    type: string
+
+template: |
+  Draw two lines that are {{relationship}}.
+  Label them as Line {{line1_letter}} and Line {{line2_letter}}.
+  Mark the relationship with the correct symbol.
+
+solution: |
+  # For drawing tasks, the answer describes what should be drawn
+  if relationship == "parallel":
+      Answer = "Two lines that never meet, marked with arrow symbols (>>)"
+  else:
+      Answer = "Two lines that meet at a 90-degree angle, marked with a right angle symbol (⊥)"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Two lines that meet at a 90-degree angle, marked with a right angle symbol (⊥)"
+  - seed: 67890
+    expected:
+      answer: "Two lines that never meet, marked with arrow symbols (>>)"

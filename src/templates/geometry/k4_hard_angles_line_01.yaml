@@ -1,0 +1,46 @@
+metadata:
+  id: k4_hard_angles_line_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [angles, relationships, straight line, addition]
+
+variables:
+  angle1:
+    type: integer
+    min: 20
+    max: 60
+  angle2:
+    type: integer
+    min: 30
+    max: 70
+  Answer:
+    type: integer
+
+template: |
+  Three angles meet at a point on a straight line.
+  The first angle is {{angle1}} degrees.
+  The second angle is {{angle2}} degrees.
+  What is the third angle?
+
+solution: |
+  # Ensure the problem is valid (sum of first two angles < 180)
+  if angle1 + angle2 >= 180:
+      # This shouldn't happen based on our constraints
+      Answer = 0
+  else:
+      Answer = 180 - angle1 - angle2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "95"
+  - seed: 67890
+    expected:
+      answer: "95"

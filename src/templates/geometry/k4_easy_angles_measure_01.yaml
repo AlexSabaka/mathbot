@@ -1,0 +1,42 @@
+metadata:
+  id: k4_easy_angles_measure_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [angles, measurement, classification, acute, right, obtuse, straight]
+
+variables:
+  angle:
+    type: integer
+    min: 10
+    max: 170
+  Answer:
+    type: string
+
+template: |
+  An angle measures {{angle}} degrees.
+  Is it acute, right, obtuse, or straight?
+
+solution: |
+  if angle < 90:
+      Answer = "acute"
+  elif angle == 90:
+      Answer = "right"
+  elif angle < 180:
+      Answer = "obtuse"
+  else:
+      Answer = "straight"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "obtuse"
+  - seed: 67890
+    expected:
+      answer: "acute"

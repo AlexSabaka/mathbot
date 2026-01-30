@@ -1,0 +1,46 @@
+metadata:
+  id: k4_medium_triangles_angles_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [triangles, angles, obtuse, reasoning]
+
+variables:
+  name:
+    type: person
+  obtuse_angle:
+    type: integer
+    min: 91
+    max: 150
+  Answer:
+    type: string
+
+template: |
+  {{name}} draws a triangle with one angle of {{obtuse_angle}} degrees.
+  Can this triangle have another angle greater than 90 degrees? Explain.
+
+solution: |
+  # In a triangle, the sum of all angles must equal 180 degrees
+  # If one angle is > 90, the other two must sum to < 90
+  # Therefore, neither of the other two angles can be > 90
+  remaining_sum = 180 - obtuse_angle
+
+  if remaining_sum <= 90:
+      Answer = "No, because the other two angles must sum to " + str(remaining_sum) + " degrees, which means each must be less than 90 degrees."
+  else:
+      # Shouldn't happen with obtuse_angle > 90
+      Answer = "No"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "No, because the other two angles must sum to 59 degrees, which means each must be less than 90 degrees."
+  - seed: 67890
+    expected:
+      answer: "No, because the other two angles must sum to 67 degrees, which means each must be less than 90 degrees."

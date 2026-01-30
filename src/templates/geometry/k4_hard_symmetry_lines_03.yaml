@@ -1,0 +1,38 @@
+metadata:
+  id: k4_hard_symmetry_lines_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [symmetry, lines of symmetry, regular polygon, pattern]
+
+variables:
+  num_sides:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  A regular polygon has {{num_sides}} sides.
+  How many lines of symmetry does it have?
+
+  What is the relationship between the number of sides and lines of symmetry?
+
+solution: |
+  # For regular polygons, number of lines of symmetry equals number of sides
+  Answer = num_sides
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5"
+  - seed: 67890
+    expected:
+      answer: "7"

@@ -1,0 +1,50 @@
+metadata:
+  id: k4_hard_triangles_sides_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [triangles, isosceles, perimeter, triangle-inequality]
+
+variables:
+  perimeter:
+    type: integer
+    min: 18
+    max: 36
+  equal_side:
+    type: integer
+    min: 6
+    max: 12
+  Answer:
+    type: integer
+
+template: |
+  An isosceles triangle has a perimeter of {{perimeter}} cm.
+  The two equal sides are each {{equal_side}} cm long.
+  What is the length of the third side?
+
+solution: |
+  # Calculate third side
+  third_side = perimeter - 2 * equal_side
+
+  # Verify triangle inequality
+  # For an isosceles triangle: a + a > b becomes 2a > b
+  # Also need: a + b > a which is always true if b > 0
+  if third_side > 0 and 2 * equal_side > third_side:
+      Answer = third_side
+  else:
+      # Invalid triangle (shouldn't happen with proper constraints)
+      Answer = third_side
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "11"
+  - seed: 67890
+    expected:
+      answer: "8"

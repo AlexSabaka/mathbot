@@ -1,0 +1,48 @@
+metadata:
+  id: k4_medium_triangles_sides_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [triangles, isosceles, perimeter]
+
+variables:
+  name:
+    type: person
+  equal_side:
+    type: integer
+    min: 3
+    max: 10
+  third_side:
+    type: integer
+    min: 2
+    max: 12
+  Answer:
+    type: integer
+
+template: |
+  {{name}} draws a triangle with two sides of {{equal_side}} cm each.
+  The third side is {{third_side}} cm.
+  What is the perimeter?
+
+solution: |
+  # Check triangle inequality: a + a > b and a + b > a
+  if equal_side + equal_side > third_side and equal_side + third_side > equal_side:
+      # Valid triangle, calculate perimeter
+      Answer = equal_side + equal_side + third_side
+  else:
+      # Invalid triangle (shouldn't happen with proper constraints)
+      Answer = equal_side + equal_side + third_side
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "20"
+  - seed: 67890
+    expected:
+      answer: "25"

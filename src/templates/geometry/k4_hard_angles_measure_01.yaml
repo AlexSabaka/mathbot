@@ -1,0 +1,52 @@
+metadata:
+  id: k4_hard_angles_measure_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [angles, measurement, division, pizza, circle]
+
+variables:
+  food:
+    type: string
+    choices: [pizza, pie, circle]
+  n:
+    type: integer
+    min: 3
+    max: 8
+  Answer1:
+    type: integer
+  Answer2:
+    type: string
+
+template: |
+  A {{food}} is cut into {{n}} equal slices.
+  What is the angle at the tip of each slice?
+  What type of angle is this?
+
+solution: |
+  Answer1 = 360 // n
+
+  if Answer1 < 90:
+      Answer2 = "acute"
+  elif Answer1 == 90:
+      Answer2 = "right"
+  elif Answer1 < 180:
+      Answer2 = "obtuse"
+  else:
+      Answer2 = "straight"
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "90"
+      answer2: "right"
+  - seed: 67890
+    expected:
+      answer1: "72"
+      answer2: "acute"

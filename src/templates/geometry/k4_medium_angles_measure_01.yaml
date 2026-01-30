@@ -1,0 +1,57 @@
+metadata:
+  id: k4_medium_angles_measure_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [angles, measurement, comparison, right angle]
+
+variables:
+  name:
+    type: person
+  diff:
+    type: integer
+    min: 5
+    max: 40
+  more_or_less:
+    type: string
+    choices: [more, less]
+  Answer1:
+    type: integer
+  Answer2:
+    type: string
+
+template: |
+  {{name}} draws an angle that is {{diff}} degrees {{more_or_less}} than a right angle.
+  What is the measure of {{name}}'s angle?
+  What type of angle is it?
+
+solution: |
+  if more_or_less == "more":
+      Answer1 = 90 + diff
+  else:
+      Answer1 = 90 - diff
+
+  if Answer1 < 90:
+      Answer2 = "acute"
+  elif Answer1 == 90:
+      Answer2 = "right"
+  elif Answer1 < 180:
+      Answer2 = "obtuse"
+  else:
+      Answer2 = "straight"
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "115"
+      answer2: "obtuse"
+  - seed: 67890
+    expected:
+      answer1: "75"
+      answer2: "acute"

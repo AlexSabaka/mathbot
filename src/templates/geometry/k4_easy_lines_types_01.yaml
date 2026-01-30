@@ -1,0 +1,41 @@
+metadata:
+  id: k4_easy_lines_types_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [lines, parallel, perpendicular, intersecting, types]
+
+variables:
+  line1:
+    type: string
+    choices: [A, B, C, D, E, F, G, H]
+  line2:
+    type: string
+    choices: [L, M, N, P, Q, R, S, T]
+  relationship:
+    type: string
+    choices: [parallel, perpendicular, intersecting]
+  Answer:
+    type: string
+
+template: |
+  Look at line {{line1}} and line {{line2}}.
+  They are {{relationship}} lines.
+  Are these lines parallel, perpendicular, or intersecting?
+
+solution: |
+  Answer = relationship
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "parallel"
+  - seed: 67890
+    expected:
+      answer: "intersecting"

@@ -1,0 +1,39 @@
+metadata:
+  id: k4_hard_triangles_angles_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [triangles, right-triangle, acute-angles]
+
+variables:
+  acute_angle:
+    type: integer
+    min: 15
+    max: 75
+  Answer:
+    type: integer
+
+template: |
+  In a right triangle, one of the acute angles is {{acute_angle}} degrees.
+  What is the measure of the other acute angle?
+
+solution: |
+  # In a right triangle, one angle is 90 degrees
+  # The sum of all angles is 180 degrees
+  # So the two acute angles sum to 90 degrees
+  other_acute_angle = 90 - acute_angle
+  Answer = other_acute_angle
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "51"
+  - seed: 67890
+    expected:
+      answer: "58"

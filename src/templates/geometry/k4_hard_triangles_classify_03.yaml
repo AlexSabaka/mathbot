@@ -1,0 +1,77 @@
+metadata:
+  id: k4_hard_triangles_classify_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.triangles
+  family: triangles
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [triangles, classification, sides, angles, complex]
+
+variables:
+  name:
+    type: person
+  side1:
+    type: integer
+    min: 5
+    max: 12
+  side2:
+    type: integer
+    min: 5
+    max: 12
+  side3:
+    type: integer
+    min: 5
+    max: 12
+  angle1:
+    type: integer
+    min: 30
+    max: 70
+  angle2:
+    type: integer
+    min: 30
+    max: 70
+  Answer:
+    type: string
+
+template: |
+  {{name}} draws a triangle with these properties:
+  - The three sides measure {{side1}} cm, {{side2}} cm, and {{side3}} cm
+  - Two of the angles measure {{angle1}}° and {{angle2}}°
+
+  Classify this triangle by:
+  a) Its sides
+  b) Its angles
+
+solution: |
+  # Classify by sides
+  if side1 == side2 == side3:
+      sides_type = "equilateral"
+  elif side1 == side2 or side1 == side3 or side2 == side3:
+      sides_type = "isosceles"
+  else:
+      sides_type = "scalene"
+
+  # Calculate the third angle
+  angle3 = 180 - angle1 - angle2
+
+  # Classify by angles
+  if angle1 == 90 or angle2 == 90 or angle3 == 90:
+      angles_type = "right"
+  elif angle1 > 90 or angle2 > 90 or angle3 > 90:
+      angles_type = "obtuse"
+  else:
+      angles_type = "acute"
+
+  Answer = "Sides: " + sides_type + ", Angles: " + angles_type
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Sides: scalene, Angles: acute"
+  - seed: 67890
+    expected:
+      answer: "Sides: isosceles, Angles: obtuse"

@@ -1,0 +1,35 @@
+metadata:
+  id: k4_easy_angles_complementary_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.angles
+  family: angles
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [angles, complementary, relationships]
+
+variables:
+  angle:
+    type: integer
+    min: 10
+    max: 80
+  Answer:
+    type: integer
+
+template: |
+  Two angles are complementary. One angle measures {{angle}} degrees.
+  What is the measure of the other angle?
+
+solution: |
+  Answer = 90 - angle
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "25"
+  - seed: 67890
+    expected:
+      answer: "53"

@@ -1,0 +1,49 @@
+metadata:
+  id: k4_medium_symmetry_lines_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: geometry.symmetry
+  family: symmetry
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [symmetry, lines of symmetry, problem solving]
+
+variables:
+  name:
+    type: person
+  num_lines:
+    type: integer
+    min: 1
+    max: 4
+  Answer:
+    type: string
+
+template: |
+  {{name}} folds a piece of paper and cuts out a shape.
+  When unfolded, the shape has {{num_lines}} line(s) of symmetry.
+
+  Draw a shape that matches this description.
+
+solution: |
+  # Multiple valid answers exist for each case
+  if num_lines == 1:
+      Answer = "kite, isosceles triangle, or heart shape"
+  elif num_lines == 2:
+      Answer = "rectangle or rhombus"
+  elif num_lines == 3:
+      Answer = "equilateral triangle"
+  elif num_lines == 4:
+      Answer = "square"
+  else:
+      Answer = "regular polygon"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "rectangle or rhombus"
+  - seed: 67890
+    expected:
+      answer: "equilateral triangle"

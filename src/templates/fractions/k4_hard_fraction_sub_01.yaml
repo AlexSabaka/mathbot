@@ -1,0 +1,92 @@
+metadata:
+  id: k4_hard_fraction_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: hard
+  steps: 5
+  culture: en-US
+  tags: [fractions, subtraction, mixed-numbers, tank]
+
+variables:
+  name:
+    type: person
+  whole_part:
+    type: integer
+    min: 1
+    max: 2
+  numerator1:
+    type: integer
+    min: 1
+    max: 3
+  denominator1:
+    type: integer
+    min: 4
+    max: 8
+  numerator2:
+    type: integer
+    min: 1
+    max: 4
+  denominator2:
+    type: integer
+    min: 3
+    max: 6
+  Answer:
+    type: fraction
+
+template: |
+  A tank was {{whole_part}} {{numerator1}}/{{denominator1}} full of water.
+  After using {{numerator2}}/{{denominator2}} of the tank, how much water remains?
+  Express your answer as a mixed number in simplest form.
+
+solution: |
+  from math import gcd
+
+  # Find LCM for LCD
+  def lcm(a, b):
+      return abs(a * b) // gcd(a, b)
+
+  # Convert mixed number to improper fraction
+  improper_numerator1 = whole_part * denominator1 + numerator1
+
+  # Find LCD
+  lcd = lcm(denominator1, denominator2)
+
+  # Convert both fractions to common denominator
+  new_numerator1 = improper_numerator1 * (lcd // denominator1)
+  new_numerator2 = numerator2 * (lcd // denominator2)
+
+  # Subtract
+  result_numerator = new_numerator1 - new_numerator2
+
+  # Simplify
+  common_divisor = gcd(result_numerator, lcd)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = lcd // common_divisor
+
+  # Convert to mixed number if improper
+  if final_numerator >= final_denominator:
+      whole = final_numerator // final_denominator
+      remainder = final_numerator % final_denominator
+      if remainder == 0:
+          # Just a whole number, represent as improper fraction
+          Answer = (final_numerator, final_denominator)
+      else:
+          # Mixed number - system should handle this
+          Answer = (final_numerator, final_denominator)
+  else:
+      Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1 1/4"
+  - seed: 67890
+    expected:
+      answer: "1 7/12"
+  - seed: 11111
+    expected:
+      answer: "1 1/2"

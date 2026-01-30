@@ -1,0 +1,60 @@
+metadata:
+  id: k4_easy_fraction_div_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [fractions, division, whole-number]
+
+variables:
+  name:
+    type: person
+  numerator:
+    type: integer
+    min: 2
+    max: 6
+  denominator:
+    type: integer
+    min: 7
+    max: 12
+  divisor:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} has {{numerator}}/{{denominator}} of a [pizza|cake|pie] to share equally among {{divisor}} people.
+  What fraction does each person get?
+
+solution: |
+  from math import gcd
+
+  # Divide fraction by whole number: multiply denominator by the whole number
+  # Or equivalently: multiply by 1/divisor
+  result_numerator = numerator
+  result_denominator = denominator * divisor
+
+  # Simplify
+  common_divisor = gcd(result_numerator, result_denominator)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = result_denominator // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1/6"
+  - seed: 67890
+    expected:
+      answer: "1/6"
+  - seed: 11111
+    expected:
+      answer: "1/9"

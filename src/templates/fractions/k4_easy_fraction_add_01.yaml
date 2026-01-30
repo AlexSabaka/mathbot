@@ -1,0 +1,59 @@
+metadata:
+  id: k4_easy_fraction_add_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [fractions, addition, same-denominator]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: grocery
+  denominator:
+    type: integer
+    min: 6
+    max: 12
+  numerator1:
+    type: integer
+    min: 1
+    max: 5
+  numerator2:
+    type: integer
+    min: 1
+    max: 5
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} bought {{item}}. [He|She] used {{numerator1}}/{{denominator}} for breakfast and {{numerator2}}/{{denominator}} for lunch.
+  What fraction did {{name}} use in total?
+
+solution: |
+  # Same denominator addition: add numerators, keep denominator
+  total_numerator = numerator1 + numerator2
+
+  # Check if we need to simplify or convert to mixed number
+  if total_numerator >= denominator:
+      # Keep as improper fraction, system will handle simplification
+      Answer = (total_numerator, denominator)
+  else:
+      Answer = (total_numerator, denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/8"
+  - seed: 67890
+    expected:
+      answer: "7/10"
+  - seed: 11111
+    expected:
+      answer: "3/6"

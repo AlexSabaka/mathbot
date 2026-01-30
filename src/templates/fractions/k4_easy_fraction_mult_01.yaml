@@ -1,0 +1,58 @@
+metadata:
+  id: k4_easy_fraction_mult_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [fractions, multiplication, whole-number]
+
+variables:
+  name:
+    type: person
+  numerator:
+    type: integer
+    min: 1
+    max: 4
+  denominator:
+    type: integer
+    min: 5
+    max: 10
+  whole_number:
+    type: integer
+    min: 2
+    max: 6
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} has {{numerator}}/{{denominator}} of a [chocolate bar|cake|pie].
+  If [he|she] gets {{whole_number}} identical [chocolate bars|cakes|pies], how much will [he|she] have in total?
+
+solution: |
+  from math import gcd
+
+  # Multiply fraction by whole number: multiply numerator by whole number
+  result_numerator = numerator * whole_number
+
+  # Simplify
+  common_divisor = gcd(result_numerator, denominator)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = denominator // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/2"
+  - seed: 67890
+    expected:
+      answer: "2/5"
+  - seed: 11111
+    expected:
+      answer: "8/5"

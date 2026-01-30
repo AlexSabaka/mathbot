@@ -1,0 +1,66 @@
+metadata:
+  id: k4_easy_fraction_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [fractions, subtraction, same-denominator]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: grocery
+  denominator:
+    type: integer
+    min: 9
+    max: 12
+  numerator1:
+    type: integer
+    min: 4
+    max: 8
+  numerator2:
+    type: integer
+    min: 1
+    max: 3
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} had {{numerator1}}/{{denominator}} of a [cake|pie|watermelon].
+  [He|She] gave {{numerator2}}/{{denominator}} to a friend.
+  What fraction does {{name}} have left?
+
+solution: |
+  from math import gcd
+
+  # Same denominator subtraction: subtract numerators, keep denominator
+  # Ensure numerator1 > numerator2
+  if numerator1 <= numerator2:
+      numerator1 = numerator2 + 2
+
+  result_numerator = numerator1 - numerator2
+
+  # Simplify
+  common_divisor = gcd(result_numerator, denominator)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = denominator // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1/2"
+  - seed: 67890
+    expected:
+      answer: "5/12"
+  - seed: 11111
+    expected:
+      answer: "2/3"

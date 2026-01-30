@@ -1,0 +1,73 @@
+metadata:
+  id: k4_medium_fraction_add_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [fractions, addition, different-denominators, pizza]
+
+variables:
+  name:
+    type: person
+  numerator1:
+    type: integer
+    min: 1
+    max: 3
+  denominator1:
+    type: integer
+    min: 4
+    max: 8
+  numerator2:
+    type: integer
+    min: 1
+    max: 3
+  denominator2:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} ate {{numerator1}}/{{denominator1}} of a pizza for lunch and {{numerator2}}/{{denominator2}} for dinner.
+  How much pizza did {{name}} eat in total?
+
+solution: |
+  from math import gcd
+
+  # Find LCD (Least Common Denominator)
+  # For simplicity, use LCM formula: (a * b) / GCD(a, b)
+  def lcm(a, b):
+      return abs(a * b) // gcd(a, b)
+
+  lcd = lcm(denominator1, denominator2)
+
+  # Convert fractions to common denominator
+  new_numerator1 = numerator1 * (lcd // denominator1)
+  new_numerator2 = numerator2 * (lcd // denominator2)
+
+  # Add numerators
+  total_numerator = new_numerator1 + new_numerator2
+
+  # Simplify by finding GCD
+  common_divisor = gcd(total_numerator, lcd)
+  final_numerator = total_numerator // common_divisor
+  final_denominator = lcd // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7/8"
+  - seed: 67890
+    expected:
+      answer: "5/6"
+  - seed: 11111
+    expected:
+      answer: "11/12"

@@ -1,0 +1,66 @@
+metadata:
+  id: k4_hard_fraction_div_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [fractions, division, algebra, inverse-operations]
+
+variables:
+  name:
+    type: person
+  numerator1:
+    type: integer
+    min: 2
+    max: 5
+  denominator1:
+    type: integer
+    min: 6
+    max: 10
+  numerator2:
+    type: integer
+    min: 1
+    max: 4
+  denominator2:
+    type: integer
+    min: 5
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  If {{numerator1}}/{{denominator1}} of a number equals {{numerator2}}/{{denominator2}}, what is the number?
+  Show your work using fraction division.
+
+solution: |
+  from math import gcd
+
+  # If (numerator1/denominator1) × n = (numerator2/denominator2)
+  # Then n = (numerator2/denominator2) ÷ (numerator1/denominator1)
+  # Which is: (numerator2/denominator2) × (denominator1/numerator1)
+
+  result_numerator = numerator2 * denominator1
+  result_denominator = denominator2 * numerator1
+
+  # Simplify
+  common_divisor = gcd(result_numerator, result_denominator)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = result_denominator // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/6"
+  - seed: 67890
+    expected:
+      answer: "7/10"
+  - seed: 11111
+    expected:
+      answer: "7/9"

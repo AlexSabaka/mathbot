@@ -1,0 +1,71 @@
+metadata:
+  id: k4_hard_fraction_mult_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [fractions, multiplication, mixed-numbers, recipe]
+
+variables:
+  name:
+    type: person
+  whole_part:
+    type: integer
+    min: 1
+    max: 2
+  numerator1:
+    type: integer
+    min: 1
+    max: 3
+  denominator1:
+    type: integer
+    min: 4
+    max: 8
+  numerator2:
+    type: integer
+    min: 1
+    max: 2
+  denominator2:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: fraction
+
+template: |
+  A recipe calls for {{whole_part}} {{numerator1}}/{{denominator1}} cups of flour.
+  {{name}} wants to make {{numerator2}}/{{denominator2}} of the recipe.
+  How much flour does {{name}} need?
+
+solution: |
+  from math import gcd
+
+  # Convert mixed number to improper fraction
+  improper_numerator = whole_part * denominator1 + numerator1
+
+  # Multiply the fractions
+  result_numerator = improper_numerator * numerator2
+  result_denominator = denominator1 * denominator2
+
+  # Simplify
+  common_divisor = gcd(result_numerator, result_denominator)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = result_denominator // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/4"
+  - seed: 67890
+    expected:
+      answer: "1 1/6"
+  - seed: 11111
+    expected:
+      answer: "5/8"

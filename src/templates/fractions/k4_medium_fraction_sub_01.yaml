@@ -1,0 +1,81 @@
+metadata:
+  id: k4_medium_fraction_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [fractions, subtraction, different-denominators, ribbon]
+
+variables:
+  name:
+    type: person
+  numerator1:
+    type: integer
+    min: 3
+    max: 7
+  denominator1:
+    type: integer
+    min: 8
+    max: 12
+  numerator2:
+    type: integer
+    min: 1
+    max: 3
+  denominator2:
+    type: integer
+    min: 2
+    max: 5
+  unit:
+    type: item
+    category: other
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} had {{numerator1}}/{{denominator1}} of a [ribbon|rope|string].
+  [He|She] used {{numerator2}}/{{denominator2}} for a project.
+  How much [ribbon|rope|string] is left?
+
+solution: |
+  from math import gcd
+
+  # Find LCM for LCD
+  def lcm(a, b):
+      return abs(a * b) // gcd(a, b)
+
+  lcd = lcm(denominator1, denominator2)
+
+  # Convert fractions to common denominator
+  new_numerator1 = numerator1 * (lcd // denominator1)
+  new_numerator2 = numerator2 * (lcd // denominator2)
+
+  # Ensure we can subtract (first fraction is larger)
+  if new_numerator1 <= new_numerator2:
+      # Swap them
+      new_numerator1, new_numerator2 = new_numerator2 + lcd // 4, new_numerator1
+
+  # Subtract numerators
+  result_numerator = new_numerator1 - new_numerator2
+
+  # Simplify
+  common_divisor = gcd(result_numerator, lcd)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = lcd // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1/8"
+  - seed: 67890
+    expected:
+      answer: "1/10"
+  - seed: 11111
+    expected:
+      answer: "1/4"

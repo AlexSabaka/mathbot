@@ -1,0 +1,90 @@
+metadata:
+  id: k4_hard_fraction_add_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: hard
+  steps: 5
+  culture: en-US
+  tags: [fractions, addition, different-denominators, three-fractions]
+
+variables:
+  name:
+    type: person
+  numerator1:
+    type: integer
+    min: 2
+    max: 5
+  denominator1:
+    type: integer
+    min: 6
+    max: 12
+  numerator2:
+    type: integer
+    min: 1
+    max: 4
+  denominator2:
+    type: integer
+    min: 4
+    max: 10
+  numerator3:
+    type: integer
+    min: 1
+    max: 3
+  denominator3:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} is working on a project using different materials.
+  - [He|She] uses {{numerator1}}/{{denominator1}} of a box of supplies on Monday
+  - [He|She] uses {{numerator2}}/{{denominator2}} of the box on Tuesday
+  - [He|She] uses {{numerator3}}/{{denominator3}} of the box on Wednesday
+
+  What fraction of the box did {{name}} use in total?
+
+solution: |
+  from math import gcd
+
+  # Find LCM of two numbers
+  def lcm(a, b):
+      return abs(a * b) // gcd(a, b)
+
+  # Find LCM of three numbers
+  def lcm3(a, b, c):
+      return lcm(lcm(a, b), c)
+
+  # Find LCD of all three denominators
+  lcd = lcm3(denominator1, denominator2, denominator3)
+
+  # Convert all fractions to common denominator
+  new_numerator1 = numerator1 * (lcd // denominator1)
+  new_numerator2 = numerator2 * (lcd // denominator2)
+  new_numerator3 = numerator3 * (lcd // denominator3)
+
+  # Add all numerators
+  total_numerator = new_numerator1 + new_numerator2 + new_numerator3
+
+  # Simplify
+  common_divisor = gcd(total_numerator, lcd)
+  final_numerator = total_numerator // common_divisor
+  final_denominator = lcd // common_divisor
+
+  Answer = (final_numerator, final_denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "23/24"
+  - seed: 67890
+    expected:
+      answer: "29/30"
+  - seed: 11111
+    expected:
+      answer: "5/6"

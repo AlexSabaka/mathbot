@@ -1,0 +1,76 @@
+metadata:
+  id: k4_medium_fraction_div_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: fractions.operations
+  family: fraction_operations
+  difficulty: medium
+  steps: 3
+  culture: en-US
+  tags: [fractions, division, ribbon, measurement]
+
+variables:
+  name:
+    type: person
+  numerator:
+    type: integer
+    min: 3
+    max: 7
+  denominator:
+    type: integer
+    min: 8
+    max: 12
+  piece_numerator:
+    type: integer
+    min: 1
+    max: 2
+  piece_denominator:
+    type: integer
+    min: 4
+    max: 8
+  unit:
+    type: item
+    category: other
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{numerator}}/{{denominator}} [meters|yards|feet] of ribbon.
+  [He|She] cuts it into pieces that are each {{piece_numerator}}/{{piece_denominator}} [meters|yards|feet] long.
+  How many pieces can {{name}} make?
+
+solution: |
+  from math import gcd
+
+  # Division of fractions: multiply by reciprocal
+  # (numerator/denominator) ÷ (piece_numerator/piece_denominator)
+  # = (numerator/denominator) × (piece_denominator/piece_numerator)
+
+  result_numerator = numerator * piece_denominator
+  result_denominator = denominator * piece_numerator
+
+  # Simplify
+  common_divisor = gcd(result_numerator, result_denominator)
+  final_numerator = result_numerator // common_divisor
+  final_denominator = result_denominator // common_divisor
+
+  # Since we're counting pieces, convert to whole number
+  # (if it's a proper division, it should be a whole number or we take the floor)
+  if final_denominator == 1:
+      Answer = final_numerator
+  else:
+      # Return as integer (number of complete pieces)
+      Answer = final_numerator // final_denominator
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3"
+  - seed: 67890
+    expected:
+      answer: "4"
+  - seed: 11111
+    expected:
+      answer: "2"

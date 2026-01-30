@@ -1,0 +1,36 @@
+metadata:
+  id: k1_easy_time_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: time
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [time, clock, reading-time, o-clock]
+
+variables:
+  hour:
+    type: integer
+    min: 1
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  The clock shows {{hour}} o'clock.
+  
+  What time is it?
+
+solution: |
+  Answer = str(hour) + ' o\'clock'
+
+tests:
+  - seed: 42
+    expected:
+      answer: "7 o'clock"
+  - seed: 100
+    expected:
+      answer: "9 o'clock"

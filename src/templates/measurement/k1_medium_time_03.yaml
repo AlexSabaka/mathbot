@@ -1,0 +1,41 @@
+metadata:
+  id: k1_medium_time_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: time
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [time, days, yesterday-tomorrow]
+
+variables:
+  day:
+    type: weekday
+  direction:
+    type: string
+    choices: [yesterday, tomorrow]
+  Answer:
+    type: string
+
+template: |
+  Today is {{day}}. What day was it {{direction}}?
+
+solution: |
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  current_index = days.index(day)
+  if direction == 'yesterday':
+      new_index = (current_index - 1) % 7
+  else:  # tomorrow
+      new_index = (current_index + 1) % 7
+  Answer = days[new_index]
+
+tests:
+  - seed: 42
+    expected:
+      answer: "Thursday"
+  - seed: 100
+    expected:
+      answer: "Tuesday"

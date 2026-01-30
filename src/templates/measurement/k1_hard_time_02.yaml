@@ -1,0 +1,48 @@
+metadata:
+  id: k1_hard_time_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: time
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [time, days, recurring-events, counting-days]
+
+variables:
+  name:
+    type: person
+  activity:
+    type: string
+    choices: [swimming class, piano lesson, art class, soccer practice, dance class]
+  event_day:
+    type: weekday
+  current_day:
+    type: weekday
+  Answer:
+    type: integer
+
+template: |
+  {{name}} goes to {{activity}} every {{event_day}}. If today is {{current_day}}, how many more days until {{name}} goes to {{activity}} again?
+
+solution: |
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  current_index = days.index(current_day)
+  event_index = days.index(event_day)
+  
+  if event_index > current_index:
+      days_until = event_index - current_index
+  else:
+      days_until = 7 - current_index + event_index
+  
+  Answer = days_until
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4"
+  - seed: 100
+    expected:
+      answer: "5"

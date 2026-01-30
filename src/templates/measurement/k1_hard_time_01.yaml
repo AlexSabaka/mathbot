@@ -1,0 +1,46 @@
+metadata:
+  id: k1_hard_time_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: time
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [time, clock, duration, end-time]
+
+variables:
+  name:
+    type: person
+  activity:
+    type: string
+    choices: [class, game, movie, party, lesson]
+  start_time:
+    type: integer
+    min: 1
+    max: 8
+  duration:
+    type: integer
+    min: 1
+    max: 3
+  Answer:
+    type: string
+
+template: |
+  {{name}}'s {{activity}} starts at {{start_time}} o'clock and lasts for {{duration}} hour{{'' if duration == 1 else 's'}}.
+  
+  What time does the {{activity}} end?
+
+solution: |
+  end_time = start_time + duration
+  Answer = str(end_time) + ' o\'clock'
+
+tests:
+  - seed: 42
+    expected:
+      answer: "9 o'clock"
+  - seed: 100
+    expected:
+      answer: "10 o'clock"

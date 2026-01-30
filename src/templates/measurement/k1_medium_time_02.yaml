@@ -1,0 +1,39 @@
+metadata:
+  id: k1_medium_time_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: time
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [time, days, forward-counting]
+
+variables:
+  day:
+    type: weekday
+  num_days:
+    type: integer
+    min: 1
+    max: 6
+  Answer:
+    type: string
+
+template: |
+  Today is {{day}}. What day will it be {{num_days}} day{{'' if num_days == 1 else 's'}} from now?
+
+solution: |
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  current_index = days.index(day)
+  new_index = (current_index + num_days) % 7
+  Answer = days[new_index]
+
+tests:
+  - seed: 42
+    expected:
+      answer: "Monday"
+  - seed: 100
+    expected:
+      answer: "Wednesday"

@@ -1,0 +1,45 @@
+metadata:
+  id: k1_hard_time_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: time
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [time, clock, elapsed-time, duration]
+
+variables:
+  name:
+    type: person
+  activity:
+    type: string
+    choices: [playing, reading, drawing, building, eating]
+  start_hour:
+    type: integer
+    min: 1
+    max: 8
+  end_hour:
+    type: integer
+    min: 3
+    max: 11
+  Answer:
+    type: integer
+
+template: |
+  {{name}} started {{activity}} at {{start_hour}} o'clock and finished at {{end_hour}} o'clock.
+  
+  How many hours did {{name}} spend {{activity}}?
+
+solution: |
+  Answer = end_hour - start_hour
+
+tests:
+  - seed: 42
+    expected:
+      answer: "3"
+  - seed: 100
+    expected:
+      answer: "2"

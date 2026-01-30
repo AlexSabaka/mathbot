@@ -1,0 +1,30 @@
+metadata:
+  id: k1_easy_time_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: measurement
+  family: time
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [time, days, week, counting]
+
+variables:
+  Answer:
+    type: integer
+
+template: |
+  How many days are in one week?
+
+solution: |
+  Answer = 7
+
+tests:
+  - seed: 42
+    expected:
+      answer: "7"
+  - seed: 100
+    expected:
+      answer: "7"

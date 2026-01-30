@@ -1,0 +1,44 @@
+metadata:
+  id: k3_medium_fractions_numberline_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.numberline
+  family: fractions_numberline
+  difficulty: medium
+  steps: 1
+  culture: en-US
+  tags: [fractions, numberline, jumps]
+
+variables:
+  denominator:
+    type: integer
+    min: 3
+    max: 8
+  numerator:
+    type: integer
+    min: 1
+    max: 7
+  Answer:
+    type: integer
+
+template: |
+  A number line is divided into {{denominator}} equal parts between 0 and 1.
+  Point A is at {{numerator}}/{{denominator}}. How many jumps from 0 is Point A?
+
+solution: |
+  # Ensure numerator < denominator
+  if numerator >= denominator:
+      numerator = denominator - 1
+
+  # Number of jumps equals the numerator
+  Answer = numerator
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4"
+  - seed: 67890
+    expected:
+      answer: "2"

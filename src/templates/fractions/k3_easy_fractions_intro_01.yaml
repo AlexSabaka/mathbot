@@ -1,0 +1,47 @@
+metadata:
+  id: k3_easy_fractions_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.introduction
+  family: fractions_intro
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [fractions, basic, pizza]
+
+variables:
+  name:
+    type: person
+  denominator:
+    type: integer
+    min: 2
+    max: 8
+  numerator:
+    type: integer
+    min: 1
+    max: 7
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} cuts a pizza into {{denominator}} equal slices and eats {{numerator}} slices.
+  What fraction of the pizza did {{name}} eat?
+
+solution: |
+  # The answer is a fraction: numerator/denominator
+  # Ensure numerator < denominator for proper fraction
+  if numerator >= denominator:
+      # Adjust to make it proper
+      numerator = denominator - 1
+
+  Answer = (numerator, denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/8"
+  - seed: 67890
+    expected:
+      answer: "2/5"

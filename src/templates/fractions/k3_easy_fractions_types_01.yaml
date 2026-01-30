@@ -1,0 +1,43 @@
+metadata:
+  id: k3_easy_fractions_types_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.types
+  family: fractions_types
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [fractions, proper, improper, identification]
+
+variables:
+  numerator:
+    type: integer
+    min: 1
+    max: 15
+  denominator:
+    type: integer
+    min: 2
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  Identify if the fraction {{numerator}}/{{denominator}} is a proper fraction or improper fraction.
+
+solution: |
+  # Proper fraction: numerator < denominator
+  # Improper fraction: numerator >= denominator
+  if numerator < denominator:
+      Answer = "Proper fraction"
+  else:
+      Answer = "Improper fraction"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Proper fraction"
+  - seed: 67890
+    expected:
+      answer: "Improper fraction"

@@ -1,0 +1,58 @@
+metadata:
+  id: k3_medium_fractions_types_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.types
+  family: fractions_types
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [fractions, mixed-number, improper, conversion]
+
+variables:
+  name:
+    type: person
+  whole:
+    type: integer
+    min: 1
+    max: 5
+  numerator:
+    type: integer
+    min: 1
+    max: 7
+  denominator:
+    type: integer
+    min: 2
+    max: 8
+  Answer1:
+    type: string
+  Answer2:
+    type: fraction
+
+template: |
+  {{name}} ate {{whole}} whole pizzas and {{numerator}}/{{denominator}} of another pizza.
+  Write this as a mixed number and as an improper fraction.
+
+solution: |
+  # Ensure numerator < denominator for proper mixed number
+  if numerator >= denominator:
+      numerator = denominator - 1
+
+  # Mixed number representation
+  Answer1 = f"{whole} {numerator}/{denominator}"
+
+  # Convert to improper fraction
+  improper_numerator = whole * denominator + numerator
+  Answer2 = (improper_numerator, denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "2 3/4"
+      answer2: "11/4"
+  - seed: 67890
+    expected:
+      answer1: "3 2/5"
+      answer2: "17/5"

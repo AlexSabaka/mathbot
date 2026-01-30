@@ -1,0 +1,67 @@
+metadata:
+  id: k3_hard_fractions_compare_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.comparison
+  family: fractions_compare
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [fractions, comparison, different-denominators]
+
+variables:
+  numerator1:
+    type: integer
+    min: 1
+    max: 3
+  denominator1:
+    type: integer
+    min: 3
+    max: 4
+  numerator2:
+    type: integer
+    min: 2
+    max: 3
+  denominator2:
+    type: integer
+    min: 4
+    max: 4
+  Answer:
+    type: string
+
+template: |
+  Compare: {{numerator1}}/{{denominator1}} and {{numerator2}}/{{denominator2}}.
+  Which fraction is greater? Explain your reasoning.
+
+solution: |
+  # Ensure proper fractions
+  if numerator1 >= denominator1:
+      numerator1 = denominator1 - 1
+  if numerator2 >= denominator2:
+      numerator2 = denominator2 - 1
+
+  # Convert to common denominator for comparison
+  # Find LCD (for simple cases, just multiply denominators)
+  lcd = denominator1 * denominator2
+
+  # Convert both fractions
+  value1 = (numerator1 * denominator2) / (denominator1 * denominator2)
+  value2 = (numerator2 * denominator1) / (denominator2 * denominator1)
+
+  # Compare
+  if value1 > value2:
+      Answer = f"{numerator1}/{denominator1} > {numerator2}/{denominator2}"
+  elif value1 < value2:
+      Answer = f"{numerator1}/{denominator1} < {numerator2}/{denominator2}"
+  else:
+      Answer = f"{numerator1}/{denominator1} = {numerator2}/{denominator2}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2/3 < 3/4"
+  - seed: 67890
+    expected:
+      answer: "2/3 > 2/4"

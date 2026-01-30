@@ -1,0 +1,54 @@
+metadata:
+  id: k3_medium_fractions_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.introduction
+  family: fractions_intro
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [fractions, chocolate, subtraction]
+
+variables:
+  name:
+    type: person
+  denominator:
+    type: integer
+    min: 4
+    max: 10
+  numerator:
+    type: integer
+    min: 1
+    max: 9
+  Answer1:
+    type: fraction
+  Answer2:
+    type: fraction
+
+template: |
+  A chocolate bar is divided into {{denominator}} equal pieces. {{name}} gives away {{numerator}} pieces.
+  What fraction of the chocolate bar did {{name}} give away? What fraction is left?
+
+solution: |
+  # Ensure numerator < denominator
+  if numerator >= denominator:
+      numerator = denominator - 1
+
+  # Gave away fraction
+  Answer1 = (numerator, denominator)
+
+  # Remaining fraction
+  remaining_numerator = denominator - numerator
+  Answer2 = (remaining_numerator, denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "4/6"
+      answer2: "2/6"
+  - seed: 67890
+    expected:
+      answer1: "3/5"
+      answer2: "2/5"

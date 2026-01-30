@@ -1,0 +1,58 @@
+metadata:
+  id: k3_easy_fractions_compare_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.comparison
+  family: fractions_compare
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [fractions, comparison, same-denominator]
+
+variables:
+  denominator:
+    type: integer
+    min: 3
+    max: 10
+  numerator1:
+    type: integer
+    min: 1
+    max: 9
+  numerator2:
+    type: integer
+    min: 1
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Compare the fractions using >, <, or =: {{numerator1}}/{{denominator}} and {{numerator2}}/{{denominator}}
+
+solution: |
+  # Ensure both numerators are less than denominator and different
+  if numerator1 >= denominator:
+      numerator1 = denominator - 1
+  if numerator2 >= denominator:
+      numerator2 = denominator - 1
+
+  # Make sure they're different
+  if numerator1 == numerator2:
+      numerator2 = numerator1 + 1 if numerator1 < denominator - 1 else numerator1 - 1
+
+  # Compare numerators since denominators are the same
+  if numerator1 > numerator2:
+      Answer = f"{numerator1}/{denominator} > {numerator2}/{denominator}"
+  elif numerator1 < numerator2:
+      Answer = f"{numerator1}/{denominator} < {numerator2}/{denominator}"
+  else:
+      Answer = f"{numerator1}/{denominator} = {numerator2}/{denominator}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/8 < 5/8"
+  - seed: 67890
+    expected:
+      answer: "4/5 > 2/5"

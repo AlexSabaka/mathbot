@@ -1,0 +1,54 @@
+metadata:
+  id: k3_hard_fractions_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.introduction
+  family: fractions_intro
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [fractions, ribbon, measurement]
+
+variables:
+  name:
+    type: person
+  denominator:
+    type: integer
+    min: 6
+    max: 12
+  numerator:
+    type: integer
+    min: 1
+    max: 11
+  Answer1:
+    type: fraction
+  Answer2:
+    type: fraction
+
+template: |
+  {{name}} has a ribbon that is {{denominator}} inches long. {{name}} uses {{numerator}} inches for a project.
+  Express the used portion as a fraction. Express the remaining portion as a fraction.
+
+solution: |
+  # Ensure numerator < denominator
+  if numerator >= denominator:
+      numerator = denominator - 1
+
+  # Used portion
+  Answer1 = (numerator, denominator)
+
+  # Remaining portion
+  remaining_numerator = denominator - numerator
+  Answer2 = (remaining_numerator, denominator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "7/10"
+      answer2: "3/10"
+  - seed: 67890
+    expected:
+      answer1: "4/7"
+      answer2: "3/7"

@@ -1,0 +1,60 @@
+metadata:
+  id: k3_easy_fractions_order_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.ordering
+  family: fractions_order
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [fractions, ordering, same-denominator]
+
+variables:
+  denominator:
+    type: integer
+    min: 4
+    max: 10
+  numerator1:
+    type: integer
+    min: 1
+    max: 9
+  numerator2:
+    type: integer
+    min: 1
+    max: 9
+  numerator3:
+    type: integer
+    min: 1
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Put these fractions in order from least to greatest:
+  {{numerator1}}/{{denominator}}, {{numerator2}}/{{denominator}}, {{numerator3}}/{{denominator}}
+
+solution: |
+  # Ensure all numerators are less than denominator
+  if numerator1 >= denominator:
+      numerator1 = denominator - 1
+  if numerator2 >= denominator:
+      numerator2 = denominator - 1
+  if numerator3 >= denominator:
+      numerator3 = denominator - 1
+
+  # Create list and sort
+  fractions = [numerator1, numerator2, numerator3]
+  fractions.sort()
+
+  # Format answer
+  Answer = f"{fractions[0]}/{denominator}, {fractions[1]}/{denominator}, {fractions[2]}/{denominator}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2/8, 3/8, 5/8"
+  - seed: 67890
+    expected:
+      answer: "2/5, 3/5, 4/5"

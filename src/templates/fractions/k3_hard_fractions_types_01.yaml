@@ -1,0 +1,50 @@
+metadata:
+  id: k3_hard_fractions_types_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.types
+  family: fractions_types
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [fractions, improper, mixed-number, conversion]
+
+variables:
+  numerator:
+    type: integer
+    min: 7
+    max: 30
+  denominator:
+    type: integer
+    min: 2
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  Convert the improper fraction {{numerator}}/{{denominator}} to a mixed number.
+
+solution: |
+  # Ensure it's actually improper
+  if numerator < denominator:
+      numerator = denominator + 3
+
+  # Calculate whole part and remainder
+  whole = numerator // denominator
+  remainder = numerator % denominator
+
+  # Format as mixed number
+  if remainder == 0:
+      Answer = str(whole)
+  else:
+      Answer = f"{whole} {remainder}/{denominator}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3 2/5"
+  - seed: 67890
+    expected:
+      answer: "5 1/3"

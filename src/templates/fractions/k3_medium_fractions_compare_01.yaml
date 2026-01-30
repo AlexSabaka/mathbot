@@ -1,0 +1,63 @@
+metadata:
+  id: k3_medium_fractions_compare_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 3
+  topic: fractions.comparison
+  family: fractions_compare
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [fractions, comparison, context, cake]
+
+variables:
+  name:
+    type: person
+  name2:
+    type: person
+  denominator:
+    type: integer
+    min: 4
+    max: 8
+  numerator1:
+    type: integer
+    min: 1
+    max: 7
+  numerator2:
+    type: integer
+    min: 1
+    max: 7
+  Answer:
+    type: string
+
+template: |
+  {{name}} ate {{numerator1}}/{{denominator}} of a cake. {{name2}} ate {{numerator2}}/{{denominator}} of the same-sized cake.
+  Who ate more cake?
+
+solution: |
+  # Ensure both numerators are less than denominator
+  if numerator1 >= denominator:
+      numerator1 = denominator - 1
+  if numerator2 >= denominator:
+      numerator2 = denominator - 1
+
+  # Make sure they're different
+  if numerator1 == numerator2:
+      numerator2 = numerator1 + 1 if numerator1 < denominator - 1 else numerator1 - 1
+
+  # Compare
+  if numerator1 > numerator2:
+      Answer = name
+  elif numerator2 > numerator1:
+      Answer = name2
+  else:
+      Answer = "They ate the same amount"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "James"
+  - seed: 67890
+    expected:
+      answer: "Sarah"

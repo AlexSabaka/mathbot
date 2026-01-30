@@ -1,0 +1,53 @@
+metadata:
+  id: k1_hard_addition_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: addition
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [addition, word-problem, three-addends]
+
+variables:
+  name_a:
+    type: person
+  name_b:
+    type: person
+  name_c:
+    type: person
+  num_a:
+    type: integer
+    min: 1
+    max: 8
+  num_b:
+    type: integer
+    min: 1
+    max: 8
+  num_c:
+    type: integer
+    min: 1
+    max: 8
+  object:
+    type: item
+    category: online
+  Answer:
+    type: integer
+
+template: |
+  {{name_a}} has {{num_a}} {{object}}. {{name_b}} has {{num_b}} {{object}}. {{name_c}} has {{num_c}} {{object}}.
+  
+  How many {{object}} do they have altogether?
+
+solution: |
+  Answer = num_a + num_b + num_c
+
+tests:
+  - seed: 42
+    expected:
+      answer: "13"
+  - seed: 100
+    expected:
+      answer: "15"

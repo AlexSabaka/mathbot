@@ -1,0 +1,48 @@
+metadata:
+  id: k1_medium_subtraction_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: subtraction
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [subtraction, word-problem, eating]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 6
+    max: 15
+  num_b:
+    type: integer
+    min: 2
+    max: 7
+  object:
+    type: item
+    category: grocery
+  action:
+    type: string
+    choices: [eats, uses, shares, sells, plants]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{num_a}} {{object}}. {{name}} {{action}} {{num_b}} of them.
+  
+  How many {{object}} are left?
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "6"
+  - seed: 100
+    expected:
+      answer: "4"

@@ -1,0 +1,45 @@
+metadata:
+  id: k1_medium_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: subtraction
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [subtraction, word-problem, giving-away]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 5
+    max: 15
+  num_b:
+    type: integer
+    min: 1
+    max: 8
+  object:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{num_a}} {{object}}. {{name}} gives away {{num_b}} {{object}}.
+  
+  How many {{object}} does {{name}} have left?
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "5"
+  - seed: 100
+    expected:
+      answer: "6"

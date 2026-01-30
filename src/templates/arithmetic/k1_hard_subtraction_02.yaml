@@ -1,0 +1,49 @@
+metadata:
+  id: k1_hard_subtraction_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: subtraction
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [subtraction, word-problem, sequential]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 12
+    max: 20
+  num_b:
+    type: integer
+    min: 3
+    max: 6
+  num_c:
+    type: integer
+    min: 2
+    max: 5
+  object:
+    type: item
+    category: online
+  Answer:
+    type: integer
+
+template: |
+  {{name}} had {{num_a}} {{object}}. {{name}} gave {{num_b}} {{object}} to a friend. Later, {{name}} gave {{num_c}} more {{object}} away.
+  
+  How many {{object}} does {{name}} have now?
+
+solution: |
+  Answer = num_a - num_b - num_c
+
+tests:
+  - seed: 42
+    expected:
+      answer: "8"
+  - seed: 100
+    expected:
+      answer: "9"

@@ -1,0 +1,38 @@
+metadata:
+  id: k1_easy_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: subtraction
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [subtraction, basic-arithmetic]
+
+variables:
+  num_a:
+    type: integer
+    min: 2
+    max: 10
+  num_b:
+    type: integer
+    min: 1
+    max: 5
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} - {{num_b}} = ?
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "4"
+  - seed: 100
+    expected:
+      answer: "5"

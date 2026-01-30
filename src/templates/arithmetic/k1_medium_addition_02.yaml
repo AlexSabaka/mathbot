@@ -1,0 +1,47 @@
+metadata:
+  id: k1_medium_addition_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: addition
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [addition, word-problem, giving]
+
+variables:
+  name_a:
+    type: person
+  name_b:
+    type: person
+  num_a:
+    type: integer
+    min: 3
+    max: 10
+  num_b:
+    type: integer
+    min: 2
+    max: 10
+  object:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name_a}} has {{num_a}} {{object}}. {{name_b}} gives {{name_a}} {{num_b}} more {{object}}.
+  
+  How many {{object}} does {{name_a}} have altogether?
+
+solution: |
+  Answer = num_a + num_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "11"
+  - seed: 100
+    expected:
+      answer: "13"

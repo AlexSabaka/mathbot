@@ -1,0 +1,45 @@
+metadata:
+  id: k1_easy_addition_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: addition
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [addition, word-problem]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 1
+    max: 5
+  num_b:
+    type: integer
+    min: 1
+    max: 5
+  object:
+    type: item
+    category: online
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{num_a}} {{object}}. Then {{name}} finds {{num_b}} more {{object}}.
+  
+  How many {{object}} does {{name}} have now?
+
+solution: |
+  Answer = num_a + num_b
+
+tests:
+  - seed: 42
+    expected:
+      answer: "6"
+  - seed: 100
+    expected:
+      answer: "7"

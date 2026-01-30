@@ -1,0 +1,52 @@
+metadata:
+  id: k1_hard_addition_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: addition
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [addition, word-problem, sequential-addition]
+
+variables:
+  name:
+    type: person
+  num_a:
+    type: integer
+    min: 2
+    max: 7
+  num_b:
+    type: integer
+    min: 2
+    max: 7
+  num_c:
+    type: integer
+    min: 2
+    max: 6
+  object:
+    type: item
+    category: grocery
+  location:
+    type: string
+    choices: [basket, bag, box, cart, container]
+  Answer:
+    type: integer
+
+template: |
+  {{name}} puts {{num_a}} {{object}} in a {{location}}. Then {{name}} adds {{num_b}} more {{object}}. Finally, {{name}} adds {{num_c}} more {{object}}.
+  
+  How many {{object}} are in the {{location}} now?
+
+solution: |
+  Answer = num_a + num_b + num_c
+
+tests:
+  - seed: 42
+    expected:
+      answer: "14"
+  - seed: 100
+    expected:
+      answer: "15"

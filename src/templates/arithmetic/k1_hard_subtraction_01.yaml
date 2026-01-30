@@ -1,0 +1,53 @@
+metadata:
+  id: k1_hard_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic
+  family: subtraction
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [subtraction, word-problem, two-step]
+
+variables:
+  num_a:
+    type: integer
+    min: 10
+    max: 20
+  num_b:
+    type: integer
+    min: 2
+    max: 6
+  num_c:
+    type: integer
+    min: 2
+    max: 5
+  object:
+    type: item
+    category: grocery
+  location:
+    type: string
+    choices: [table, shelf, tree, plate, counter]
+  action:
+    type: string
+    choices: [fell off, were taken, flew away, were eaten, rolled off]
+  Answer:
+    type: integer
+
+template: |
+  There were {{num_a}} {{object}} on the {{location}}. First, {{num_b}} {{object}} {{action}}. Then, {{num_c}} more {{object}} {{action}}.
+  
+  How many {{object}} are still on the {{location}}?
+
+solution: |
+  Answer = num_a - num_b - num_c
+
+tests:
+  - seed: 42
+    expected:
+      answer: "9"
+  - seed: 100
+    expected:
+      answer: "7"

@@ -1,0 +1,8 @@
+{{name_person}} invests {{principal_decimal_money_min_1000_max_5000_step_100}} in a savings account that earns {{rate_percentage_min_3_max_10_step_1}}% annual interest, compounded annually.
+
+After {{years_integer_min_2_max_5}} years, how much money will be in the account?
+
+Please solve this problem and provide your final answer.
+---
+final_amount = {{principal}} * (1 + {{rate}} / 100) ** {{years}}
+Answer = '$' + str(round(final_amount, 2))

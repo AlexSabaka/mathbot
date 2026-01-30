@@ -1,0 +1,11 @@
+{{name1_person}} and {{name2_person}} went shopping together. {{name1_person}} bought {{item1_item_type_grocery}} for {{price1_decimal_money_min_5_max_15_step_025}}, {{item2_item_type_grocery}} for {{price2_decimal_money_min_3_max_10_step_025}}, and {{item3_item_type_grocery}} for {{price3_decimal_money_min_2_max_8_step_025}}. {{name2_person}} bought {{item4_item_type_grocery}} for {{price4_decimal_money_min_10_max_20_step_025}} and {{item5_item_type_grocery}} for {{price5_decimal_money_min_5_max_12_step_025}}. They had a coupon for {{coupon_percentage_min_15_max_25_step_5}}% off the total purchase and paid {{tax_percentage_min_5_max_10_step_1}}% sales tax after the discount. {{#choice}}What was their final total?|How much did they pay in total?|What was the final amount they paid?{{/choice}}
+
+Please solve this problem and provide your final answer.
+---
+person1_total = {{price1}} + {{price2}} + {{price3}}
+person2_total = {{price4}} + {{price5}}
+subtotal = person1_total + person2_total
+discount_amount = subtotal * ({{coupon}} / 100)
+after_discount = subtotal - discount_amount
+tax_amount = after_discount * ({{tax}} / 100)
+Answer = after_discount + tax_amount

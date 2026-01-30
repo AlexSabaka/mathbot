@@ -9,7 +9,7 @@ from .constants import (
     FAMILY_TOPIC_SUPPORT
 )
 from .utils import validate_problem_params
-from .families import FAMILY_REGISTRY
+from .template_generator import TemplateGenerator
 
 
 def generate_problem(
@@ -65,39 +65,28 @@ def generate_problem(
     if 'problem_family' in params:
         final_problem_family = params['problem_family']
     else:
-        # Find families that support the selected topic
-        compatible_families = [
-            family for family in PROBLEM_FAMILIES
-            if final_math_topic in FAMILY_TOPIC_SUPPORT.get(family, [])
-        ]
-
-        # If no families support the topic, fall back to all families
-        # (the family will do its best to incorporate the topic)
-        if compatible_families:
-            final_problem_family = random.choice(compatible_families)
-        else:
-            final_problem_family = random.choice(PROBLEM_FAMILIES)
+        # Let template generator choose from all matching templates
+        final_problem_family = None
     
-    # Determine number of steps
+    # Determine number of steps (not used by template generator but kept for compatibility)
     final_num_steps = params.get('num_steps')
     if final_num_steps is None:
         min_steps, max_steps = COMPLEXITY_STEPS_RANGE.get(final_complexity, (3, 5))
         final_num_steps = random.randint(min_steps, max_steps)
     
-    # Get the problem family generator
-    if final_problem_family not in FAMILY_REGISTRY:
-        raise ValueError(f"Problem family '{final_problem_family}' not implemented yet")
-    
-    family_class = FAMILY_REGISTRY[final_problem_family]
-    family_generator = family_class(seed=seed)
+    # Use new template-based generator
+    template_gen = TemplateGenerator(seed=seed)
     
     # Generate the problem
-    problem_data = family_generator.generate(
+    problem_data = template_gen.generate(
         complexity=final_complexity,
         grade=final_grade,
         math_topic=final_math_topic,
-        num_steps=final_num_steps
+        problem_family=final_problem_family
     )
+    
+    # Use family from template metadata
+    final_problem_family = problem_data.get('problem_family', 'unknown')
     
     # Generate test ID
     test_id = f"math_{random.randint(1000, 9999)}_{final_problem_family}"

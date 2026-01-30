@@ -1,290 +1,928 @@
-# Math Problem Template Reference
+# Mathbot Template System Reference
 
-> **Purpose**: This document provides standardized conventions for procedurally generating math word problems across all grade levels (K1-K12).
-
----
-
-## 1. Template Notation & Syntax
-
-### Basic Syntax
-- Variables denoted with `{variable_name}` or `{{variable_name}}`
-- Constraints for each variable noted in comments
-- `{variable:constraint}` — parameter with generation constraint
-- `[option_a | option_b]` — random choice from options
-- Comments in `<!-- -->` describe parameter constraints
-
-### Notation Key
-- `∈ [a, b]` — Integer range inclusive
-- `∈ {x, y, z}` — Set of allowed values
-- `<`, `>`, `≤`, `≥` — Relational constraints
-- `\{0}` — Exclude zero
-- `gcd(a, b) = 1` — Coprime constraint
+> **Version**: 2.0  
+> **Last Updated**: 2026-01-30  
+> **Purpose**: Complete specification for YAML-based procedural math problem generation
 
 ---
 
-## 2. Variable Types & Naming Conventions
+## 1. System Overview
 
-### Standard Variable Types
+Mathbot uses a **YAML-based template system** where each problem is defined as a structured YAML file containing:
 
-| Variable Type | Syntax | Description | Example Values |
-|---------------|--------|-------------|----------------|
-| **Names** | `{{name}}`, `{{name_1}}` | Person's name | Sarah, Jake, Emma, Carlos |
-| **Pronouns** | `{{pronoun}}`, `{{possessive}}` | Matching pronouns | he/she, his/her, their |
-| **Whole Numbers** | `{{number}}`, `{{num_a}}` | Integers with constraints | 5, 12, 100 |
-| **Decimals** | `{{decimal}}` | Decimal numbers | 3.75, 0.025, 12.5 |
-| **Fractions** | `{{fraction}}` | Fractions | 2/3, 3/4, 5/8 |
-| **Mixed Numbers** | `{{mixed_number}}` | Mixed numbers | 2 3/4, 1 5/8 |
-| **Items** | `{{item}}`, `{{item_plural}}` | Objects (singular/plural) | book/books, apple/apples |
-| **Places** | `{{place}}`, `{{city}}` | Location names | library, Chicago, park |
-| **Units** | `{{unit}}` | Measurement unit | cm, meters, inches |
-| **Variables** | `{{variable}}` | Algebraic variable | x, n, h, w |
-| **Coordinates** | `{{x_coord}}`, `{{y_coord}}` | Coordinate values | 2, -3, 5 |
-| **Shapes** | `{{shape}}`, `{{shape_3d}}` | Geometric shapes | circle, triangle, sphere |
-| **Angles** | `{{angle}}` | Angle value | 45°, 90°, 120° |
+1. **Metadata** - Grade level, topic, difficulty, authorship
+2. **Variables** - Type-constrained data generation rules
+3. **Template** - Jinja2 template for problem text
+4. **Solution** - Pure Python code with injected variable context
+5. **Tests** - Validation cases for regression testing
 
-### Naming Patterns
-- `num_*` — Numerical values (e.g., `num_items`, `num_students`)
-- `*_singular` / `*_plural` — Object names with grammatical forms
-- `*_a`, `*_b`, `*_c` — Multiple similar variables for comparison
-- `count_*` — Count values (e.g., `count_apples`)
-- Descriptive names for geometry: `{{base}}`, `{{height}}`, `{{radius}}`
-- Indexed variables: `{{a1}}`, `{{a2}}`, `{{a3}}` or `{{x_1}}`, `{{x_2}}`
+### Architecture
 
----
-
-## 3. Parameter Ranges & Value Libraries
-
-### Number Ranges by Difficulty
-
-| Difficulty | Whole Numbers | Fractions (denom) | Decimals (places) | Operations |
-|------------|---------------|-------------------|-------------------|------------|
-| **Easy**   | 1-100         | 2-10              | 1                 | Single operation |
-| **Medium** | 10-1,000      | 4-12              | 2                 | Two operations |
-| **Hard**   | 100-10,000    | 6-20              | 2-3               | Multi-step |
-
-### Specific Parameter Types
-
-| Type | Range/Values | Notes |
-|------|--------------|-------|
-| Small integers | 1-20 | For basic operations |
-| Medium integers | 20-100 | For factors, multiples, GCD/LCM |
-| Large integers | 100-1000 | For long division, real-world problems |
-| Percentages | 1-100 | Common: 10, 20, 25, 50, 75 |
-| Money | $0.01-$1000.00 | Always 2 decimal places |
-| Coordinates | -10 to 10 | Keep reasonable for graphing |
-| Temperatures | -20°F to 100°F | Realistic ranges |
-| Algebraic coefficients | -20 to 20 | Integer coefficients |
-| Probabilities/ratios | 0 to 1 | For probability problems |
-| Special angles | 0°, 30°, 45°, 60°, 90°, 120° | Standard angles |
-| Matrix dimensions | 2-4 | Keep computations reasonable |
-| Integration bounds | -2 to 5 | Keep calculations tractable |
-| Polynomial degrees | 2 to 4 | Higher gets tedious |
-
-### Value Libraries
-
-**Names** (gender-neutral):
 ```
-["Alex", "Jordan", "Sam", "Taylor", "Morgan", "Casey", "Riley", "Quinn", 
- "Jamie", "Drew", "Avery", "Blake", "Cameron", "Dakota", "Emery", "Parker"]
-```
-
-**Traditional Names**:
-```
-["Emma", "Liam", "Sophia", "Noah", "Olivia", "Aiden", "Mia", "Lucas", 
- "Sarah", "Jake", "Carlos"]
-```
-
-**Countable Objects**:
-```
-["marbles", "stickers", "cards", "coins", "stamps", "books", "pencils", 
- "cookies", "apples", "beads", "toys", "flowers"]
-```
-
-**Measurable Items**:
-```
-["ribbon", "rope", "string", "fabric", "wire"]
-```
-
-**Food Portions**:
-```
-["pizza", "cake", "pie", "chocolate bar"]
-```
-
-**K-2 Objects**:
-```
-Animals: ["dog", "cat", "bird", "fish", "rabbit", "turtle", "hamster"]
-Foods: ["apple", "banana", "cookie", "candy", "grape", "orange"]
-Toys: ["ball", "doll", "car", "block", "puzzle", "crayon"]
-Colors: ["red", "blue", "green", "yellow", "orange", "purple", "pink"]
-Shapes: ["circle", "square", "triangle", "rectangle", "star", "heart"]
-```
-
-**Locations**:
-```
-Places: ["library", "school", "park", "bakery", "farm", "store", "garden", 
-         "theater", "stadium"]
-Cities: ["Denver", "Chicago", "Miami", "Seattle", "Phoenix", "Boston", 
-         "Atlanta", "Portland", "Dallas", "Minneapolis"]
-```
-
-**Units of Measurement**:
-```
-Length: cm, m, km, inches, feet, yards, miles
-Weight: g, kg, pounds, ounces
-Volume: mL, L, gallons, cubic cm, cubic m
-Time: seconds, minutes, hours, days
-```
-
-### Constraint Format Examples
-```
-{a:10-99}                  → random integer from 10 to 99
-{d:2|5|10}                 → random choice: 2, 5, or 10
-{n:even:10-50}             → random even number from 10 to 50
-{a:multiple_of_3:12-60}    → random multiple of 3 from 12 to 60
+YAML Template File
+–> [1] Generate Variables (based on constraints + seed)
+   context = {name: "Sarah", price: 12.50, ...}
+–> [2] Render Template (Jinja2 with context)
+   problem_text = "Sarah bought 3 apples..."
+–> [3] Execute Solution (Python exec with context)
+   context['Answer'] = 37.50
+–> [4] Format Answer (based on Answer variable constraints)
+   "$37.50"
 ```
 
 ---
 
-## 4. Difficulty Scaling Guidelines
+## 2. YAML Template Structure
 
-### Complexity Progression
+### Complete Example
 
-| Level | Numbers | Steps | Concepts | Context |
-|-------|---------|-------|----------|---------|
-| **Easy** | 1-100, friendly | Single operation | Concrete objects, direct application | Clear visual support |
-| **Medium** | 10-1000, some unfriendly | 2-3 steps | Abstract concepts, formula manipulation | Basic word problems |
-| **Hard** | 100-10000+ | Multi-step | Synthesis, proof elements, strategy selection | Real-world contexts |
+```yaml
+metadata:
+  id: k4_easy_splitting_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: splitting
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [money, real-world, division]
 
-### Scaling Strategies
+variables:
+  num_people:
+    type: integer
+    min: 2
+    max: 6
+    
+  restaurant:
+    type: item
+    category: restaurant
+    
+  total:
+    type: decimal
+    format: money
+    min: 20.00
+    max: 200.00
+    step: 5.00
+    
+  Answer:
+    type: decimal
+    format: money
 
-Increase difficulty by:
-- Using larger numbers or unfriendly values
-- Adding more solution steps
-- Combining multiple mathematical concepts
-- Including real-world context and reasoning
-- Adding nested functions or expressions
-- Requiring strategy selection
+template: |
+  A group of {{num_people}} friends finish dinner at {{restaurant}}.
+  The total bill comes to {{total}}, and they decide to split it equally.
+  
+  How much does each person pay?
+  
+  Please solve this problem and provide your final answer.
 
----
+solution: |
+  # All variables from 'variables' section are available
+  per_person = total / num_people
+  Answer = round(per_person, 2)
 
-## 5. Validation Rules & Constraints
-
-### Mathematical Constraints
-
-1. **Subtraction**: Ensure `number1 > number2` to avoid negative results (unless intended)
-2. **Division**: Ensure clean division or specify remainder handling; avoid division by zero
-3. **Fractions**:
-   - For proper fractions: `numerator ≤ denominator`
-   - Keep denominators ≤ 12 for easy problems
-   - Ensure LCD calculations are grade-appropriate
-4. **Geometry**:
-   - Triangle Inequality: For sides a, b, c: `a + b > c`, `b + c > a`, `a + c > b`
-   - Triangle angles: Must sum to 180°
-   - Quadrilateral angles: Must sum to 360°
-   - Keep dimensions reasonable for grade level
-5. **Decimals**: Avoid results with more than 3 decimal places
-6. **Money**: Use realistic prices and amounts, always 2 decimal places
-7. **Domain Checks**: Ensure denominators ≠ 0, square roots of non-negatives, etc.
-8. **Matrices**: Ensure nice determinants; if invertible matrix needed, ensure det ≠ 0
-
-### Pre-Generation Validation
-- Validate constraints before inserting values
-- Ensure parameters yield real, finite answers
-- Avoid trivial cases where answer is obviously 0 or 1
-- For coprime requirements: `gcd(a, b) = 1`
-
-### Post-Generation Validation
-- Verify answer is "clean" (integer or simple fraction when appropriate)
-- Validate generated problems produce grade-appropriate answers
-- Regenerate if constraints produce invalid results
-- Check unit consistency within problem
-
----
-
-## 6. Natural Language Generation
-
-### Writing Style Tips
-- Use pronouns after first mention to vary sentence structure
-- Include context (names, scenarios) to make problems engaging
-- Vary action verbs: has, gets, gives, takes, finds, loses, counts, buys, sells
-- Include diverse names and scenarios for inclusivity
-- Ensure unit consistency throughout the problem
-
-### Context Themes
-
-Rotate through varied real-world contexts:
-- **Food/Cooking**: recipes, sharing pizza/cookies, grocery shopping
-- **Sports**: scores, statistics, team data
-- **Money**: shopping, savings, discounts, sales
-- **Travel**: distance, time, maps, planning
-- **Nature**: gardens, animals, weather patterns
-- **School**: grades, supplies, class data, schedules
-- **Games**: points, cards, dice, strategies
-- **Construction**: measurements, materials, planning
-- **Science**: experiments, data collection, analysis
-- **Physics**: motion, forces, energy
-- **Economics**: costs, revenue, profit
-- **Biology**: population, decay, growth
-
----
-
-## 7. Answer Generation & Validation
-
-### Answer Requirements
-- Most answers can be computed programmatically
-- Word problems require template-specific answer generators
-- Multiple valid answers should be handled where applicable
-- Answers should be grade-appropriate (avoid complex calculations for easy/medium)
-
-### Answer Key Components
-For each template, generate:
-1. **Numeric answer(s)** with proper formatting
-2. **Step-by-step solution** (optional, for verification)
-3. **Common misconception flags** (optional, for educational use)
-
-### Format Standards
-- **Money**: "$42.50" (always 2 decimals)
-- **Fractions**: "3/4" or "2 3/4" (mixed numbers)
-- **Coordinates**: "(3, -2)"
-- **Angles**: "45°"
-- **Equations**: "y = 2x + 3"
-- **Time**: "3 hours 15 minutes"
-
----
-
-## 8. Implementation Notes
-
-### General Principles
-1. **Ensure Solvability**: Verify parameters yield valid, computable answers
-2. **Avoid Trivial Cases**: Don't generate problems where answer is obviously 0 or 1
-3. **Maintain Consistency**: All aspects of problem should be internally coherent
-4. **Unit Consistency**: Use consistent units within a problem
-5. **Context Variety**: Rotate through different scenarios for engagement
-6. **Real-World Context**: Add application wrappers where appropriate
-
-### Data Type Conventions
-
-| Parameter Type | Format | Example |
-|---------------|--------|---------|
-| Integers | `{{length}}` | 15 |
-| Fractions | `{{num}}/{{den}}` | 3/4 |
-| Coordinates | `({{x}}, {{y}})` | (3, -2) |
-| Angles | `{{angle}}°` | 45° |
-| Expressions | `({{coeff}}x + {{const}})` | (2x + 5) |
-
-### Constraint Documentation Format
-```
-<!-- constraint_description -->
+tests:
+  - seed: 12345
+    expected:
+      num_people: 4
+      restaurant: "The Golden Fork"
+      total: "$80.00"
+      answer: "$20.00"
+  
+  - seed: 67890
+    expected:
+      answer: "$35.75"
 ```
 
-Common constraint types:
-- Value ranges: `[min, max]`
-- Exclusions: `exclude value`
-- Dependencies: `x depends on y`
-- Validity conditions: `must satisfy condition`
+---
+
+## 3. Metadata Section
+
+### Required Fields
+
+| Field        | Type   | Description                                      | Example                    |
+|--------------|--------|--------------------------------------------------|----------------------------|
+| `id`         | string | Unique template identifier                       | `k4_easy_splitting_01`     |
+| `version`    | string | Semantic version (semver)                        | `"1.0.0"`                  |
+| `author`     | string | Template creator name                            | `"Alex Sabaka"`            |
+| `created`    | date   | Creation date (YYYY-MM-DD)                       | `2026-01-30`               |
+| `grade`      | int    | Grade level (1-12)                               | `4`                        |
+| `topic`      | string | Dot-separated topic hierarchy                    | `"arithmetic.division"`    |
+| `family`     | string | Problem family/type                              | `"splitting"`              |
+| `difficulty` | string | One of: `easy`, `medium`, `hard`                 | `"easy"`                   |
+| `steps`      | int    | Number of computational steps                    | `2`                        |
+
+### Optional Fields
+
+| Field     | Type         | Description                           | Example            |
+|-----------|--------------|---------------------------------------|--------------------|
+| `culture` | string       | Locale for formatting (ISO 639-1)     | `"en-US"`          |
+| `tags`    | list[string] | Searchable keywords                   | `["money", "time"]`|
+| `notes`   | string       | Internal documentation                | `"Updated for..."`  |
+
+### ID Naming Convention
+
+Format: `{grade}_{difficulty}_{family}_{variant}`
+
+Examples:
+- `k3_easy_sequential_01`
+- `k7_medium_growth_02`
+- `k11_hard_calculus_05`
 
 ---
 
-## 9. References
+## 4. Variables Section
 
-This template reference supports the K1-K12 problem template files. See individual grade-level documents (K1_PROBLEMS.md through K12_PROBLEMS.md) for specific problem examples at each grade level.
+Each variable defines how a value is generated. Variables are injected into both the template and solution contexts.
+
+### Basic Structure
+
+```yaml
+variables:
+  variable_name:
+    type: <type>
+    # ... type-specific constraints
+```
+
+### Variable Types Reference
+
+#### Numeric Types
+
+**Integer**
+```yaml
+count:
+  type: integer
+  min: 1
+  max: 10
+  step: 1  # Optional, default 1
+```
+
+**Decimal**
+```yaml
+price:
+  type: decimal
+  min: 5.00
+  max: 50.00
+  step: 0.25  # Optional, default 0.01
+  format: money  # Optional: money, percentage, none
+```
+
+**Fraction**
+```yaml
+portion:
+  type: fraction
+  min: 1
+  max: 4
+  # Generates numerator/denominator pair
+```
+
+#### Name/Location Types
+
+**Person**
+```yaml
+name:
+  type: person
+  # Generates: "Sarah", "Marcus", "Chen", etc.
+```
+
+**Location**
+```yaml
+city:
+  type: location
+  # Generates: "Springfield", "Dallas", etc.
+```
+
+**Store/Restaurant/Company**
+```yaml
+shop:
+  type: store
+  # Generates: "Johnson's Market", "Smith Boutique"
+
+restaurant:
+  type: restaurant
+  # Generates: "The Golden Fork", "Mario's Cafe"
+
+business:
+  type: company
+  # Generates: "Acme Corp", "Tech Solutions Inc"
+```
+
+#### Item Types
+
+```yaml
+item:
+  type: item
+  category: grocery  # grocery, electronics, clothing, book, online
+  singular: true     # Optional, default false (returns plural)
+```
+
+**Categories:**
+- `grocery` - "apples", "milk", "bread"
+- `electronics` - "laptop", "headphones"
+- `clothing` - "shirts", "jeans"
+- `book` - "novels", "textbooks"
+- `online` - "chargers", "games"
+
+#### Time/Duration
+
+```yaml
+duration:
+  type: time
+  min: 0.25  # Hours (0.25 = 15 minutes)
+  max: 5.0
+  step: 0.25
+  # Renders as: "2 hours 30 minutes"
+```
+
+#### Boolean
+
+```yaml
+has_discount:
+  type: boolean
+  probability: 0.5  # 50% chance of True
+```
+
+### Format Constraints
+
+Format determines how values are rendered in templates:
+
+| Format       | Applies To     | Example Output       |
+|--------------|----------------|----------------------|
+| `money`      | decimal        | `$42.50`             |
+| `percentage` | int, decimal   | `25%`                |
+| `ordinal`    | integer        | `3rd`, `21st`        |
+| `length`     | decimal        | `12.5 miles` (US)    |
+| `weight`     | decimal        | `5.2 kg`             |
+| `temperature`| decimal        | `72°F` (US)          |
+
+### The Answer Variable
+
+**Every template must define an `Answer` variable** that specifies expected output format:
+
+```yaml
+Answer:
+  type: decimal
+  format: money
+  # Solution must set: Answer = <numeric_value>
+  # System formats as: "$42.50"
+```
+
+**Common Answer Formats:**
+
+```yaml
+# Money answer
+Answer:
+  type: decimal
+  format: money
+
+# Time answer
+Answer:
+  type: time
+
+# Percentage answer  
+Answer:
+  type: integer
+  format: percentage
+
+# Plain number
+Answer:
+  type: integer
+
+# Fraction
+Answer:
+  type: fraction
+```
+
+---
+
+## 5. Template Section (Jinja2)
+
+The template section uses **Jinja2 syntax** for rendering problem text.
+
+### Basic Variable Substitution
+
+```jinja2
+{{name}} bought {{quantity}} {{item}} for {{price}} each.
+```
+
+### Conditional Content
+
+```jinja2
+{% if has_discount %}
+{{name}} received a {{discount}}% discount.
+{% endif %}
+
+{% if has_discount %}
+The discount saved {{name}} some money.
+{% else %}
+{{name}} paid full price.
+{% endif %}
+```
+
+### Loops
+
+```jinja2
+{% for i in range(num_days) %}
+Day {{i+1}}: {{name}} worked {{hours}} hours.
+{% endfor %}
+```
+
+### Helper Functions
+
+Mathbot provides template helpers (from `template_helpers.py`):
+
+```jinja2
+{{#choice}}How much did they spend?|What was the total cost?{{/choice}}
+
+{{#list_and}}apples, oranges, bananas{{/list_and}}
+â†' "apples, oranges, and bananas"
+
+{{#ordinal}}{{day}}{{/ordinal}}
+â†' "3rd day"
+
+{{#capitalize}}{{name}}{{/capitalize}}
+```
+
+### Template Requirements
+
+1. Must end with: `"Please solve this problem and provide your final answer."`
+2. Use clear, age-appropriate language for grade level
+3. Provide sufficient context
+4. Ask a specific question
+5. Use variables, not hardcoded values
+
+---
+
+## 6. Solution Section (Pure Python)
+
+The solution section contains **pure Python code** that computes the answer. All variables from the `variables` section are injected into the execution context.
+
+### Execution Model
+
+```python
+# 1. Generate variables
+context = generate_variables(yaml['variables'], seed=12345)
+# context = {'num_people': 4, 'total': 80.00, ...}
+
+# 2. Execute solution with context
+safe_globals = {'round': round, 'abs': abs, ...}  # Restricted builtins
+exec(yaml['solution'], safe_globals, context)
+
+# 3. Extract answer
+answer_value = context['Answer']  # Must be set by solution
+
+# 4. Format answer based on Answer variable definition
+formatted_answer = format_answer(answer_value, yaml['variables']['Answer'])
+# â†' "$20.00"
+```
+
+### Solution Requirements
+
+1. **Must set `Answer` variable** - the final result
+2. **Use injected variable names** directly (no special syntax)
+3. **Show clear computational steps** for readability
+4. **Use comments** to explain multi-step logic
+5. **Don't format Answer** - system handles formatting based on variable definition
+
+### Available Builtins
+
+Solutions have access to:
+- Math: `round()`, `abs()`, `min()`, `max()`, `sum()`, `pow()`
+- Type conversion: `int()`, `float()`, `str()`
+- `Decimal` for precise money calculations
+- Helper functions from `template_helpers.py`
+
+### Examples
+
+**Simple Calculation**
+```python
+# Single-step division
+per_person = total / num_people
+Answer = round(per_person, 2)
+```
+
+**Multi-step with Conditionals**
+```python
+# Calculate subtotal
+subtotal = quantity * price
+
+# Apply discount if applicable
+if has_discount:
+    discount_amount = subtotal * (discount / 100)
+    total = subtotal - discount_amount
+else:
+    total = subtotal
+
+# Add tax
+tax_amount = total * (tax_rate / 100)
+final_total = total + tax_amount
+
+Answer = round(final_total, 2)
+```
+
+**Complex Multi-year Calculation**
+```python
+# Year 1
+balance = principal * (1 + rate1 / 100)
+
+# Year 2
+balance = balance * (1 + rate2 / 100)
+
+# Optional deposit after year 2
+if has_deposit:
+    balance = balance + deposit_amount
+
+# Optional withdrawal
+if has_withdrawal:
+    balance = balance - withdrawal_amount
+
+# Year 3
+balance = balance * (1 + rate3 / 100)
+
+Answer = round(balance, 2)
+```
+
+**Using Decimal for Precision**
+```python
+from decimal import Decimal
+
+# Convert to Decimal for money operations
+price_decimal = Decimal(str(price))
+quantity_decimal = Decimal(str(quantity))
+
+total = price_decimal * quantity_decimal
+Answer = float(total)  # Convert back for formatting
+```
+
+---
+
+## 7. Tests Section
+
+Tests validate template correctness and prevent regressions.
+
+### Structure
+
+```yaml
+tests:
+  - seed: 12345
+    expected:
+      # Can specify individual variables
+      num_people: 4
+      restaurant: "The Golden Fork"
+      total: "$80.00"
+      # Must specify answer
+      answer: "$20.00"
+  
+  - seed: 67890
+    expected:
+      # Or just validate the answer
+      answer: "$35.75"
+  
+  - seed: 99999
+    expected:
+      answer: "$112.33"
+    notes: "Edge case: max values"
+```
+
+### Test Execution
+
+```bash
+# Run tests for a template
+mathbot test templates/k4_easy_splitting_01.yaml
+
+# Run all tests
+mathbot test --all
+
+# Add new test case
+mathbot test templates/k4_easy_splitting_01.yaml --generate-test --seed 55555
+```
+
+---
+
+## 8. Complete Advanced Example
+
+```yaml
+metadata:
+  id: k9_hard_growth_05
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 9
+  topic: algebra.compound_interest
+  family: growth
+  difficulty: hard
+  culture: en-US
+  steps: 6
+  tags: [finance, interest, multi-step]
+
+variables:
+  name:
+    type: person
+  
+  principal:
+    type: decimal
+    format: money
+    min: 500
+    max: 5000
+    step: 25
+  
+  rate1:
+    type: integer
+    format: percentage
+    min: 3
+    max: 8
+  
+  rate2:
+    type: integer
+    format: percentage
+    min: 3
+    max: 8
+  
+  rate3:
+    type: integer
+    format: percentage
+    min: 3
+    max: 8
+  
+  has_deposit:
+    type: boolean
+    probability: 0.4
+  
+  deposit_amount:
+    type: decimal
+    format: money
+    min: 100
+    max: 1000
+    step: 25
+  
+  has_withdrawal:
+    type: boolean
+    probability: 0.3
+  
+  withdrawal_amount:
+    type: decimal
+    format: money
+    min: 50
+    max: 500
+    step: 25
+  
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} opens a savings account with an initial deposit of {{principal}}.
+  
+  During the first year, the account earns {{rate1}}% interest.
+  
+  In the second year, the interest rate changes to {{rate2}}%, which is applied to the current balance.
+  
+  {% if has_deposit %}
+  After receiving the second year's interest, {{name}} adds {{deposit_amount}} to the account.
+  {% endif %}
+  
+  {% if has_withdrawal %}
+  Following the second year's interest payment, {{name}} makes a withdrawal of {{withdrawal_amount}}.
+  {% endif %}
+  
+  The third year brings {{rate3}}% interest on the current balance.
+  
+  What is the total amount in {{name}}'s account after three years?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  # Year 1: Apply first interest rate
+  balance = principal * (1 + rate1 / 100)
+  
+  # Year 2: Apply second interest rate
+  balance = balance * (1 + rate2 / 100)
+  
+  # Optional deposit after year 2
+  if has_deposit:
+      balance = balance + deposit_amount
+  
+  # Optional withdrawal after year 2
+  if has_withdrawal:
+      balance = balance - withdrawal_amount
+  
+  # Year 3: Apply third interest rate
+  balance = balance * (1 + rate3 / 100)
+  
+  # Set final answer
+  Answer = round(balance, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$1876.50"
+    notes: "Base case with deposit"
+  
+  - seed: 67890
+    expected:
+      answer: "$3421.25"
+    notes: "High principal, no transactions"
+  
+  - seed: 11111
+    expected:
+      answer: "$1234.56"
+    notes: "With withdrawal"
+```
+
+---
+
+## 9. Validation Rules
+
+### Template Validation
+
+When validating a template, the system checks:
+
+1. **YAML syntax** is valid
+2. **Required metadata fields** are present
+3. **All variable types** are recognized
+4. **Constraint combinations** are valid
+   - `step` must evenly divide `(max - min)`
+   - `format: ordinal` only for integers
+   - `format: money` only for decimals
+   - Boolean can't have min/max
+   - Fraction can't have step
+5. **Answer variable** is defined
+6. **Template section** is valid Jinja2
+7. **Solution section** compiles as Python
+8. **Solution sets Answer** variable
+9. **Test cases** execute successfully
+
+### Common Validation Errors
+
+```yaml
+# ERROR: step doesn't divide range evenly
+price:
+  type: decimal
+  min: 5.00
+  max: 20.00
+  step: 0.30  # 15.00 / 0.30 = 50 ✓
+  
+# ERROR: ordinal on non-integer
+day:
+  type: decimal
+  format: ordinal  # ✗ ordinal only works on integers
+
+# ERROR: missing Answer variable
+variables:
+  price:
+    type: decimal
+  # Missing: Answer definition ✗
+
+# ERROR: solution doesn't set Answer
+solution: |
+  total = price * quantity
+  # Missing: Answer = total ✗
+```
+
+---
+
+## 10. CLI Usage
+
+### Generate Problems
+
+```bash
+# Generate single problem
+mathbot generate --template templates/k4_easy_splitting_01.yaml --seed 12345
+
+# Generate batch
+mathbot generate --template templates/k4_easy_splitting_01.yaml --count 10 --output problems.json
+
+# Generate from grade/topic
+mathbot generate --grade 4 --topic arithmetic --count 50
+```
+
+### Validate Templates
+
+```bash
+# Validate single template
+mathbot validate templates/k4_easy_splitting_01.yaml
+
+# Validate all templates
+mathbot validate --all
+
+# Validate with warnings
+mathbot validate --strict templates/k9_hard_growth_05.yaml
+```
+
+### Test Templates
+
+```bash
+# Run tests
+mathbot test templates/k4_easy_splitting_01.yaml
+
+# Generate test case
+mathbot test templates/k4_easy_splitting_01.yaml --add-test --seed 99999
+
+# Update expected values
+mathbot test templates/k4_easy_splitting_01.yaml --update-expected
+```
+
+### Convert Legacy Templates
+
+```bash
+# Convert Mustache to YAML
+mathbot convert mustache-to-yaml templates/legacy/*.mustache --output templates/yaml/
+```
+
+---
+
+## 11. Grade Level Guidelines
+
+### Grade Ranges
+
+| CLI Grade    | K-Grades       | Focus Areas                                      |
+|--------------|----------------|--------------------------------------------------|
+| `elementary` | k1-k5          | Basic arithmetic, counting, simple word problems |
+| `middle`     | k6-k8          | Fractions, decimals, percentages, ratios         |
+| `high`       | k9-k12         | Algebra, geometry, trigonometry, calculus        |
+
+### Complexity by Grade
+
+**Grades 1-3 (Steps: 1-2)**
+- Single operation problems
+- Small numbers (< 100)
+- Visual/concrete contexts
+
+**Grades 4-6 (Steps: 2-4)**
+- Multi-operation problems
+- Larger numbers, decimals
+- Real-world scenarios
+
+**Grades 7-9 (Steps: 3-6)**
+- Abstract reasoning
+- Percentages, ratios
+- Word problems with multiple variables
+
+**Grades 10-12 (Steps: 5-10)**
+- Complex multi-step problems
+- Algebraic expressions
+- Calculus, advanced topics
+
+---
+
+## 12. Best Practices
+
+### Template Design
+
+✅ **DO:**
+- Use realistic values for grade level
+- Ensure "nice" answers (avoid long decimals)
+- Include sufficient context in problem text
+- Use diverse names/locations for cultural representation
+- Write clear, step-by-step solutions
+- Add comments in solution code
+- Test with multiple seeds
+
+❌ **DON'T:**
+- Hardcode names, places, or items
+- Use overly complex language for grade
+- Create problems with ambiguous answers
+- Skip validation tests
+- Use magic numbers without explanation
+- Over-constrain variables (too narrow ranges)
+
+### Solution Code Style
+
+```python
+# GOOD: Clear, commented, step-by-step
+# Calculate cost per item
+item_cost = price * quantity
+
+# Apply discount
+if has_discount:
+    discount_amount = item_cost * (discount / 100)
+    item_cost = item_cost - discount_amount
+
+# Add tax
+tax_amount = item_cost * (tax_rate / 100)
+final_cost = item_cost + tax_amount
+
+Answer = round(final_cost, 2)
+```
+
+```python
+# BAD: Single line, unclear
+Answer = round(((price * quantity) * (1 - (discount / 100 if has_discount else 0))) * (1 + tax_rate / 100), 2)
+```
+
+### Testing Strategy
+
+- **Minimum 3 test cases** per template
+- Test edge cases (min/max values)
+- Test conditional branches (if/else paths)
+- Verify answer formatting
+- Check for floating-point precision issues
+
+---
+
+## 13. Future Enhancements
+
+### Planned Features
+
+- [ ] Template composition (extends/includes)
+- [ ] Variable dependencies (conditional generation)
+- [ ] Multi-language support (i18n)
+- [ ] Visual/diagram generation
+- [ ] Interactive problem variants
+- [ ] Accessibility features (alt text, screen reader support)
+- [ ] Template analytics (difficulty scoring, success rates)
+
+### Under Consideration
+
+- Custom helper functions per template
+- LaTeX math rendering in templates
+- Answer explanation generation
+- Adaptive difficulty based on performance
+- Collaborative template editing
+- Template marketplace
+
+---
+
+## Appendix A: Quick Reference
+
+### Minimal Template
+
+```yaml
+metadata:
+  id: k1_easy_addition_01
+  version: "1.0.0"
+  author: Your Name
+  created: 2026-01-30
+  grade: 1
+  topic: arithmetic.addition
+  family: basic
+  difficulty: easy
+  steps: 1
+
+variables:
+  a:
+    type: integer
+    min: 1
+    max: 10
+  b:
+    type: integer
+    min: 1
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  What is {{a}} + {{b}}?
+  
+  Please solve this problem and provide your final answer.
+
+solution: |
+  Answer = a + b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7"
+```
+
+### Common Variable Patterns
+
+```yaml
+# Money variable
+price:
+  type: decimal
+  format: money
+  min: 5.00
+  max: 50.00
+  step: 0.25
+
+# Percentage
+discount:
+  type: integer
+  format: percentage
+  min: 5
+  max: 50
+  step: 5
+
+# Time duration
+hours:
+  type: time
+  min: 0.5
+  max: 8.0
+  step: 0.5
+
+# Person with pronoun access
+name:
+  type: person
+  # In template: {{name}}, {{name_pronoun}}, {{name_possessive}}
+
+# Item (plural by default)
+item:
+  type: item
+  category: grocery
+```
+
+---

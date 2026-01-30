@@ -1,0 +1,11 @@
+It's {{day}} evening, and {{name_person}} is browsing {{store_store}}'s website looking for supplies.
+
+{{#items}}{{#is_first}}They start by adding {{quantity}} {{item_plural}} to their cart at {{price_decimal_money_min_5_max_50_step_025}} each. {{/is_first}}{{#is_middle}}They also need {{quantity}} {{item_plural}}, which are {{price_decimal_money_min_5_max_50_step_025}} each. {{/is_middle}}{{#is_last}}As a final item, they add {{quantity}} {{item_plural}} priced at {{price_decimal_money_min_5_max_50_step_025}} each. {{/is_last}}{{/items}}
+
+{{#has_shipping}}The subtotal is {{subtotal}}, and shipping costs {{shipping}}. {{/has_shipping}}{{#has_tax}}Sales tax of {{tax_pct}}% is applied. {{/has_tax}}What is the final total?
+
+Please solve this problem and provide your final answer.
+---
+subtotal = {{price1}} * {{quantity1}} + {{price2}} * {{quantity2}}
+total = subtotal + {{shipping}} + subtotal * ({{tax_pct}} / 100)
+Answer = total

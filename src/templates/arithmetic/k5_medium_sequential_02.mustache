@@ -1,0 +1,9 @@
+{{name_person}} bought {{quantity1_integer_min_2_max_5}} {{item1_item_type_grocery}} at {{price1_decimal_money_min_1_max_3_step_025}} each and {{quantity2_integer_min_2_max_5}} {{item2_item_type_grocery}} at {{price2_decimal_money_min_2_max_5_step_025}} each. The store offered a {{discount_percentage_min_10_max_20_step_5}}% discount on the total. {{#choice}}How much did {{name_person}} pay after the discount?|What was the final price after the discount?|How much did the purchase cost after applying the discount?{{/choice}}
+
+Please solve this problem and provide your final answer.
+---
+cost1 = {{quantity1}} * {{price1}}
+cost2 = {{quantity2}} * {{price2}}
+subtotal = cost1 + cost2
+discount_amount = subtotal * ({{discount}} / 100)
+Answer = subtotal - discount_amount

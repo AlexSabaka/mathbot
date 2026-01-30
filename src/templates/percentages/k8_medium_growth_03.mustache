@@ -1,0 +1,14 @@
+The city of {{city_location}} has a population of {{initial_pop}} people.
+
+Over the next {{year_desc}}, the city experiences steady growth at {{rate_percentage_min_5_max_20_step_1}}% per year.
+
+{{#has_migration_in}}Additionally, {{migration}} people relocate to {{city_location}} from other areas. {{/has_migration_in}}
+
+{{#has_migration_out}}However, {{migration}} residents move away to other cities. {{/has_migration_out}}
+
+What is the current population of {{city_location}}?
+
+Please solve this problem and provide your final answer.
+---
+final_amount = {{principal}} * (1 + {{rate}} / 100) ** {{years}}
+Answer = final_amount

@@ -11,6 +11,7 @@ MATH_TOPICS = [
     "ratios",
     "algebra",
     "geometry",
+    "measurement",
     "quadratics",
     "derivatives",
     "powers_logs"
@@ -37,11 +38,12 @@ GRADE_MAX_COMPLEXITY = {
 # Math topic grade compatibility
 TOPIC_GRADE_COMPATIBILITY = {
     "arithmetic": ["elementary", "middle", "high", "college", "university"],
-    "percentages": ["elementary", "middle", "high", "college", "university"],
+    "percentages": ["middle", "high", "college", "university"],
     "fractions": ["elementary", "middle", "high", "college", "university"],
-    "ratios": ["middle", "high", "college", "university"],
+    "ratios": ["elementary", "middle", "high", "college", "university"],
     "algebra": ["middle", "high", "college", "university"],
-    "geometry": ["middle", "high", "college", "university"],
+    "geometry": ["elementary", "middle", "high", "college", "university"],
+    "measurement": ["elementary", "middle", "high", "college", "university"],
     "quadratics": ["high", "college", "university"],
     "derivatives": ["high", "college", "university"],
     "powers_logs": ["high", "college", "university"]

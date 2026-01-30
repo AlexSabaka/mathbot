@@ -1,0 +1,12 @@
+{{name_person}} works as a delivery driver for {{company_company}} in {{city_location}}.
+
+{{#stop_count_text}}{{stop_count_text}} {{/stop_count_text}}
+
+{{#stops}}The {{position}} stop is {{distance_integer_min_10_max_200}} miles away at {{speed_integer_min_20_max_80}} mph. Each delivery takes about {{delivery_minutes}} minutes. {{/stops}}
+
+How long does the entire delivery route take?
+
+Please solve this problem and provide your final answer.
+---
+time = {{distance}} / {{speed}}
+Answer = str(round(time, 2)) + ' hours'

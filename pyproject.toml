@@ -8,6 +8,8 @@ dependencies = [
     "faker>=20.0.0",
     "names>=0.3.0",
     "click>=8.0.0",
+    "chevron>=0.14.0",
+    "inflect>=7.0.0",
 ]
 
 [project.scripts]

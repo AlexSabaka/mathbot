@@ -1,0 +1,45 @@
+metadata:
+  id: k3_medium_division_long_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: long_division
+  difficulty: medium
+  steps: 2
+  tags: [division, long-division, packing, context]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: integer
+    min: 100
+    max: 500
+  number2:
+    type: integer
+    min: 2
+    max: 9
+  object_plural:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{number1}} {{object_plural}} to pack into boxes of {{number2}}.
+  Use long division to find how many full boxes {{name}} can make.
+
+solution: |
+  # Calculate the number of full boxes
+  Answer = number1 // number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "32"
+
+  - seed: 67890
+    expected:
+      answer: "53"

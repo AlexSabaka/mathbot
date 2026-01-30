@@ -1,0 +1,51 @@
+metadata:
+  id: k3_hard_division_long_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: long_division
+  difficulty: hard
+  steps: 2
+  tags: [division, long-division, factory, remainder, context]
+
+variables:
+  number1:
+    type: integer
+    min: 200
+    max: 999
+  number2:
+    type: integer
+    min: 3
+    max: 9
+  object_plural:
+    type: item
+    category: electronics
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  A factory produces {{number1}} {{object_plural}} in a week. If the {{object_plural}} are packed in cartons of {{number2}}, how many full cartons can be made? How many {{object_plural}} remain?
+
+solution: |
+  # Calculate quotient and remainder
+  full_cartons = number1 // number2
+  remaining = number1 % number2
+
+  # Set answers
+  Answer1 = full_cartons
+  Answer2 = remaining
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "48"
+      answer2: "3"
+
+  - seed: 67890
+    expected:
+      answer1: "79"
+      answer2: "4"

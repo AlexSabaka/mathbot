@@ -1,0 +1,54 @@
+metadata:
+  id: k3_easy_division_remainder_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: division_remainder
+  difficulty: easy
+  steps: 2
+  tags: [division, remainder, quotient]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: integer
+    min: 10
+    max: 50
+  number2:
+    type: integer
+    min: 3
+    max: 9
+  object_plural:
+    type: item
+    category: grocery
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} divides {{number1}} {{object_plural}} equally among {{number2}} friends.
+  What is the quotient? What is the remainder?
+
+solution: |
+  # Calculate quotient and remainder
+  quotient = number1 // number2
+  remainder = number1 % number2
+
+  # Set answers
+  Answer1 = quotient
+  Answer2 = remainder
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "5"
+      answer2: "3"
+
+  - seed: 67890
+    expected:
+      answer1: "4"
+      answer2: "2"

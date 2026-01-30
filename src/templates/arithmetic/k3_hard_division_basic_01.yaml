@@ -1,0 +1,48 @@
+metadata:
+  id: k3_hard_division_basic_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: basic_division
+  difficulty: hard
+  steps: 1
+  tags: [division, boxing, context]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: integer
+    min: 20
+    max: 100
+  number2:
+    type: integer
+    min: 4
+    max: 12
+  object_plural:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{dividend}} {{object_plural}}. {{name}} wants to put them in boxes with {{number2}} {{object_plural}} each.
+  How many boxes does {{name}} need?
+
+solution: |
+  # Adjust number1 to ensure it's divisible by number2
+  dividend = (number1 // number2) * number2
+
+  # Perform division
+  Answer = dividend // number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6"
+
+  - seed: 67890
+    expected:
+      answer: "8"

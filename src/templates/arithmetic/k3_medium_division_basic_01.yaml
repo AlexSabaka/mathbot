@@ -1,0 +1,43 @@
+metadata:
+  id: k3_medium_division_basic_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: basic_division
+  difficulty: medium
+  steps: 1
+  tags: [division, grouping, context]
+
+variables:
+  number1:
+    type: integer
+    min: 12
+    max: 48
+  number2:
+    type: integer
+    min: 2
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  There are {{dividend}} students in a class. The teacher divides them into {{number2}} equal groups.
+  How many students are in each group?
+
+solution: |
+  # Adjust number1 to ensure it's divisible by number2
+  dividend = (number1 // number2) * number2
+
+  # Perform division
+  Answer = dividend // number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6"
+
+  - seed: 67890
+    expected:
+      answer: "8"

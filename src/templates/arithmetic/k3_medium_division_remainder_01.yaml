@@ -1,0 +1,66 @@
+metadata:
+  id: k3_medium_division_remainder_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: division_remainder
+  difficulty: medium
+  steps: 1
+  tags: [division, remainder, quotient, dividend, divisor]
+
+variables:
+  number1:
+    type: integer
+    min: 20
+    max: 100
+  number2:
+    type: integer
+    min: 3
+    max: 12
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+  Answer4:
+    type: integer
+
+template: |
+  In the division problem {{dividend}} ÷ {{divisor}} = {{quotient}} R {{remainder}}, identify:
+  a) The dividend
+  b) The divisor
+  c) The quotient
+  d) The remainder
+
+solution: |
+  # Set dividend and divisor for display
+  dividend = number1
+  divisor = number2
+
+  # Calculate quotient and remainder
+  quotient = number1 // number2
+  remainder = number1 % number2
+
+  # Set answers (dividend, divisor, quotient, remainder)
+  Answer1 = dividend
+  Answer2 = divisor
+  Answer3 = quotient
+  Answer4 = remainder
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "39"
+      answer2: "6"
+      answer3: "6"
+      answer4: "3"
+
+  - seed: 67890
+    expected:
+      answer1: "42"
+      answer2: "5"
+      answer3: "8"
+      answer4: "2"

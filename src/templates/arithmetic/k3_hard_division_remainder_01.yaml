@@ -1,0 +1,51 @@
+metadata:
+  id: k3_hard_division_remainder_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: division_remainder
+  difficulty: hard
+  steps: 2
+  tags: [division, remainder, stickers, context]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: integer
+    min: 30
+    max: 100
+  number2:
+    type: integer
+    min: 4
+    max: 12
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} has {{number1}} stickers. {{name}} puts {{number2}} stickers on each page of an album.
+  How many full pages can {{name}} fill? How many stickers will be left over?
+
+solution: |
+  # Calculate quotient and remainder
+  full_pages = number1 // number2
+  leftover_stickers = number1 % number2
+
+  # Set answers
+  Answer1 = full_pages
+  Answer2 = leftover_stickers
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "6"
+      answer2: "3"
+
+  - seed: 67890
+    expected:
+      answer1: "8"
+      answer2: "2"

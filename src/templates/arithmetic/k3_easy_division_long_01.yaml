@@ -1,0 +1,42 @@
+metadata:
+  id: k3_easy_division_long_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.division
+  family: long_division
+  difficulty: easy
+  steps: 1
+  tags: [division, long-division, basic]
+
+variables:
+  number1:
+    type: integer
+    min: 20
+    max: 99
+  number2:
+    type: integer
+    min: 2
+    max: 9
+  Answer:
+    type: integer
+
+template: |
+  Use long division to solve: {{dividend}} ÷ {{number2}}
+
+solution: |
+  # Adjust number1 to ensure clean division
+  dividend = (number1 // number2) * number2
+
+  # Perform division
+  Answer = dividend // number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6"
+
+  - seed: 67890
+    expected:
+      answer: "8"

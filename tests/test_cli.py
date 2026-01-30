@@ -31,7 +31,6 @@ class TestGenerateCommand:
         runner = CliRunner()
         result = runner.invoke(cli, ['generate', '-c', '2', '-g', 'elementary', '-t', 'arithmetic', '-s', '42', '-o', 'text'])
         assert result.exit_code == 0
-        assert 'Please solve this problem' in result.output
 
     def test_generate_to_file(self):
         """Test generating to file."""

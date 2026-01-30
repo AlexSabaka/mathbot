@@ -7,7 +7,16 @@ The solution must set an 'Answer' variable OR 'Answer1', 'Answer2', etc. for mul
 from typing import Dict, Any, Optional, Union
 from decimal import Decimal
 import math
+import inflect
 from .yaml_loader import VariableSpec
+
+# Create inflect engine for number-to-words conversion
+_inflect_engine = inflect.engine()
+
+
+def _number_to_words(n: int) -> str:
+    """Convert number to words (American English style, no 'and')."""
+    return _inflect_engine.number_to_words(n, andword='')
 
 
 def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, Dict[str, Any]]:
@@ -43,8 +52,19 @@ def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, 
         'max': max,
         'sum': sum,
         'pow': pow,
+        'len': len,
+        'list': list,
+        'range': range,
+        'sorted': sorted,
+        'enumerate': enumerate,
+        'zip': zip,
+        'map': map,
+        'filter': filter,
+        'any': any,
+        'all': all,
         'math': math,
         'Decimal': Decimal,
+        'number_to_words': _number_to_words,
     }
     
     try:

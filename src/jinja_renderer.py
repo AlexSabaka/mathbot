@@ -61,6 +61,14 @@ def ordinal_filter(number: int) -> str:
     return p.ordinal(number)
 
 
+def number_to_words_filter(number: int) -> str:
+    """Convert number to word form (American English style).
+    
+    Example: {{ 254 | number_to_words }} → "two hundred fifty-four"
+    """
+    return p.number_to_words(number, andword='')
+
+
 def capitalize_filter(text: str) -> str:
     """Capitalize first letter of text.
     
@@ -87,6 +95,7 @@ class JinjaRenderer:
         self.env.filters['list_and'] = list_and_filter
         self.env.filters['format_money'] = format_money_filter
         self.env.filters['ordinal'] = ordinal_filter
+        self.env.filters['number_to_words'] = number_to_words_filter
         self.env.filters['capitalize'] = capitalize_filter
         
         # Register global functions (can be used without filter syntax)
@@ -95,6 +104,7 @@ class JinjaRenderer:
         self.env.globals['list_and'] = list_and_filter
         self.env.globals['format_money'] = format_money_filter
         self.env.globals['ordinal'] = ordinal_filter
+        self.env.globals['number_to_words'] = number_to_words_filter
     
     def render(self, template_text: str, context: dict) -> str:
         """Render a template with the given context.

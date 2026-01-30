@@ -260,13 +260,6 @@ class YAMLLoader:
     
     def _validate_template(self, template_def: TemplateDefinition) -> None:
         """Validate template content and solution."""
-        # Check template ends with required text
-        required_ending = "Please solve this problem and provide your final answer."
-        if not template_def.template.strip().endswith(required_ending):
-            self.warnings.append(
-                f"Template should end with: '{required_ending}'"
-            )
-        
         # Check solution sets Answer
         if 'Answer' not in template_def.solution:
             self.errors.append(

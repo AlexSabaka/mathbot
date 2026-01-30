@@ -5,6 +5,7 @@ GRADES = ["elementary", "middle", "high", "college", "university"]
 
 # Available math topics
 MATH_TOPICS = [
+    "numbers",
     "arithmetic",
     "percentages",
     "fractions",
@@ -37,6 +38,7 @@ GRADE_MAX_COMPLEXITY = {
 
 # Math topic grade compatibility
 TOPIC_GRADE_COMPATIBILITY = {
+    "numbers": ["elementary"],
     "arithmetic": ["elementary", "middle", "high", "college", "university"],
     "percentages": ["middle", "high", "college", "university"],
     "fractions": ["elementary", "middle", "high", "college", "university"],

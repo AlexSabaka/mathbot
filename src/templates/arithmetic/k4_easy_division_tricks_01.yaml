@@ -1,0 +1,42 @@
+metadata:
+  id: k4_easy_division_tricks_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: easy
+  steps: 1
+  tags: [division, mental-math, tricks]
+
+variables:
+  d:
+    type: integer
+    min: 2
+    max: 10
+  n:
+    type: integer
+    min: 20
+    max: 100
+  Answer:
+    type: integer
+
+template: |
+  Use a division trick to divide {{n}} by {{d}} mentally.
+
+solution: |
+  # Ensure n is divisible by d by adjusting n
+  n = (n // d) * d
+
+  # Calculate the answer
+  Answer = n // d
+
+tests:
+  - seed: 12345
+    expected:
+      answer: 21
+
+  - seed: 67890
+    expected:
+      answer: 13

@@ -1,0 +1,91 @@
+metadata:
+  id: k4_medium_division_tricks_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: medium
+  steps: 2
+  tags: [division, mental-math, real-world, sharing]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: grocery
+  n:
+    type: integer
+    min: 100
+    max: 500
+  d:
+    type: integer
+    min: 4
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{n}} {{item}} to divide equally among {{d}} friends.
+  Can it be done with none left over? Use a divisibility rule to decide.
+
+solution: |
+  # Check if n is divisible by d using divisibility rules
+  divisible = False
+  explanation = ""
+
+  if d == 2:
+      # Divisible by 2: last digit is even
+      last_digit = n % 10
+      divisible = (last_digit % 2 == 0)
+      explanation = f"To check if {n} is divisible by 2, look at the last digit. The last digit is {last_digit}, which is {'even' if divisible else 'odd'}."
+
+  elif d == 5:
+      # Divisible by 5: last digit is 0 or 5
+      last_digit = n % 10
+      divisible = (last_digit == 0 or last_digit == 5)
+      explanation = f"To check if {n} is divisible by 5, look at the last digit. The last digit is {last_digit}."
+
+  elif d == 4:
+      # Divisible by 4: last two digits form a number divisible by 4
+      last_two = n % 100
+      divisible = (last_two % 4 == 0)
+      explanation = f"To check if {n} is divisible by 4, look at the last two digits. The last two digits are {last_two}, which is {'divisible' if divisible else 'not divisible'} by 4."
+
+  elif d == 8:
+      # Divisible by 8: last three digits form a number divisible by 8
+      last_three = n % 1000
+      divisible = (last_three % 8 == 0)
+      explanation = f"To check if {n} is divisible by 8, look at the last three digits. The number formed is {last_three}, which is {'divisible' if divisible else 'not divisible'} by 8."
+
+  elif d == 6:
+      # Divisible by 6: divisible by both 2 and 3
+      last_digit = n % 10
+      divisible_by_2 = (last_digit % 2 == 0)
+      digit_sum = sum(int(digit) for digit in str(n))
+      divisible_by_3 = (digit_sum % 3 == 0)
+      divisible = divisible_by_2 and divisible_by_3
+      explanation = f"To check if {n} is divisible by 6, it must be divisible by both 2 and 3. It is {'divisible' if divisible_by_2 else 'not divisible'} by 2 and {'divisible' if divisible_by_3 else 'not divisible'} by 3."
+
+  else:
+      # For other divisors, use standard division
+      divisible = (n % d == 0)
+      explanation = f"Checking: {n} ÷ {d} = {n // d} with remainder {n % d}."
+
+  # Format answer
+  if divisible:
+      per_friend = n // d
+      Answer = f"Yes, each friend gets {per_friend} {item} with none left over. {explanation}"
+  else:
+      Answer = f"No, {n} cannot be divided evenly among {d} friends. {explanation}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Yes, each friend gets 105 apples with none left over. To check if 420 is divisible by 4, look at the last two digits. The last two digits are 20, which is divisible by 4."
+
+  - seed: 67890
+    expected:
+      answer: "No, 325 cannot be divided evenly among 4 friends. To check if 325 is divisible by 4, look at the last two digits. The last two digits are 25, which is not divisible by 4."

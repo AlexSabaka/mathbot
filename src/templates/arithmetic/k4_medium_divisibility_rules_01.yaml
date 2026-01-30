@@ -1,0 +1,112 @@
+metadata:
+  id: k4_medium_divisibility_rules_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: medium
+  steps: 3
+  tags: [divisibility, division, rules, multiple-numbers]
+
+variables:
+  d:
+    type: integer
+    min: 3
+    max: 9
+  n1:
+    type: integer
+    min: 100
+    max: 999
+  n2:
+    type: integer
+    min: 100
+    max: 999
+  n3:
+    type: integer
+    min: 100
+    max: 999
+  n4:
+    type: integer
+    min: 100
+    max: 999
+  Answer:
+    type: string
+
+template: |
+  Which of these numbers are divisible by {{d}}?
+  {{n1}}, {{n2}}, {{n3}}, {{n4}}
+
+  Explain the rule you used.
+
+solution: |
+  # Check divisibility for each number
+  numbers = [n1, n2, n3, n4]
+  divisible_numbers = []
+
+  for num in numbers:
+      is_divisible = False
+
+      if d == 3:
+          # Divisible by 3: sum of digits divisible by 3
+          digit_sum = sum(int(digit) for digit in str(num))
+          is_divisible = (digit_sum % 3 == 0)
+
+      elif d == 9:
+          # Divisible by 9: sum of digits divisible by 9
+          digit_sum = sum(int(digit) for digit in str(num))
+          is_divisible = (digit_sum % 9 == 0)
+
+      elif d == 4:
+          # Divisible by 4: last two digits form a number divisible by 4
+          last_two = num % 100
+          is_divisible = (last_two % 4 == 0)
+
+      elif d == 6:
+          # Divisible by 6: divisible by both 2 and 3
+          last_digit = num % 10
+          divisible_by_2 = (last_digit % 2 == 0)
+          digit_sum = sum(int(digit) for digit in str(num))
+          divisible_by_3 = (digit_sum % 3 == 0)
+          is_divisible = divisible_by_2 and divisible_by_3
+
+      else:
+          # For other divisors
+          is_divisible = (num % d == 0)
+
+      if is_divisible:
+          divisible_numbers.append(num)
+
+  # Format answer with explanation
+  if len(divisible_numbers) == 0:
+      result = "None of these numbers are divisible by " + str(d)
+  elif len(divisible_numbers) == 1:
+      result = str(divisible_numbers[0]) + " is divisible by " + str(d)
+  elif len(divisible_numbers) == 2:
+      result = str(divisible_numbers[0]) + " and " + str(divisible_numbers[1]) + " are divisible by " + str(d)
+  else:
+      result = ", ".join(str(num) for num in divisible_numbers[:-1]) + ", and " + str(divisible_numbers[-1]) + " are divisible by " + str(d)
+
+  # Add rule explanation
+  if d == 3:
+      rule = "Rule: A number is divisible by 3 if the sum of its digits is divisible by 3."
+  elif d == 9:
+      rule = "Rule: A number is divisible by 9 if the sum of its digits is divisible by 9."
+  elif d == 4:
+      rule = "Rule: A number is divisible by 4 if its last two digits form a number divisible by 4."
+  elif d == 6:
+      rule = "Rule: A number is divisible by 6 if it is divisible by both 2 and 3."
+  else:
+      rule = f"Rule: Check if the number is evenly divisible by {d}."
+
+  Answer = result + ". " + rule
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "846 and 453 are divisible by 3. Rule: A number is divisible by 3 if the sum of its digits is divisible by 3."
+
+  - seed: 67890
+    expected:
+      answer: "144 is divisible by 4. Rule: A number is divisible by 4 if its last two digits form a number divisible by 4."

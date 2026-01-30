@@ -1,0 +1,97 @@
+metadata:
+  id: k4_easy_divisibility_rules_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: easy
+  steps: 1
+  tags: [divisibility, division, rules]
+
+variables:
+  n:
+    type: integer
+    min: 100
+    max: 999
+  d:
+    type: integer
+    min: 2
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  Is {{n}} divisible by {{d}}?
+  Explain how you know using the divisibility rule for {{d}}.
+
+solution: |
+  # Check divisibility using divisibility rules
+  divisible = False
+  explanation = ""
+
+  if d == 2:
+      # Divisible by 2: last digit is even
+      last_digit = n % 10
+      divisible = (last_digit % 2 == 0)
+      explanation = f"A number is divisible by 2 if its last digit is even. The last digit of {n} is {last_digit}, which is {'even' if divisible else 'odd'}."
+
+  elif d == 5:
+      # Divisible by 5: last digit is 0 or 5
+      last_digit = n % 10
+      divisible = (last_digit == 0 or last_digit == 5)
+      explanation = f"A number is divisible by 5 if its last digit is 0 or 5. The last digit of {n} is {last_digit}."
+
+  elif d == 10:
+      # Divisible by 10: last digit is 0
+      last_digit = n % 10
+      divisible = (last_digit == 0)
+      explanation = f"A number is divisible by 10 if its last digit is 0. The last digit of {n} is {last_digit}."
+
+  elif d == 3:
+      # Divisible by 3: sum of digits is divisible by 3
+      digit_sum = sum(int(digit) for digit in str(n))
+      divisible = (digit_sum % 3 == 0)
+      explanation = f"A number is divisible by 3 if the sum of its digits is divisible by 3. The sum of digits of {n} is {digit_sum}, which is {'divisible' if divisible else 'not divisible'} by 3."
+
+  elif d == 9:
+      # Divisible by 9: sum of digits is divisible by 9
+      digit_sum = sum(int(digit) for digit in str(n))
+      divisible = (digit_sum % 9 == 0)
+      explanation = f"A number is divisible by 9 if the sum of its digits is divisible by 9. The sum of digits of {n} is {digit_sum}, which is {'divisible' if divisible else 'not divisible'} by 9."
+
+  elif d == 4:
+      # Divisible by 4: last two digits form a number divisible by 4
+      last_two = n % 100
+      divisible = (last_two % 4 == 0)
+      explanation = f"A number is divisible by 4 if its last two digits form a number divisible by 4. The last two digits of {n} are {last_two}, which is {'divisible' if divisible else 'not divisible'} by 4."
+
+  elif d == 6:
+      # Divisible by 6: divisible by both 2 and 3
+      last_digit = n % 10
+      divisible_by_2 = (last_digit % 2 == 0)
+      digit_sum = sum(int(digit) for digit in str(n))
+      divisible_by_3 = (digit_sum % 3 == 0)
+      divisible = divisible_by_2 and divisible_by_3
+      explanation = f"A number is divisible by 6 if it is divisible by both 2 and 3. {n} is {'divisible' if divisible_by_2 else 'not divisible'} by 2 and {'divisible' if divisible_by_3 else 'not divisible'} by 3."
+
+  else:
+      # For other divisors, use standard division
+      divisible = (n % d == 0)
+      explanation = f"Checking if {n} is divisible by {d}: {n} ÷ {d} = {n // d} with remainder {n % d}."
+
+  # Format answer
+  if divisible:
+      Answer = f"Yes. {explanation}"
+  else:
+      Answer = f"No. {explanation}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Yes. A number is divisible by 2 if its last digit is even. The last digit of 846 is 6, which is even."
+
+  - seed: 67890
+    expected:
+      answer: "Yes. A number is divisible by 5 if its last digit is 0 or 5. The last digit of 325 is 5."

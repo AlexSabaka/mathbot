@@ -1,0 +1,76 @@
+metadata:
+  id: k4_hard_divisibility_rules_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 4
+  topic: arithmetic.division
+  family: divisibility
+  difficulty: hard
+  steps: 4
+  tags: [divisibility, division, rules, multiple-divisors]
+
+variables:
+  digit_count:
+    type: integer
+    min: 3
+    max: 4
+  d1:
+    type: integer
+    min: 2
+    max: 5
+  d2:
+    type: integer
+    min: 3
+    max: 6
+  Answer:
+    type: integer
+
+template: |
+  Find a {{digit_count}}-digit number that is divisible by BOTH {{d1}} AND {{d2}}.
+  Explain how you checked using divisibility rules.
+
+solution: |
+  # Generate a number divisible by both d1 and d2
+  # Find the least common multiple (LCM) of d1 and d2
+  import math
+
+  def gcd(a, b):
+      while b:
+          a, b = b, a % b
+      return a
+
+  def lcm(a, b):
+      return abs(a * b) // gcd(a, b)
+
+  # Find LCM of d1 and d2
+  multiple = lcm(d1, d2)
+
+  # Find the smallest number with digit_count digits
+  if digit_count == 3:
+      min_num = 100
+      max_num = 999
+  else:  # digit_count == 4
+      min_num = 1000
+      max_num = 9999
+
+  # Find the first multiple of 'multiple' in the range
+  start = ((min_num + multiple - 1) // multiple) * multiple
+
+  # Use a number in the middle range for variety
+  # Add a random offset based on the variables to ensure consistency
+  offset_factor = (d1 + d2) % 5
+  Answer = start + (multiple * offset_factor)
+
+  # Make sure it's still in range
+  if Answer > max_num:
+      Answer = start
+
+tests:
+  - seed: 12345
+    expected:
+      answer: 102
+
+  - seed: 67890
+    expected:
+      answer: 120

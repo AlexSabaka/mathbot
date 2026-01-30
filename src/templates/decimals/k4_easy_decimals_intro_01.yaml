@@ -1,0 +1,48 @@
+metadata:
+  id: k4_easy_decimals_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.introduction
+  family: decimal_operations
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, basic, place-value]
+
+variables:
+  tenths:
+    type: integer
+    min: 1
+    max: 9
+  hundredths:
+    type: integer
+    min: 1
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Write the following as decimals:
+
+  a) {{tenths}} tenths
+  b) {{hundredths}} hundredths
+
+solution: |
+  # Convert tenths to decimal (0.X)
+  decimal_tenths = tenths / 10.0
+
+  # Convert hundredths to decimal (0.0X)
+  decimal_hundredths = hundredths / 100.0
+
+  # Format the answer
+  Answer = f"a) {decimal_tenths:.1f}, b) {decimal_hundredths:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "a) 0.3, b) 0.08"
+  - seed: 67890
+    expected:
+      answer: "a) 0.2, b) 0.05"

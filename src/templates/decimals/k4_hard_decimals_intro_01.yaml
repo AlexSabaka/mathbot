@@ -1,0 +1,76 @@
+metadata:
+  id: k4_hard_decimals_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.introduction
+  family: decimal_operations
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, ordering, comparison]
+
+variables:
+  whole:
+    type: integer
+    min: 1
+    max: 9
+  dec1_tenth:
+    type: integer
+    min: 0
+    max: 9
+  dec1_hundredth:
+    type: integer
+    min: 0
+    max: 9
+  dec2_tenth:
+    type: integer
+    min: 0
+    max: 9
+  dec3_tenth:
+    type: integer
+    min: 0
+    max: 9
+  dec3_hundredth:
+    type: integer
+    min: 0
+    max: 9
+  dec3_thousandth:
+    type: integer
+    min: 0
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Arrange these decimals from least to greatest:
+
+  {{whole}}.{{dec1_tenth}}{{dec1_hundredth}}, {{whole}}.{{dec2_tenth}}, {{whole}}.{{dec3_tenth}}{{dec3_hundredth}}{{dec3_thousandth}}
+
+solution: |
+  # Create the three decimal numbers
+  decimal1 = whole + dec1_tenth/10.0 + dec1_hundredth/100.0
+  decimal2 = whole + dec2_tenth/10.0
+  decimal3 = whole + dec3_tenth/10.0 + dec3_hundredth/100.0 + dec3_thousandth/1000.0
+
+  # Store in list with original representations
+  decimals = [
+      (decimal1, f"{whole}.{dec1_tenth}{dec1_hundredth}"),
+      (decimal2, f"{whole}.{dec2_tenth}"),
+      (decimal3, f"{whole}.{dec3_tenth}{dec3_hundredth}{dec3_thousandth}")
+  ]
+
+  # Sort by value
+  decimals.sort(key=lambda x: x[0])
+
+  # Format answer
+  Answer = ", ".join([d[1] for d in decimals])
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.0, 3.38, 3.702"
+  - seed: 67890
+    expected:
+      answer: "2.2, 2.25, 2.572"

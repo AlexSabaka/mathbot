@@ -1,0 +1,61 @@
+metadata:
+  id: k4_hard_decimals_place_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.place_value
+  family: decimal_operations
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [decimals, place-value, problem-solving]
+
+variables:
+  name:
+    type: person
+  tens_digit:
+    type: integer
+    min: 1
+    max: 9
+  ones_digit:
+    type: integer
+    min: 0
+    max: 9
+  tenths_digit:
+    type: integer
+    min: 1
+    max: 9
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} writes a decimal number.
+
+  The digit {{tens_digit}} is in the tens place.
+  The digit in the tenths place is {{tenths_digit}}.
+  The digit in the ones place is {{ones_digit}}.
+  The digit in the hundredths place is twice the digit in the tenths place.
+
+  What is {{name}}'s number?
+
+solution: |
+  # Calculate the hundredths digit (twice the tenths digit)
+  hundredths_digit = tenths_digit * 2
+
+  # Make sure hundredths is valid (0-9)
+  if hundredths_digit > 9:
+      hundredths_digit = 9
+
+  # Construct the number
+  Answer = tens_digit * 10 + ones_digit * 1 + tenths_digit * 0.1 + hundredths_digit * 0.01
+
+  Answer = round(Answer, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "33.36"
+  - seed: 67890
+    expected:
+      answer: "22.24"

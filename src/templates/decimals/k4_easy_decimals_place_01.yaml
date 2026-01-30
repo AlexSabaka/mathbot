@@ -1,0 +1,52 @@
+metadata:
+  id: k4_easy_decimals_place_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.place_value
+  family: decimal_operations
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, place-value, identification]
+
+variables:
+  whole:
+    type: integer
+    min: 1
+    max: 99
+  tenth:
+    type: integer
+    min: 0
+    max: 9
+  hundredth:
+    type: integer
+    min: 0
+    max: 9
+  place_choice:
+    type: integer
+    min: 0
+    max: 1
+  Answer:
+    type: integer
+
+template: |
+  In the number {{whole}}.{{tenth}}{{hundredth}}, what digit is in the {% if place_choice == 0 %}tenths{% else %}hundredths{% endif %} place?
+
+solution: |
+  # Determine which place to ask about
+  if place_choice == 0:
+      # Tenths place
+      Answer = tenth
+  else:
+      # Hundredths place
+      Answer = hundredth
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3"
+  - seed: 67890
+    expected:
+      answer: "5"

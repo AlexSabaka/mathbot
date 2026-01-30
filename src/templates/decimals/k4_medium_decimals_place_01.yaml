@@ -1,0 +1,68 @@
+metadata:
+  id: k4_medium_decimals_place_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.place_value
+  family: decimal_operations
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, place-value, understanding]
+
+variables:
+  tens:
+    type: integer
+    min: 1
+    max: 9
+  ones:
+    type: integer
+    min: 0
+    max: 9
+  tenth:
+    type: integer
+    min: 0
+    max: 9
+  hundredth:
+    type: integer
+    min: 0
+    max: 9
+  place_choice:
+    type: integer
+    min: 0
+    max: 3
+  Answer:
+    type: decimal
+
+template: |
+  Write the value of the underlined digit:
+
+  {% if place_choice == 0 %}_{{tens}}{{ones}}.{{tenth}}{{hundredth}}{% elif place_choice == 1 %}{{tens}}_{{ones}}.{{tenth}}{{hundredth}}{% elif place_choice == 2 %}{{tens}}{{ones}}._{{tenth}}{{hundredth}}{% else %}{{tens}}{{ones}}.{{tenth}}_{{hundredth}}{% endif %}
+
+  The underlined digit {{tens if place_choice == 0 else (ones if place_choice == 1 else (tenth if place_choice == 2 else hundredth))}} represents _____.
+
+solution: |
+  # Determine the value based on place
+  if place_choice == 0:
+      # Tens place
+      Answer = tens * 10.0
+  elif place_choice == 1:
+      # Ones place
+      Answer = ones * 1.0
+  elif place_choice == 2:
+      # Tenths place
+      Answer = tenth * 0.1
+  else:
+      # Hundredths place
+      Answer = hundredth * 0.01
+
+  Answer = round(Answer, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "0.30"
+  - seed: 67890
+    expected:
+      answer: "0.05"

@@ -1,0 +1,93 @@
+metadata:
+  id: k4_hard_decimals_add_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.operations
+  family: decimal_operations
+  difficulty: hard
+  steps: 5
+  culture: en-US
+  tags: [decimals, multi-step, real-world, sports]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  name3:
+    type: person
+  distance1_whole:
+    type: integer
+    min: 10
+    max: 15
+  distance1_tenth:
+    type: integer
+    min: 0
+    max: 9
+  distance1_hundredth:
+    type: integer
+    min: 0
+    max: 9
+  more_distance_whole:
+    type: integer
+    min: 1
+    max: 3
+  more_distance_tenth:
+    type: integer
+    min: 0
+    max: 9
+  more_distance_hundredth:
+    type: integer
+    min: 0
+    max: 9
+  less_distance_whole:
+    type: integer
+    min: 0
+    max: 2
+  less_distance_tenth:
+    type: integer
+    min: 0
+    max: 9
+  less_distance_hundredth:
+    type: integer
+    min: 0
+    max: 9
+  Answer:
+    type: decimal
+
+template: |
+  {{name1}} ran {{distance1_whole}}.{{distance1_tenth}}{{distance1_hundredth}} kilometers on Monday.
+
+  {{name2}} ran {{more_distance_whole}}.{{more_distance_tenth}}{{more_distance_hundredth}} kilometers more than {{name1}}.
+
+  {{name3}} ran {{less_distance_whole}}.{{less_distance_tenth}}{{less_distance_hundredth}} kilometers less than {{name2}}.
+
+  How far did {{name3}} run?
+
+solution: |
+  # Calculate distance1
+  distance1 = distance1_whole + distance1_tenth / 10.0 + distance1_hundredth / 100.0
+
+  # Calculate more_distance
+  more_distance = more_distance_whole + more_distance_tenth / 10.0 + more_distance_hundredth / 100.0
+
+  # Calculate less_distance
+  less_distance = less_distance_whole + less_distance_tenth / 10.0 + less_distance_hundredth / 100.0
+
+  # Calculate distance2 (name2's distance)
+  distance2 = distance1 + more_distance
+
+  # Calculate distance3 (name3's distance)
+  distance3 = distance2 - less_distance
+
+  Answer = round(distance3, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "14.76"
+  - seed: 67890
+    expected:
+      answer: "13.97"

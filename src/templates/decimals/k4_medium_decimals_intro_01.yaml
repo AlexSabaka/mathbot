@@ -1,0 +1,56 @@
+metadata:
+  id: k4_medium_decimals_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.introduction
+  family: decimal_operations
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, money, real-world]
+
+variables:
+  name:
+    type: person
+  dollars:
+    type: integer
+    min: 1
+    max: 20
+  dimes:
+    type: integer
+    min: 1
+    max: 9
+  pennies:
+    type: integer
+    min: 1
+    max: 9
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} has {{dollars}} dollars, {{dimes}} dimes, and {{pennies}} pennies.
+
+  Write the total amount as a decimal.
+
+solution: |
+  # Convert dimes to dollars (1 dime = 0.10)
+  dimes_in_dollars = dimes * 0.10
+
+  # Convert pennies to dollars (1 penny = 0.01)
+  pennies_in_dollars = pennies * 0.01
+
+  # Calculate total
+  total = dollars + dimes_in_dollars + pennies_in_dollars
+
+  Answer = round(total, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$13.38"
+  - seed: 67890
+    expected:
+      answer: "$12.25"

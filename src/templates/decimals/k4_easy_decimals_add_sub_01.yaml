@@ -1,0 +1,51 @@
+metadata:
+  id: k4_easy_decimals_add_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 4
+  topic: decimals.operations
+  family: decimal_operations
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, addition, basic]
+
+variables:
+  a_ones:
+    type: integer
+    min: 1
+    max: 9
+  a_tenth:
+    type: integer
+    min: 1
+    max: 9
+  b_ones:
+    type: integer
+    min: 1
+    max: 9
+  b_tenth:
+    type: integer
+    min: 1
+    max: 9
+  Answer:
+    type: decimal
+
+template: |
+  Add: {{a_ones}}.{{a_tenth}} + {{b_ones}}.{{b_tenth}}
+
+solution: |
+  # Create the decimal numbers
+  a = a_ones + a_tenth / 10.0
+  b = b_ones + b_tenth / 10.0
+
+  # Add them
+  Answer = round(a + b, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7.10"
+  - seed: 67890
+    expected:
+      answer: "4.70"

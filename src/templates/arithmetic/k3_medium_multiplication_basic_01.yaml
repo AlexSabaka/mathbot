@@ -1,0 +1,43 @@
+metadata:
+  id: k3_medium_multiplication_basic_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: basic_multiplication
+  difficulty: medium
+  steps: 1
+  tags: [multiplication, basic, rows]
+
+variables:
+  number1:
+    type: integer
+    min: 3
+    max: 9
+  number2:
+    type: integer
+    min: 4
+    max: 12
+  object_plural:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  There are {{number1}} rows of {{object_plural}} in a garden. Each row has {{number2}} {{object_plural}}.
+  How many {{object_plural}} are in the garden altogether?
+
+solution: |
+  # Multiply number of rows by items per row
+  Answer = number1 * number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "48"
+
+  - seed: 67890
+    expected:
+      answer: "56"

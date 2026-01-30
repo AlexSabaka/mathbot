@@ -1,0 +1,45 @@
+metadata:
+  id: k3_easy_multiplication_regroup_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: multiplication_regrouping
+  difficulty: easy
+  steps: 1
+  tags: [multiplication, regrouping, packs]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: integer
+    min: 2
+    max: 9
+  number2:
+    type: integer
+    min: 10
+    max: 50
+  object_plural:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} buys {{number1}} packs of {{object_plural}}. Each pack has {{number2}} {{object_plural}}.
+  How many {{object_plural}} did {{name}} buy in total?
+
+solution: |
+  # Multiply packs by items per pack
+  Answer = number1 * number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "92"
+
+  - seed: 67890
+    expected:
+      answer: "140"

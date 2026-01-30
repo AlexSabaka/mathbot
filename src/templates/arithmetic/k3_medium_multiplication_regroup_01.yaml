@@ -1,0 +1,40 @@
+metadata:
+  id: k3_medium_multiplication_regroup_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: multiplication_regrouping
+  difficulty: medium
+  steps: 1
+  tags: [multiplication, regrouping, boxes]
+
+variables:
+  number1:
+    type: integer
+    min: 3
+    max: 9
+  number2:
+    type: integer
+    min: 25
+    max: 99
+  Answer:
+    type: integer
+
+template: |
+  A bookstore sells {{number1}} boxes of pencils. Each box contains {{number2}} pencils.
+  How many pencils did the bookstore sell?
+
+solution: |
+  # Multiply boxes by pencils per box
+  Answer = number1 * number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "282"
+
+  - seed: 67890
+    expected:
+      answer: "348"

@@ -1,0 +1,50 @@
+metadata:
+  id: k3_hard_multiplication_area_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: area_model
+  difficulty: hard
+  steps: 3
+  tags: [multiplication, area-model, geometry, garden]
+
+variables:
+  number1:
+    type: integer
+    min: 5
+    max: 9
+  number2:
+    type: integer
+    min: 23
+    max: 48
+  Answer:
+    type: integer
+
+template: |
+  A rectangular garden is {{number1}} meters wide and {{number2}} meters long.
+  Use the area model to find the total area of the garden in square meters.
+
+solution: |
+  # Break number2 into tens and ones
+  tens_digit = number2 // 10
+  ones_digit = number2 % 10
+
+  # Multiply by tens part
+  tens_product = number1 * (tens_digit * 10)
+
+  # Multiply by ones part
+  ones_product = number1 * ones_digit
+
+  # Add the two products to get total area
+  Answer = tens_product + ones_product
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "252"
+
+  - seed: 67890
+    expected:
+      answer: "280"

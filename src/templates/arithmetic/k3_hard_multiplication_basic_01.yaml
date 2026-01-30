@@ -1,0 +1,45 @@
+metadata:
+  id: k3_hard_multiplication_basic_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: basic_multiplication
+  difficulty: hard
+  steps: 1
+  tags: [multiplication, basic, groups, sentence]
+
+variables:
+  name:
+    type: person
+  object_plural:
+    type: item
+    category: grocery
+  number1:
+    type: integer
+    min: 5
+    max: 12
+  number2:
+    type: integer
+    min: 6
+    max: 12
+  Answer:
+    type: integer
+
+template: |
+  {{name}} arranges {{object_plural}} in {{number1}} equal groups. If there are {{number2}} {{object_plural}}
+  in each group, write a multiplication sentence and find the total number of {{object_plural}}.
+
+solution: |
+  # Multiplication: groups × items per group
+  Answer = number1 * number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "63"
+
+  - seed: 67890
+    expected:
+      answer: "72"

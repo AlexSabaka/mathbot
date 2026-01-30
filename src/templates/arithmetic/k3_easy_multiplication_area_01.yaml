@@ -1,0 +1,50 @@
+metadata:
+  id: k3_easy_multiplication_area_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: area_model
+  difficulty: easy
+  steps: 3
+  tags: [multiplication, area-model, decomposition]
+
+variables:
+  number1:
+    type: integer
+    min: 2
+    max: 9
+  number2:
+    type: integer
+    min: 11
+    max: 19
+  Answer:
+    type: integer
+
+template: |
+  Use the area model to find {{number1}} × {{number2}}.
+  Break {{number2}} into 10 + {{number2 - 10}} and show your work.
+
+solution: |
+  # Break number2 into tens and ones
+  tens = 10
+  ones = number2 - 10
+
+  # Multiply by tens part
+  tens_product = number1 * tens
+
+  # Multiply by ones part
+  ones_product = number1 * ones
+
+  # Add the two products
+  Answer = tens_product + ones_product
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "52"
+
+  - seed: 67890
+    expected:
+      answer: "70"

@@ -1,0 +1,51 @@
+metadata:
+  id: k3_hard_multiplication_regroup_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: multiplication_regrouping
+  difficulty: hard
+  steps: 2
+  tags: [multiplication, regrouping, multi-day]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: integer
+    min: 3
+    max: 9
+  number2:
+    type: integer
+    min: 12
+    max: 36
+  number3:
+    type: integer
+    min: 2
+    max: 7
+  object_plural:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}}'s bakery makes {{number1}} trays of {{object_plural}} every day. Each tray holds {{number2}} {{object_plural}}.
+  How many {{object_plural}} does the bakery make in {{number3}} days?
+
+solution: |
+  # Calculate items per day
+  per_day = number1 * number2
+  # Multiply by number of days
+  Answer = per_day * number3
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "360"
+
+  - seed: 67890
+    expected:
+      answer: "567"

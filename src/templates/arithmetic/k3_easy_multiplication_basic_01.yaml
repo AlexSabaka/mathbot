@@ -1,0 +1,45 @@
+metadata:
+  id: k3_easy_multiplication_basic_01
+  version: "1.0.0"
+  author: Alex Sabaka
+  created: 2026-01-30
+  grade: 3
+  topic: arithmetic.multiplication
+  family: basic_multiplication
+  difficulty: easy
+  steps: 1
+  tags: [multiplication, basic, groups]
+
+variables:
+  name:
+    type: person
+  number1:
+    type: integer
+    min: 2
+    max: 5
+  number2:
+    type: integer
+    min: 2
+    max: 10
+  object_plural:
+    type: item
+    category: grocery
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{number1}} bags. Each bag contains {{number2}} {{object_plural}}.
+  How many {{object_plural}} does {{name}} have in all?
+
+solution: |
+  # Multiply number of bags by items per bag
+  Answer = number1 * number2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "15"
+
+  - seed: 67890
+    expected:
+      answer: "12"

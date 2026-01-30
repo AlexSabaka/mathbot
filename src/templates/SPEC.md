@@ -276,10 +276,12 @@ Answer:
 # For problems requiring multiple answers
 Answer1:
   type: integer
+  format: area
   # First answer (e.g., area)
 
 Answer2:
   type: integer
+  format: length
   # Second answer (e.g., perimeter)
 
 # Solution must set both:

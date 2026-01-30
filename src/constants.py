@@ -24,7 +24,22 @@ PROBLEM_FAMILIES = [
     "rate_time",
     "compound_growth",
     "multi_person_sharing",
-    "area_perimeter_chain"
+    "area_perimeter_chain",
+    "calendar",
+    "addition",
+    "subtraction",
+    "subtraction_facts",
+    "counting",
+    "skip_counting",
+    "comparing",
+    "patterns",
+    "length",
+    "weight",
+    "time",
+    "metric",
+    "area",
+    "shapes2d",
+    "shapes3d"
 ]
 
 # Grade to max complexity mapping
@@ -65,7 +80,22 @@ FAMILY_TOPIC_SUPPORT = {
     "rate_time": ["arithmetic", "fractions", "algebra", "derivatives"],  # derivatives = rates of change
     "compound_growth": ["percentages", "algebra", "powers_logs"],  # exponential growth, logs
     "multi_person_sharing": ["arithmetic", "ratios", "percentages", "fractions", "algebra"],
-    "area_perimeter_chain": ["geometry", "algebra", "powers_logs"]  # roots, squares
+    "area_perimeter_chain": ["geometry", "algebra", "powers_logs"],  # roots, squares
+    "calendar": ["measurement"],  # calendar and time problems
+    "addition": ["arithmetic"],
+    "subtraction": ["arithmetic"],
+    "subtraction_facts": ["arithmetic"],
+    "counting": ["numbers"],
+    "skip_counting": ["numbers"],
+    "comparing": ["numbers"],
+    "patterns": ["numbers"],
+    "length": ["measurement"],
+    "weight": ["measurement"],
+    "time": ["measurement"],
+    "metric": ["measurement"],
+    "area": ["measurement", "geometry"],
+    "shapes2d": ["geometry"],
+    "shapes3d": ["geometry"]
 }
 
 # Topics that require specific problem types (these need special handling)

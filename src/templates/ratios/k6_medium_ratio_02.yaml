@@ -1,0 +1,46 @@
+metadata:
+  id: k6_medium_ratio_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.part_to_whole
+  family: ratio
+  difficulty: medium
+  steps: 3
+  tags: [ratios, part-to-whole, students, class]
+
+variables:
+  boys:
+    type: integer
+    min: 8
+    max: 20
+    step: 2
+  girls:
+    type: integer
+    min: 8
+    max: 20
+    step: 2
+  Answer:
+    type: string
+
+template: |
+  A class has {{boys}} boys and {{girls}} girls. Find the ratio of boys to the total number of students in simplest form.
+
+solution: |
+  import math
+  
+  total = boys + girls
+  gcd = math.gcd(boys, total)
+  simplified_boys = boys // gcd
+  simplified_total = total // gcd
+  
+  Answer = f"{simplified_boys}:{simplified_total}"
+
+tests:
+  - seed: 30009
+    expected:
+      answer: "4:9"
+  - seed: 30010
+    expected:
+      answer: "5:9"

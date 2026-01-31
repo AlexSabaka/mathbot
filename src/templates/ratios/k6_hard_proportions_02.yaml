@@ -1,0 +1,62 @@
+metadata:
+  id: k6_hard_proportions_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.proportions
+  family: proportions
+  difficulty: hard
+  steps: 4
+  tags: [proportions, word-problem, construction, building]
+
+variables:
+  name:
+    type: person
+  bricks1:
+    type: integer
+    min: 100
+    max: 300
+    step: 50
+  time1:
+    type: integer
+    min: 2
+    max: 5
+  bricks2:
+    type: integer
+    min: 500
+    max: 1000
+    step: 100
+  hours_available:
+    type: integer
+    min: 15
+    max: 30
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: decimal
+    min: 0
+    max: 2000
+
+template: |
+  {{name}} can lay {{bricks1}} bricks in {{time1}} hours. How long will it take to lay {{bricks2}} bricks? If {{name}} works for {{hours_available}} hours, how many bricks can be laid?
+
+solution: |
+  # First question: time to lay bricks2
+  time_needed = (time1 * bricks2) / bricks1
+  
+  # Second question: bricks laid in hours_available
+  bricks_laid = (bricks1 * hours_available) / time1
+  
+  Answer1 = round(time_needed, 2)
+  Answer2 = round(bricks_laid, 2)
+
+tests:
+  - seed: 40015
+    expected:
+      answer: "16.00 | 800.00"
+  - seed: 40016
+    expected:
+      answer: "15.00 | 1125.00"

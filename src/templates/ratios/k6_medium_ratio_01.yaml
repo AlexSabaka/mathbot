@@ -1,0 +1,46 @@
+metadata:
+  id: k6_medium_ratio_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.part_to_whole
+  family: ratio
+  difficulty: medium
+  steps: 3
+  tags: [ratios, part-to-whole, marbles]
+
+variables:
+  a:
+    type: integer
+    min: 6
+    max: 24
+    step: 2
+  b:
+    type: integer
+    min: 6
+    max: 24
+    step: 2
+  Answer:
+    type: string
+
+template: |
+  In a bag of marbles, there are {{a}} red marbles and {{b}} blue marbles. What is the ratio of red marbles to total marbles? Simplify if possible.
+
+solution: |
+  import math
+  
+  total = a + b
+  gcd = math.gcd(a, total)
+  simplified_a = a // gcd
+  simplified_total = total // gcd
+  
+  Answer = f"{simplified_a}:{simplified_total}"
+
+tests:
+  - seed: 30007
+    expected:
+      answer: "1:2"
+  - seed: 30008
+    expected:
+      answer: "4:7"

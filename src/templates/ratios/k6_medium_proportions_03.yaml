@@ -1,0 +1,49 @@
+metadata:
+  id: k6_medium_proportions_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.proportions
+  family: proportions
+  difficulty: medium
+  steps: 3
+  tags: [proportions, word-problem, distance, speed]
+
+variables:
+  name:
+    type: person
+  distance1:
+    type: integer
+    min: 50
+    max: 150
+    step: 10
+  time1:
+    type: integer
+    min: 2
+    max: 4
+  distance2:
+    type: integer
+    min: 200
+    max: 400
+    step: 25
+  Answer:
+    type: decimal
+    min: 0
+    max: 50
+
+template: |
+  {{name}} drives {{distance1}} miles in {{time1}} hours. At this rate, how long would it take to drive {{distance2}} miles?
+
+solution: |
+  # Set up proportion: distance1/time1 = distance2/x
+  time_needed = (time1 * distance2) / distance1
+  Answer = round(time_needed, 2)
+
+tests:
+  - seed: 40011
+    expected:
+      answer: "7.00"
+  - seed: 40012
+    expected:
+      answer: "4.80"

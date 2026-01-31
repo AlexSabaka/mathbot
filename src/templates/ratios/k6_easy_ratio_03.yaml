@@ -1,0 +1,45 @@
+metadata:
+  id: k6_easy_ratio_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.basic
+  family: ratio
+  difficulty: easy
+  steps: 2
+  tags: [ratios, basic, comparison, fruit]
+
+variables:
+  apples:
+    type: integer
+    min: 4
+    max: 20
+    step: 2
+  oranges:
+    type: integer
+    min: 4
+    max: 20
+    step: 2
+  Answer:
+    type: string
+
+template: |
+  There are {{apples}} apples and {{oranges}} oranges in a basket. Express the ratio of apples to oranges in simplest form.
+
+solution: |
+  import math
+  
+  gcd = math.gcd(apples, oranges)
+  simplified_apples = apples // gcd
+  simplified_oranges = oranges // gcd
+  
+  Answer = f"{simplified_apples}:{simplified_oranges}"
+
+tests:
+  - seed: 30005
+    expected:
+      answer: "1:1"
+  - seed: 30006
+    expected:
+      answer: "5:3"

@@ -1,0 +1,44 @@
+metadata:
+  id: k6_easy_proportions_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.proportions
+  family: proportions
+  difficulty: easy
+  steps: 2
+  tags: [proportions, cross-multiply, basic]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 12
+  b:
+    type: integer
+    min: 5
+    max: 15
+  c:
+    type: integer
+    min: 10
+    max: 30
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  Find the value of x: {{a}}/{{b}} = x/{{c}}
+
+solution: |
+  x = (a * c) / b
+  Answer = round(x, 2)
+
+tests:
+  - seed: 40003
+    expected:
+      answer: "18.00"
+  - seed: 40004
+    expected:
+      answer: "21.00"

@@ -1,0 +1,59 @@
+metadata:
+  id: k6_hard_ratio_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.word_problems
+  family: ratio
+  difficulty: hard
+  steps: 4
+  tags: [ratios, word-problem, class, distribution]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 5
+    step: 1
+  b:
+    type: integer
+    min: 2
+    max: 5
+    step: 1
+  n:
+    type: integer
+    min: 20
+    max: 40
+    step: 5
+  Answer1:
+    type: integer
+    min: 0
+    max: 100
+  Answer2:
+    type: integer
+    min: 0
+    max: 100
+
+template: |
+  The ratio of boys to girls in a class is {{a}}:{{b}}. If there are {{n}} students in total, how many boys and how many girls are there?
+
+solution: |
+  # Ensure n is divisible by (a + b)
+  total_parts = a + b
+  if n % total_parts != 0:
+      n = (n // total_parts) * total_parts
+  
+  boys = (a * n) // total_parts
+  girls = (b * n) // total_parts
+  
+  Answer1 = boys
+  Answer2 = girls
+
+tests:
+  - seed: 30013
+    expected:
+      answer: "8 | 12"
+  - seed: 30014
+    expected:
+      answer: "12 | 8"

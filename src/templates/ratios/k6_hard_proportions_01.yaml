@@ -1,0 +1,60 @@
+metadata:
+  id: k6_hard_proportions_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.proportions
+  family: proportions
+  difficulty: hard
+  steps: 4
+  tags: [proportions, word-problem, map, scale, distance]
+
+variables:
+  a:
+    type: integer
+    min: 1
+    max: 2
+  b:
+    type: integer
+    min: 10
+    max: 50
+    step: 5
+  c:
+    type: integer
+    min: 3
+    max: 10
+  d:
+    type: integer
+    min: 100
+    max: 500
+    step: 25
+  Answer1:
+    type: decimal
+    min: 0
+    max: 1000
+  Answer2:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  A map has a scale of {{a}} inch = {{b}} miles. If two cities are {{c}} inches apart on the map, what is the actual distance between them? If the actual distance between two other cities is {{d}} miles, how far apart are they on the map?
+
+solution: |
+  # First question: c inches on map = ? miles actual
+  actual_distance = (c * b) / a
+  
+  # Second question: d miles actual = ? inches on map
+  map_distance = (d * a) / b
+  
+  Answer1 = round(actual_distance, 2)
+  Answer2 = round(map_distance, 2)
+
+tests:
+  - seed: 40013
+    expected:
+      answer: "120.00 | 8.00"
+  - seed: 40014
+    expected:
+      answer: "150.00 | 10.00"

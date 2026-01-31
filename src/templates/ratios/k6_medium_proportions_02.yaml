@@ -1,0 +1,47 @@
+metadata:
+  id: k6_medium_proportions_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.proportions
+  family: proportions
+  difficulty: medium
+  steps: 3
+  tags: [proportions, word-problem, baking, recipe]
+
+variables:
+  name:
+    type: person
+  cups1:
+    type: integer
+    min: 2
+    max: 4
+  servings1:
+    type: integer
+    min: 4
+    max: 8
+  servings2:
+    type: integer
+    min: 12
+    max: 24
+  Answer:
+    type: decimal
+    min: 0
+    max: 50
+
+template: |
+  A recipe that serves {{servings1}} people requires {{cups1}} cups of flour. {{name}} needs to make enough for {{servings2}} people. How many cups of flour does {{name}} need?
+
+solution: |
+  # Set up proportion: cups1/servings1 = x/servings2
+  cups_needed = (cups1 * servings2) / servings1
+  Answer = round(cups_needed, 2)
+
+tests:
+  - seed: 40009
+    expected:
+      answer: "9.00"
+  - seed: 40010
+    expected:
+      answer: "12.00"

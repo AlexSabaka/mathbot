@@ -1,0 +1,63 @@
+metadata:
+  id: k6_hard_ratio_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.word_problems
+  family: ratio
+  difficulty: hard
+  steps: 4
+  tags: [ratios, word-problem, recipe, cooking]
+
+variables:
+  item1:
+    type: string
+    choices: ["flour", "sugar", "butter", "milk"]
+  item2:
+    type: string
+    choices: ["eggs", "water", "oil", "salt"]
+  ratio_a:
+    type: integer
+    min: 2
+    max: 4
+  ratio_b:
+    type: integer
+    min: 3
+    max: 5
+  total_cups:
+    type: integer
+    min: 12
+    max: 24
+    step: 3
+  Answer1:
+    type: integer
+    min: 0
+    max: 50
+  Answer2:
+    type: integer
+    min: 0
+    max: 50
+
+template: |
+  A recipe uses {{item1}} and {{item2}} in a ratio of {{ratio_a}}:{{ratio_b}}. If you need {{total_cups}} cups of mixture in total, how many cups of each ingredient do you need?
+
+solution: |
+  # Ensure total_cups is divisible by (ratio_a + ratio_b)
+  total_parts = ratio_a + ratio_b
+  if total_cups % total_parts != 0:
+      total_cups = (total_cups // total_parts) * total_parts
+  
+  cups1 = (ratio_a * total_cups) // total_parts
+  cups2 = (ratio_b * total_cups) // total_parts
+  
+  Answer1 = cups1
+  Answer2 = cups2
+
+tests:
+  - seed: 30017
+    expected:
+      answer: "6 | 9"
+  - seed: 30018
+    expected:
+      answer: "8 | 10"

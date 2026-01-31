@@ -1,0 +1,61 @@
+metadata:
+  id: k6_hard_ratio_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.word_problems
+  family: ratio
+  difficulty: hard
+  steps: 4
+  tags: [ratios, word-problem, sharing, money]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  ratio_a:
+    type: integer
+    min: 2
+    max: 5
+  ratio_b:
+    type: integer
+    min: 2
+    max: 5
+  total:
+    type: integer
+    min: 20
+    max: 100
+    step: 5
+  Answer1:
+    type: integer
+    min: 0
+    max: 200
+  Answer2:
+    type: integer
+    min: 0
+    max: 200
+
+template: |
+  {{name1}} and {{name2}} share ${{total}} in the ratio {{ratio_a}}:{{ratio_b}}. How much money does each person receive?
+
+solution: |
+  # Ensure total is divisible by (ratio_a + ratio_b)
+  total_parts = ratio_a + ratio_b
+  if total % total_parts != 0:
+      total = (total // total_parts) * total_parts
+  
+  amount1 = (ratio_a * total) // total_parts
+  amount2 = (ratio_b * total) // total_parts
+  
+  Answer1 = amount1
+  Answer2 = amount2
+
+tests:
+  - seed: 30015
+    expected:
+      answer: "24 | 36"
+  - seed: 30016
+    expected:
+      answer: "48 | 32"

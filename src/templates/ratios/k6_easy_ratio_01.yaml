@@ -1,0 +1,46 @@
+metadata:
+  id: k6_easy_ratio_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.basic
+  family: ratio
+  difficulty: easy
+  steps: 2
+  tags: [ratios, basic, comparison]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 20
+    step: 1
+  b:
+    type: integer
+    min: 2
+    max: 20
+    step: 1
+  Answer:
+    type: string
+
+template: |
+  Write the ratio of {{a}} to {{b}} in simplest form.
+
+solution: |
+  import math
+  
+  # Calculate GCD and simplify
+  gcd = math.gcd(a, b)
+  simplified_a = a // gcd
+  simplified_b = b // gcd
+  
+  Answer = f"{simplified_a}:{simplified_b}"
+
+tests:
+  - seed: 30001
+    expected:
+      answer: "3:2"
+  - seed: 30002
+    expected:
+      answer: "2:3"

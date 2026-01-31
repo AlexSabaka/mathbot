@@ -1,0 +1,45 @@
+metadata:
+  id: k6_easy_ratio_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: ratios.basic
+  family: ratio
+  difficulty: easy
+  steps: 2
+  tags: [ratios, basic, marbles]
+
+variables:
+  red:
+    type: integer
+    min: 3
+    max: 15
+    step: 1
+  blue:
+    type: integer
+    min: 3
+    max: 15
+    step: 1
+  Answer:
+    type: string
+
+template: |
+  A bag contains {{red}} red marbles and {{blue}} blue marbles. What is the ratio of red marbles to blue marbles in simplest form?
+
+solution: |
+  import math
+  
+  gcd = math.gcd(red, blue)
+  simplified_red = red // gcd
+  simplified_blue = blue // gcd
+  
+  Answer = f"{simplified_red}:{simplified_blue}"
+
+tests:
+  - seed: 30003
+    expected:
+      answer: "3:2"
+  - seed: 30004
+    expected:
+      answer: "1:2"

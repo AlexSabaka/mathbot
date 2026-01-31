@@ -1,0 +1,36 @@
+metadata:
+  id: k6_hard_shapes_2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.shapes
+  family: shapes_2d
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [shapes, classification, hierarchy]
+
+variables:
+  name:
+    type: person
+  
+  Answer:
+    type: string
+
+template: |
+  {{name}} claims that all rhombuses are parallelograms, but not all parallelograms are rhombuses.
+  
+  Is {{name}}'s statement true or false? Explain why.
+
+solution: |
+  Answer = "True. All rhombuses have two pairs of parallel sides, making them parallelograms. However, parallelograms don't necessarily have all sides equal in length, which is required for a rhombus."
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "True. All rhombuses have two pairs of parallel sides, making them parallelograms. However, parallelograms don't necessarily have all sides equal in length, which is required for a rhombus."
+  
+  - seed: 22222
+    expected:
+      answer: "True. All rhombuses have two pairs of parallel sides, making them parallelograms. However, parallelograms don't necessarily have all sides equal in length, which is required for a rhombus."

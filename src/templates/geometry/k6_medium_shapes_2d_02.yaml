@@ -1,0 +1,46 @@
+metadata:
+  id: k6_medium_shapes_2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.shapes
+  family: shapes_2d
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [shapes, symmetry, regular polygons]
+
+variables:
+  name:
+    type: person
+  
+  polygon:
+    type: string
+    choices: ["square", "regular pentagon", "regular hexagon", "regular octagon"]
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} is studying symmetry in geometry class.
+  
+  How many lines of symmetry does a {{polygon}} have?
+
+solution: |
+  symmetry_map = {
+      "square": 4,
+      "regular pentagon": 5,
+      "regular hexagon": 6,
+      "regular octagon": 8
+  }
+  Answer = symmetry_map.get(polygon, 0)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "8"
+  
+  - seed: 22222
+    expected:
+      answer: "5"

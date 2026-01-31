@@ -1,0 +1,47 @@
+metadata:
+  id: k6_medium_shapes_2d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.shapes
+  family: shapes_2d
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [shapes, properties, identification]
+
+variables:
+  sides:
+    type: integer
+    min: 6
+    max: 8
+  
+  Answer1:
+    type: string
+  
+  Answer2:
+    type: integer
+
+template: |
+  A regular polygon has {{sides}} sides.
+  
+  What is the name of this polygon, and how many lines of symmetry does it have?
+
+solution: |
+  names = {
+      6: "hexagon",
+      7: "heptagon",
+      8: "octagon"
+  }
+  Answer1 = names.get(sides, "polygon")
+  Answer2 = sides  # Regular polygon has same number of symmetry lines as sides
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "octagon | 8"
+  
+  - seed: 44444
+    expected:
+      answer: "hexagon | 6"

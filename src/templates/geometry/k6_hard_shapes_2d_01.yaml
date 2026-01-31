@@ -1,0 +1,36 @@
+metadata:
+  id: k6_hard_shapes_2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.shapes
+  family: shapes_2d
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [shapes, properties, classification]
+
+variables:
+  name:
+    type: person
+  
+  Answer:
+    type: string
+
+template: |
+  {{name}} says that all squares are rectangles, but not all rectangles are squares.
+  
+  Is this statement true or false? Explain.
+
+solution: |
+  Answer = "True. All squares have four right angles and opposite sides equal, making them rectangles. However, rectangles don't necessarily have all sides equal, which is required for a square."
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "True. All squares have four right angles and opposite sides equal, making them rectangles. However, rectangles don't necessarily have all sides equal, which is required for a square."
+  
+  - seed: 67890
+    expected:
+      answer: "True. All squares have four right angles and opposite sides equal, making them rectangles. However, rectangles don't necessarily have all sides equal, which is required for a square."

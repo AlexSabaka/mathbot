@@ -1,0 +1,44 @@
+metadata:
+  id: k6_easy_shapes_2d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.shapes
+  family: shapes_2d
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [shapes, sides, angles]
+
+variables:
+  n_sides:
+    type: integer
+    min: 3
+    max: 6
+  
+  Answer:
+    type: string
+
+template: |
+  A regular polygon has {{n_sides}} sides of equal length.
+  
+  What is this shape called?
+
+solution: |
+  names = {
+      3: "equilateral triangle",
+      4: "square",
+      5: "regular pentagon",
+      6: "regular hexagon"
+  }
+  Answer = names.get(n_sides, "polygon")
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "square"
+  
+  - seed: 44444
+    expected:
+      answer: "equilateral triangle"

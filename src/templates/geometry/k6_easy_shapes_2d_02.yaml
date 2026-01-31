@@ -1,0 +1,49 @@
+metadata:
+  id: k6_easy_shapes_2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.shapes
+  family: shapes_2d
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [shapes, polygon, naming]
+
+variables:
+  name:
+    type: person
+  
+  sides:
+    type: integer
+    min: 5
+    max: 8
+  
+  Answer:
+    type: string
+
+template: |
+  {{name}} draws a polygon with {{sides}} equal sides.
+  
+  What is the name of this regular polygon?
+
+solution: |
+  shape_names = {
+      3: "triangle",
+      4: "square",
+      5: "pentagon",
+      6: "hexagon",
+      7: "heptagon",
+      8: "octagon"
+  }
+  Answer = shape_names.get(sides, "polygon")
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "heptagon"
+  
+  - seed: 22222
+    expected:
+      answer: "hexagon"

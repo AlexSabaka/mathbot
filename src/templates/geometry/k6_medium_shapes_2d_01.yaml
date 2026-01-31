@@ -1,0 +1,42 @@
+metadata:
+  id: k6_medium_shapes_2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.shapes
+  family: shapes_2d
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [shapes, symmetry, lines]
+
+variables:
+  shape:
+    type: string
+    choices: ["equilateral triangle", "square", "regular pentagon", "regular hexagon"]
+  
+  Answer:
+    type: integer
+
+template: |
+  How many lines of symmetry does a {{shape}} have?
+
+solution: |
+  # Map shapes to their number of symmetry lines
+  symmetry_lines = {
+      "equilateral triangle": 3,
+      "square": 4,
+      "regular pentagon": 5,
+      "regular hexagon": 6
+  }
+  Answer = symmetry_lines.get(shape, 0)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6"
+  
+  - seed: 67890
+    expected:
+      answer: "4"

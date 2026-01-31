@@ -1,0 +1,42 @@
+metadata:
+  id: k6_easy_variables_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.variables
+  family: variables
+  difficulty: easy
+  steps: 1
+  tags: [variables, evaluation, multiplication]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n, m]
+  n:
+    type: integer
+    min: 2
+    max: 10
+  a:
+    type: integer
+    min: 2
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  If {{var}} = {{n}}, what is the value of {{a}}{{var}}?
+
+solution: |
+  # Evaluate expression with given variable value
+  Answer = a * n
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "45"
+  
+  - seed: 67890
+    expected:
+      answer: "35"

@@ -1,0 +1,44 @@
+metadata:
+  id: k6_medium_variables_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.variables
+  family: variables
+  difficulty: medium
+  steps: 2
+  tags: [variables, expressions, word_problems]
+
+variables:
+  name:
+    type: person
+  var:
+    type: string
+    choices: [x, n]
+  a:
+    type: integer
+    min: 3
+    max: 8
+  b:
+    type: integer
+    min: 2
+    max: 6
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{var}} pencils. {{name}} buys {{a}} packages with {{b}} pencils each. Write an expression for the total number of pencils {{name}} has now.
+
+solution: |
+  # Write expression
+  Answer = f"{var} + {a} * {b}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "x + 6 * 5"
+  
+  - seed: 67890
+    expected:
+      answer: "n + 5 * 4"

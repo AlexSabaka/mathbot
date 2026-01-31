@@ -1,0 +1,44 @@
+metadata:
+  id: k6_medium_variables_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.variables
+  family: variables
+  difficulty: medium
+  steps: 2
+  tags: [variables, expressions, word_problems, money]
+
+variables:
+  name:
+    type: person
+  var:
+    type: string
+    choices: [x, m, n]
+  a:
+    type: integer
+    min: 5
+    max: 15
+  b:
+    type: integer
+    min: 2
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{var}} dollars. {{name}} spends {{a}} dollars on lunch and earns {{b}} dollars doing chores. Write an expression for how much money {{name}} has now.
+
+solution: |
+  # Write expression
+  Answer = f"{var} - {a} + {b}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "x - 13 - 8"
+  
+  - seed: 67890
+    expected:
+      answer: "m - 11 + 6"

@@ -1,0 +1,45 @@
+metadata:
+  id: k6_hard_variables_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.variables
+  family: variables
+  difficulty: hard
+  steps: 3
+  tags: [variables, expressions, geometry, perimeter]
+
+variables:
+  var:
+    type: string
+    choices: [L, x]
+  a:
+    type: integer
+    min: 2
+    max: 8
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+
+template: |
+  The length of a rectangle is {{var}} and the width is {{a}} less than the length. Write expressions for the perimeter and area of the rectangle.
+
+solution: |
+  # Perimeter: 2(L + W) where W = L - a
+  # P = 2(var + (var - a)) = 2(2*var - a) = 4*var - 2*a
+  Answer1 = f"4{var} - {2*a}"
+  
+  # Area: L * W where W = L - a
+  # A = var * (var - a) = var^2 - a*var
+  Answer2 = f"{var}^2 - {a}{var}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4L - 14 | L^2 - 7L"
+  
+  - seed: 67890
+    expected:
+      answer: "4x - 10 | x^2 - 5x"

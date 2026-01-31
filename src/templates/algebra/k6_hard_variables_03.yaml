@@ -1,0 +1,44 @@
+metadata:
+  id: k6_hard_variables_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.variables
+  family: variables
+  difficulty: hard
+  steps: 3
+  tags: [variables, expressions, geometry, area]
+
+variables:
+  var:
+    type: string
+    choices: [s, x]
+  a:
+    type: integer
+    min: 2
+    max: 6
+  b:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  A square has side length {{var}}. A rectangle has length {{a}}{{var}} and width {{b}}. Write an expression for the combined area of both shapes.
+
+solution: |
+  # Square area: var^2
+  # Rectangle area: a*var * b = a*b*var
+  combined_coefficient = a * b
+  Answer = f"{var}^2 + {combined_coefficient}{var}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "s^2 + 24s"
+  
+  - seed: 67890
+    expected:
+      answer: "x^2 + 18x"

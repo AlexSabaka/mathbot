@@ -1,0 +1,48 @@
+metadata:
+  id: k6_hard_variables_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.variables
+  family: variables
+  difficulty: hard
+  steps: 3
+  tags: [variables, expressions, word_problems]
+
+variables:
+  name:
+    type: person
+  var:
+    type: string
+    choices: [x, n]
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 3
+    max: 7
+  c:
+    type: integer
+    min: 5
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{var}} books. {{name}} reads {{a}} books per week for {{b}} weeks and then buys {{c}} more books. Write an expression for how many books {{name}} has now.
+
+solution: |
+  # Expression: x - a*b + c
+  Answer = f"{var} - {a} * {b} + {c}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "x - 4 * 5 + 11"
+  
+  - seed: 67890
+    expected:
+      answer: "n - 3 * 5 + 9"

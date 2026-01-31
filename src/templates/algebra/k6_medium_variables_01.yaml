@@ -1,0 +1,44 @@
+metadata:
+  id: k6_medium_variables_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.variables
+  family: variables
+  difficulty: medium
+  steps: 2
+  tags: [variables, expressions, word_problems]
+
+variables:
+  name:
+    type: person
+  var:
+    type: string
+    choices: [x, n]
+  a:
+    type: integer
+    min: 2
+    max: 10
+  b:
+    type: integer
+    min: 2
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{var}} apples. {{name}} buys {{a}} more apples and then gives {{b}} apples to a friend. Write an expression for how many apples {{name}} has now.
+
+solution: |
+  # Write expression
+  Answer = f"{var} + {a} - {b}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "x + 9 - 8"
+  
+  - seed: 67890
+    expected:
+      answer: "n + 6 - 7"

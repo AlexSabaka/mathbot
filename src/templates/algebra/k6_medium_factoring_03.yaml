@@ -1,57 +1,5 @@
 metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "3(9n + 3)"    expected:  - seed: 67890        answer: "4(9x + 3)"    expected:  - seed: 12345tests:  Answer = f"{gcf}({combined_coeff}{var} + {c})"  combined_coeff = a + b  # Factor: gcf((a+b)*var + c)  # GCF is gcfsolution: |  Factor out the greatest common factor: {{gcf * a}}{{var}} + {{gcf * b}}{{var}} + {{gcf * c}}template: |    type: string  Answer:    max: 4    min: 1    type: integer  c:    max: 5    min: 2    type: integer  b:    max: 6    min: 2    type: integer  a:    max: 5    min: 2    type: integer  gcf:    choices: [x, y, n]    type: string  var:variables:  tags: [factoring, gcf, three_terms]  steps: 2  difficulty: medium  family: factoring  topic: algebra.factoring  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_medium_factoring_03  id: k6_medium_factoring_03
+  id: k6_medium_factoring_03
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

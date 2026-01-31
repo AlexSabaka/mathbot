@@ -4,57 +4,7 @@ metadata:
   author: Mathbot
   created: 2026-01-31
   grade: 6
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "2n + 1"    expected:  - seed: 67890        answer: "3x + 5"    expected:  - seed: 12345tests:      Answer = f"{coefficient}{var} - {abs(constant)}"  else:      Answer = f"{coefficient}{var}} + {constant}"  if constant >= 0:  constant = b - d  coefficient = a - c  # Combine like terms and constantssolution: |  Simplify: {{a}}{{var}} + {{b}} - {{c}}{{var}} - {{d}}template: |    type: string  Answer:    max: 12    min: 3    type: integer  d:    max: 7    min: 2    type: integer  c:    max: 18    min: 5    type: integer  b:    max: 10    min: 4    type: integer  a:    choices: [x, y, n]    type: string  var:variables:  tags: [simplify, like_terms, constants, subtraction]  steps: 2  difficulty: medium  family: simplify_expressions  topic: algebra.simplify  topic: algebra.simplify
+  topic: algebra.simplify
   family: simplify_expressions
   difficulty: medium
   steps: 2

@@ -22,23 +22,7 @@ variables:
   Answer:
     type: integer
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "25"    expected:  - seed: 67890        answer: "29"    expected:  - seed: 12345tests:  Answer = a + b  # Add constantssolution: |  Simplify: {{a}} + {{b}}template: |template: |
+template: |
   Simplify: {{a}} + {{b}}
 
 solution: |

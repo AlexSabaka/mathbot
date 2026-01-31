@@ -16,37 +16,7 @@ variables:
     choices: [x, y, n]
   a:
     type: integer
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "6n"    expected:  - seed: 67890        answer: "7x"    expected:  - seed: 12345tests:  Answer = f"{coefficient}{var}"  coefficient = a - b + c  # Combine like termssolution: |  Simplify: {{a}}{{var}} - {{b}}{{var}} + {{c}}{{var}}template: |    type: string  Answer:    max: 6    min: 1    type: integer  c:    max: 7    min: 2    type: integer  b:    max: 9    min: 3    min: 3
+    min: 3
     max: 9
   b:
     type: integer

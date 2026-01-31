@@ -21,40 +21,7 @@ variables:
   b:
     type: integer
     min: 1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "11n - 2"    expected:  - seed: 67890        answer: "13x + 2"    expected:  - seed: 12345tests:      Answer = f"{coefficient}{var} - {abs(constant)}"  else:      Answer = f"{coefficient}{var} + {constant}"  if constant >= 0:  constant = b - d  coefficient = a + c  # Combine like terms and constantssolution: |  Simplify: {{a}}{{var}} + {{b}} + {{c}}{{var}} - {{d}}template: |    type: string  Answer:    max: 15    min: 1    type: integer  d:    max: 8    min: 2    type: integer  c:    max: 15    max: 15
+    max: 15
   c:
     type: integer
     min: 2

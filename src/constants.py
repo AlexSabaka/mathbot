@@ -240,5 +240,7 @@ FAMILY_TOPIC_SUPPORT = {
     "bar_graphs": ["statistics"],  # interpret bar graphs
     "histograms": ["statistics"],  # create and interpret histograms
     "frequency_tables": ["statistics"]  # create and interpret frequency tables
+}
+
 # Topics that require specific problem types (these need special handling)
 ADVANCED_TOPICS = ["quadratics", "derivatives", "powers_logs"]

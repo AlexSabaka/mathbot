@@ -1,50 +1,5 @@
-metadata:metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "n ≤ 10, meaning all numbers less than or equal to 10"    expected:  - seed: 67890        answer: "x ≤ 11, meaning all numbers less than or equal to 11"    expected:  - seed: 12345tests:  Answer = f"{var} ≤ {result}, meaning all numbers less than or equal to {result}"  result = b - a  # Subtract a from both sidessolution: |  Describe the solution.    Solve and graph: {{var}} + {{a}} ≤ {{b}}template: |    type: string  Answer:    max: 20    min: 5    type: integer  b:    max: 10    min: 2    type: integer  a:    choices: [x, n]    type: string  var:variables:  tags: [inequalities, solving, one_step]  steps: 2  difficulty: medium  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_medium_inequalities_01  id: k6_medium_inequalities_01
+metadata:
+  id: k6_medium_inequalities_01
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

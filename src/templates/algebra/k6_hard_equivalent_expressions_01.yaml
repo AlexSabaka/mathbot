@@ -49,15 +49,7 @@ solution: |
       Answer = "C"
 
 tests:
-
-
-
-
-
-
-
-
-      answer: "C"    expected:  - seed: 67890        answer: "C"    expected:  - seed: 12345  - seed: 12345
+  - seed: 12345
     expected:
       answer: "C"
   

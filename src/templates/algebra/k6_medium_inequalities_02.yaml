@@ -1,50 +1,5 @@
-metadata:metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "n > 20, meaning all numbers greater than 20"    expected:  - seed: 67890        answer: "x > 21, meaning all numbers greater than 21"    expected:  - seed: 12345tests:  Answer = f"{var} > {result}, meaning all numbers greater than {result}"  result = b + a  # Add a to both sidessolution: |  Describe the solution.    Solve and graph: {{var}} - {{a}} > {{b}}template: |    type: string  Answer:    max: 25    min: 10    type: integer  b:    max: 12    min: 3    type: integer  a:    choices: [x, n]    type: string  var:variables:  tags: [inequalities, solving, one_step]  steps: 2  difficulty: medium  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_medium_inequalities_02  id: k6_medium_inequalities_02
+metadata:
+  id: k6_medium_inequalities_02
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

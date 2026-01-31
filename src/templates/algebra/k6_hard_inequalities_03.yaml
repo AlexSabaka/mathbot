@@ -1,52 +1,5 @@
-metadata:metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "The truck can carry at most 13 crates. Solution: x ≤ 13, graphed as all whole numbers from 0 to 13"    expected:  - seed: 67890        answer: "The truck can carry at most 11 boxes. Solution: x ≤ 11, graphed as all whole numbers from 0 to 11"    expected:  - seed: 12345tests:  Answer = f"The truck can carry at most {max_items} {item}. Solution: x ≤ {max_items}, graphed as all whole numbers from 0 to {max_items}"  max_items = max_weight // weight_per_item  # x ≤ max_weight / weight_per_item  # weight_per_item * x ≤ max_weight  # Let x = number of itemssolution: |  A truck can carry a maximum of {{max_weight}} pounds. {{name}} wants to load {{item}} that each weigh {{weight_per_item}} pounds. Write and solve an inequality to find how many {{item}} the truck can carry. Graph the solution.template: |    type: string  Answer:    max: 500    min: 200    type: integer  max_weight:    max: 35    min: 15    type: integer  weight_per_item:    choices: ["boxes", "bags", "crates", "packages"]    type: string  item:    type: person  name:variables:  tags: [inequalities, word_problems, weight, real_world]  steps: 3  difficulty: hard  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_hard_inequalities_03  id: k6_hard_inequalities_03
+metadata:
+  id: k6_hard_inequalities_03
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

@@ -3,60 +3,7 @@ metadata:
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "6y + 20"    expected:  - seed: 67890        answer: "6x + 32"    expected:  - seed: 12345tests:  Answer = f"{coefficient}{var} + {constant}"  constant = b * c + e  coefficient = a + b - d  # Combine: (a+b-d)*var + (b*c + e)  # Distribute: a*var + b*var + b*c - d*var + esolution: |  Simplify: {{a}}{{var}} + {{b}}({{var}} + {{c}}) - {{d}}{{var}} + {{e}}template: |    type: string  Answer:    max: 6    min: 2    type: integer  e:    max: 7    min: 1    type: integer  d:    max: 5    min: 2    type: integer  c:    max: 5    min: 2    type: integer  b:    max: 6    min: 3    type: integer  a:    choices: [x, y]    type: string  var:variables:  tags: [simplify, distributive_property, like_terms, complex]  steps: 3  difficulty: hard  family: simplify_expressions  topic: algebra.simplify  grade: 6  grade: 6
+  grade: 6
   topic: algebra.simplify
   family: simplify_expressions
   difficulty: hard

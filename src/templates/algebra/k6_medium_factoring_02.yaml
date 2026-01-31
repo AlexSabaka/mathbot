@@ -1,48 +1,5 @@
 metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "7(n - 6)"    expected:  - seed: 67890        answer: "9(x - 7)"    expected:  - seed: 12345tests:  Answer = f"{a}({var} - {b})"  # Factor: a(var - b)  # GCF is asolution: |  Factor completely: {{a}}{{var}} - {{a * b}}template: |    type: string  Answer:    max: 8    min: 2    type: integer  b:    max: 10    min: 4    type: integer  a:    choices: [x, y, n]    type: string  var:variables:  tags: [factoring, gcf, variable_factor]  steps: 2  difficulty: medium  family: factoring  topic: algebra.factoring  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_medium_factoring_02  id: k6_medium_factoring_02
+  id: k6_medium_factoring_02
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

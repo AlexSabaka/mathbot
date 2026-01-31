@@ -1,48 +1,7 @@
 metadata:
   id: k6_easy_factoring_03
   version: "1.0.0"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "5 * 5n"    expected:  - seed: 67890        answer: "6 * 5x"    expected:  - seed: 12345tests:  Answer = f"{gcf} * {a}{var}"  # Factor: gcf * a * var  # GCF is gcfsolution: |  Factor out the greatest common factor: {{gcf * a}}{{var}}template: |    type: string  Answer:    max: 6    min: 2    type: integer  a:    max: 8    min: 3    type: integer  gcf:    choices: [x, y, n]    type: string  var:variables:  tags: [factoring, gcf, simple]  steps: 1  difficulty: easy  family: factoring  topic: algebra.factoring  grade: 6  created: 2026-01-31  author: Mathbot  author: Mathbot
+  author: Mathbot
   created: 2026-01-31
   grade: 6
   topic: algebra.factoring

@@ -14,7 +14,7 @@ metadata:
 variables:
   line_type:
     type: choice
-    choices: [vertical, horizontal]
+    choices: ["vertical", "horizontal"]
   line_pos:
     type: integer
     min: 1

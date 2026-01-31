@@ -1,45 +1,5 @@
-metadata:metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "All numbers greater than 5"    expected:  - seed: 67890        answer: "All numbers greater than 7"    expected:  - seed: 12345tests:  Answer = f"All numbers greater than {a}"  # Solution is all numbers greater than asolution: |  Describe the solution in words.    Graph on a number line: {{var}} > {{a}}template: |    type: string  Answer:    max: 10    min: -5    type: integer  a:    choices: [x, n]    type: string  var:variables:  tags: [inequalities, number_line, graphing]  steps: 1  difficulty: easy  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_easy_inequalities_01  id: k6_easy_inequalities_01
+metadata:
+  id: k6_easy_inequalities_01
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

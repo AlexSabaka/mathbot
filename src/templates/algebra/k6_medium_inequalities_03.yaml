@@ -1,50 +1,5 @@
-metadata:metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "n < 9, meaning all numbers less than 9"    expected:  - seed: 67890        answer: "x < 8, meaning all numbers less than 8"    expected:  - seed: 12345tests:  Answer = f"{var} < {result}, meaning all numbers less than {result}"  result = b // a  # Divide both sides by asolution: |  Describe the solution.    Solve and graph: {{a}}{{var}} < {{b}}template: |    type: string  Answer:    max: 48    min: 12    type: integer  b:    max: 6    min: 2    type: integer  a:    choices: [x, n]    type: string  var:variables:  tags: [inequalities, solving, multiplication]  steps: 2  difficulty: medium  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_medium_inequalities_03  id: k6_medium_inequalities_03
+metadata:
+  id: k6_medium_inequalities_03
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

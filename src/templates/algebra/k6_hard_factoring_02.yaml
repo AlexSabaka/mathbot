@@ -1,56 +1,5 @@
 metadata:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "3n(4n - 3)"    expected:  - seed: 67890        answer: "2x(5x - 3)"    expected:  - seed: 12345tests:      Answer = f"{gcf}{var}({coeff1}{var} - {coeff2})"  else:      Answer = f"{var}({a}{var} - {b})"  if gcf == 1:  # Factor: gcf*var(coeff1*var - coeff2)    coeff2 = b // gcf  coeff1 = a // gcf  gcf = math.gcd(a, b)  import math  # Find GCF of a and bsolution: |  Factor: {{a}}{{var}}^2 - {{b}}{{var}}template: |    type: string  Answer:    max: 18    min: 4    type: integer  b:    max: 24    min: 6    type: integer  a:    choices: [x, y, n]    type: string  var:variables:  tags: [factoring, gcf, quadratic_term, subtraction]  steps: 3  difficulty: hard  family: factoring  topic: algebra.factoring  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_hard_factoring_02  id: k6_hard_factoring_02
+  id: k6_hard_factoring_02
   version: "1.0.0"
   author: Mathbot
   created: 2026-01-31

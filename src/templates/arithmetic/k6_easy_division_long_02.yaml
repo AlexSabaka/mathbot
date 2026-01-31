@@ -1,0 +1,40 @@
+metadata:
+  id: k6_easy_division_long_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_long
+  difficulty: easy
+  steps: 2
+  tags: [long_division, division, large_numbers]
+
+variables:
+  divisor:
+    type: integer
+    min: 6
+    max: 12
+  quotient:
+    type: integer
+    min: 25
+    max: 45
+  Answer:
+    type: integer
+
+template: |
+  Perform long division: {{divisor * quotient}} ÷ {{divisor}}
+
+solution: |
+  # Calculate the dividend first
+  dividend = divisor * quotient
+  Answer = dividend // divisor
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "37"
+  
+  - seed: 33333
+    expected:
+      answer: "40"

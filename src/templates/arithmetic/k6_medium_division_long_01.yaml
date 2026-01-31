@@ -1,0 +1,43 @@
+metadata:
+  id: k6_medium_division_long_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_long
+  difficulty: medium
+  steps: 2
+  tags: [long_division, division, remainders, large_numbers]
+
+variables:
+  dividend:
+    type: integer
+    min: 500
+    max: 2000
+  divisor:
+    type: integer
+    min: 15
+    max: 40
+  Answer:
+    type: string
+
+template: |
+  Divide {{dividend}} by {{divisor}}. Express your answer as a quotient with a remainder.
+
+solution: |
+  # Calculate quotient and remainder
+  quotient = dividend // divisor
+  remainder = dividend % divisor
+  
+  # Format as "quotient R remainder"
+  Answer = f"{quotient} R {remainder}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "35 R 4"
+  
+  - seed: 67890
+    expected:
+      answer: "48 R 7"

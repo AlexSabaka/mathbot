@@ -1,0 +1,48 @@
+metadata:
+  id: k6_hard_division_long_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_long
+  difficulty: hard
+  steps: 3
+  tags: [long_division, division, real_world, concert, seating]
+
+variables:
+  total_people:
+    type: integer
+    min: 300
+    max: 750
+  seats_per_row:
+    type: integer
+    min: 38
+    max: 52
+  Answer:
+    type: string
+
+template: |
+  A concert venue has {{total_people}} people attending. Each row of seats holds {{seats_per_row}} people. How many rows will be completely filled? How many empty seats will be in the partially filled row?
+
+solution: |
+  # Calculate rows needed
+  full_rows = total_people // seats_per_row
+  people_in_partial = total_people % seats_per_row
+  
+  # Calculate empty seats
+  if people_in_partial > 0:
+    empty_seats = seats_per_row - people_in_partial
+    Answer = f"{full_rows} rows completely filled | {empty_seats} empty seats"
+  else:
+    # All rows are full
+    Answer = f"{full_rows} rows completely filled | 0 empty seats"
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "14 rows completely filled | 4 empty seats"
+  
+  - seed: 33333
+    expected:
+      answer: "10 rows completely filled | 29 empty seats"

@@ -1,0 +1,49 @@
+metadata:
+  id: k6_hard_division_long_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_long
+  difficulty: hard
+  steps: 3
+  tags: [long_division, division, real_world, field_trip, buses]
+
+variables:
+  total_students:
+    type: integer
+    min: 200
+    max: 800
+  bus_capacity:
+    type: integer
+    min: 35
+    max: 55
+  Answer:
+    type: string
+
+template: |
+  A school has {{total_students}} students going on a field trip. Each bus holds {{bus_capacity}} students. How many buses are needed, and how many empty seats will there be on the last bus?
+
+solution: |
+  # Calculate buses needed
+  full_buses = total_students // bus_capacity
+  students_in_last = total_students % bus_capacity
+  
+  # If there's a remainder, we need one more bus
+  if students_in_last > 0:
+    total_buses = full_buses + 1
+    empty_seats = bus_capacity - students_in_last
+    Answer = f"{total_buses} buses needed | {empty_seats} empty seats"
+  else:
+    # All buses are full
+    Answer = f"{full_buses} buses needed | 0 empty seats"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "12 buses needed | 11 empty seats"
+  
+  - seed: 67890
+    expected:
+      answer: "13 buses needed | 9 empty seats"

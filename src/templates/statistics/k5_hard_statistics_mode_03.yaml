@@ -1,0 +1,67 @@
+metadata:
+  id: k5_hard_statistics_mode_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, mode, mean-mode-comparison]
+
+variables:
+  name:
+    type: person
+  
+  mode_val:
+    type: integer
+    min: 15
+    max: 25
+  
+  num1:
+    type: integer
+    min: 15
+    max: 25
+  
+  num2:
+    type: integer
+    min: 15
+    max: 25
+  
+  num3:
+    type: integer
+    min: 15
+    max: 25
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} recorded these values: {{mode_val}}, {{num1}}, {{mode_val}}, {{num2}}, {{mode_val}}, {{num3}}.
+  
+  Find both the mode and the mean of this data set.
+
+solution: |
+  # Mode is mode_val (appears 3 times)
+  mode = mode_val
+  
+  # Calculate mean
+  total = mode_val + num1 + mode_val + num2 + mode_val + num3
+  mean = total // 6
+  
+  Answer1 = mode
+  Answer2 = mean
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "19 | 20"
+  
+  - seed: 67890
+    expected:
+      answer: "21 | 21"

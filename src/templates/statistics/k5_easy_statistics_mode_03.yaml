@@ -1,0 +1,57 @@
+metadata:
+  id: k5_easy_statistics_mode_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, mode, simple]
+
+variables:
+  num1:
+    type: integer
+    min: 3
+    max: 10
+  
+  num2:
+    type: integer
+    min: 3
+    max: 10
+  
+  mode_val:
+    type: integer
+    min: 3
+    max: 10
+  
+  num4:
+    type: integer
+    min: 3
+    max: 10
+  
+  num5:
+    type: integer
+    min: 3
+    max: 10
+  
+  Answer:
+    type: integer
+
+template: |
+  Find the mode: {{num1}}, {{mode_val}}, {{num2}}, {{mode_val}}, {{num4}}, {{mode_val}}, {{num5}}.
+
+solution: |
+  # The mode is mode_val since it appears three times
+  Answer = mode_val
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6"
+  
+  - seed: 67890
+    expected:
+      answer: "7"

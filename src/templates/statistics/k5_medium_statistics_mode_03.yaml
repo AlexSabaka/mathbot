@@ -1,0 +1,57 @@
+metadata:
+  id: k5_medium_statistics_mode_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, mode, context, temperature]
+
+variables:
+  city:
+    type: location
+  
+  temp1:
+    type: integer
+    min: 65
+    max: 80
+  
+  temp2:
+    type: integer
+    min: 65
+    max: 80
+  
+  mode_temp:
+    type: integer
+    min: 65
+    max: 80
+  
+  temp4:
+    type: integer
+    min: 65
+    max: 80
+  
+  Answer:
+    type: integer
+
+template: |
+  The high temperatures (°F) in {{city}} over 7 days were: {{temp1}}, {{mode_temp}}, {{temp2}}, {{mode_temp}}, {{mode_temp}}, {{temp4}}, {{temp1}}.
+  
+  What is the mode temperature?
+
+solution: |
+  # mode_temp appears 3 times, most frequent
+  Answer = mode_temp
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "73"
+  
+  - seed: 67890
+    expected:
+      answer: "75"

@@ -1,0 +1,52 @@
+metadata:
+  id: k5_easy_statistics_mode_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, mode, most-frequent]
+
+variables:
+  num1:
+    type: integer
+    min: 10
+    max: 20
+  
+  mode_val:
+    type: integer
+    min: 10
+    max: 20
+  
+  num3:
+    type: integer
+    min: 10
+    max: 20
+  
+  num4:
+    type: integer
+    min: 10
+    max: 20
+  
+  Answer:
+    type: integer
+
+template: |
+  What is the mode of these numbers: {{num1}}, {{num3}}, {{mode_val}}, {{num4}}, {{mode_val}}, {{mode_val}}?
+
+solution: |
+  # The mode is mode_val since it appears three times
+  Answer = mode_val
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "15"
+  
+  - seed: 67890
+    expected:
+      answer: "17"

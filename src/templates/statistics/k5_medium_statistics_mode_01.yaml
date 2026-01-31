@@ -1,0 +1,61 @@
+metadata:
+  id: k5_medium_statistics_mode_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, mode, context, store]
+
+variables:
+  store:
+    type: store
+  
+  item:
+    type: string
+    choices: ["shoe", "shirt", "hat", "dress"]
+  
+  size1:
+    type: integer
+    min: 6
+    max: 10
+  
+  size2:
+    type: integer
+    min: 6
+    max: 10
+  
+  mode_size:
+    type: integer
+    min: 6
+    max: 10
+  
+  size4:
+    type: integer
+    min: 6
+    max: 10
+  
+  Answer:
+    type: integer
+
+template: |
+  {{store}} recorded the {{item}} sizes sold in one day: {{size1}}, {{mode_size}}, {{size2}}, {{mode_size}}, {{size4}}, {{mode_size}}, {{size1}}.
+  
+  What is the mode? What does this tell the store owner?
+
+solution: |
+  # Count occurrences - mode_size appears 3 times, others less
+  Answer = mode_size
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8"
+  
+  - seed: 67890
+    expected:
+      answer: "9"

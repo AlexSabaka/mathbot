@@ -1,0 +1,52 @@
+metadata:
+  id: k5_easy_statistics_mode_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, mode, most-frequent]
+
+variables:
+  num1:
+    type: integer
+    min: 5
+    max: 15
+  
+  num2:
+    type: integer
+    min: 5
+    max: 15
+  
+  mode_val:
+    type: integer
+    min: 5
+    max: 15
+  
+  num4:
+    type: integer
+    min: 5
+    max: 15
+  
+  Answer:
+    type: integer
+
+template: |
+  Find the mode of: {{num1}}, {{mode_val}}, {{num2}}, {{mode_val}}, {{num4}}.
+
+solution: |
+  # The mode is mode_val since it appears twice
+  Answer = mode_val
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "9"
+  
+  - seed: 67890
+    expected:
+      answer: "11"

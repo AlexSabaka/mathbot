@@ -1,0 +1,67 @@
+metadata:
+  id: k5_medium_statistics_mode_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, mode, context, survey]
+
+variables:
+  name:
+    type: person
+  
+  activity:
+    type: string
+    choices: ["favorite color", "favorite sport", "preferred lunch time", "study hours"]
+  
+  val1:
+    type: integer
+    min: 1
+    max: 5
+  
+  val2:
+    type: integer
+    min: 1
+    max: 5
+  
+  mode_val:
+    type: integer
+    min: 1
+    max: 5
+  
+  val4:
+    type: integer
+    min: 1
+    max: 5
+  
+  val5:
+    type: integer
+    min: 1
+    max: 5
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} surveyed classmates about {{activity}}.
+  The responses were: {{val1}}, {{mode_val}}, {{val2}}, {{mode_val}}, {{val4}}, {{mode_val}}, {{val5}}, {{mode_val}}.
+  
+  What is the mode of the data?
+
+solution: |
+  # mode_val appears 4 times, making it the most frequent
+  Answer = mode_val
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3"
+  
+  - seed: 67890
+    expected:
+      answer: "4"

@@ -1,0 +1,49 @@
+metadata:
+  id: k5_hard_statistics_mode_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, mode, bimodal, change]
+
+variables:
+  mode1:
+    type: integer
+    min: 3
+    max: 8
+  
+  mode2:
+    type: integer
+    min: 3
+    max: 8
+  
+  num1:
+    type: integer
+    min: 3
+    max: 8
+  
+  Answer:
+    type: string
+
+template: |
+  The data set {{mode1}}, {{mode2}}, {{num1}}, {{mode1}}, {{mode2}} has two modes.
+  If we add the number {{mode1}} to the set, will it still have two modes?
+
+solution: |
+  # After adding mode1, it will appear 3 times while mode2 appears 2 times
+  # So it will have only one mode (mode1)
+  Answer = "No"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "No"
+  
+  - seed: 67890
+    expected:
+      answer: "No"

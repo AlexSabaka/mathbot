@@ -1,0 +1,63 @@
+metadata:
+  id: k5_hard_statistics_mode_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mode
+  family: statistics_mode
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, mode, bimodal]
+
+variables:
+  mode1:
+    type: integer
+    min: 5
+    max: 12
+  
+  mode2:
+    type: integer
+    min: 5
+    max: 12
+  
+  num1:
+    type: integer
+    min: 5
+    max: 12
+  
+  num2:
+    type: integer
+    min: 5
+    max: 12
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+
+template: |
+  The data set {{mode1}}, {{mode2}}, {{num1}}, {{mode1}}, {{num2}}, {{mode2}} has two modes.
+  
+  Identify both modes.
+
+solution: |
+  # Both mode1 and mode2 appear twice, making them both modes
+  # Return them in sorted order
+  if mode1 < mode2:
+      Answer1 = mode1
+      Answer2 = mode2
+  else:
+      Answer1 = mode2
+      Answer2 = mode1
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7 | 9"
+  
+  - seed: 67890
+    expected:
+      answer: "8 | 10"

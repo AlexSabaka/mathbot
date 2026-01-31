@@ -1,0 +1,44 @@
+metadata:
+  id: k6_medium_fraction_simplify_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: medium
+  steps: 2
+  tags: [fractions, simplification, gcd, real_world]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 12
+    max: 36
+  b:
+    type: integer
+    min: 24
+    max: 50
+  Answer:
+    type: fraction
+
+template: |
+  In a class of {{b}} students, {{a}} students passed the test. Express this as a fraction in simplest form.
+
+solution: |
+  from math import gcd
+  
+  # Find GCD and simplify
+  common = gcd(a, b)
+  Answer = (a // common, b // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/8"
+  
+  - seed: 67890
+    expected:
+      answer: "7/10"

@@ -1,0 +1,42 @@
+metadata:
+  id: k6_easy_fraction_simplify_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: easy
+  steps: 1
+  tags: [fractions, simplification, gcd]
+
+variables:
+  a:
+    type: integer
+    min: 4
+    max: 20
+  b:
+    type: integer
+    min: 8
+    max: 50
+  Answer:
+    type: fraction
+
+template: |
+  Simplify the fraction {{a}}/{{b}} to its lowest terms.
+
+solution: |
+  from math import gcd
+  
+  # Find GCD and divide both by it
+  common = gcd(a, b)
+  Answer = (a // common, b // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/8"
+  
+  - seed: 67890
+    expected:
+      answer: "7/10"

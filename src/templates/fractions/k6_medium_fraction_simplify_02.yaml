@@ -1,0 +1,62 @@
+metadata:
+  id: k6_medium_fraction_simplify_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: medium
+  steps: 2
+  tags: [fractions, simplification, comparison]
+
+variables:
+  a1:
+    type: integer
+    min: 6
+    max: 18
+  b1:
+    type: integer
+    min: 12
+    max: 30
+  a2:
+    type: integer
+    min: 8
+    max: 20
+  b2:
+    type: integer
+    min: 16
+    max: 40
+  Answer:
+    type: string
+
+template: |
+  Simplify both fractions: {{a1}}/{{b1}} and {{a2}}/{{b2}}. Are they equivalent?
+
+solution: |
+  from math import gcd
+  
+  # Simplify first fraction
+  common1 = gcd(a1, b1)
+  simp1_num = a1 // common1
+  simp1_den = b1 // common1
+  
+  # Simplify second fraction
+  common2 = gcd(a2, b2)
+  simp2_num = a2 // common2
+  simp2_den = b2 // common2
+  
+  # Check if equivalent
+  if simp1_num == simp2_num and simp1_den == simp2_den:
+    Answer = f"{simp1_num}/{simp1_den} and {simp2_num}/{simp2_den} | Yes, they are equivalent"
+  else:
+    Answer = f"{simp1_num}/{simp1_den} and {simp2_num}/{simp2_den} | No, they are not equivalent"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/8 and 1/2 | No, they are not equivalent"
+  
+  - seed: 42424
+    expected:
+      answer: "1/2 and 1/2 | Yes, they are equivalent"

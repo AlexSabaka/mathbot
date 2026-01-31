@@ -1,0 +1,64 @@
+metadata:
+  id: k6_hard_fraction_simplify_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: hard
+  steps: 4
+  tags: [fractions, simplification, addition, multi_step]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 6
+  b:
+    type: integer
+    min: 8
+    max: 12
+  c:
+    type: integer
+    min: 3
+    max: 7
+  d:
+    type: integer
+    min: 10
+    max: 15
+  Answer:
+    type: fraction
+
+template: |
+  Add {{a}}/{{b}} + {{c}}/{{d}} and express the result in simplest form.
+
+solution: |
+  from math import gcd
+  
+  # Find LCD manually
+  def lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+  
+  lcd = lcm(b, d)
+  
+  # Convert to common denominator
+  new_a = a * (lcd // b)
+  new_c = c * (lcd // d)
+  
+  # Add
+  numerator = new_a + new_c
+  denominator = lcd
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7/8"
+  
+  - seed: 67890
+    expected:
+      answer: "23/30"

@@ -1,0 +1,64 @@
+metadata:
+  id: k6_hard_fraction_simplify_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: hard
+  steps: 4
+  tags: [fractions, simplification, subtraction, multi_step]
+
+variables:
+  a:
+    type: integer
+    min: 5
+    max: 9
+  b:
+    type: integer
+    min: 12
+    max: 18
+  c:
+    type: integer
+    min: 2
+    max: 5
+  d:
+    type: integer
+    min: 8
+    max: 12
+  Answer:
+    type: fraction
+
+template: |
+  Subtract {{a}}/{{b}} − {{c}}/{{d}} and simplify your answer.
+
+solution: |
+  from math import gcd
+  
+  # Find LCD manually
+  def lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+  
+  lcd = lcm(b, d)
+  
+  # Convert to common denominator
+  new_a = a * (lcd // b)
+  new_c = c * (lcd // d)
+  
+  # Subtract
+  numerator = new_a - new_c
+  denominator = lcd
+  
+  # Simplify
+  common = gcd(abs(numerator), denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1/4"
+  
+  - seed: 67890
+    expected:
+      answer: "7/30"

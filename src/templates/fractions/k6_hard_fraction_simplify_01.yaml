@@ -1,0 +1,52 @@
+metadata:
+  id: k6_hard_fraction_simplify_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: hard
+  steps: 3
+  tags: [fractions, simplification, multiplication, real_world]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 2
+    max: 6
+  b:
+    type: integer
+    min: 4
+    max: 8
+  n:
+    type: integer
+    min: 2
+    max: 5
+  Answer:
+    type: fraction
+
+template: |
+  A recipe calls for {{a}}/{{b}} cup of flour. {{name}} wants to make {{n}} batches. How much flour is needed? Express your answer in simplest form.
+
+solution: |
+  from math import gcd
+  
+  # Multiply: (a/b) * n = (a*n)/b
+  numerator = a * n
+  denominator = b
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/4"
+  
+  - seed: 67890
+    expected:
+      answer: "7/2"

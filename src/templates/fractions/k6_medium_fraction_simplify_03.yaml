@@ -1,0 +1,44 @@
+metadata:
+  id: k6_medium_fraction_simplify_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: medium
+  steps: 3
+  tags: [fractions, simplification, real_world, sports]
+
+variables:
+  name:
+    type: person
+  wins:
+    type: integer
+    min: 12
+    max: 32
+  total:
+    type: integer
+    min: 24
+    max: 50
+  Answer:
+    type: fraction
+
+template: |
+  A basketball team won {{wins}} games out of {{total}} games played. What fraction of games did they win? Express in simplest form.
+
+solution: |
+  from math import gcd
+  
+  # Find GCD and simplify
+  common = gcd(wins, total)
+  Answer = (wins // common, total // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/8"
+  
+  - seed: 67890
+    expected:
+      answer: "7/10"

@@ -1,0 +1,50 @@
+metadata:
+  id: k6_easy_fraction_simplify_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.simplification
+  family: fraction_simplify
+  difficulty: easy
+  steps: 1
+  tags: [fractions, simplification, gcd]
+
+variables:
+  multiple:
+    type: integer
+    min: 2
+    max: 6
+  base_num:
+    type: integer
+    min: 2
+    max: 8
+  base_den:
+    type: integer
+    min: 3
+    max: 10
+  Answer:
+    type: fraction
+
+template: |
+  Reduce {{multiple * base_num}}/{{multiple * base_den}} to simplest form.
+
+solution: |
+  from math import gcd
+  
+  # Calculate the actual fraction values
+  numerator = multiple * base_num
+  denominator = multiple * base_den
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/8"
+  
+  - seed: 67890
+    expected:
+      answer: "7/10"

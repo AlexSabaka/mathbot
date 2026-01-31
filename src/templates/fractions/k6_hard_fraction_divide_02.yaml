@@ -1,0 +1,66 @@
+metadata:
+  id: k6_hard_fraction_divide_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_divide
+  difficulty: hard
+  steps: 4
+  tags: [fractions, division, multi_step]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 3
+    max: 7
+  c:
+    type: integer
+    min: 3
+    max: 6
+  d:
+    type: integer
+    min: 4
+    max: 8
+  e:
+    type: integer
+    min: 2
+    max: 4
+  f:
+    type: integer
+    min: 5
+    max: 9
+  Answer:
+    type: fraction
+
+template: |
+  Calculate: ({{a}}/{{b}} ÷ {{c}}/{{d}}) × {{e}}/{{f}}
+
+solution: |
+  from math import gcd
+  
+  # First division: (a/b) ÷ (c/d) = (a*d)/(b*c)
+  div_num = a * d
+  div_den = b * c
+  
+  # Then multiply by e/f: (div_num/div_den) × (e/f) = (div_num*e)/(div_den*f)
+  final_num = div_num * e
+  final_den = div_den * f
+  
+  # Simplify
+  common = gcd(final_num, final_den)
+  Answer = (final_num // common, final_den // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/9"
+  
+  - seed: 67890
+    expected:
+      answer: "7/12"

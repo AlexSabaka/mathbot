@@ -1,0 +1,58 @@
+metadata:
+  id: k6_medium_fraction_divide_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_divide
+  difficulty: medium
+  steps: 3
+  tags: [fractions, division, real_world, measurement]
+
+variables:
+  a:
+    type: integer
+    min: 1
+    max: 3
+  b:
+    type: integer
+    min: 4
+    max: 8
+  c:
+    type: integer
+    min: 3
+    max: 6
+  d:
+    type: integer
+    min: 5
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  How many pieces of rope {{a}}/{{b}} meter long can be cut from a rope that is {{c}}/{{d}} meters long?
+
+solution: |
+  from math import gcd
+  
+  # Division: (c/d) ÷ (a/b) = (c*b)/(d*a)
+  numerator = c * b
+  denominator = d * a
+  
+  # This should result in a whole number
+  common = gcd(numerator, denominator)
+  simplified_num = numerator // common
+  simplified_den = denominator // common
+  
+  # Convert to integer answer
+  Answer = simplified_num // simplified_den
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2"
+  
+  - seed: 67890
+    expected:
+      answer: "2"

@@ -1,0 +1,56 @@
+metadata:
+  id: k6_medium_fraction_divide_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_divide
+  difficulty: medium
+  steps: 3
+  tags: [fractions, division, real_world]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 3
+    max: 8
+  c:
+    type: integer
+    min: 4
+    max: 8
+  d:
+    type: integer
+    min: 5
+    max: 10
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} has {{a}}/{{b}} of a cake. If {{name}} divides it into pieces that are {{c}}/{{d}} of the whole cake each, how many pieces will there be?
+
+solution: |
+  from math import gcd
+  
+  # Division: (a/b) ÷ (c/d) = (a*d)/(b*c)
+  numerator = a * d
+  denominator = b * c
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/6"
+  
+  - seed: 67890
+    expected:
+      answer: "7/6"

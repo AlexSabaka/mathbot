@@ -1,0 +1,70 @@
+metadata:
+  id: k6_hard_fraction_divide_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_divide
+  difficulty: hard
+  steps: 4
+  tags: [fractions, division, real_world, remainder]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 3
+    max: 8
+  b:
+    type: integer
+    min: 2
+    max: 4
+  c:
+    type: integer
+    min: 3
+    max: 6
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{a}} cups of sugar. Each batch of cookies requires {{b}}/{{c}} cup of sugar. How many full batches can {{name}} make? How much sugar will be left over?
+
+solution: |
+  from math import gcd
+  
+  # Division: a ÷ (b/c) = a × (c/b) = (a*c)/b
+  total_batches_numerator = a * c
+  total_batches_denominator = b
+  
+  # Full batches (integer division)
+  full_batches = total_batches_numerator // total_batches_denominator
+  
+  # Remainder in numerator form
+  remainder_numerator = total_batches_numerator % total_batches_denominator
+  
+  # Convert remainder back to cups: (remainder_numerator / total_batches_denominator) * (b/c)
+  # = (remainder_numerator * b) / (total_batches_denominator * c)
+  # But we know total_batches_denominator = b, so:
+  # = (remainder_numerator * b) / (b * c) = remainder_numerator / c
+  leftover_num = remainder_numerator
+  leftover_den = c
+  
+  # Simplify leftover
+  if leftover_num > 0:
+    common = gcd(leftover_num, leftover_den)
+    leftover_simplified = f"{leftover_num // common}/{leftover_den // common}"
+  else:
+    leftover_simplified = "0"
+  
+  Answer = f"{full_batches} batches | {leftover_simplified} cups left"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8 batches | 1/4 cups left"
+  
+  - seed: 67890
+    expected:
+      answer: "12 batches | 1/3 cups left"

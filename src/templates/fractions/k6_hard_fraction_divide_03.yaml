@@ -1,0 +1,83 @@
+metadata:
+  id: k6_hard_fraction_divide_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_divide
+  difficulty: hard
+  steps: 4
+  tags: [fractions, division, comparison, real_world]
+
+variables:
+  name_1:
+    type: person
+  name_2:
+    type: person
+  a:
+    type: integer
+    min: 3
+    max: 6
+  b:
+    type: integer
+    min: 4
+    max: 8
+  c:
+    type: integer
+    min: 2
+    max: 4
+  d:
+    type: integer
+    min: 5
+    max: 9
+  e:
+    type: integer
+    min: 2
+    max: 5
+  f:
+    type: integer
+    min: 3
+    max: 7
+  Answer:
+    type: string
+
+template: |
+  {{name_1}} divides {{a}}/{{b}} by {{c}}/{{d}}. {{name_2}} divides {{a}}/{{b}} by {{e}}/{{f}}. Who gets the larger result?
+
+solution: |
+  from math import gcd
+  
+  # Calculate name_1's result: (a/b) ÷ (c/d) = (a*d)/(b*c)
+  result1_num = a * d
+  result1_den = b * c
+  common1 = gcd(result1_num, result1_den)
+  result1_num_simp = result1_num // common1
+  result1_den_simp = result1_den // common1
+  
+  # Calculate name_2's result: (a/b) ÷ (e/f) = (a*f)/(b*e)
+  result2_num = a * f
+  result2_den = b * e
+  common2 = gcd(result2_num, result2_den)
+  result2_num_simp = result2_num // common2
+  result2_den_simp = result2_den // common2
+  
+  # Compare by cross multiplication: result1 > result2 if result1_num*result2_den > result2_num*result1_den
+  cross1 = result1_num_simp * result2_den_simp
+  cross2 = result2_num_simp * result1_den_simp
+  
+  if cross1 > cross2:
+    Answer = f"{{name_1}} gets {result1_num_simp}/{result1_den_simp}, which is larger"
+  elif cross2 > cross1:
+    Answer = f"{{name_2}} gets {result2_num_simp}/{result2_den_simp}, which is larger"
+  else:
+    Answer = f"Both get the same result: {result1_num_simp}/{result1_den_simp}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "James gets 5/6, which is larger"
+  
+  - seed: 67890
+    expected:
+      answer: "Patricia gets 7/6, which is larger"

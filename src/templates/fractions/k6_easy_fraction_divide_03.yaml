@@ -1,0 +1,54 @@
+metadata:
+  id: k6_easy_fraction_divide_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_divide
+  difficulty: easy
+  steps: 2
+  tags: [fractions, division, simplification]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 7
+  b:
+    type: integer
+    min: 4
+    max: 10
+  c:
+    type: integer
+    min: 2
+    max: 4
+  d:
+    type: integer
+    min: 5
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  Divide and simplify: {{a}}/{{b}} ÷ {{c}}/{{d}}
+
+solution: |
+  from math import gcd
+  
+  # Flip and multiply
+  numerator = a * d
+  denominator = b * c
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/6"
+  
+  - seed: 67890
+    expected:
+      answer: "7/6"

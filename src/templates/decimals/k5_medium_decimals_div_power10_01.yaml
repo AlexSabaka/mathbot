@@ -1,0 +1,41 @@
+metadata:
+  id: k5_medium_decimals_div_power10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, powers_of_10, division, money]
+
+variables:
+  name:
+    type: person
+  amount:
+    type: decimal
+    min: 100.0
+    max: 500.0
+    step: 50.0
+  people:
+    type: integer
+    choices: [10, 100]
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} has ${{amount}}. If they divide the money equally among {{people}} students, how much does each student get?
+
+solution: |
+  Answer = round(amount / people, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$3.00"
+  - seed: 67890
+    expected:
+      answer: "$4.00"

@@ -1,0 +1,44 @@
+metadata:
+  id: k5_hard_decimals_div_power10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, powers_of_10, division, multi-step]
+
+variables:
+  item:
+    type: item
+    category: grocery
+  total:
+    type: decimal
+    min: 1000.0
+    max: 9000.0
+    step: 500.0
+  power1:
+    type: integer
+    choices: [10, 100]
+  power2:
+    type: integer
+    choices: [10, 100]
+  Answer:
+    type: decimal
+
+template: |
+  A container holds {{total}} milliliters of {{item}}. It needs to be divided into {{power1}} equal bottles, and each of those into {{power2}} smaller vials. How much {{item}} is in each small vial?
+
+solution: |
+  Answer = round(total / (power1 * power2), 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.00"
+  - seed: 67890
+    expected:
+      answer: "40.00"

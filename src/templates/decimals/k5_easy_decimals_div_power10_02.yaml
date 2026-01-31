@@ -1,0 +1,35 @@
+metadata:
+  id: k5_easy_decimals_div_power10_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, powers_of_10, division]
+
+variables:
+  decimal_val:
+    type: decimal
+    min: 20.0
+    max: 90.0
+    step: 5.0
+  Answer:
+    type: decimal
+
+template: |
+  What is {{decimal_val}} divided by 10?
+
+solution: |
+  Answer = round(decimal_val / 10, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.00"
+  - seed: 67890
+    expected:
+      answer: "4.00"

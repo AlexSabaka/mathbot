@@ -1,0 +1,49 @@
+metadata:
+  id: k5_hard_decimals_div_power10_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, powers_of_10, division, comparison]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  val1:
+    type: decimal
+    min: 500.0
+    max: 900.0
+    step: 50.0
+  val2:
+    type: decimal
+    min: 400.0
+    max: 800.0
+    step: 50.0
+  power:
+    type: integer
+    choices: [10, 100]
+  Answer:
+    type: decimal
+
+template: |
+  {{name1}} divides {{val1}} by {{power}} and gets one answer. {{name2}} divides {{val2}} by {{power}} and gets another answer. What is the difference between their answers?
+
+solution: |
+  result1 = val1 / power
+  result2 = val2 / power
+  Answer = round(abs(result1 - result2), 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.00"
+  - seed: 67890
+    expected:
+      answer: "0.00"

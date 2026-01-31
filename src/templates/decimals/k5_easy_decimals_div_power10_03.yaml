@@ -1,0 +1,37 @@
+metadata:
+  id: k5_easy_decimals_div_power10_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [decimals, powers_of_10, division, measurement]
+
+variables:
+  name:
+    type: person
+  distance:
+    type: decimal
+    min: 100.0
+    max: 900.0
+    step: 50.0
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} has {{distance}} centimeters of ribbon. How many meters is that? (1 meter = 100 centimeters)
+
+solution: |
+  Answer = round(distance / 100, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.00"
+  - seed: 67890
+    expected:
+      answer: "4.00"

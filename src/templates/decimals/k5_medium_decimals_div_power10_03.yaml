@@ -1,0 +1,37 @@
+metadata:
+  id: k5_medium_decimals_div_power10_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, powers_of_10, division, measurement]
+
+variables:
+  name:
+    type: person
+  weight:
+    type: decimal
+    min: 1000.0
+    max: 9000.0
+    step: 500.0
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} has a package weighing {{weight}} grams. What is the weight in kilograms? (1 kilogram = 1000 grams)
+
+solution: |
+  Answer = round(weight / 1000, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.00"
+  - seed: 67890
+    expected:
+      answer: "4.00"

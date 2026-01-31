@@ -1,0 +1,38 @@
+metadata:
+  id: k5_medium_decimals_div_power10_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, powers_of_10, division]
+
+variables:
+  decimal_val:
+    type: decimal
+    min: 100.0
+    max: 999.0
+    step: 10.0
+  power:
+    type: integer
+    choices: [10, 100, 1000]
+  Answer:
+    type: decimal
+
+template: |
+  Calculate {{decimal_val}} ÷ {{power}}.
+
+solution: |
+  Answer = round(decimal_val / power, 3)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.300"
+  - seed: 67890
+    expected:
+      answer: "0.390"

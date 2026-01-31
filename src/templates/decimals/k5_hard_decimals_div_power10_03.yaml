@@ -1,0 +1,38 @@
+metadata:
+  id: k5_hard_decimals_div_power10_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_div_power10
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, powers_of_10, division, measurement]
+
+variables:
+  name:
+    type: person
+  distance_m:
+    type: decimal
+    min: 5000.0
+    max: 9000.0
+    step: 500.0
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} runs {{distance_m}} meters in a race. How many kilometers is that? (1 kilometer = 1000 meters) If the race is divided into 10 equal segments, how many kilometers is each segment?
+
+solution: |
+  km = distance_m / 1000
+  Answer = round(km / 10, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "0.50"
+  - seed: 67890
+    expected:
+      answer: "0.60"

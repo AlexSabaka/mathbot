@@ -1,0 +1,55 @@
+metadata:
+  id: k6_easy_integers_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.integers
+  family: integers
+  difficulty: easy
+  steps: 1
+  tags: [integers, ordering, negative_numbers]
+
+variables:
+  int1:
+    type: integer
+    min: -15
+    max: 15
+  int2:
+    type: integer
+    min: -15
+    max: 15
+  int3:
+    type: integer
+    min: -15
+    max: 15
+  int4:
+    type: integer
+    min: -15
+    max: 15
+  int5:
+    type: integer
+    min: -15
+    max: 15
+  Answer:
+    type: string
+
+template: |
+  Arrange the following integers in order from least to greatest: {{int1}}, {{int2}}, {{int3}}, {{int4}}, {{int5}}.
+
+solution: |
+  # Create list of integers and sort them
+  integers = [int1, int2, int3, int4, int5]
+  integers.sort()
+  
+  # Format as comma-separated string
+  Answer = ", ".join(str(i) for i in integers)
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "-12, -3, 2, 6, 14"
+  
+  - seed: 33333
+    expected:
+      answer: "-11, -7, 1, 8, 13"

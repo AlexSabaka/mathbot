@@ -1,0 +1,56 @@
+metadata:
+  id: k6_hard_integers_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.integers
+  family: integers
+  difficulty: hard
+  steps: 3
+  tags: [integers, diving, real_world, multi_step]
+
+variables:
+  name:
+    type: person
+  depth1:
+    type: integer
+    min: 80
+    max: 200
+  depth2:
+    type: integer
+    min: 50
+    max: 150
+  depth3:
+    type: integer
+    min: 40
+    max: 120
+  Answer:
+    type: integer
+
+template: |
+  {{name}} is scuba diving. First, {{name}} dives down {{depth1}} feet below the surface. Then {{name}} swims up {{depth2}} feet, and finally dives down another {{depth3}} feet. What is {{name}}'s final position relative to the water surface? (Use negative numbers for below the surface.)
+
+solution: |
+  # Start at surface (0)
+  position = 0
+  
+  # Dive down (subtract)
+  position = position - depth1
+  
+  # Swim up (add)
+  position = position + depth2
+  
+  # Dive down again (subtract)
+  position = position - depth3
+  
+  Answer = position
+
+tests:
+  - seed: 44444
+    expected:
+      answer: "-137"
+  
+  - seed: 55555
+    expected:
+      answer: "-123"

@@ -1,0 +1,63 @@
+metadata:
+  id: k6_easy_integers_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.integers
+  family: integers
+  difficulty: easy
+  steps: 1
+  tags: [integers, ordering, negative_numbers]
+
+variables:
+  int1:
+    type: integer
+    min: -18
+    max: 18
+  int2:
+    type: integer
+    min: -18
+    max: 18
+  int3:
+    type: integer
+    min: -18
+    max: 18
+  int4:
+    type: integer
+    min: -18
+    max: 18
+  int5:
+    type: integer
+    min: -18
+    max: 18
+  int6:
+    type: integer
+    min: -18
+    max: 18
+  int7:
+    type: integer
+    min: -18
+    max: 18
+  Answer:
+    type: string
+
+template: |
+  Put these integers in order from smallest to largest: {{int1}}, {{int2}}, {{int3}}, {{int4}}, {{int5}}, {{int6}}, {{int7}}.
+
+solution: |
+  # Create list of integers and sort them
+  integers = [int1, int2, int3, int4, int5, int6, int7]
+  integers.sort()
+  
+  # Format as comma-separated string
+  Answer = ", ".join(str(i) for i in integers)
+
+tests:
+  - seed: 44444
+    expected:
+      answer: "-16, -11, -3, 5, 7, 14, 17"
+  
+  - seed: 55555
+    expected:
+      answer: "-17, -9, -2, 4, 8, 12, 15"

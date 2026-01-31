@@ -1,0 +1,41 @@
+metadata:
+  id: k6_medium_integers_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.integers
+  family: integers
+  difficulty: medium
+  steps: 2
+  tags: [integers, temperature, real_world, subtraction]
+
+variables:
+  temp_noon:
+    type: integer
+    min: -5
+    max: 15
+  temp_drop:
+    type: integer
+    min: 10
+    max: 25
+  Answer:
+    type: integer
+    format: temperature
+
+template: |
+  The temperature at noon was {{temp_noon}}°F. By midnight, it had dropped {{temp_drop}} degrees. What was the temperature at midnight?
+
+solution: |
+  # Calculate final temperature
+  temp_midnight = temp_noon - temp_drop
+  Answer = temp_midnight
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "-10°F"
+  
+  - seed: 67890
+    expected:
+      answer: "-8°F"

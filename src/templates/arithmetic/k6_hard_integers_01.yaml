@@ -1,0 +1,51 @@
+metadata:
+  id: k6_hard_integers_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.integers
+  family: integers
+  difficulty: hard
+  steps: 3
+  tags: [integers, submarine, real_world, multi_step]
+
+variables:
+  depth_start:
+    type: integer
+    min: 100
+    max: 500
+  rise:
+    type: integer
+    min: 50
+    max: 200
+  descend:
+    type: integer
+    min: 50
+    max: 200
+  Answer:
+    type: integer
+
+template: |
+  A submarine is at {{depth_start}} feet below sea level. It rises {{rise}} feet, then descends {{descend}} feet. What is the submarine's final position relative to sea level? (Use negative numbers for below sea level.)
+
+solution: |
+  # Start below sea level (negative)
+  position = -depth_start
+  
+  # Rising means adding (going toward surface)
+  position = position + rise
+  
+  # Descending means subtracting (going deeper)
+  position = position - descend
+  
+  Answer = position
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "-296"
+  
+  - seed: 67890
+    expected:
+      answer: "-309"

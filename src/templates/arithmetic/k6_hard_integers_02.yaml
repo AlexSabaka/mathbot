@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_integers_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.integers
+  family: integers
+  difficulty: hard
+  steps: 3
+  tags: [integers, submarine, real_world, multi_step]
+
+variables:
+  depth_start:
+    type: integer
+    min: 150
+    max: 400
+  rise1:
+    type: integer
+    min: 40
+    max: 120
+  descend:
+    type: integer
+    min: 60
+    max: 150
+  rise2:
+    type: integer
+    min: 30
+    max: 100
+  Answer:
+    type: integer
+
+template: |
+  A research submarine starts at {{depth_start}} feet below sea level. It rises {{rise1}} feet, descends {{descend}} feet, and then rises another {{rise2}} feet. What is its final depth? (Express your answer as a negative number for below sea level.)
+
+solution: |
+  # Start below sea level (negative)
+  position = -depth_start
+  
+  # Apply changes in order
+  position = position + rise1
+  position = position - descend
+  position = position + rise2
+  
+  Answer = position
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "-262"
+  
+  - seed: 33333
+    expected:
+      answer: "-216"

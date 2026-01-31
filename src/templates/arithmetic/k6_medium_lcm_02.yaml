@@ -1,0 +1,52 @@
+metadata:
+  id: k6_medium_lcm_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: lcm
+  difficulty: medium
+  steps: 3
+  tags: [lcm, multiples, real-world, shopping]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 8
+    max: 12
+  b:
+    type: integer
+    min: 6
+    max: 10
+  item1:
+    type: item
+    category: grocery
+    plural: true
+  item2:
+    type: item
+    category: grocery
+    plural: true
+  Answer:
+    type: integer
+
+template: |
+  {{name}} is shopping for a party. {{item1|capitalize}} come in packages of {{a}}, and {{item2}} come in packages of {{b}}.
+  
+  What is the smallest number of {{item1}} and {{item2}} {{name}} can buy to have the same amount of each?
+
+solution: |
+  # Calculate LCM
+  lcm = abs(a * b) // math.gcd(a, b)
+  Answer = lcm
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "70"
+  
+  - seed: 22222
+    expected:
+      answer: "30"

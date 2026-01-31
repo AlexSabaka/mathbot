@@ -1,0 +1,67 @@
+metadata:
+  id: k6_hard_lcm_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: lcm
+  difficulty: hard
+  steps: 4
+  tags: [lcm, multiples, real-world, time]
+
+variables:
+  a:
+    type: integer
+    min: 5
+    max: 20
+  b:
+    type: integer
+    min: 5
+    max: 20
+  c:
+    type: integer
+    min: 5
+    max: 20
+  hour:
+    type: integer
+    min: 8
+    max: 11
+  minute:
+    type: string
+    choices: ["00"]
+  Answer:
+    type: string
+
+template: |
+  Three bells ring at intervals of {{a}}, {{b}}, and {{c}} minutes. If they all ring together at {{hour}}:{{minute}}, when will they next all ring together?
+
+solution: |
+  # Find LCM of three numbers
+  lcm_ab = abs(a * b) // math.gcd(a, b)
+  lcm_abc = abs(lcm_ab * c) // math.gcd(lcm_ab, c)
+  
+  # Calculate new time
+  total_minutes = hour * 60 + lcm_abc
+  new_hour = total_minutes // 60
+  new_minute = total_minutes % 60
+  
+  # Format time
+  if new_hour > 12:
+    new_hour = new_hour - 12
+    period = "PM"
+  elif new_hour == 12:
+    period = "PM"
+  else:
+    period = "AM"
+  
+  Answer = f"{new_hour}:{new_minute:02d} {period}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "9:20 AM"
+  
+  - seed: 67890
+    expected:
+      answer: "10:54 AM"

@@ -1,0 +1,40 @@
+metadata:
+  id: k6_easy_lcm_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: lcm
+  difficulty: easy
+  steps: 2
+  tags: [lcm, multiples]
+
+variables:
+  a:
+    type: integer
+    min: 5
+    max: 14
+  b:
+    type: integer
+    min: 5
+    max: 14
+  Answer:
+    type: integer
+
+template: |
+  What is the least common multiple (LCM) of {{a}} and {{b}}?
+
+solution: |
+  # Calculate LCM using the formula: lcm(a,b) = |a*b| / gcd(a,b)
+  lcm = abs(a * b) // math.gcd(a, b)
+  Answer = lcm
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "70"
+  
+  - seed: 22222
+    expected:
+      answer: "30"

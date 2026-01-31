@@ -1,0 +1,52 @@
+metadata:
+  id: k6_hard_lcm_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: lcm
+  difficulty: hard
+  steps: 4
+  tags: [lcm, multiples, real-world]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  name3:
+    type: person
+  a:
+    type: integer
+    min: 6
+    max: 18
+  b:
+    type: integer
+    min: 6
+    max: 18
+  c:
+    type: integer
+    min: 6
+    max: 18
+  Answer:
+    type: integer
+
+template: |
+  {{name1}} visits the gym every {{a}} days, {{name2}} visits every {{b}} days, and {{name3}} visits every {{c}} days. If they all visit today, in how many days will all three visit on the same day again?
+
+solution: |
+  # Find LCM of three numbers
+  lcm_ab = abs(a * b) // math.gcd(a, b)
+  lcm_abc = abs(lcm_ab * c) // math.gcd(lcm_ab, c)
+  
+  Answer = lcm_abc
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "252"
+  
+  - seed: 22222
+    expected:
+      answer: "210"

@@ -1,0 +1,53 @@
+metadata:
+  id: k5_hard_square_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [square, area, comparison]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  side1:
+    type: integer
+    min: 12
+    max: 18
+  
+  side2:
+    type: integer
+    min: 8
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name1}}'s square garden has sides of {{side1}} meters.
+  {{name2}}'s square garden has sides of {{side2}} meters.
+  How much larger is {{name1}}'s garden?
+
+solution: |
+  area1 = side1 * side1
+  area2 = side2 * side2
+  difference = area1 - area2
+  Answer = difference
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "100 square meters"
+  
+  - seed: 55667
+    expected:
+      answer: "140 square meters"

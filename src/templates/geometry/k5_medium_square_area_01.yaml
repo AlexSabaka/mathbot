@@ -1,0 +1,47 @@
+metadata:
+  id: k5_medium_square_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [square, area, perimeter, inverse]
+
+variables:
+  object:
+    type: string
+    choices: ["window", "picture frame", "tile", "mirror"]
+  
+  perimeter:
+    type: integer
+    min: 32
+    max: 60
+    step: 4
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A square {{object}} has a perimeter of {{perimeter}} inches.
+  What is its area?
+
+solution: |
+  # Perimeter = 4 × side, so side = perimeter / 4
+  side = perimeter // 4
+  # Area = side × side
+  area = side * side
+  Answer = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "196 square inches"
+  
+  - seed: 67890
+    expected:
+      answer: "144 square inches"

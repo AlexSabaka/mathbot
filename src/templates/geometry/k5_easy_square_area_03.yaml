@@ -1,0 +1,42 @@
+metadata:
+  id: k5_easy_square_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [square, area, real-world]
+
+variables:
+  name:
+    type: person
+  
+  side:
+    type: integer
+    min: 8
+    max: 15
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} has a square tile with sides of {{side}} inches.
+  What is the area of the tile?
+
+solution: |
+  area = side * side
+  Answer = area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "100 square inches"
+  
+  - seed: 44444
+    expected:
+      answer: "121 square inches"

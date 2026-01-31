@@ -1,0 +1,40 @@
+metadata:
+  id: k5_medium_square_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [square, side length, inverse]
+
+variables:
+  area:
+    type: integer
+    choices: [49, 64, 81, 100, 121, 144, 169]
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A square has an area of {{area}} square meters.
+  What is the length of each side?
+
+solution: |
+  # Area = side × side, so side = sqrt(area)
+  # For perfect squares, we can use integer square root
+  side = int(area ** 0.5)
+  Answer = side
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "11 meters"
+  
+  - seed: 66666
+    expected:
+      answer: "9 meters"

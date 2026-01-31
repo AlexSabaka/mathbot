@@ -1,0 +1,39 @@
+metadata:
+  id: k5_easy_square_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [square, area, basic]
+
+variables:
+  side:
+    type: integer
+    min: 5
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a square with sides of {{side}} cm.
+
+solution: |
+  # Area of square = side × side
+  area = side * side
+  Answer = area
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "81 square cm"
+  
+  - seed: 22222
+    expected:
+      answer: "49 square cm"

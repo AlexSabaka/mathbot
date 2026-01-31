@@ -1,0 +1,48 @@
+metadata:
+  id: k5_hard_square_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [square, perimeter, cost]
+
+variables:
+  name:
+    type: person
+  
+  side:
+    type: integer
+    min: 12
+    max: 20
+  
+  fence_price:
+    type: integer
+    min: 8
+    max: 15
+  
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} wants to fence a square garden with sides of {{side}} meters.
+  Fencing costs ${{fence_price}} per meter. How much will the total cost be?
+
+solution: |
+  perimeter = 4 * side
+  total_cost = perimeter * fence_price
+  Answer = float(total_cost)
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "$672.00"
+  
+  - seed: 11223
+    expected:
+      answer: "$624.00"

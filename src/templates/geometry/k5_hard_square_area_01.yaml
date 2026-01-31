@@ -1,0 +1,55 @@
+metadata:
+  id: k5_hard_square_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [square, area, border, compound]
+
+variables:
+  name:
+    type: person
+  
+  pool_side:
+    type: integer
+    choices: [8, 10, 12]
+  
+  deck_width:
+    type: integer
+    min: 2
+    max: 3
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} has a square pool with an area of {{pool_side * pool_side}} square meters.
+  {{name}} wants to build a deck around it that is {{deck_width}} meters wide on all sides.
+  What is the area of just the deck?
+
+solution: |
+  # Calculate the pool's side length (already given as pool_side)
+  pool_area = pool_side * pool_side
+  
+  # Calculate the outer square (pool + deck)
+  outer_side = pool_side + (2 * deck_width)
+  outer_area = outer_side * outer_side
+  
+  # Deck area = outer area - pool area
+  deck_area = outer_area - pool_area
+  Answer = deck_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "80 square meters"
+  
+  - seed: 67890
+    expected:
+      answer: "60 square meters"

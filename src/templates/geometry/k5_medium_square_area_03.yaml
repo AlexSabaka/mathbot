@@ -1,0 +1,49 @@
+metadata:
+  id: k5_medium_square_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.squares
+  family: square_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [square, area, perimeter, combined]
+
+variables:
+  name:
+    type: person
+  
+  side:
+    type: integer
+    min: 10
+    max: 18
+  
+  Answer1:
+    type: integer
+    format: area
+  
+  Answer2:
+    type: integer
+    format: length
+
+template: |
+  {{name}} measured a square room and found each side is {{side}} feet.
+  What is both the area and the perimeter of the room?
+
+solution: |
+  area = side * side
+  perimeter = 4 * side
+  
+  Answer1 = area
+  Answer2 = perimeter
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "196 square feet | 56 feet"
+  
+  - seed: 88888
+    expected:
+      answer: "169 square feet | 52 feet"

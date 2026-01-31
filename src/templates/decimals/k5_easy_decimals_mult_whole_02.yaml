@@ -1,0 +1,41 @@
+metadata:
+  id: k5_easy_decimals_mult_whole_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.multiplication
+  family: decimals_mult_whole
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, multiplication, money]
+
+variables:
+  name:
+    type: person
+  decimal_val:
+    type: decimal
+    min: 1.5
+    max: 5.0
+    step: 0.25
+  whole_num:
+    type: integer
+    min: 2
+    max: 6
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} has {{whole_num}} items, each weighing {{decimal_val}} kilograms. What is the total weight?
+
+solution: |
+  Answer = round(decimal_val * whole_num, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7.50"
+  - seed: 67890
+    expected:
+      answer: "10.00"

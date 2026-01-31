@@ -1,0 +1,50 @@
+metadata:
+  id: k5_hard_decimals_mult_whole_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.multiplication
+  family: decimals_mult_whole
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, multiplication, measurement, comparison]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  rate1:
+    type: decimal
+    min: 1.5
+    max: 3.5
+    step: 0.25
+  rate2:
+    type: decimal
+    min: 2.0
+    max: 4.0
+    step: 0.25
+  time:
+    type: integer
+    min: 8
+    max: 15
+  Answer:
+    type: decimal
+
+template: |
+  {{name1}} works at a rate of {{rate1}} items per hour. {{name2}} works at a rate of {{rate2}} items per hour. If they both work for {{time}} hours, how many more items does the faster worker complete?
+
+solution: |
+  total1 = rate1 * time
+  total2 = rate2 * time
+  Answer = round(abs(total1 - total2), 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "9.00"
+  - seed: 67890
+    expected:
+      answer: "15.00"

@@ -1,0 +1,45 @@
+metadata:
+  id: k5_medium_decimals_mult_whole_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.multiplication
+  family: decimals_mult_whole
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, multiplication, shopping]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: grocery
+  price:
+    type: decimal
+    min: 2.50
+    max: 9.99
+    step: 0.25
+  qty:
+    type: integer
+    min: 5
+    max: 15
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  Each {{item}} costs ${{price}}. How much do {{qty}} {{item}} cost?
+
+solution: |
+  Answer = round(price * qty, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$31.25"
+  - seed: 67890
+    expected:
+      answer: "$48.75"

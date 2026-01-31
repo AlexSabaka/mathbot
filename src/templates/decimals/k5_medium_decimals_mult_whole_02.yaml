@@ -1,0 +1,41 @@
+metadata:
+  id: k5_medium_decimals_mult_whole_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.multiplication
+  family: decimals_mult_whole
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, multiplication, real-world]
+
+variables:
+  name:
+    type: person
+  distance:
+    type: decimal
+    min: 1.5
+    max: 5.9
+    step: 0.25
+  days:
+    type: integer
+    min: 5
+    max: 12
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} walks {{distance}} kilometers every day. How far does {{name}} walk in {{days}} days?
+
+solution: |
+  Answer = round(distance * days, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "22.50"
+  - seed: 67890
+    expected:
+      answer: "37.50"

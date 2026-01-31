@@ -1,0 +1,59 @@
+metadata:
+  id: k5_hard_decimals_mult_whole_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.multiplication
+  family: decimals_mult_whole
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, multiplication, money, multi-step]
+
+variables:
+  name:
+    type: person
+  item1:
+    type: item
+    category: grocery
+  item2:
+    type: item
+    category: grocery
+  price1:
+    type: decimal
+    min: 2.50
+    max: 6.99
+    step: 0.25
+  price2:
+    type: decimal
+    min: 1.50
+    max: 4.99
+    step: 0.25
+  qty1:
+    type: integer
+    min: 5
+    max: 10
+  qty2:
+    type: integer
+    min: 6
+    max: 12
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} buys {{qty1}} {{item1}} at ${{price1}} each and {{qty2}} {{item2}} at ${{price2}} each. What is the total cost?
+
+solution: |
+  cost1 = price1 * qty1
+  cost2 = price2 * qty2
+  Answer = round(cost1 + cost2, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$43.75"
+  - seed: 67890
+    expected:
+      answer: "$58.50"

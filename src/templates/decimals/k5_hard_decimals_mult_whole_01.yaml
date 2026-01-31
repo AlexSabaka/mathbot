@@ -1,0 +1,50 @@
+metadata:
+  id: k5_hard_decimals_mult_whole_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.multiplication
+  family: decimals_mult_whole
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, multiplication, comparison]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  distance1:
+    type: decimal
+    min: 2.0
+    max: 4.5
+    step: 0.25
+  distance2:
+    type: decimal
+    min: 2.5
+    max: 5.0
+    step: 0.25
+  days:
+    type: integer
+    min: 10
+    max: 15
+  Answer:
+    type: decimal
+
+template: |
+  {{name1}} runs {{distance1}} kilometers every day. {{name2}} runs {{distance2}} kilometers every day. After {{days}} days, how much farther has one runner gone than the other?
+
+solution: |
+  total1 = distance1 * days
+  total2 = distance2 * days
+  Answer = round(abs(total1 - total2), 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6.00"
+  - seed: 67890
+    expected:
+      answer: "10.00"

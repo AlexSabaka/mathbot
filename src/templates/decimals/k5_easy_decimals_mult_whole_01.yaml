@@ -1,0 +1,39 @@
+metadata:
+  id: k5_easy_decimals_mult_whole_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.multiplication
+  family: decimals_mult_whole
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, multiplication, basic]
+
+variables:
+  decimal_val:
+    type: decimal
+    min: 1.0
+    max: 9.9
+    step: 0.1
+  whole_num:
+    type: integer
+    min: 2
+    max: 9
+  Answer:
+    type: decimal
+
+template: |
+  Calculate {{decimal_val}} × {{whole_num}}.
+
+solution: |
+  Answer = round(decimal_val * whole_num, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "13.20"
+  - seed: 67890
+    expected:
+      answer: "23.40"

@@ -1,0 +1,57 @@
+metadata:
+  id: k6_easy_simplify_expressions_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.simplify
+  family: simplify_expressions
+  difficulty: easy
+  steps: 1
+  tags: [simplify, like_terms, subtraction]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 5
+    max: 15
+  b:
+    type: integer
+    min: 2
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  Simplify: {{a}}{{var}} - {{b}}{{var}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "4n"    expected:  - seed: 67890        answer: "5x"    expected:  - seed: 12345tests:  Answer = f"{coefficient}{var}"  coefficient = a - b  # Combine like termssolution: |solution: |
+  # Combine like terms
+  coefficient = a - b
+  Answer = f"{coefficient}{var}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5x"
+  
+  - seed: 67890
+    expected:
+      answer: "4n"

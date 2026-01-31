@@ -1,0 +1,55 @@
+metadata:
+  id: k6_easy_simplify_expressions_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.simplify
+  family: simplify_expressions
+  difficulty: easy
+  steps: 1
+  tags: [simplify, constants]
+
+variables:
+  a:
+    type: integer
+    min: 5
+    max: 20
+  b:
+    type: integer
+    min: 3
+    max: 15
+  Answer:
+    type: integer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "25"    expected:  - seed: 67890        answer: "29"    expected:  - seed: 12345tests:  Answer = a + b  # Add constantssolution: |  Simplify: {{a}} + {{b}}template: |template: |
+  Simplify: {{a}} + {{b}}
+
+solution: |
+  # Add constants
+  Answer = a + b
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "29"
+  
+  - seed: 67890
+    expected:
+      answer: "25"

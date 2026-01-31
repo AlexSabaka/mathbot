@@ -1,0 +1,88 @@
+metadata:
+  id: k6_medium_simplify_expressions_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.simplify
+  family: simplify_expressions
+  difficulty: medium
+  steps: 2
+  tags: [simplify, like_terms, constants]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 2
+    max: 8
+  b:
+    type: integer
+    min: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "11n - 2"    expected:  - seed: 67890        answer: "13x + 2"    expected:  - seed: 12345tests:      Answer = f"{coefficient}{var} - {abs(constant)}"  else:      Answer = f"{coefficient}{var} + {constant}"  if constant >= 0:  constant = b - d  coefficient = a + c  # Combine like terms and constantssolution: |  Simplify: {{a}}{{var}} + {{b}} + {{c}}{{var}} - {{d}}template: |    type: string  Answer:    max: 15    min: 1    type: integer  d:    max: 8    min: 2    type: integer  c:    max: 15    max: 15
+  c:
+    type: integer
+    min: 2
+    max: 8
+  d:
+    type: integer
+    min: 1
+    max: 15
+  Answer:
+    type: string
+
+template: |
+  Simplify: {{a}}{{var}} + {{b}} + {{c}}{{var}} - {{d}}
+
+solution: |
+  # Combine like terms and constants
+  coefficient = a + c
+  constant = b - d
+  if constant >= 0:
+      Answer = f"{coefficient}{var} + {constant}"
+  else:
+      Answer = f"{coefficient}{var} - {abs(constant)}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "13x + 2"
+  
+  - seed: 67890
+    expected:
+      answer: "11n - 2"

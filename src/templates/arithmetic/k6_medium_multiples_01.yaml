@@ -1,0 +1,62 @@
+metadata:
+  id: k6_medium_multiples_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: multiples
+  difficulty: medium
+  steps: 2
+  tags: [multiples, lcm, real-world, time]
+
+variables:
+  a:
+    type: integer
+    min: 10
+    max: 30
+  b:
+    type: integer
+    min: 10
+    max: 30
+  hour:
+    type: integer
+    min: 8
+    max: 11
+  minute:
+    type: string
+    choices: ["00"]
+  Answer:
+    type: string
+
+template: |
+  A bus arrives at the station every {{a}} minutes. Another bus arrives every {{b}} minutes. If both buses arrive at {{hour}}:{{minute}}, when will they next arrive at the same time?
+
+solution: |
+  # Find LCM to get the time when both arrive together
+  lcm = abs(a * b) // math.gcd(a, b)
+  
+  # Calculate new time
+  total_minutes = hour * 60 + lcm
+  new_hour = total_minutes // 60
+  new_minute = total_minutes % 60
+  
+  # Format time
+  if new_hour > 12:
+    new_hour = new_hour - 12
+    period = "PM"
+  elif new_hour == 12:
+    period = "PM"
+  else:
+    period = "AM"
+  
+  Answer = f"{new_hour}:{new_minute:02d} {period}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "10:20 AM"
+  
+  - seed: 67890
+    expected:
+      answer: "9:54 AM"

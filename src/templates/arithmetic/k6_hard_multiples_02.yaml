@@ -1,0 +1,44 @@
+metadata:
+  id: k6_hard_multiples_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: multiples
+  difficulty: hard
+  steps: 3
+  tags: [multiples, divisibility, reasoning]
+
+variables:
+  name:
+    type: person
+  k:
+    type: integer
+    min: 4
+    max: 8
+  n:
+    type: integer
+    min: 75
+    max: 180
+  Answer:
+    type: string
+
+template: |
+  {{name}} is counting by {{k}}s starting from 0. Determine whether {{name}} will say {{n}}. Explain your answer.
+
+solution: |
+  # Check if n is divisible by k
+  if n % k == 0:
+    Answer = "Yes"
+  else:
+    Answer = "No"
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "No"
+  
+  - seed: 22222
+    expected:
+      answer: "Yes"

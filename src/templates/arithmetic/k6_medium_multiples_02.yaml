@@ -1,0 +1,42 @@
+metadata:
+  id: k6_medium_multiples_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: multiples
+  difficulty: medium
+  steps: 2
+  tags: [multiples, lcm, real-world]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 12
+    max: 25
+  b:
+    type: integer
+    min: 12
+    max: 25
+  Answer:
+    type: integer
+
+template: |
+  {{name}} exercises every {{a}} days and visits the library every {{b}} days. If {{name}} does both activities today, in how many days will {{name}} do both activities on the same day again?
+
+solution: |
+  # Find LCM
+  lcm = abs(a * b) // math.gcd(a, b)
+  Answer = lcm
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "168"
+  
+  - seed: 22222
+    expected:
+      answer: "105"

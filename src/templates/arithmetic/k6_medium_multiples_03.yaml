@@ -1,0 +1,42 @@
+metadata:
+  id: k6_medium_multiples_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: multiples
+  difficulty: medium
+  steps: 2
+  tags: [multiples, lcm, real-world, scheduling]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 15
+    max: 28
+  b:
+    type: integer
+    min: 15
+    max: 28
+  Answer:
+    type: integer
+
+template: |
+  Two traffic lights change at different intervals. One changes every {{a}} seconds, and the other changes every {{b}} seconds. If they both change at the same time now, after how many seconds will they both change together again?
+
+solution: |
+  # Find LCM
+  lcm = abs(a * b) // math.gcd(a, b)
+  Answer = lcm
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "105"
+  
+  - seed: 44444
+    expected:
+      answer: "168"

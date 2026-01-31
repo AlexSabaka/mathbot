@@ -1,0 +1,44 @@
+metadata:
+  id: k6_hard_multiples_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: multiples
+  difficulty: hard
+  steps: 3
+  tags: [multiples, divisibility, reasoning]
+
+variables:
+  name:
+    type: person
+  k:
+    type: integer
+    min: 3
+    max: 9
+  n:
+    type: integer
+    min: 50
+    max: 200
+  Answer:
+    type: string
+
+template: |
+  {{name}} is skip counting by {{k}}. Will {{name}} say the number {{n}}? Answer with "Yes" or "No" and explain your reasoning.
+
+solution: |
+  # Check if n is divisible by k
+  if n % k == 0:
+    Answer = "Yes"
+  else:
+    Answer = "No"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Yes"
+  
+  - seed: 67890
+    expected:
+      answer: "No"

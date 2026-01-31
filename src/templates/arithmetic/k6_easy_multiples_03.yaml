@@ -1,0 +1,42 @@
+metadata:
+  id: k6_easy_multiples_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: multiples
+  difficulty: easy
+  steps: 1
+  tags: [multiples, multiplication]
+
+variables:
+  n:
+    type: integer
+    min: 5
+    max: 9
+  k:
+    type: integer
+    min: 5
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  What are the first {{n}} multiples of {{k}}?
+
+solution: |
+  # Generate first n multiples
+  multiples = [k * i for i in range(1, n + 1)]
+  
+  # Format as comma-separated string
+  Answer = ", ".join(str(m) for m in multiples)
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "5, 10, 15, 20, 25, 30, 35"
+  
+  - seed: 44444
+    expected:
+      answer: "11, 22, 33, 44, 55, 66, 77, 88"

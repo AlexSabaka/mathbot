@@ -1,0 +1,42 @@
+metadata:
+  id: k6_hard_multiples_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: multiples
+  difficulty: hard
+  steps: 3
+  tags: [multiples, divisibility, patterns]
+
+variables:
+  k:
+    type: integer
+    min: 5
+    max: 9
+  n:
+    type: integer
+    min: 60
+    max: 150
+  Answer:
+    type: string
+
+template: |
+  Is {{n}} a multiple of {{k}}? Show your work by dividing {{n}} by {{k}}.
+
+solution: |
+  # Check if n is divisible by k
+  if n % k == 0:
+    Answer = "Yes"
+  else:
+    Answer = "No"
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "Yes"
+  
+  - seed: 44444
+    expected:
+      answer: "No"

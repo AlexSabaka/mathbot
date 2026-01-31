@@ -1,0 +1,63 @@
+metadata:
+  id: k5_medium_statistics_mean_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mean
+  family: statistics_mean
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, mean, average, context, temperature]
+
+variables:
+  city:
+    type: location
+  
+  temp1:
+    type: integer
+    min: 60
+    max: 85
+  
+  temp2:
+    type: integer
+    min: 60
+    max: 85
+  
+  temp3:
+    type: integer
+    min: 60
+    max: 85
+  
+  temp4:
+    type: integer
+    min: 60
+    max: 85
+  
+  temp5:
+    type: integer
+    min: 60
+    max: 85
+  
+  Answer:
+    type: integer
+
+template: |
+  The temperatures in {{city}} over 5 days were {{temp1}}°F, {{temp2}}°F, {{temp3}}°F, {{temp4}}°F, and {{temp5}}°F.
+  
+  What was the mean temperature?
+
+solution: |
+  # Calculate mean temperature
+  total = temp1 + temp2 + temp3 + temp4 + temp5
+  Answer = total // 5
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "73"
+  
+  - seed: 67890
+    expected:
+      answer: "74"

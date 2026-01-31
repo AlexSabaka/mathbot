@@ -1,0 +1,58 @@
+metadata:
+  id: k5_easy_statistics_mean_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mean
+  family: statistics_mean
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, mean, average, basic]
+
+variables:
+  num1:
+    type: integerRun and Debug
+    min: 10
+    max: 30
+  
+  num2:
+    type: integer
+    min: 10
+    max: 30
+  
+  num3:
+    type: integer
+    min: 10
+    max: 30
+  
+  num4:
+    type: integer
+    min: 10
+    max: 30
+  
+  num5:
+    type: integer
+    min: 10
+    max: 30
+  
+  Answer:
+    type: integer
+
+template: |
+  Find the mean of these numbers: {{num1}}, {{num2}}, {{num3}}, {{num4}}, {{num5}}.
+
+solution: |
+  # Calculate the mean
+  total = num1 + num2 + num3 + num4 + num5
+  Answer = total // 5
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "20"
+  
+  - seed: 67890
+    expected:
+      answer: "21"

@@ -1,0 +1,69 @@
+metadata:
+  id: k5_hard_statistics_mean_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mean
+  family: statistics_mean
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, mean, average, missing-value, context]
+
+variables:
+  name:
+    type: person
+  
+  target_mean:
+    type: integer
+    min: 80
+    max: 90
+  
+  score1:
+    type: integer
+    min: 70
+    max: 95
+  
+  score2:
+    type: integer
+    min: 70
+    max: 95
+  
+  score3:
+    type: integer
+    min: 70
+    max: 95
+  
+  score4:
+    type: integer
+    min: 70
+    max: 95
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} wants an average of {{target_mean}} on 5 tests.
+  So far, {{name}} has scored {{score1}}, {{score2}}, {{score3}}, and {{score4}} on the first 4 tests.
+  
+  What score does {{name}} need on the 5th test to reach the target average?
+
+solution: |
+  # Calculate needed total for target mean
+  needed_total = target_mean * 5
+  
+  # Calculate current sum
+  current_sum = score1 + score2 + score3 + score4
+  
+  # Find needed score
+  Answer = needed_total - current_sum
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "84"
+  
+  - seed: 67890
+    expected:
+      answer: "92"

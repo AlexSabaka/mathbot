@@ -1,0 +1,67 @@
+metadata:
+  id: k5_medium_statistics_mean_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mean
+  family: statistics_mean
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, mean, average, context, sports]
+
+variables:
+  name:
+    type: person
+  
+  sport:
+    type: string
+    choices: ["basketball", "soccer", "baseball", "hockey"]
+  
+  score1:
+    type: integer
+    min: 15
+    max: 30
+  
+  score2:
+    type: integer
+    min: 15
+    max: 30
+  
+  score3:
+    type: integer
+    min: 15
+    max: 30
+  
+  score4:
+    type: integer
+    min: 15
+    max: 30
+  
+  num_games:
+    type: integer
+    min: 4
+    max: 5
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} scored {{score1}}, {{score2}}, {{score3}}, and {{score4}} points in {{num_games}} {{sport}} games.
+  
+  What is {{name}}'s average score per game?
+
+solution: |
+  # Calculate average score
+  total = score1 + score2 + score3 + score4
+  Answer = total // num_games
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "22"
+  
+  - seed: 67890
+    expected:
+      answer: "24"

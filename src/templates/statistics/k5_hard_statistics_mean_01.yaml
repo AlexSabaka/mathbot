@@ -1,0 +1,69 @@
+metadata:
+  id: k5_hard_statistics_mean_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mean
+  family: statistics_mean
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, mean, average, missing-value]
+
+variables:
+  count:
+    type: integer
+    min: 5
+    max: 6
+  
+  mean_value:
+    type: integer
+    min: 20
+    max: 30
+  
+  num1:
+    type: integer
+    min: 15
+    max: 35
+  
+  num2:
+    type: integer
+    min: 15
+    max: 35
+  
+  num3:
+    type: integer
+    min: 15
+    max: 35
+  
+  num4:
+    type: integer
+    min: 15
+    max: 35
+  
+  Answer:
+    type: integer
+
+template: |
+  The mean of {{count}} numbers is {{mean_value}}.
+  If 4 of the numbers are {{num1}}, {{num2}}, {{num3}}, and {{num4}}, what is the missing number?
+
+solution: |
+  # Calculate total from mean
+  total = mean_value * count
+  
+  # Calculate sum of known numbers
+  known_sum = num1 + num2 + num3 + num4
+  
+  # Find missing number
+  Answer = total - known_sum
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "22"
+  
+  - seed: 67890
+    expected:
+      answer: "21"

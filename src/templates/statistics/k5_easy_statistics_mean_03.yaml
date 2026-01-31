@@ -1,0 +1,48 @@
+metadata:
+  id: k5_easy_statistics_mean_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mean
+  family: statistics_mean
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, mean, average, three-numbers]
+
+variables:
+  num1:
+    type: integer
+    min: 20
+    max: 40
+  
+  num2:
+    type: integer
+    min: 20
+    max: 40
+  
+  num3:
+    type: integer
+    min: 20
+    max: 40
+  
+  Answer:
+    type: integer
+
+template: |
+  Calculate the mean of {{num1}}, {{num2}}, and {{num3}}.
+
+solution: |
+  # Calculate the mean
+  total = num1 + num2 + num3
+  Answer = total // 3
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "29"
+  
+  - seed: 67890
+    expected:
+      answer: "32"

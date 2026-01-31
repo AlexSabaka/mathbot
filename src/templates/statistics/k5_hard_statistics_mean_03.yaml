@@ -1,0 +1,75 @@
+metadata:
+  id: k5_hard_statistics_mean_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.mean
+  family: statistics_mean
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, mean, average, comparison]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  score1a:
+    type: integer
+    min: 60
+    max: 90
+  
+  score1b:
+    type: integer
+    min: 60
+    max: 90
+  
+  score1c:
+    type: integer
+    min: 60
+    max: 90
+  
+  score2a:
+    type: integer
+    min: 60
+    max: 90
+  
+  score2b:
+    type: integer
+    min: 60
+    max: 90
+  
+  score2c:
+    type: integer
+    min: 60
+    max: 90
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name1}} scored {{score1a}}, {{score1b}}, and {{score1c}} on three tests.
+  {{name2}} scored {{score2a}}, {{score2b}}, and {{score2c}} on three tests.
+  
+  What is the difference between their average scores?
+
+solution: |
+  # Calculate averages
+  avg1 = (score1a + score1b + score1c) // 3
+  avg2 = (score2a + score2b + score2c) // 3
+  
+  # Find difference
+  Answer = abs(avg1 - avg2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3"
+  
+  - seed: 67890
+    expected:
+      answer: "7"

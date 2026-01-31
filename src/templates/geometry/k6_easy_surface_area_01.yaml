@@ -1,0 +1,39 @@
+metadata:
+  id: k6_easy_surface_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.surface_area
+  family: surface_area
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [surface area, cube, 3D shapes]
+
+variables:
+  side:
+    type: integer
+    min: 3
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the surface area of a cube with side length {{side}} units.
+
+solution: |
+  # Surface area of cube = 6 × s²
+  surface_area = 6 * side * side
+  Answer = surface_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "294 square units"
+  
+  - seed: 67890
+    expected:
+      answer: "216 square units"

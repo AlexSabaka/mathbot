@@ -1,0 +1,38 @@
+metadata:
+  id: k6_easy_surface_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.surface_area
+  family: surface_area
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [surface area, cube, calculation]
+
+variables:
+  cube_side:
+    type: integer
+    min: 5
+    max: 11
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Calculate the surface area of a cube with edge length {{cube_side}} inches.
+
+solution: |
+  surface_area = 6 * cube_side * cube_side
+  Answer = surface_area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "294 square inches"
+  
+  - seed: 44444
+    expected:
+      answer: "384 square inches"

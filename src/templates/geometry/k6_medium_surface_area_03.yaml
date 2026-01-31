@@ -1,0 +1,50 @@
+metadata:
+  id: k6_medium_surface_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.surface_area
+  family: surface_area
+  difficulty: medium
+  culture: en-US
+  steps: 3
+  tags: [surface area, box, rectangular prism]
+
+variables:
+  box_l:
+    type: integer
+    min: 7
+    max: 15
+  
+  box_w:
+    type: integer
+    min: 5
+    max: 12
+  
+  box_h:
+    type: integer
+    min: 3
+    max: 8
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A box measures {{box_l}} meters long, {{box_w}} meters wide, and {{box_h}} meters tall.
+  
+  Calculate its surface area.
+
+solution: |
+  surface_area = 2 * (box_l * box_w + box_l * box_h + box_w * box_h)
+  Answer = surface_area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "262 square meters"
+  
+  - seed: 44444
+    expected:
+      answer: "298 square meters"

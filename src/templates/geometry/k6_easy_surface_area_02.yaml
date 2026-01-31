@@ -1,0 +1,43 @@
+metadata:
+  id: k6_easy_surface_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.surface_area
+  family: surface_area
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [surface area, cube, formula]
+
+variables:
+  name:
+    type: person
+  
+  s:
+    type: integer
+    min: 4
+    max: 10
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} has a cube-shaped box with sides measuring {{s}} cm each.
+  
+  What is the total surface area of the box?
+
+solution: |
+  surface_area = 6 * s * s
+  Answer = surface_area
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "216 square cm"
+  
+  - seed: 22222
+    expected:
+      answer: "294 square cm"

@@ -1,0 +1,53 @@
+metadata:
+  id: k6_hard_surface_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.surface_area
+  family: surface_area
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [surface area, box, shipping]
+
+variables:
+  name:
+    type: person
+  
+  box_length:
+    type: integer
+    min: 12
+    max: 20
+  
+  box_width:
+    type: integer
+    min: 9
+    max: 16
+  
+  box_height:
+    type: integer
+    min: 7
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} needs to wrap a shipping box with dimensions {{box_length}} inches × {{box_width}} inches × {{box_height}} inches in brown paper.
+  
+  How much paper (in square inches) does {{name}} need to cover all sides?
+
+solution: |
+  surface_area = 2 * (box_length * box_width + box_length * box_height + box_width * box_height)
+  Answer = surface_area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "668 square inches"
+  
+  - seed: 44444
+    expected:
+      answer: "772 square inches"

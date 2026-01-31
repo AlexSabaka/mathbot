@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_surface_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.surface_area
+  family: surface_area
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [surface area, wrapping paper, application]
+
+variables:
+  name:
+    type: person
+  
+  length:
+    type: integer
+    min: 8
+    max: 16
+  
+  width:
+    type: integer
+    min: 6
+    max: 14
+  
+  height:
+    type: integer
+    min: 5
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} is wrapping a gift box that measures {{length}} inches by {{width}} inches by {{height}} inches.
+  
+  How many square inches of wrapping paper are needed to cover the entire box with no overlap?
+
+solution: |
+  # Surface area of rectangular prism
+  surface_area = 2 * (length * width + length * height + width * height)
+  Answer = surface_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "412 square inches"
+  
+  - seed: 67890
+    expected:
+      answer: "340 square inches"

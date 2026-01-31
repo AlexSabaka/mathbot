@@ -1,0 +1,54 @@
+metadata:
+  id: k6_easy_rational_compare_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.fractions
+  family: rational_compare
+  difficulty: easy
+  steps: 2
+  tags: [fractions, comparison, rational_numbers]
+
+variables:
+  num1:
+    type: integer
+    min: 2
+    max: 9
+  denom1:
+    type: integer
+    min: 4
+    max: 12
+  num2:
+    type: integer
+    min: 2
+    max: 9
+  denom2:
+    type: integer
+    min: 4
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  Compare the fractions {{num1}}/{{denom1}} and {{num2}}/{{denom2}}. Which is smaller? Write your answer using the < symbol.
+
+solution: |
+  # Convert to decimals for comparison
+  frac1 = num1 / denom1
+  frac2 = num2 / denom2
+  
+  # Determine which is smaller
+  if frac1 < frac2:
+    Answer = f"{num1}/{denom1} < {num2}/{denom2}"
+  else:
+    Answer = f"{num2}/{denom2} < {num1}/{denom1}"
+
+tests:
+  - seed: 44444
+    expected:
+      answer: "5/12 < 7/8"
+  
+  - seed: 55555
+    expected:
+      answer: "3/8 < 3/4"

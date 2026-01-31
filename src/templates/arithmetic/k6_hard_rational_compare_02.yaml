@@ -1,0 +1,76 @@
+metadata:
+  id: k6_hard_rational_compare_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.fractions
+  family: rational_compare
+  difficulty: hard
+  steps: 4
+  tags: [fractions, decimals, comparison, real_world, swimming]
+
+variables:
+  name1:
+    type: person
+  num1:
+    type: integer
+    min: 5
+    max: 9
+  denom1:
+    type: integer
+    min: 6
+    max: 12
+  name2:
+    type: person
+  dec:
+    type: decimal
+    min: 0.5
+    max: 0.85
+    step: 0.05
+  name3:
+    type: person
+  num2:
+    type: integer
+    min: 4
+    max: 8
+  denom2:
+    type: integer
+    min: 6
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  Three swimmers competed in a race. {{name1}} swam {{num1}}/{{denom1}} of a mile, {{name2}} swam {{dec}} of a mile, and {{name3}} swam {{num2}}/{{denom2}} of a mile. Who swam the longest distance? Who swam the shortest distance?
+
+solution: |
+  # Convert to decimals
+  dist1 = num1 / denom1
+  dist2 = dec
+  dist3 = num2 / denom2
+  
+  # Create list of (distance, name) tuples
+  distances = [
+    (dist1, name1),
+    (dist2, name2),
+    (dist3, name3)
+  ]
+  
+  # Sort by distance
+  distances.sort(key=lambda x: x[0])
+  
+  # Shortest is first, longest is last
+  shortest = distances[0][1]
+  longest = distances[2][1]
+  
+  Answer = f"{longest} swam the longest distance | {shortest} swam the shortest distance"
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "Laura swam the longest distance | Amanda swam the shortest distance"
+  
+  - seed: 33333
+    expected:
+      answer: "Linda swam the longest distance | Jessica swam the shortest distance"

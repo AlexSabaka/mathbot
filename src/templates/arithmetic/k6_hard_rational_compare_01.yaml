@@ -1,0 +1,76 @@
+metadata:
+  id: k6_hard_rational_compare_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.fractions
+  family: rational_compare
+  difficulty: hard
+  steps: 4
+  tags: [fractions, decimals, comparison, real_world, running]
+
+variables:
+  name1:
+    type: person
+  num1:
+    type: integer
+    min: 4
+    max: 8
+  denom1:
+    type: integer
+    min: 5
+    max: 10
+  name2:
+    type: person
+  dec:
+    type: decimal
+    min: 0.4
+    max: 0.9
+    step: 0.05
+  name3:
+    type: person
+  num2:
+    type: integer
+    min: 3
+    max: 7
+  denom2:
+    type: integer
+    min: 5
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  {{name1}} ran {{num1}}/{{denom1}} of a mile. {{name2}} ran {{dec}} of a mile. {{name3}} ran {{num2}}/{{denom2}} of a mile. Who ran the farthest? Who ran the shortest distance?
+
+solution: |
+  # Convert to decimals
+  dist1 = num1 / denom1
+  dist2 = dec
+  dist3 = num2 / denom2
+  
+  # Create list of (distance, name) tuples
+  distances = [
+    (dist1, name1),
+    (dist2, name2),
+    (dist3, name3)
+  ]
+  
+  # Sort by distance
+  distances.sort(key=lambda x: x[0])
+  
+  # Shortest is first, farthest is last
+  shortest = distances[0][1]
+  farthest = distances[2][1]
+  
+  Answer = f"{farthest} ran the farthest | {shortest} ran the shortest distance"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Jennifer ran the farthest | Kimberly ran the shortest distance"
+  
+  - seed: 67890
+    expected:
+      answer: "James ran the farthest | Joshua ran the shortest distance"

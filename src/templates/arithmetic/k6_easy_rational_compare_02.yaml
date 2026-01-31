@@ -1,0 +1,54 @@
+metadata:
+  id: k6_easy_rational_compare_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.fractions
+  family: rational_compare
+  difficulty: easy
+  steps: 2
+  tags: [fractions, comparison, rational_numbers]
+
+variables:
+  num1:
+    type: integer
+    min: 1
+    max: 10
+  denom1:
+    type: integer
+    min: 3
+    max: 10
+  num2:
+    type: integer
+    min: 1
+    max: 10
+  denom2:
+    type: integer
+    min: 3
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  Which is greater: {{num1}}/{{denom1}} or {{num2}}/{{denom2}}? Write your answer using the > symbol.
+
+solution: |
+  # Convert to decimals for comparison
+  frac1 = num1 / denom1
+  frac2 = num2 / denom2
+  
+  # Determine which is greater
+  if frac1 > frac2:
+    Answer = f"{num1}/{denom1} > {num2}/{denom2}"
+  else:
+    Answer = f"{num2}/{denom2} > {num1}/{denom1}"
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "5/6 > 3/5"
+  
+  - seed: 33333
+    expected:
+      answer: "7/8 > 3/4"

@@ -1,0 +1,47 @@
+metadata:
+  id: k6_medium_fraction_reciprocal_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_reciprocal
+  difficulty: medium
+  steps: 2
+  tags: [fractions, reciprocal, mixed_numbers]
+
+variables:
+  whole_number:
+    type: integer
+    min: 2
+    max: 5
+  a:
+    type: integer
+    min: 1
+    max: 7
+  b:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  Find the reciprocal of {{whole_number}} {{a}}/{{b}}. Express your answer as an improper fraction.
+
+solution: |
+  # Convert mixed number to improper fraction: whole_number + a/b = (whole_number*b + a)/b
+  numerator = whole_number * b + a
+  denominator = b
+  
+  # Reciprocal: flip it
+  Answer = (denominator, numerator)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8/21"
+  
+  - seed: 67890
+    expected:
+      answer: "10/37"

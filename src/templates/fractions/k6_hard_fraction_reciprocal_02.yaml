@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_fraction_reciprocal_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_reciprocal
+  difficulty: hard
+  steps: 4
+  tags: [fractions, reciprocal, mixed_numbers, simplification]
+
+variables:
+  whole:
+    type: integer
+    min: 2
+    max: 4
+  a:
+    type: integer
+    min: 2
+    max: 6
+  b:
+    type: integer
+    min: 4
+    max: 9
+  Answer:
+    type: fraction
+
+template: |
+  Find the reciprocal of {{whole}} {{a}}/{{b}}. Simplify if possible and express as an improper fraction.
+
+solution: |
+  from math import gcd
+  
+  # Convert to improper fraction
+  numerator = whole * b + a
+  denominator = b
+  
+  # Reciprocal
+  recip_num = denominator
+  recip_den = numerator
+  
+  # Simplify
+  common = gcd(recip_num, recip_den)
+  Answer = (recip_num // common, recip_den // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8/21"
+  
+  - seed: 67890
+    expected:
+      answer: "10/37"

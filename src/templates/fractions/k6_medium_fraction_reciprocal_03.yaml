@@ -1,0 +1,35 @@
+metadata:
+  id: k6_medium_fraction_reciprocal_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_reciprocal
+  difficulty: medium
+  steps: 2
+  tags: [fractions, reciprocal, whole_numbers]
+
+variables:
+  n:
+    type: integer
+    min: 3
+    max: 15
+  Answer:
+    type: fraction
+
+template: |
+  What is the reciprocal of {{n}}?
+
+solution: |
+  # Reciprocal of whole number n is 1/n
+  Answer = (1, n)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1/8"
+  
+  - seed: 67890
+    expected:
+      answer: "1/10"

@@ -1,0 +1,54 @@
+metadata:
+  id: k6_easy_fraction_reciprocal_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_reciprocal
+  difficulty: easy
+  steps: 2
+  tags: [fractions, reciprocal, simplification]
+
+variables:
+  multiple:
+    type: integer
+    min: 2
+    max: 4
+  base_num:
+    type: integer
+    min: 2
+    max: 6
+  base_den:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  What is the reciprocal of {{multiple * base_num}}/{{multiple * base_den}}? Express in simplest form.
+
+solution: |
+  from math import gcd
+  
+  # Calculate the fraction
+  numerator = multiple * base_num
+  denominator = multiple * base_den
+  
+  # Reciprocal: flip it
+  recip_num = denominator
+  recip_den = numerator
+  
+  # Simplify
+  common = gcd(recip_num, recip_den)
+  Answer = (recip_num // common, recip_den // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8/5"
+  
+  - seed: 67890
+    expected:
+      answer: "10/7"

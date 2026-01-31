@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_fraction_reciprocal_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_reciprocal
+  difficulty: hard
+  steps: 4
+  tags: [fractions, reciprocal, division, application]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 3
+    max: 8
+  b:
+    type: integer
+    min: 2
+    max: 5
+  c:
+    type: integer
+    min: 3
+    max: 7
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} needs to divide {{a}} by {{b}}/{{c}}. Explain how finding the reciprocal of {{b}}/{{c}} helps solve this problem. Then calculate the answer.
+
+solution: |
+  from math import gcd
+  
+  # Dividing by a fraction is the same as multiplying by its reciprocal
+  # a ÷ (b/c) = a × (c/b) = (a*c)/b
+  
+  numerator = a * c
+  denominator = b
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "20/3"
+  
+  - seed: 67890
+    expected:
+      answer: "21/2"

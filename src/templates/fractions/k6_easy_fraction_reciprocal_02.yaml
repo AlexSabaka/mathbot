@@ -1,0 +1,39 @@
+metadata:
+  id: k6_easy_fraction_reciprocal_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_reciprocal
+  difficulty: easy
+  steps: 1
+  tags: [fractions, reciprocal]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 12
+  b:
+    type: integer
+    min: 5
+    max: 15
+  Answer:
+    type: fraction
+
+template: |
+  Find the reciprocal of {{a}}/{{b}}.
+
+solution: |
+  # Reciprocal: flip numerator and denominator
+  Answer = (b, a)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8/5"
+  
+  - seed: 67890
+    expected:
+      answer: "10/7"

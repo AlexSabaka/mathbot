@@ -14,7 +14,7 @@ metadata:
 variables:
   letter:
     type: choice
-    choices: [H, I, N, O, S, X, Z]
+    choices: ["H", "I", "N", "O", "S", "X", "Z"]
   Answer:
     type: string
 

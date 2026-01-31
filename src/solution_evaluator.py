@@ -42,7 +42,9 @@ def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, 
     
     # Create safe evaluation namespace
     safe_globals = {
-        '__builtins__': {},
+        '__builtins__': {
+            '__import__': __import__,  # Allow from...import statements
+        },
         'abs': abs,
         'round': round,
         'str': str,

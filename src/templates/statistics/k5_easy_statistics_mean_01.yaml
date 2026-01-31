@@ -13,7 +13,7 @@ metadata:
 
 variables:
   num1:
-    type: integerRun and Debug
+    type: integer
     min: 10
     max: 30
   

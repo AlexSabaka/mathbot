@@ -34,8 +34,8 @@ class VariableGenerator:
         context = {}
         
         for var_name, spec in variables.items():
-            # Skip Answer variable - it's set by solution
-            if var_name == 'Answer':
+            # Skip Answer variables - they're set by solution (Answer, Answer1, Answer2, etc.)
+            if var_name == 'Answer' or (var_name.startswith('Answer') and var_name[6:].isdigit()):
                 continue
             
             value = self._generate_value(spec)

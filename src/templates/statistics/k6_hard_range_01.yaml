@@ -1,0 +1,88 @@
+metadata:
+  id: k6_hard_range_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: range
+  difficulty: hard
+  steps: 3
+  tags: [statistics, range, comparison]
+
+variables:
+  a1:
+    type: integer
+    min: 10
+    max: 20
+  a2:
+    type: integer
+    min: 15
+    max: 25
+  a3:
+    type: integer
+    min: 20
+    max: 30
+  a4:
+    type: integer
+    min: 25
+    max: 35
+  a5:
+    type: integer
+    min: 30
+    max: 40
+  a6:
+    type: integer
+    min: 35
+    max: 45
+  b1:
+    type: integer
+    min: 18
+    max: 22
+  b2:
+    type: integer
+    min: 20
+    max: 24
+  b3:
+    type: integer
+    min: 22
+    max: 26
+  b4:
+    type: integer
+    min: 24
+    max: 28
+  b5:
+    type: integer
+    min: 26
+    max: 30
+  b6:
+    type: integer
+    min: 28
+    max: 32
+  Answer:
+    type: string
+
+template: |
+  Data Set A: {{a1}}, {{a2}}, {{a3}}, {{a4}}, {{a5}}, {{a6}}. Data Set B: {{b1}}, {{b2}}, {{b3}}, {{b4}}, {{b5}}, {{b6}}. Which data set has a greater range?
+  
+  Please solve this problem.
+
+solution: |
+  set_a = [a1, a2, a3, a4, a5, a6]
+  set_b = [b1, b2, b3, b4, b5, b6]
+  
+  range_a = max(set_a) - min(set_a)
+  range_b = max(set_b) - min(set_b)
+  
+  if range_a > range_b:
+      Answer = "A"
+  else:
+      Answer = "B"
+
+tests:
+  - seed: 20022
+    expected:
+      answer: "A"
+  - seed: 30033
+    expected:
+      answer: "A"

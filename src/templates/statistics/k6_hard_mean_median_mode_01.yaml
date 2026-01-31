@@ -1,0 +1,55 @@
+metadata:
+  id: k6_hard_mean_median_mode_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: mean_median_mode
+  difficulty: hard
+  steps: 4
+  tags: [statistics, mean, algebra, problem-solving]
+
+variables:
+  name:
+    type: person
+  score1:
+    type: integer
+    min: 70
+    max: 85
+  score2:
+    type: integer
+    min: 75
+    max: 90
+  score3:
+    type: integer
+    min: 65
+    max: 85
+  score4:
+    type: integer
+    min: 70
+    max: 90
+  target_mean:
+    type: integer
+    min: 78
+    max: 86
+  Answer:
+    type: integer
+
+template: |
+  {{name}}'s test scores are: {{score1}}, {{score2}}, {{score3}}, {{score4}}. What score does {{name}} need on the fifth test to have a mean score of {{target_mean}}?
+  
+  Please solve this problem.
+
+solution: |
+  total_current = score1 + score2 + score3 + score4
+  total_needed = target_mean * 5
+  Answer = total_needed - total_current
+
+tests:
+  - seed: 20202
+    expected:
+      answer: "88"
+  - seed: 30303
+    expected:
+      answer: "82"

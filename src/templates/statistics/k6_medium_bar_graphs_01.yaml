@@ -1,0 +1,66 @@
+metadata:
+  id: k6_medium_bar_graphs_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: medium
+  steps: 3
+  tags: [statistics, bar graphs, totals]
+
+variables:
+  name:
+    type: person
+  topic:
+    type: string
+    choices: ["favorite fruit", "favorite sport", "favorite color", "favorite season"]
+  option1:
+    type: string
+    choices: ["apples", "soccer", "blue", "summer"]
+  val1:
+    type: integer
+    min: 8
+    max: 18
+  option2:
+    type: string
+    choices: ["oranges", "basketball", "red", "winter"]
+  val2:
+    type: integer
+    min: 10
+    max: 20
+  option3:
+    type: string
+    choices: ["bananas", "baseball", "green", "fall"]
+  val3:
+    type: integer
+    min: 6
+    max: 16
+  Answer1:
+    type: integer
+  Answer2:
+    type: string
+
+template: |
+  {{name}}'s class voted on their {{topic}}. {{val1}} students chose {{option1}}, {{val2}} students chose {{option2}}, and {{val3}} students chose {{option3}}. What is the total number of students? Which option was most popular?
+  
+  Please solve this problem.
+
+solution: |
+  Answer1 = val1 + val2 + val3
+  
+  if val1 > val2 and val1 > val3:
+      Answer2 = option1
+  elif val2 > val1 and val2 > val3:
+      Answer2 = option2
+  else:
+      Answer2 = option3
+
+tests:
+  - seed: 55500
+    expected:
+      answer: "42 | basketball"
+  - seed: 66600
+    expected:
+      answer: "41 | basketball"

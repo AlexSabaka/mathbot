@@ -1,0 +1,67 @@
+metadata:
+  id: k6_hard_bar_graphs_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: hard
+  steps: 4
+  tags: [statistics, bar graphs, mean, percentage]
+
+variables:
+  month1:
+    type: string
+    choices: ["January", "February", "March"]
+  val1:
+    type: integer
+    min: 1500
+    max: 2500
+    step: 100
+  month2:
+    type: string
+    choices: ["April", "May", "June"]
+  val2:
+    type: integer
+    min: 2000
+    max: 3000
+    step: 100
+  month3:
+    type: string
+    choices: ["July", "August", "September"]
+  val3:
+    type: integer
+    min: 2500
+    max: 3500
+    step: 100
+  month4:
+    type: string
+    choices: ["October", "November", "December"]
+  val4:
+    type: integer
+    min: 3000
+    max: 4000
+    step: 100
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  A bar graph displays quarterly revenue. {{month1}}: ${{val1}}, {{month2}}: ${{val2}}, {{month3}}: ${{val3}}, {{month4}}: ${{val4}}. Calculate the mean revenue. What is the percent increase from {{month1}} to {{month4}}?
+  
+  Please solve this problem.
+
+solution: |
+  Answer1 = (val1 + val2 + val3 + val4) // 4
+  percent_increase = ((val4 - val1) / val1) * 100
+  Answer2 = round(percent_increase)
+
+tests:
+  - seed: 40400
+    expected:
+      answer: "2875 | 59"
+  - seed: 50500
+    expected:
+      answer: "2875 | 57"

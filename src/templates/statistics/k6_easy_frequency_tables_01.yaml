@@ -1,0 +1,95 @@
+metadata:
+  id: k6_easy_frequency_tables_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: frequency_tables
+  difficulty: easy
+  steps: 2
+  tags: [statistics, frequency, tables]
+
+variables:
+  val1:
+    type: integer
+    min: 1
+    max: 5
+  val2:
+    type: integer
+    min: 1
+    max: 5
+  val3:
+    type: integer
+    min: 1
+    max: 5
+  val4:
+    type: integer
+    min: 1
+    max: 5
+  val5:
+    type: integer
+    min: 1
+    max: 5
+  val6:
+    type: integer
+    min: 1
+    max: 5
+  val7:
+    type: integer
+    min: 1
+    max: 5
+  val8:
+    type: integer
+    min: 1
+    max: 5
+  val9:
+    type: integer
+    min: 1
+    max: 5
+  val10:
+    type: integer
+    min: 1
+    max: 5
+  val11:
+    type: integer
+    min: 1
+    max: 5
+  val12:
+    type: integer
+    min: 1
+    max: 5
+  val13:
+    type: integer
+    min: 1
+    max: 5
+  val14:
+    type: integer
+    min: 1
+    max: 5
+  val15:
+    type: integer
+    min: 1
+    max: 5
+  Answer:
+    type: integer
+
+template: |
+  Create a frequency table for this data: {{val1}}, {{val2}}, {{val3}}, {{val4}}, {{val5}}, {{val6}}, {{val7}}, {{val8}}, {{val9}}, {{val10}}, {{val11}}, {{val12}}, {{val13}}, {{val14}}, {{val15}}. What is the mode (most frequent value)?
+  
+  Please solve this problem.
+
+solution: |
+  from collections import Counter
+  
+  values = [val1, val2, val3, val4, val5, val6, val7, val8, val9, val10, val11, val12, val13, val14, val15]
+  counts = Counter(values)
+  Answer = counts.most_common(1)[0][0]
+
+tests:
+  - seed: 80880
+    expected:
+      answer: "3"
+  - seed: 90990
+    expected:
+      answer: "3"

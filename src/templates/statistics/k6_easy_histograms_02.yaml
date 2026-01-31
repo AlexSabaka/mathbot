@@ -1,0 +1,59 @@
+metadata:
+  id: k6_easy_histograms_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: histograms
+  difficulty: easy
+  steps: 2
+  tags: [statistics, histograms, scores]
+
+variables:
+  range1:
+    type: string
+    choices: ["0-19", "10-19", "20-29"]
+  count1:
+    type: integer
+    min: 4
+    max: 10
+  range2:
+    type: string
+    choices: ["20-39", "30-39", "40-49"]
+  count2:
+    type: integer
+    min: 8
+    max: 14
+  range3:
+    type: string
+    choices: ["40-59", "50-59", "60-69"]
+  count3:
+    type: integer
+    min: 5
+    max: 11
+  range4:
+    type: string
+    choices: ["60-79", "70-79", "80-89"]
+  count4:
+    type: integer
+    min: 3
+    max: 9
+  Answer:
+    type: integer
+
+template: |
+  A histogram displays the following data. {{range1}}: {{count1}} values, {{range2}}: {{count2}} values, {{range3}}: {{count3}} values, {{range4}}: {{count4}} values. What is the total number of data points?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = count1 + count2 + count3 + count4
+
+tests:
+  - seed: 10101
+    expected:
+      answer: "32"
+  - seed: 20202
+    expected:
+      answer: "32"

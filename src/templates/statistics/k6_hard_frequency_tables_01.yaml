@@ -1,0 +1,118 @@
+metadata:
+  id: k6_hard_frequency_tables_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: frequency_tables
+  difficulty: hard
+  steps: 4
+  tags: [statistics, frequency, mode, fractions]
+
+variables:
+  name:
+    type: person
+  item:
+    type: string
+    choices: ["birds", "butterflies", "squirrels", "rabbits"]
+  val1:
+    type: integer
+    min: 2
+    max: 5
+  val2:
+    type: integer
+    min: 2
+    max: 5
+  val3:
+    type: integer
+    min: 2
+    max: 5
+  val4:
+    type: integer
+    min: 2
+    max: 5
+  val5:
+    type: integer
+    min: 2
+    max: 5
+  val6:
+    type: integer
+    min: 2
+    max: 5
+  val7:
+    type: integer
+    min: 2
+    max: 5
+  val8:
+    type: integer
+    min: 2
+    max: 5
+  val9:
+    type: integer
+    min: 2
+    max: 5
+  val10:
+    type: integer
+    min: 2
+    max: 5
+  val11:
+    type: integer
+    min: 2
+    max: 5
+  val12:
+    type: integer
+    min: 2
+    max: 5
+  val13:
+    type: integer
+    min: 2
+    max: 5
+  val14:
+    type: integer
+    min: 2
+    max: 5
+  target:
+    type: integer
+    min: 2
+    max: 5
+  Answer1:
+    type: integer
+  Answer2:
+    type: string
+
+template: |
+  {{name}} recorded the number of {{item}} seen each day for 14 days: {{val1}}, {{val2}}, {{val3}}, {{val4}}, {{val5}}, {{val6}}, {{val7}}, {{val8}}, {{val9}}, {{val10}}, {{val11}}, {{val12}}, {{val13}}, {{val14}}. Create a frequency table and determine the mode. What fraction of days did {{name}} see exactly {{target}} {{item}}?
+  
+  Please solve this problem.
+
+solution: |
+  from collections import Counter
+  from math import gcd
+  
+  values = [val1, val2, val3, val4, val5, val6, val7, val8, val9, val10, val11, val12, val13, val14]
+  counts = Counter(values)
+  
+  # Mode
+  Answer1 = counts.most_common(1)[0][0]
+  
+  # Fraction calculation
+  target_count = counts.get(target, 0)
+  total_days = 14
+  
+  # Simplify fraction
+  if target_count == 0:
+      Answer2 = "0/14"
+  else:
+      divisor = gcd(target_count, total_days)
+      numerator = target_count // divisor
+      denominator = total_days // divisor
+      Answer2 = f"{numerator}/{denominator}"
+
+tests:
+  - seed: 20220
+    expected:
+      answer: "4 | 3/7"
+  - seed: 30330
+    expected:
+      answer: "3 | 2/7"

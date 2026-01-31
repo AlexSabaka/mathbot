@@ -1,0 +1,57 @@
+metadata:
+  id: k6_medium_frequency_tables_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: frequency_tables
+  difficulty: medium
+  steps: 3
+  tags: [statistics, frequency, average]
+
+variables:
+  val1:
+    type: integer
+    min: 10
+    max: 15
+  freq1:
+    type: integer
+    min: 5
+    max: 10
+  val2:
+    type: integer
+    min: 18
+    max: 23
+  freq2:
+    type: integer
+    min: 6
+    max: 11
+  val3:
+    type: integer
+    min: 26
+    max: 31
+  freq3:
+    type: integer
+    min: 4
+    max: 9
+  Answer:
+    type: integer
+
+template: |
+  Given this frequency data: {{val1}} occurs {{freq1}} times, {{val2}} occurs {{freq2}} times, {{val3}} occurs {{freq3}} times. Find the mean.
+  
+  Please solve this problem.
+
+solution: |
+  total = val1 * freq1 + val2 * freq2 + val3 * freq3
+  count = freq1 + freq2 + freq3
+  Answer = total // count
+
+tests:
+  - seed: 90099
+    expected:
+      answer: "18"
+  - seed: 10110
+    expected:
+      answer: "18"

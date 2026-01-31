@@ -1,0 +1,52 @@
+metadata:
+  id: k6_easy_bar_graphs_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: easy
+  steps: 2
+  tags: [statistics, bar graphs, comparison]
+
+variables:
+  cat1:
+    type: string
+    choices: ["Red", "Blue", "Green", "Yellow"]
+  val1:
+    type: integer
+    min: 50
+    max: 85
+  cat2:
+    type: string
+    choices: ["Orange", "Purple", "Pink", "Brown"]
+  val2:
+    type: integer
+    min: 35
+    max: 70
+  cat3:
+    type: string
+    choices: ["Black", "White", "Gray", "Silver"]
+  val3:
+    type: integer
+    min: 20
+    max: 55
+  Answer:
+    type: integer
+
+template: |
+  A bar graph displays the following data: {{cat1}}: {{val1}}, {{cat2}}: {{val2}}, {{cat3}}: {{val3}}. What is the difference between {{cat1}} and {{cat2}}?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = abs(val1 - val2)
+
+tests:
+  - seed: 11100
+    expected:
+      answer: "15"
+  - seed: 22200
+    expected:
+      answer: "18"

@@ -1,0 +1,60 @@
+metadata:
+  id: k6_easy_mean_median_mode_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: mean_median_mode
+  difficulty: easy
+  steps: 2
+  tags: [statistics, mean, average]
+
+variables:
+  val1:
+    type: integer
+    min: 15
+    max: 25
+  val2:
+    type: integer
+    min: 20
+    max: 30
+  val3:
+    type: integer
+    min: 25
+    max: 35
+  val4:
+    type: integer
+    min: 30
+    max: 40
+  val5:
+    type: integer
+    min: 35
+    max: 45
+  val6:
+    type: integer
+    min: 40
+    max: 50
+  val7:
+    type: integer
+    min: 45
+    max: 55
+  Answer:
+    type: integer
+
+template: |
+  What is the mean of this data set: {{val1}}, {{val2}}, {{val3}}, {{val4}}, {{val5}}, {{val6}}, {{val7}}?
+  
+  Please solve this problem.
+
+solution: |
+  total = val1 + val2 + val3 + val4 + val5 + val6 + val7
+  Answer = total // 7
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "36"
+  - seed: 44444
+    expected:
+      answer: "34"

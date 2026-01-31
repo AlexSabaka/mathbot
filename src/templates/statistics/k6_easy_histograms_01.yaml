@@ -1,0 +1,52 @@
+metadata:
+  id: k6_easy_histograms_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: histograms
+  difficulty: easy
+  steps: 2
+  tags: [statistics, histograms, data]
+
+variables:
+  range1:
+    type: string
+    choices: ["60-69", "50-59", "40-49"]
+  count1:
+    type: integer
+    min: 3
+    max: 8
+  range2:
+    type: string
+    choices: ["70-79", "60-69", "50-59"]
+  count2:
+    type: integer
+    min: 6
+    max: 12
+  range3:
+    type: string
+    choices: ["80-89", "70-79", "60-69"]
+  count3:
+    type: integer
+    min: 8
+    max: 15
+  Answer:
+    type: integer
+
+template: |
+  A histogram shows test scores. {{range1}}: {{count1}} students, {{range2}}: {{count2}} students, {{range3}}: {{count3}} students. How many students took the test?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = count1 + count2 + count3
+
+tests:
+  - seed: 80800
+    expected:
+      answer: "24"
+  - seed: 90900
+    expected:
+      answer: "24"

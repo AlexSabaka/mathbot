@@ -1,0 +1,59 @@
+metadata:
+  id: k6_easy_bar_graphs_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: easy
+  steps: 2
+  tags: [statistics, bar graphs, data]
+
+variables:
+  cat1:
+    type: string
+    choices: ["Basketball", "Soccer", "Baseball", "Football"]
+  val1:
+    type: integer
+    min: 40
+    max: 75
+  cat2:
+    type: string
+    choices: ["Tennis", "Swimming", "Track", "Volleyball"]
+  val2:
+    type: integer
+    min: 25
+    max: 60
+  cat3:
+    type: string
+    choices: ["Hockey", "Golf", "Skiing", "Cycling"]
+  val3:
+    type: integer
+    min: 10
+    max: 45
+  cat4:
+    type: string
+    choices: ["Wrestling", "Boxing", "Gymnastics", "Skating"]
+  val4:
+    type: integer
+    min: 5
+    max: 35
+  Answer:
+    type: integer
+
+template: |
+  A bar graph shows student preferences: {{cat1}}: {{val1}}, {{cat2}}: {{val2}}, {{cat3}}: {{val3}}, {{cat4}}: {{val4}}. How many more students prefer {{cat1}} than {{cat4}}?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = val1 - val4
+
+tests:
+  - seed: 33300
+    expected:
+      answer: "39"
+  - seed: 44400
+    expected:
+      answer: "37"

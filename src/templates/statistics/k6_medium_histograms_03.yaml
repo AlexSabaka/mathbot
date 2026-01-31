@@ -1,0 +1,95 @@
+metadata:
+  id: k6_medium_histograms_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: histograms
+  difficulty: medium
+  steps: 3
+  tags: [statistics, histograms, data]
+
+variables:
+  v1:
+    type: integer
+    min: 0
+    max: 12
+  v2:
+    type: integer
+    min: 15
+    max: 27
+  v3:
+    type: integer
+    min: 30
+    max: 42
+  v4:
+    type: integer
+    min: 45
+    max: 57
+  v5:
+    type: integer
+    min: 18
+    max: 30
+  v6:
+    type: integer
+    min: 5
+    max: 17
+  v7:
+    type: integer
+    min: 33
+    max: 45
+  v8:
+    type: integer
+    min: 48
+    max: 60
+  v9:
+    type: integer
+    min: 22
+    max: 34
+  v10:
+    type: integer
+    min: 8
+    max: 20
+  v11:
+    type: integer
+    min: 36
+    max: 48
+  v12:
+    type: integer
+    min: 51
+    max: 63
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+  Answer4:
+    type: integer
+
+template: |
+  Organize this data into a histogram with intervals of width 15 starting at 0 (0-14, 15-29, 30-44, 45-59): {{v1}}, {{v2}}, {{v3}}, {{v4}}, {{v5}}, {{v6}}, {{v7}}, {{v8}}, {{v9}}, {{v10}}, {{v11}}, {{v12}}. How many values are in each interval?
+  
+  Please solve this problem.
+
+solution: |
+  values = [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12]
+  
+  count_0_14 = sum(1 for v in values if 0 <= v < 15)
+  count_15_29 = sum(1 for v in values if 15 <= v < 30)
+  count_30_44 = sum(1 for v in values if 30 <= v < 45)
+  count_45_59 = sum(1 for v in values if 45 <= v < 60)
+  
+  Answer1 = count_0_14
+  Answer2 = count_15_29
+  Answer3 = count_30_44
+  Answer4 = count_45_59
+
+tests:
+  - seed: 90909
+    expected:
+      answer: "3 | 3 | 3 | 3"
+  - seed: 10110
+    expected:
+      answer: "3 | 3 | 3 | 3"

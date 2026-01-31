@@ -1,0 +1,66 @@
+metadata:
+  id: k6_medium_bar_graphs_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: medium
+  steps: 3
+  tags: [statistics, bar graphs, voting]
+
+variables:
+  name:
+    type: person
+  topic:
+    type: string
+    choices: ["favorite pet", "favorite snack", "favorite hobby", "favorite subject"]
+  option1:
+    type: string
+    choices: ["dogs", "chips", "reading", "math"]
+  val1:
+    type: integer
+    min: 12
+    max: 22
+  option2:
+    type: string
+    choices: ["cats", "cookies", "drawing", "science"]
+  val2:
+    type: integer
+    min: 14
+    max: 24
+  option3:
+    type: string
+    choices: ["birds", "candy", "sports", "history"]
+  val3:
+    type: integer
+    min: 8
+    max: 18
+  Answer1:
+    type: integer
+  Answer2:
+    type: string
+
+template: |
+  In {{name}}'s class survey about {{topic}}, {{val1}} students selected {{option1}}, {{val2}} students selected {{option2}}, and {{val3}} students selected {{option3}}. How many students participated in the survey? What was the most popular choice?
+  
+  Please solve this problem.
+
+solution: |
+  Answer1 = val1 + val2 + val3
+  
+  if val1 > val2 and val1 > val3:
+      Answer2 = option1
+  elif val2 > val1 and val2 > val3:
+      Answer2 = option2
+  else:
+      Answer2 = option3
+
+tests:
+  - seed: 77700
+    expected:
+      answer: "54 | cookies"
+  - seed: 88800
+    expected:
+      answer: "55 | cookies"

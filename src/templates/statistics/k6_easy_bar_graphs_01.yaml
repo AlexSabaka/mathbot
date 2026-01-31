@@ -1,0 +1,52 @@
+metadata:
+  id: k6_easy_bar_graphs_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: easy
+  steps: 2
+  tags: [statistics, bar graphs, comparison]
+
+variables:
+  cat1:
+    type: string
+    choices: ["Apples", "Bananas", "Oranges", "Grapes"]
+  val1:
+    type: integer
+    min: 45
+    max: 80
+  cat2:
+    type: string
+    choices: ["Pears", "Strawberries", "Peaches", "Plums"]
+  val2:
+    type: integer
+    min: 30
+    max: 60
+  cat3:
+    type: string
+    choices: ["Melons", "Cherries", "Kiwis", "Mangos"]
+  val3:
+    type: integer
+    min: 15
+    max: 45
+  Answer:
+    type: integer
+
+template: |
+  A bar graph shows: {{cat1}}: {{val1}}, {{cat2}}: {{val2}}, {{cat3}}: {{val3}}. How many more {{cat1}} are there than {{cat3}}?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = val1 - val3
+
+tests:
+  - seed: 80088
+    expected:
+      answer: "40"
+  - seed: 90099
+    expected:
+      answer: "38"

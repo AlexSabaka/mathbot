@@ -1,0 +1,55 @@
+metadata:
+  id: k6_hard_mean_median_mode_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: mean_median_mode
+  difficulty: hard
+  steps: 4
+  tags: [statistics, mean, algebra]
+
+variables:
+  name:
+    type: person
+  score1:
+    type: integer
+    min: 65
+    max: 80
+  score2:
+    type: integer
+    min: 70
+    max: 85
+  score3:
+    type: integer
+    min: 75
+    max: 90
+  score4:
+    type: integer
+    min: 68
+    max: 82
+  target_mean:
+    type: integer
+    min: 80
+    max: 88
+  Answer:
+    type: integer
+
+template: |
+  {{name}} scored {{score1}}, {{score2}}, {{score3}}, and {{score4}} on four quizzes. To earn an A, {{name}} needs a mean score of at least {{target_mean}}. What is the minimum score {{name}} needs on the fifth quiz?
+  
+  Please solve this problem.
+
+solution: |
+  total_current = score1 + score2 + score3 + score4
+  total_needed = target_mean * 5
+  Answer = total_needed - total_current
+
+tests:
+  - seed: 40404
+    expected:
+      answer: "90"
+  - seed: 50505
+    expected:
+      answer: "95"

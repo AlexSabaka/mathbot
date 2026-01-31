@@ -1,0 +1,67 @@
+metadata:
+  id: k6_hard_bar_graphs_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: hard
+  steps: 4
+  tags: [statistics, bar graphs, mean, percentages]
+
+variables:
+  month1:
+    type: string
+    choices: ["January", "February", "March", "April"]
+  val1:
+    type: integer
+    min: 2000
+    max: 3000
+    step: 100
+  month2:
+    type: string
+    choices: ["May", "June", "July", "August"]
+  val2:
+    type: integer
+    min: 2500
+    max: 3500
+    step: 100
+  month3:
+    type: string
+    choices: ["September", "October", "November", "December"]
+  val3:
+    type: integer
+    min: 3000
+    max: 4000
+    step: 100
+  month4:
+    type: string
+    choices: ["January", "February", "March", "April"]
+  val4:
+    type: integer
+    min: 3500
+    max: 4500
+    step: 100
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  A bar graph shows monthly sales. {{month1}}: ${{val1}}, {{month2}}: ${{val2}}, {{month3}}: ${{val3}}, {{month4}}: ${{val4}}. What is the mean monthly sales? What is the percent increase from {{month1}} to {{month4}}?
+  
+  Please solve this problem.
+
+solution: |
+  Answer1 = (val1 + val2 + val3 + val4) // 4
+  percent_increase = ((val4 - val1) / val1) * 100
+  Answer2 = round(percent_increase)
+
+tests:
+  - seed: 20200
+    expected:
+      answer: "3200 | 54"
+  - seed: 30300
+    expected:
+      answer: "3325 | 52"

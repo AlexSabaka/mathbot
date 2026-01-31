@@ -1,0 +1,83 @@
+metadata:
+  id: k6_medium_histograms_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: histograms
+  difficulty: medium
+  steps: 3
+  tags: [statistics, histograms, grouping]
+
+variables:
+  v1:
+    type: integer
+    min: 10
+    max: 20
+  v2:
+    type: integer
+    min: 25
+    max: 35
+  v3:
+    type: integer
+    min: 40
+    max: 50
+  v4:
+    type: integer
+    min: 55
+    max: 65
+  v5:
+    type: integer
+    min: 30
+    max: 40
+  v6:
+    type: integer
+    min: 15
+    max: 25
+  v7:
+    type: integer
+    min: 45
+    max: 55
+  v8:
+    type: integer
+    min: 20
+    max: 30
+  v9:
+    type: integer
+    min: 50
+    max: 60
+  v10:
+    type: integer
+    min: 35
+    max: 45
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+
+template: |
+  Given the data: {{v1}}, {{v2}}, {{v3}}, {{v4}}, {{v5}}, {{v6}}, {{v7}}, {{v8}}, {{v9}}, {{v10}}. Group this data into intervals of width 20 starting at 10 (10-29, 30-49, 50-69). How many values fall into each interval?
+  
+  Please solve this problem.
+
+solution: |
+  values = [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10]
+  
+  count_10_29 = sum(1 for v in values if 10 <= v < 30)
+  count_30_49 = sum(1 for v in values if 30 <= v < 50)
+  count_50_69 = sum(1 for v in values if 50 <= v < 70)
+  
+  Answer1 = count_10_29
+  Answer2 = count_30_49
+  Answer3 = count_50_69
+
+tests:
+  - seed: 70707
+    expected:
+      answer: "3 | 4 | 3"
+  - seed: 80808
+    expected:
+      answer: "3 | 4 | 3"

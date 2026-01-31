@@ -1,0 +1,143 @@
+metadata:
+  id: k6_hard_histograms_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: histograms
+  difficulty: hard
+  steps: 4
+  tags: [statistics, histograms, intervals]
+
+variables:
+  v1:
+    type: integer
+    min: 2
+    max: 12
+  v2:
+    type: integer
+    min: 16
+    max: 26
+  v3:
+    type: integer
+    min: 30
+    max: 40
+  v4:
+    type: integer
+    min: 44
+    max: 54
+  v5:
+    type: integer
+    min: 58
+    max: 68
+  v6:
+    type: integer
+    min: 6
+    max: 16
+  v7:
+    type: integer
+    min: 20
+    max: 30
+  v8:
+    type: integer
+    min: 34
+    max: 44
+  v9:
+    type: integer
+    min: 48
+    max: 58
+  v10:
+    type: integer
+    min: 62
+    max: 72
+  v11:
+    type: integer
+    min: 10
+    max: 20
+  v12:
+    type: integer
+    min: 24
+    max: 34
+  v13:
+    type: integer
+    min: 38
+    max: 48
+  v14:
+    type: integer
+    min: 52
+    max: 62
+  v15:
+    type: integer
+    min: 66
+    max: 76
+  v16:
+    type: integer
+    min: 14
+    max: 24
+  v17:
+    type: integer
+    min: 28
+    max: 38
+  v18:
+    type: integer
+    min: 42
+    max: 52
+  v19:
+    type: integer
+    min: 56
+    max: 66
+  v20:
+    type: integer
+    min: 70
+    max: 80
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+  Answer4:
+    type: integer
+  Answer5:
+    type: integer
+  Answer6:
+    type: string
+
+template: |
+  Create a histogram for this dataset using intervals 0-14, 15-29, 30-44, 45-59, 60-74: {{v1}}, {{v2}}, {{v3}}, {{v4}}, {{v5}}, {{v6}}, {{v7}}, {{v8}}, {{v9}}, {{v10}}, {{v11}}, {{v12}}, {{v13}}, {{v14}}, {{v15}}, {{v16}}, {{v17}}, {{v18}}, {{v19}}, {{v20}}. Count the frequency in each interval and identify the interval with the highest frequency.
+  
+  Please solve this problem.
+
+solution: |
+  values = [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20]
+  
+  count_0_14 = sum(1 for v in values if 0 <= v < 15)
+  count_15_29 = sum(1 for v in values if 15 <= v < 30)
+  count_30_44 = sum(1 for v in values if 30 <= v < 45)
+  count_45_59 = sum(1 for v in values if 45 <= v < 60)
+  count_60_74 = sum(1 for v in values if 60 <= v < 75)
+  
+  Answer1 = count_0_14
+  Answer2 = count_15_29
+  Answer3 = count_30_44
+  Answer4 = count_45_59
+  Answer5 = count_60_74
+  
+  counts = [
+      (count_0_14, "0-14"),
+      (count_15_29, "15-29"),
+      (count_30_44, "30-44"),
+      (count_45_59, "45-59"),
+      (count_60_74, "60-74")
+  ]
+  max_count = max(c[0] for c in counts)
+  Answer6 = [c[1] for c in counts if c[0] == max_count][0]
+
+tests:
+  - seed: 60660
+    expected:
+      answer: "2 | 4 | 4 | 4 | 6 | 60-74"
+  - seed: 70770
+    expected:
+      answer: "2 | 4 | 4 | 4 | 6 | 60-74"

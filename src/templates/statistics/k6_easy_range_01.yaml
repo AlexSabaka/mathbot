@@ -1,0 +1,52 @@
+metadata:
+  id: k6_easy_range_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: range
+  difficulty: easy
+  steps: 2
+  tags: [statistics, range, data]
+
+variables:
+  val1:
+    type: integer
+    min: 5
+    max: 15
+  val2:
+    type: integer
+    min: 15
+    max: 25
+  val3:
+    type: integer
+    min: 25
+    max: 35
+  val4:
+    type: integer
+    min: 35
+    max: 45
+  val5:
+    type: integer
+    min: 10
+    max: 20
+  Answer:
+    type: integer
+
+template: |
+  Find the range of this data set: {{val1}}, {{val2}}, {{val3}}, {{val4}}, {{val5}}.
+  
+  Please solve this problem.
+
+solution: |
+  values = [val1, val2, val3, val4, val5]
+  Answer = max(values) - min(values)
+
+tests:
+  - seed: 80808
+    expected:
+      answer: "34"
+  - seed: 90909
+    expected:
+      answer: "33"

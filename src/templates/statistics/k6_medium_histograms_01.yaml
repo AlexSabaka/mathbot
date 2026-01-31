@@ -1,0 +1,75 @@
+metadata:
+  id: k6_medium_histograms_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: histograms
+  difficulty: medium
+  steps: 3
+  tags: [statistics, histograms, intervals]
+
+variables:
+  v1:
+    type: integer
+    min: 5
+    max: 15
+  v2:
+    type: integer
+    min: 18
+    max: 28
+  v3:
+    type: integer
+    min: 32
+    max: 42
+  v4:
+    type: integer
+    min: 45
+    max: 55
+  v5:
+    type: integer
+    min: 22
+    max: 32
+  v6:
+    type: integer
+    min: 8
+    max: 18
+  v7:
+    type: integer
+    min: 35
+    max: 45
+  v8:
+    type: integer
+    min: 12
+    max: 22
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+
+template: |
+  Data: {{v1}}, {{v2}}, {{v3}}, {{v4}}, {{v5}}, {{v6}}, {{v7}}, {{v8}}. Create intervals of width 20 starting at 0 and determine how many values fall into each interval (0-19, 20-39, 40-59).
+  
+  Please solve this problem.
+
+solution: |
+  values = [v1, v2, v3, v4, v5, v6, v7, v8]
+  
+  count_0_19 = sum(1 for v in values if 0 <= v < 20)
+  count_20_39 = sum(1 for v in values if 20 <= v < 40)
+  count_40_59 = sum(1 for v in values if 40 <= v < 60)
+  
+  Answer1 = count_0_19
+  Answer2 = count_20_39
+  Answer3 = count_40_59
+
+tests:
+  - seed: 50505
+    expected:
+      answer: "3 | 3 | 2"
+  - seed: 60606
+    expected:
+      answer: "3 | 3 | 2"

@@ -1,0 +1,67 @@
+metadata:
+  id: k6_hard_bar_graphs_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: hard
+  steps: 4
+  tags: [statistics, bar graphs, mean, percentages]
+
+variables:
+  month1:
+    type: string
+    choices: ["Week 1", "Week 2", "Week 3"]
+  val1:
+    type: integer
+    min: 1800
+    max: 2800
+    step: 100
+  month2:
+    type: string
+    choices: ["Week 4", "Week 5", "Week 6"]
+  val2:
+    type: integer
+    min: 2300
+    max: 3300
+    step: 100
+  month3:
+    type: string
+    choices: ["Week 7", "Week 8", "Week 9"]
+  val3:
+    type: integer
+    min: 2800
+    max: 3800
+    step: 100
+  month4:
+    type: string
+    choices: ["Week 10", "Week 11", "Week 12"]
+  val4:
+    type: integer
+    min: 3300
+    max: 4300
+    step: 100
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  A store's bar graph shows weekly sales. {{month1}}: ${{val1}}, {{month2}}: ${{val2}}, {{month3}}: ${{val3}}, {{month4}}: ${{val4}}. What is the mean weekly sales? What is the percent increase from {{month1}} to {{month4}}?
+  
+  Please solve this problem.
+
+solution: |
+  Answer1 = (val1 + val2 + val3 + val4) // 4
+  percent_increase = ((val4 - val1) / val1) * 100
+  Answer2 = round(percent_increase)
+
+tests:
+  - seed: 60600
+    expected:
+      answer: "3075 | 61"
+  - seed: 70700
+    expected:
+      answer: "3175 | 56"

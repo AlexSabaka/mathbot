@@ -1,0 +1,77 @@
+metadata:
+  id: k6_medium_mean_median_mode_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: mean_median_mode
+  difficulty: medium
+  steps: 3
+  tags: [statistics, mean, median, mode]
+
+variables:
+  val1:
+    type: integer
+    min: 5
+    max: 10
+  val2:
+    type: integer
+    min: 8
+    max: 12
+  val3:
+    type: integer
+    min: 10
+    max: 15
+  val4:
+    type: integer
+    min: 12
+    max: 16
+  val5:
+    type: integer
+    min: 8
+    max: 12
+  val6:
+    type: integer
+    min: 10
+    max: 15
+  val7:
+    type: integer
+    min: 8
+    max: 12
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+  Answer3:
+    type: integer
+
+template: |
+  Find the mean, median, and mode of: {{val1}}, {{val2}}, {{val3}}, {{val4}}, {{val5}}, {{val6}}, {{val7}}.
+  
+  Please solve this problem.
+
+solution: |
+  import math
+  
+  values = [val1, val2, val3, val4, val5, val6, val7]
+  
+  # Mean
+  Answer1 = sum(values) // len(values)
+  
+  # Median
+  sorted_vals = sorted(values)
+  Answer2 = sorted_vals[3]
+  
+  # Mode (most frequent value)
+  from collections import Counter
+  counts = Counter(values)
+  Answer3 = counts.most_common(1)[0][0]
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "11 | 11 | 11"
+  - seed: 66666
+    expected:
+      answer: "11 | 11 | 10"

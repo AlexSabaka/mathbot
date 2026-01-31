@@ -1,0 +1,96 @@
+metadata:
+  id: k6_hard_range_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: range
+  difficulty: hard
+  steps: 3
+  tags: [statistics, range, comparison, data]
+
+variables:
+  a1:
+    type: integer
+    min: 45
+    max: 55
+  a2:
+    type: integer
+    min: 50
+    max: 60
+  a3:
+    type: integer
+    min: 55
+    max: 65
+  a4:
+    type: integer
+    min: 60
+    max: 70
+  a5:
+    type: integer
+    min: 65
+    max: 75
+  a6:
+    type: integer
+    min: 70
+    max: 80
+  a7:
+    type: integer
+    min: 75
+    max: 85
+  b1:
+    type: integer
+    min: 58
+    max: 62
+  b2:
+    type: integer
+    min: 60
+    max: 64
+  b3:
+    type: integer
+    min: 62
+    max: 66
+  b4:
+    type: integer
+    min: 64
+    max: 68
+  b5:
+    type: integer
+    min: 66
+    max: 70
+  b6:
+    type: integer
+    min: 68
+    max: 72
+  b7:
+    type: integer
+    min: 70
+    max: 74
+  Answer:
+    type: string
+
+template: |
+  Consider these two data sets. Data Set A: {{a1}}, {{a2}}, {{a3}}, {{a4}}, {{a5}}, {{a6}}, {{a7}}. Data Set B: {{b1}}, {{b2}}, {{b3}}, {{b4}}, {{b5}}, {{b6}}, {{b7}}. Which data set has a greater range?
+  
+  Please solve this problem.
+
+solution: |
+  set_a = [a1, a2, a3, a4, a5, a6, a7]
+  set_b = [b1, b2, b3, b4, b5, b6, b7]
+  
+  range_a = max(set_a) - min(set_a)
+  range_b = max(set_b) - min(set_b)
+  
+  if range_a > range_b:
+      Answer = "A"
+  else:
+      Answer = "B"
+
+tests:
+  - seed: 40044
+    expected:
+      answer: "A"
+  - seed: 50055
+    expected:
+      answer: "A"

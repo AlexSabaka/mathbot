@@ -1,0 +1,52 @@
+metadata:
+  id: k6_easy_mean_median_mode_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: mean_median_mode
+  difficulty: easy
+  steps: 2
+  tags: [statistics, mean, average]
+
+variables:
+  val1:
+    type: integer
+    min: 10
+    max: 20
+  val2:
+    type: integer
+    min: 15
+    max: 25
+  val3:
+    type: integer
+    min: 20
+    max: 30
+  val4:
+    type: integer
+    min: 25
+    max: 35
+  val5:
+    type: integer
+    min: 30
+    max: 40
+  Answer:
+    type: integer
+
+template: |
+  Find the mean of this data set: {{val1}}, {{val2}}, {{val3}}, {{val4}}, {{val5}}.
+  
+  Please solve this problem.
+
+solution: |
+  total = val1 + val2 + val3 + val4 + val5
+  Answer = total // 5
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "25"
+  - seed: 67890
+    expected:
+      answer: "27"

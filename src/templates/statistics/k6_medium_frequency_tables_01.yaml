@@ -1,0 +1,57 @@
+metadata:
+  id: k6_medium_frequency_tables_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: frequency_tables
+  difficulty: medium
+  steps: 3
+  tags: [statistics, frequency, mean]
+
+variables:
+  val1:
+    type: integer
+    min: 5
+    max: 10
+  freq1:
+    type: integer
+    min: 3
+    max: 8
+  val2:
+    type: integer
+    min: 12
+    max: 17
+  freq2:
+    type: integer
+    min: 4
+    max: 9
+  val3:
+    type: integer
+    min: 19
+    max: 24
+  freq3:
+    type: integer
+    min: 2
+    max: 7
+  Answer:
+    type: integer
+
+template: |
+  A frequency table shows: Value {{val1}} appears {{freq1}} times, value {{val2}} appears {{freq2}} times, value {{val3}} appears {{freq3}} times. What is the mean of this data?
+  
+  Please solve this problem.
+
+solution: |
+  total = val1 * freq1 + val2 * freq2 + val3 * freq3
+  count = freq1 + freq2 + freq3
+  Answer = total // count
+
+tests:
+  - seed: 50055
+    expected:
+      answer: "12"
+  - seed: 60066
+    expected:
+      answer: "13"

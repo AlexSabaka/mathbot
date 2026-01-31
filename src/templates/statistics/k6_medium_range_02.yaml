@@ -1,0 +1,60 @@
+metadata:
+  id: k6_medium_range_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: range
+  difficulty: medium
+  steps: 2
+  tags: [statistics, range, temperature, weather]
+
+variables:
+  temp1:
+    type: integer
+    min: 50
+    max: 65
+  temp2:
+    type: integer
+    min: 58
+    max: 73
+  temp3:
+    type: integer
+    min: 62
+    max: 77
+  temp4:
+    type: integer
+    min: 68
+    max: 83
+  temp5:
+    type: integer
+    min: 72
+    max: 87
+  temp6:
+    type: integer
+    min: 64
+    max: 79
+  temp7:
+    type: integer
+    min: 56
+    max: 71
+  Answer:
+    type: integer
+
+template: |
+  During one week, the daily high temperatures were {{temp1}}°F, {{temp2}}°F, {{temp3}}°F, {{temp4}}°F, {{temp5}}°F, {{temp6}}°F, and {{temp7}}°F. Calculate the temperature range for the week.
+  
+  Please solve this problem.
+
+solution: |
+  temps = [temp1, temp2, temp3, temp4, temp5, temp6, temp7]
+  Answer = max(temps) - min(temps)
+
+tests:
+  - seed: 77788
+    expected:
+      answer: "29"
+  - seed: 88899
+    expected:
+      answer: "31"

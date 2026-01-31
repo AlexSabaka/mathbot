@@ -1,0 +1,60 @@
+metadata:
+  id: k6_medium_range_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: range
+  difficulty: medium
+  steps: 2
+  tags: [statistics, range, temperature]
+
+variables:
+  temp1:
+    type: integer
+    min: 55
+    max: 70
+  temp2:
+    type: integer
+    min: 65
+    max: 80
+  temp3:
+    type: integer
+    min: 70
+    max: 85
+  temp4:
+    type: integer
+    min: 75
+    max: 90
+  temp5:
+    type: integer
+    min: 68
+    max: 83
+  temp6:
+    type: integer
+    min: 60
+    max: 75
+  temp7:
+    type: integer
+    min: 72
+    max: 87
+  Answer:
+    type: integer
+
+template: |
+  The high temperatures for a week were: {{temp1}}°F, {{temp2}}°F, {{temp3}}°F, {{temp4}}°F, {{temp5}}°F, {{temp6}}°F, {{temp7}}°F. What is the range of temperatures?
+  
+  Please solve this problem.
+
+solution: |
+  temps = [temp1, temp2, temp3, temp4, temp5, temp6, temp7]
+  Answer = max(temps) - min(temps)
+
+tests:
+  - seed: 55566
+    expected:
+      answer: "25"
+  - seed: 66677
+    expected:
+      answer: "24"

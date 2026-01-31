@@ -1,0 +1,66 @@
+metadata:
+  id: k6_medium_bar_graphs_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: bar_graphs
+  difficulty: medium
+  steps: 3
+  tags: [statistics, bar graphs, data collection]
+
+variables:
+  name:
+    type: person
+  topic:
+    type: string
+    choices: ["favorite book genre", "favorite music style", "favorite game", "favorite food"]
+  option1:
+    type: string
+    choices: ["mystery", "pop", "chess", "pizza"]
+  val1:
+    type: integer
+    min: 15
+    max: 25
+  option2:
+    type: string
+    choices: ["fantasy", "rock", "checkers", "burgers"]
+  val2:
+    type: integer
+    min: 10
+    max: 20
+  option3:
+    type: string
+    choices: ["science fiction", "jazz", "cards", "tacos"]
+  val3:
+    type: integer
+    min: 5
+    max: 15
+  Answer1:
+    type: integer
+  Answer2:
+    type: string
+
+template: |
+  {{name}} surveyed classmates about their {{topic}}. The results were: {{option1}}: {{val1}} students, {{option2}}: {{val2}} students, {{option3}}: {{val3}} students. What is the total number of students surveyed? Which option received the most votes?
+  
+  Please solve this problem.
+
+solution: |
+  Answer1 = val1 + val2 + val3
+  
+  if val1 > val2 and val1 > val3:
+      Answer2 = option1
+  elif val2 > val1 and val2 > val3:
+      Answer2 = option2
+  else:
+      Answer2 = option3
+
+tests:
+  - seed: 99900
+    expected:
+      answer: "48 | mystery"
+  - seed: 10100
+    expected:
+      answer: "48 | mystery"

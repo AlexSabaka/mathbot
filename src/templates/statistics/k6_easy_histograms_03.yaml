@@ -1,0 +1,52 @@
+metadata:
+  id: k6_easy_histograms_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: histograms
+  difficulty: easy
+  steps: 2
+  tags: [statistics, histograms]
+
+variables:
+  range1:
+    type: string
+    choices: ["10-19", "15-24", "20-29"]
+  count1:
+    type: integer
+    min: 5
+    max: 12
+  range2:
+    type: string
+    choices: ["20-29", "25-34", "30-39"]
+  count2:
+    type: integer
+    min: 7
+    max: 14
+  range3:
+    type: string
+    choices: ["30-39", "35-44", "40-49"]
+  count3:
+    type: integer
+    min: 9
+    max: 16
+  Answer:
+    type: integer
+
+template: |
+  A histogram shows data distribution. Interval {{range1}}: {{count1}}, interval {{range2}}: {{count2}}, interval {{range3}}: {{count3}}. How many total data points are represented?
+  
+  Please solve this problem.
+
+solution: |
+  Answer = count1 + count2 + count3
+
+tests:
+  - seed: 30303
+    expected:
+      answer: "32"
+  - seed: 40404
+    expected:
+      answer: "32"

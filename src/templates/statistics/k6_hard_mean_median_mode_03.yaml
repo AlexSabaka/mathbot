@@ -1,0 +1,55 @@
+metadata:
+  id: k6_hard_mean_median_mode_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: statistics
+  family: mean_median_mode
+  difficulty: hard
+  steps: 4
+  tags: [statistics, mean, algebra, tests]
+
+variables:
+  name:
+    type: person
+  score1:
+    type: integer
+    min: 60
+    max: 75
+  score2:
+    type: integer
+    min: 68
+    max: 83
+  score3:
+    type: integer
+    min: 72
+    max: 87
+  score4:
+    type: integer
+    min: 65
+    max: 80
+  target_mean:
+    type: integer
+    min: 75
+    max: 85
+  Answer:
+    type: integer
+
+template: |
+  The first four test scores for {{name}} are {{score1}}, {{score2}}, {{score3}}, and {{score4}}. What score must {{name}} get on the fifth test to achieve a mean of exactly {{target_mean}}?
+  
+  Please solve this problem.
+
+solution: |
+  total_current = score1 + score2 + score3 + score4
+  total_needed = target_mean * 5
+  Answer = total_needed - total_current
+
+tests:
+  - seed: 60606
+    expected:
+      answer: "90"
+  - seed: 70707
+    expected:
+      answer: "85"

@@ -1,0 +1,52 @@
+metadata:
+  id: k6_hard_decimals_add_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.arithmetic
+  family: decimals_add_sub
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [decimals, addition, subtraction, multi_step]
+
+variables:
+  name:
+    type: person
+  a:
+    type: decimal
+    min: 50.0
+    max: 100.0
+    step: 0.5
+  b:
+    type: decimal
+    min: 5.0
+    max: 30.0
+    step: 0.5
+  c:
+    type: decimal
+    min: 5.0
+    max: 30.0
+    step: 0.5
+  d:
+    type: decimal
+    min: 5.0
+    max: 30.0
+    step: 0.5
+  Answer:
+    type: decimal
+
+template: |
+  A tank contains {{a}} liters of water. {{name}} adds {{b}} liters, then removes {{c}} liters, then adds {{d}} liters. How much water is in the tank now?
+
+solution: |
+  Answer = round(a + b - c + d, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "101.00"
+  - seed: 67890
+    expected:
+      answer: "96.50"

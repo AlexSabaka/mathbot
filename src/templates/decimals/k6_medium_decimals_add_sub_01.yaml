@@ -1,0 +1,49 @@
+metadata:
+  id: k6_medium_decimals_add_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.arithmetic
+  family: decimals_add_sub
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, addition, subtraction, money, context]
+
+variables:
+  name:
+    type: person
+  a:
+    type: decimal
+    format: money
+    min: 1.00
+    max: 9.99
+    step: 0.01
+  b:
+    type: decimal
+    format: money
+    min: 1.00
+    max: 5.00
+    step: 0.01
+  c:
+    type: integer
+    choices: [20]
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} bought a notebook for {{a}} and a pen for {{b}}. {{name}} paid with a ${{c}} bill. How much change did {{name}} receive?
+
+solution: |
+  total_spent = a + b
+  Answer = round(c - total_spent, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$8.54"
+  - seed: 67890
+    expected:
+      answer: "$11.34"

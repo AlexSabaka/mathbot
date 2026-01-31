@@ -1,0 +1,47 @@
+metadata:
+  id: k6_medium_decimals_add_sub_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.arithmetic
+  family: decimals_add_sub
+  difficulty: medium
+  steps: 3
+  culture: en-US
+  tags: [decimals, addition, subtraction, context]
+
+variables:
+  name:
+    type: person
+  a:
+    type: decimal
+    min: 20.0
+    max: 50.0
+    step: 0.5
+  b:
+    type: decimal
+    min: 1.0
+    max: 10.0
+    step: 0.5
+  c:
+    type: decimal
+    min: 1.0
+    max: 10.0
+    step: 0.5
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} had ${{a}}. {{name}} spent ${{b}} on lunch and ${{c}} on a movie ticket. How much money does {{name}} have left?
+
+solution: |
+  Answer = round(a - b - c, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7.50"
+  - seed: 67890
+    expected:
+      answer: "9.00"

@@ -1,0 +1,51 @@
+metadata:
+  id: k6_medium_decimals_add_sub_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.arithmetic
+  family: decimals_add_sub
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, addition, subtraction, shopping]
+
+variables:
+  name:
+    type: person
+  item1:
+    type: item
+    category: online
+  item2:
+    type: item
+    category: online
+  a:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 15.00
+    step: 0.25
+  b:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 15.00
+    step: 0.25
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} purchased {{item1}} for {{a}} and {{item2}} for {{b}}. What is the total cost?
+
+solution: |
+  Answer = round(a + b, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$15.25"
+  - seed: 67890
+    expected:
+      answer: "$20.00"

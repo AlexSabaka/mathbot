@@ -1,0 +1,53 @@
+metadata:
+  id: k6_hard_decimals_add_sub_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.arithmetic
+  family: decimals_add_sub
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, addition, subtraction, money, context]
+
+variables:
+  name:
+    type: person
+  store:
+    type: store
+  a:
+    type: decimal
+    format: money
+    min: 10.00
+    max: 25.00
+    step: 0.50
+  b:
+    type: decimal
+    format: money
+    min: 5.00
+    max: 15.00
+    step: 0.25
+  c:
+    type: decimal
+    format: money
+    min: 3.00
+    max: 10.00
+    step: 0.25
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} went shopping at {{store}}. {{name}} bought items costing {{a}}, {{b}}, and {{c}}. What is the total amount {{name}} spent?
+
+solution: |
+  Answer = round(a + b + c, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$33.75"
+  - seed: 67890
+    expected:
+      answer: "$33.75"

@@ -1,0 +1,74 @@
+metadata:
+  id: k5_medium_statistics_median_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, median, even-count, context]
+
+variables:
+  item:
+    type: string
+    choices: ["books", "toys", "games", "shirts", "notebooks"]
+  
+  store:
+    type: store
+  
+  price1:
+    type: integer
+    min: 8
+    max: 25
+  
+  price2:
+    type: integer
+    min: 8
+    max: 25
+  
+  price3:
+    type: integer
+    min: 8
+    max: 25
+  
+  price4:
+    type: integer
+    min: 8
+    max: 25
+  
+  price5:
+    type: integer
+    min: 8
+    max: 25
+  
+  price6:
+    type: integer
+    min: 8
+    max: 25
+  
+  Answer:
+    type: integer
+
+template: |
+  The {{item}} at {{store}} cost ${{price1}}, ${{price2}}, ${{price3}}, ${{price4}}, ${{price5}}, and ${{price6}}.
+  
+  What is the median price?
+
+solution: |
+  # Sort the prices
+  prices = sorted([price1, price2, price3, price4, price5, price6])
+  
+  # Find median (average of middle two values for even count)
+  Answer = (prices[2] + prices[3]) // 2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "15"
+  
+  - seed: 67890
+    expected:
+      answer: "16"

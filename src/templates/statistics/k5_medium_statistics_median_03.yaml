@@ -1,0 +1,65 @@
+metadata:
+  id: k5_medium_statistics_median_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, median, heights]
+
+variables:
+  name:
+    type: person
+  
+  height1:
+    type: integer
+    min: 120
+    max: 160
+  
+  height2:
+    type: integer
+    min: 120
+    max: 160
+  
+  height3:
+    type: integer
+    min: 120
+    max: 160
+  
+  height4:
+    type: integer
+    min: 120
+    max: 160
+  
+  height5:
+    type: integer
+    min: 120
+    max: 160
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} measured the heights (in cm) of 5 plants: {{height1}}, {{height2}}, {{height3}}, {{height4}}, and {{height5}}.
+  
+  What is the median height?
+
+solution: |
+  # Sort the heights
+  heights = sorted([height1, height2, height3, height4, height5])
+  
+  # Find median (middle value)
+  Answer = heights[2]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "141"
+  
+  - seed: 67890
+    expected:
+      answer: "144"

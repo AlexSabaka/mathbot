@@ -1,0 +1,60 @@
+metadata:
+  id: k5_easy_statistics_median_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, median, odd-count]
+
+variables:
+  num1:
+    type: integer
+    min: 5
+    max: 20
+  
+  num2:
+    type: integer
+    min: 5
+    max: 20
+  
+  num3:
+    type: integer
+    min: 5
+    max: 20
+  
+  num4:
+    type: integer
+    min: 5
+    max: 20
+  
+  num5:
+    type: integer
+    min: 5
+    max: 20
+  
+  Answer:
+    type: integer
+
+template: |
+  Find the median of: {{num1}}, {{num2}}, {{num3}}, {{num4}}, {{num5}}.
+
+solution: |
+  # Sort the numbers
+  numbers = sorted([num1, num2, num3, num4, num5])
+  
+  # Find median (middle value)
+  Answer = numbers[2]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "13"
+  
+  - seed: 67890
+    expected:
+      answer: "14"

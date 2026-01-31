@@ -1,0 +1,90 @@
+metadata:
+  id: k5_hard_statistics_median_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, median, missing-value, target]
+
+variables:
+  name:
+    type: person
+  
+  target_median:
+    type: integer
+    min: 80
+    max: 90
+  
+  score1:
+    type: integer
+    min: 70
+    max: 85
+  
+  score2:
+    type: integer
+    min: 70
+    max: 85
+  
+  score3:
+    type: integer
+    min: 85
+    max: 95
+  
+  score4:
+    type: integer
+    min: 85
+    max: 95
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} needs a median score of at least {{target_median}} to qualify for a competition.
+  {{name}}'s current scores are {{score1}}, {{score2}}, {{score3}}, and {{score4}}.
+  
+  What is the minimum score {{name}} needs on the next test to qualify?
+
+solution: |
+  # With 5 scores, the median will be the 3rd value when sorted
+  # To get median of target_median, the 3rd value must be at least target_median
+  # Sort current scores
+  scores = sorted([score1, score2, score3, score4])
+  
+  # The new score needs to make the 3rd position at least target_median
+  # If scores[2] >= target_median, answer is 0 (already qualified)
+  # Otherwise, need to place a score that makes position 3 = target_median
+  
+  # After adding 5th score and sorting, median is at index 2
+  # To guarantee median >= target_median, new score should be >= target_median
+  # and replace one of the lower values in sorted position
+  
+  # Simpler approach: if we want median to be exactly target_median,
+  # we need the middle value to be target_median
+  # Current scores sorted: scores[0], scores[1], scores[2], scores[3]
+  # After adding x: we want sorted position 2 to be >= target_median
+  
+  # If x >= scores[2], then sorted is: scores[0], scores[1], scores[2], scores[3], x
+  # median = scores[2]
+  # If x < scores[2] but x >= scores[1], median = x
+  # If x < scores[1], median = scores[1]
+  
+  # To get median >= target_median with minimum x:
+  # If scores[2] >= target_median: x can be anything (0)
+  # If scores[1] >= target_median: x = target_median works
+  # Otherwise: x = target_median
+  
+  Answer = target_median
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "85"
+  
+  - seed: 67890
+    expected:
+      answer: "87"

@@ -1,0 +1,84 @@
+metadata:
+  id: k5_medium_statistics_median_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [statistics, median, even-count, ages]
+
+variables:
+  name:
+    type: person
+  
+  group:
+    type: string
+    choices: ["class", "team", "club", "group"]
+  
+  age1:
+    type: integer
+    min: 9
+    max: 12
+  
+  age2:
+    type: integer
+    min: 9
+    max: 12
+  
+  age3:
+    type: integer
+    min: 9
+    max: 12
+  
+  age4:
+    type: integer
+    min: 9
+    max: 12
+  
+  age5:
+    type: integer
+    min: 9
+    max: 12
+  
+  age6:
+    type: integer
+    min: 9
+    max: 12
+  
+  age7:
+    type: integer
+    min: 9
+    max: 12
+  
+  age8:
+    type: integer
+    min: 9
+    max: 12
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}}'s {{group}} has students aged {{age1}}, {{age2}}, {{age3}}, {{age4}}, {{age5}}, {{age6}}, {{age7}}, and {{age8}} years old.
+  
+  What is the median age?
+
+solution: |
+  # Sort the ages
+  ages = sorted([age1, age2, age3, age4, age5, age6, age7, age8])
+  
+  # Find median (average of middle two values)
+  Answer = (ages[3] + ages[4]) // 2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "10"
+  
+  - seed: 67890
+    expected:
+      answer: "11"

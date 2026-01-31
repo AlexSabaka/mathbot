@@ -1,0 +1,50 @@
+metadata:
+  id: k5_easy_statistics_median_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, median, odd-count, small-set]
+
+variables:
+  num1:
+    type: integer
+    min: 15
+    max: 35
+  
+  num2:
+    type: integer
+    min: 15
+    max: 35
+  
+  num3:
+    type: integer
+    min: 15
+    max: 35
+  
+  Answer:
+    type: integer
+
+template: |
+  What is the median of {{num1}}, {{num2}}, and {{num3}}?
+
+solution: |
+  # Sort the numbers
+  numbers = sorted([num1, num2, num3])
+  
+  # Find median (middle value)
+  Answer = numbers[1]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "23"
+  
+  - seed: 67890
+    expected:
+      answer: "26"

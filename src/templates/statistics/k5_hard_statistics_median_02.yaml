@@ -1,0 +1,73 @@
+metadata:
+  id: k5_hard_statistics_median_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, median, comparison, mean-vs-median]
+
+variables:
+  name:
+    type: person
+  
+  num1:
+    type: integer
+    min: 40
+    max: 60
+  
+  num2:
+    type: integer
+    min: 40
+    max: 60
+  
+  num3:
+    type: integer
+    min: 40
+    max: 60
+  
+  num4:
+    type: integer
+    min: 40
+    max: 60
+  
+  num5:
+    type: integer
+    min: 40
+    max: 60
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} collected data: {{num1}}, {{num2}}, {{num3}}, {{num4}}, {{num5}}.
+  
+  Calculate both the mean and median of this data set.
+
+solution: |
+  # Calculate mean
+  total = num1 + num2 + num3 + num4 + num5
+  mean = total // 5
+  
+  # Calculate median
+  numbers = sorted([num1, num2, num3, num4, num5])
+  median = numbers[2]
+  
+  Answer1 = mean
+  Answer2 = median
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "50 | 52"
+  
+  - seed: 67890
+    expected:
+      answer: "52 | 54"

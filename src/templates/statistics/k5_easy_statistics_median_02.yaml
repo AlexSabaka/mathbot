@@ -1,0 +1,70 @@
+metadata:
+  id: k5_easy_statistics_median_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [statistics, median, odd-count]
+
+variables:
+  num1:
+    type: integer
+    min: 10
+    max: 30
+  
+  num2:
+    type: integer
+    min: 10
+    max: 30
+  
+  num3:
+    type: integer
+    min: 10
+    max: 30
+  
+  num4:
+    type: integer
+    min: 10
+    max: 30
+  
+  num5:
+    type: integer
+    min: 10
+    max: 30
+  
+  num6:
+    type: integer
+    min: 10
+    max: 30
+  
+  num7:
+    type: integer
+    min: 10
+    max: 30
+  
+  Answer:
+    type: integer
+
+template: |
+  Find the median of these numbers: {{num1}}, {{num2}}, {{num3}}, {{num4}}, {{num5}}, {{num6}}, {{num7}}.
+
+solution: |
+  # Sort the numbers
+  numbers = sorted([num1, num2, num3, num4, num5, num6, num7])
+  
+  # Find median (middle value for 7 numbers is at index 3)
+  Answer = numbers[3]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "21"
+  
+  - seed: 67890
+    expected:
+      answer: "22"

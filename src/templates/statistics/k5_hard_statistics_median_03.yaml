@@ -1,0 +1,77 @@
+metadata:
+  id: k5_hard_statistics_median_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: statistics.median
+  family: statistics_median
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [statistics, median, data-analysis]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  score1a:
+    type: integer
+    min: 60
+    max: 85
+  
+  score1b:
+    type: integer
+    min: 60
+    max: 85
+  
+  score1c:
+    type: integer
+    min: 60
+    max: 85
+  
+  score2a:
+    type: integer
+    min: 70
+    max: 95
+  
+  score2b:
+    type: integer
+    min: 70
+    max: 95
+  
+  score2c:
+    type: integer
+    min: 70
+    max: 95
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name1}}'s test scores are {{score1a}}, {{score1b}}, and {{score1c}}.
+  {{name2}}'s test scores are {{score2a}}, {{score2b}}, and {{score2c}}.
+  
+  What is the difference between their median scores?
+
+solution: |
+  # Calculate medians
+  scores1 = sorted([score1a, score1b, score1c])
+  scores2 = sorted([score2a, score2b, score2c])
+  
+  median1 = scores1[1]
+  median2 = scores2[1]
+  
+  Answer = abs(median1 - median2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "11"
+  
+  - seed: 67890
+    expected:
+      answer: "10"

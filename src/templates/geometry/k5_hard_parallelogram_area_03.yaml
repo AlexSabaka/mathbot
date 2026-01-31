@@ -1,0 +1,53 @@
+metadata:
+  id: k5_hard_parallelogram_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [parallelogram, area, cost]
+
+variables:
+  name:
+    type: person
+  
+  base:
+    type: integer
+    min: 16
+    max: 24
+  
+  height:
+    type: integer
+    min: 12
+    max: 18
+  
+  price:
+    type: integer
+    min: 3
+    max: 6
+  
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} wants to paint a parallelogram-shaped wall with base {{base}} feet and height {{height}} feet.
+  Paint costs ${{price}} per square foot. What is the total cost?
+
+solution: |
+  area = base * height
+  total_cost = area * price
+  Answer = float(total_cost)
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "$576.00"
+  
+  - seed: 55667
+    expected:
+      answer: "$504.00"

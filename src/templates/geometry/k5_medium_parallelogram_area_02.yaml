@@ -1,0 +1,48 @@
+metadata:
+  id: k5_medium_parallelogram_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [parallelogram, area, word problem]
+
+variables:
+  name:
+    type: person
+  
+  base:
+    type: integer
+    min: 15
+    max: 22
+  
+  height:
+    type: integer
+    min: 10
+    max: 16
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} is designing a parallelogram-shaped garden bed.
+  The base is {{base}} feet and the perpendicular height is {{height}} feet.
+  How much area will the garden bed cover?
+
+solution: |
+  area = base * height
+  Answer = area
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "270 square feet"
+  
+  - seed: 66666
+    expected:
+      answer: "240 square feet"

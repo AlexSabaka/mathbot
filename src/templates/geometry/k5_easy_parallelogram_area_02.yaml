@@ -1,0 +1,47 @@
+metadata:
+  id: k5_easy_parallelogram_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [parallelogram, area, real-world]
+
+variables:
+  name:
+    type: person
+  
+  base:
+    type: integer
+    min: 12
+    max: 20
+  
+  height:
+    type: integer
+    min: 8
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} drew a parallelogram with a base of {{base}} inches and a height of {{height}} inches.
+  What is the area?
+
+solution: |
+  area = base * height
+  Answer = area
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "228 square inches"
+  
+  - seed: 22222
+    expected:
+      answer: "156 square inches"

@@ -1,0 +1,46 @@
+metadata:
+  id: k5_medium_parallelogram_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [parallelogram, area, inverse]
+
+variables:
+  area:
+    type: integer
+    min: 100
+    max: 180
+    step: 10
+  
+  height:
+    type: integer
+    min: 10
+    max: 15
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A parallelogram has an area of {{area}} square cm.
+  If the height is {{height}} cm, what is the base?
+
+solution: |
+  # Area = base × height, so base = area / height
+  base = area // height
+  Answer = base
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "11 cm"
+  
+  - seed: 88888
+    expected:
+      answer: "13 cm"

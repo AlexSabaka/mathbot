@@ -1,0 +1,58 @@
+metadata:
+  id: k5_hard_parallelogram_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [parallelogram, area, change, increase]
+
+variables:
+  base:
+    type: integer
+    min: 10
+    max: 14
+  
+  height:
+    type: integer
+    min: 6
+    max: 10
+  
+  increase:
+    type: integer
+    min: 3
+    max: 5
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A parallelogram has a base of {{base}} cm and a height of {{height}} cm.
+  If both the base and height are increased by {{increase}} cm, by how many square centimeters does the area increase?
+
+solution: |
+  # Original area
+  original_area = base * height
+  
+  # New dimensions
+  new_base = base + increase
+  new_height = height + increase
+  new_area = new_base * new_height
+  
+  # Difference
+  increase_in_area = new_area - original_area
+  Answer = increase_in_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "78 square cm"
+  
+  - seed: 67890
+    expected:
+      answer: "59 square cm"

@@ -1,0 +1,63 @@
+metadata:
+  id: k5_hard_parallelogram_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [parallelogram, area, comparison]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  base1:
+    type: integer
+    min: 15
+    max: 20
+  
+  height1:
+    type: integer
+    min: 10
+    max: 14
+  
+  base2:
+    type: integer
+    min: 12
+    max: 18
+  
+  height2:
+    type: integer
+    min: 8
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name1}} has a parallelogram with base {{base1}} meters and height {{height1}} meters.
+  {{name2}} has a parallelogram with base {{base2}} meters and height {{height2}} meters.
+  What is the difference in their areas?
+
+solution: |
+  area1 = base1 * height1
+  area2 = base2 * height2
+  difference = abs(area1 - area2)
+  Answer = difference
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "42 square meters"
+  
+  - seed: 11223
+    expected:
+      answer: "48 square meters"

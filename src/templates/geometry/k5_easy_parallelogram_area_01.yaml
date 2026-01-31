@@ -1,0 +1,44 @@
+metadata:
+  id: k5_easy_parallelogram_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [parallelogram, area, basic]
+
+variables:
+  base:
+    type: integer
+    min: 10
+    max: 18
+  
+  height:
+    type: integer
+    min: 6
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a parallelogram with base {{base}} cm and height {{height}} cm.
+
+solution: |
+  # Area = base × height
+  area = base * height
+  Answer = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "156 square cm"
+  
+  - seed: 67890
+    expected:
+      answer: "108 square cm"

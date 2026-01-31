@@ -1,0 +1,50 @@
+metadata:
+  id: k5_medium_parallelogram_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.parallelograms
+  family: parallelogram_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [parallelogram, area, inverse]
+
+variables:
+  object:
+    type: string
+    choices: ["sign", "tile", "banner", "kite"]
+  
+  area:
+    type: integer
+    min: 80
+    max: 144
+    step: 4
+  
+  base:
+    type: integer
+    min: 10
+    max: 16
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A parallelogram-shaped {{object}} has an area of {{area}} square inches.
+  If the base is {{base}} inches, what is the height?
+
+solution: |
+  # Area = base × height, so height = area / base
+  height = area // base
+  Answer = height
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "9 inches"
+  
+  - seed: 67890
+    expected:
+      answer: "8 inches"

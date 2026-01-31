@@ -1,0 +1,43 @@
+metadata:
+  id: k6_medium_factors_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: factors
+  difficulty: medium
+  steps: 2
+  tags: [factors, divisibility, real-world]
+
+variables:
+  name:
+    type: person
+  n:
+    type: integer
+    min: 24
+    max: 60
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{n}} stickers and wants to arrange them in equal rows. What are all the possible ways {{name}} can arrange the stickers so each row has the same number?
+
+solution: |
+  # Find all factors (number of rows possible)
+  factors = []
+  for i in range(1, n + 1):
+    if n % i == 0:
+      factors.append(i)
+  
+  # Format as "1 row, 2 rows, ..." or just list the numbers
+  Answer = ", ".join(str(f) for f in factors)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1, 2, 3, 4, 6, 8, 12, 24"
+  
+  - seed: 67890
+    expected:
+      answer: "1, 2, 3, 4, 6, 9, 12, 18, 36"

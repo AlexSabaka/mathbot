@@ -1,0 +1,47 @@
+metadata:
+  id: k6_medium_factors_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: factors
+  difficulty: medium
+  steps: 2
+  tags: [factors, divisibility, real-world, arrays]
+
+variables:
+  name:
+    type: person
+  n:
+    type: integer
+    min: 30
+    max: 60
+  item:
+    type: item
+    category: grocery
+    plural: true
+  Answer:
+    type: string
+
+template: |
+  {{name}} wants to arrange {{n}} {{item}} into rectangular arrays. List all the different numbers of rows {{name}} could use.
+
+solution: |
+  # Find all factors (possible numbers of rows)
+  factors = []
+  for i in range(1, n + 1):
+    if n % i == 0:
+      factors.append(i)
+  
+  # Format as comma-separated string
+  Answer = ", ".join(str(f) for f in factors)
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "1, 2, 3, 4, 6, 8, 12, 24"
+  
+  - seed: 66666
+    expected:
+      answer: "1, 2, 3, 4, 6, 8, 12, 16, 24, 48"

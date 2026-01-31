@@ -1,0 +1,62 @@
+metadata:
+  id: k6_hard_factors_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: factors
+  difficulty: hard
+  steps: 3
+  tags: [factors, common_factors, divisibility, real-world]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 24
+    max: 96
+  b:
+    type: integer
+    min: 24
+    max: 96
+  Answer:
+    type: string
+
+template: |
+  {{name}} has two ropes measuring {{a}} inches and {{b}} inches. {{name}} wants to cut both ropes into pieces of equal length with no leftover rope.
+  
+  What are all the possible lengths {{name}} could cut the pieces?
+
+solution: |
+  # Find all factors of a
+  factors_a = []
+  for i in range(1, a + 1):
+    if a % i == 0:
+      factors_a.append(i)
+  
+  # Find all factors of b
+  factors_b = []
+  for i in range(1, b + 1):
+    if b % i == 0:
+      factors_b.append(i)
+  
+  # Find common factors
+  common = []
+  for f in factors_a:
+    if f in factors_b and f not in common:
+      common.append(f)
+  
+  # Sort and format as comma-separated string
+  common = sorted(common)
+  Answer = ", ".join(str(f) for f in common)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "1, 2, 3, 4, 6, 8, 12, 16, 24, 48"
+  
+  - seed: 22222
+    expected:
+      answer: "1, 2, 4, 5, 10, 20"

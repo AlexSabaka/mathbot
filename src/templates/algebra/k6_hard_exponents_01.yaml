@@ -1,0 +1,44 @@
+metadata:
+  id: k6_hard_exponents_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.exponents
+  family: exponents
+  difficulty: hard
+  steps: 3
+  tags: [exponents, powers, real_world, bacteria, growth]
+
+variables:
+  initial_bacteria:
+    type: integer
+    min: 10
+    max: 100
+  hours:
+    type: integer
+    min: 3
+    max: 6
+  Answer:
+    type: string
+
+template: |
+  A bacteria colony doubles every hour. If there are {{initial_bacteria}} bacteria at the start, write an expression using exponents for the number of bacteria after {{hours}} hours. Then calculate the result.
+
+solution: |
+  # Expression: initial * 2^hours
+  expression = f"{initial_bacteria} × 2^{hours}"
+  
+  # Calculate result
+  result = initial_bacteria * (2 ** hours)
+  
+  Answer = f"{expression} | {result}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "44 × 2^4 | 704"
+  
+  - seed: 67890
+    expected:
+      answer: "63 × 2^5 | 2016"

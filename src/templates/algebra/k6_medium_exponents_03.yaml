@@ -1,0 +1,42 @@
+metadata:
+  id: k6_medium_exponents_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.exponents
+  family: exponents
+  difficulty: medium
+  steps: 2
+  tags: [exponents, powers, inverse_operations]
+
+variables:
+  base_exp_pair:
+    type: string
+    choices: ["2|3|8", "2|4|16", "2|5|32", "3|2|9", "3|3|27", "3|4|81", "4|2|16", "4|3|64", "5|2|25", "5|3|125", "6|2|36", "7|2|49"]
+  Answer:
+    type: string
+
+template: |
+  {% set parts = base_exp_pair.split('|') %}
+  {% set base = parts[0] %}
+  {% set exponent = parts[1] %}
+  {% set result = parts[2] %}
+  Rewrite {{result}} as a power with base {{base}}.
+
+solution: |
+  # Parse the stored base_exp_pair
+  parts = base_exp_pair.split('|')
+  base = parts[0]
+  exponent = parts[1]
+  
+  Answer = f"{base}^{exponent}"
+
+tests:
+  - seed: 44444
+    expected:
+      answer: "3^3"
+  
+  - seed: 55555
+    expected:
+      answer: "2^4"

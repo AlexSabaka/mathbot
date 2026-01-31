@@ -1,0 +1,39 @@
+metadata:
+  id: k6_easy_exponents_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.exponents
+  family: exponents
+  difficulty: easy
+  steps: 1
+  tags: [exponents, powers, basic_operations]
+
+variables:
+  base:
+    type: integer
+    min: 2
+    max: 5
+  exponent:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: integer
+
+template: |
+  Evaluate: {{base}}^{{exponent}}
+
+solution: |
+  # Calculate power
+  Answer = base ** exponent
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "64"
+  
+  - seed: 67890
+    expected:
+      answer: "81"

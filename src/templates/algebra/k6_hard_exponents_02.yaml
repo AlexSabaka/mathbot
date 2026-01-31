@@ -1,0 +1,44 @@
+metadata:
+  id: k6_hard_exponents_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.exponents
+  family: exponents
+  difficulty: hard
+  steps: 3
+  tags: [exponents, powers, real_world, population, growth]
+
+variables:
+  initial_population:
+    type: integer
+    min: 20
+    max: 80
+  years:
+    type: integer
+    min: 3
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  A population of rabbits doubles every year. Starting with {{initial_population}} rabbits, write an exponential expression for the population after {{years}} years and calculate the result.
+
+solution: |
+  # Expression: initial * 2^years
+  expression = f"{initial_population} × 2^{years}"
+  
+  # Calculate result
+  result = initial_population * (2 ** years)
+  
+  Answer = f"{expression} | {result}"
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "72 × 2^4 | 1152"
+  
+  - seed: 33333
+    expected:
+      answer: "53 × 2^5 | 1696"

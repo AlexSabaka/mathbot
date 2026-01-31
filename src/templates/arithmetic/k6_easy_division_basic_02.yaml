@@ -1,0 +1,40 @@
+metadata:
+  id: k6_easy_division_basic_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_basic
+  difficulty: easy
+  steps: 1
+  tags: [division, basic_operations]
+
+variables:
+  divisor:
+    type: integer
+    min: 3
+    max: 9
+  quotient:
+    type: integer
+    min: 8
+    max: 15
+  Answer:
+    type: integer
+
+template: |
+  Calculate: {{divisor * quotient}} ÷ {{divisor}}
+
+solution: |
+  # Calculate the dividend first
+  dividend = divisor * quotient
+  Answer = dividend // divisor
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "12"
+  
+  - seed: 33333
+    expected:
+      answer: "13"

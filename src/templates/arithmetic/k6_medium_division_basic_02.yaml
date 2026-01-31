@@ -1,0 +1,48 @@
+metadata:
+  id: k6_medium_division_basic_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_basic
+  difficulty: medium
+  steps: 2
+  tags: [division, real_world, remainders, sharing]
+
+variables:
+  name:
+    type: person
+  total_stickers:
+    type: integer
+    min: 30
+    max: 95
+  num_students:
+    type: integer
+    min: 4
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{total_stickers}} stickers to distribute equally to {{num_students}} students. How many stickers will each student receive? Will there be any stickers remaining?
+
+solution: |
+  # Calculate quotient and remainder
+  stickers_each = total_stickers // num_students
+  remaining = total_stickers % num_students
+  
+  # Format answer
+  if remaining == 0:
+    Answer = f"{stickers_each} stickers each | no stickers remaining"
+  else:
+    Answer = f"{stickers_each} stickers each | {remaining} stickers remaining"
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "12 stickers each | 4 stickers remaining"
+  
+  - seed: 33333
+    expected:
+      answer: "13 stickers each | 5 stickers remaining"

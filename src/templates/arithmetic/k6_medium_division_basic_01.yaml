@@ -1,0 +1,48 @@
+metadata:
+  id: k6_medium_division_basic_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_basic
+  difficulty: medium
+  steps: 2
+  tags: [division, real_world, remainders, cookies]
+
+variables:
+  name:
+    type: person
+  total_cookies:
+    type: integer
+    min: 25
+    max: 100
+  num_friends:
+    type: integer
+    min: 3
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{total_cookies}} cookies to share equally among {{num_friends}} friends. How many cookies does each friend get? Are there any left over?
+
+solution: |
+  # Calculate quotient and remainder
+  cookies_each = total_cookies // num_friends
+  leftover = total_cookies % num_friends
+  
+  # Format answer
+  if leftover == 0:
+    Answer = f"{cookies_each} cookies each | no cookies left over"
+  else:
+    Answer = f"{cookies_each} cookies each | {leftover} cookies left over"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "10 cookies each | 4 cookies left over"
+  
+  - seed: 67890
+    expected:
+      answer: "11 cookies each | 4 cookies left over"

@@ -1,0 +1,45 @@
+metadata:
+  id: k6_medium_division_basic_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_basic
+  difficulty: medium
+  steps: 2
+  tags: [division, real_world, remainders, pencils]
+
+variables:
+  name:
+    type: person
+  total_pencils:
+    type: integer
+    min: 40
+    max: 100
+  num_groups:
+    type: integer
+    min: 5
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  A teacher named {{name}} wants to divide {{total_pencils}} pencils equally among {{num_groups}} groups. How many pencils does each group get? How many pencils are left over?
+
+solution: |
+  # Calculate quotient and remainder
+  pencils_each = total_pencils // num_groups
+  leftover = total_pencils % num_groups
+  
+  # Format answer
+  Answer = f"{pencils_each} pencils each | {leftover} pencils left over"
+
+tests:
+  - seed: 44444
+    expected:
+      answer: "10 pencils each | 2 pencils left over"
+  
+  - seed: 55555
+    expected:
+      answer: "11 pencils each | 2 pencils left over"

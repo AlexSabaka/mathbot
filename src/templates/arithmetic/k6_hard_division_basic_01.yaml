@@ -1,0 +1,47 @@
+metadata:
+  id: k6_hard_division_basic_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_basic
+  difficulty: hard
+  steps: 3
+  tags: [division, real_world, remainders, factory, packaging]
+
+variables:
+  daily_production:
+    type: integer
+    min: 100
+    max: 500
+  box_capacity:
+    type: integer
+    min: 12
+    max: 36
+  Answer:
+    type: string
+
+template: |
+  A factory produces {{daily_production}} items per day. If each box holds {{box_capacity}} items, how many boxes are needed to pack one day's production? How many items will be in the partially filled box?
+
+solution: |
+  # Calculate boxes needed (need ceiling division for packing)
+  full_boxes = daily_production // box_capacity
+  items_in_partial = daily_production % box_capacity
+  
+  # If there's a remainder, we need one more box
+  if items_in_partial > 0:
+    total_boxes = full_boxes + 1
+    Answer = f"{total_boxes} boxes needed | {items_in_partial} items in partial box"
+  else:
+    Answer = f"{full_boxes} boxes needed | 0 items in partial box"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "13 boxes needed | 20 items in partial box"
+  
+  - seed: 67890
+    expected:
+      answer: "13 boxes needed | 13 items in partial box"

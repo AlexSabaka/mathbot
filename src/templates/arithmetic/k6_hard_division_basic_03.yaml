@@ -1,0 +1,46 @@
+metadata:
+  id: k6_hard_division_basic_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_basic
+  difficulty: hard
+  steps: 3
+  tags: [division, real_world, remainders, bakery, packaging]
+
+variables:
+  total_cookies:
+    type: integer
+    min: 200
+    max: 480
+  box_size:
+    type: integer
+    min: 18
+    max: 35
+  Answer:
+    type: string
+
+template: |
+  A bakery makes {{total_cookies}} cookies. They package them in boxes that hold {{box_size}} cookies each. How many boxes will be completely filled? How many cookies will be in the box that isn't full?
+
+solution: |
+  # Calculate full boxes
+  full_boxes = total_cookies // box_size
+  cookies_in_partial = total_cookies % box_size
+  
+  # Format answer
+  if cookies_in_partial > 0:
+    Answer = f"{full_boxes} boxes completely filled | {cookies_in_partial} cookies in partial box"
+  else:
+    Answer = f"{full_boxes} boxes completely filled | 0 cookies in partial box"
+
+tests:
+  - seed: 44444
+    expected:
+      answer: "13 boxes completely filled | 7 cookies in partial box"
+  
+  - seed: 55555
+    expected:
+      answer: "11 boxes completely filled | 8 cookies in partial box"

@@ -1,0 +1,47 @@
+metadata:
+  id: k6_hard_division_basic_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.division
+  family: division_basic
+  difficulty: hard
+  steps: 3
+  tags: [division, real_world, remainders, warehouse, shipping]
+
+variables:
+  total_items:
+    type: integer
+    min: 150
+    max: 450
+  crate_size:
+    type: integer
+    min: 15
+    max: 30
+  Answer:
+    type: string
+
+template: |
+  A warehouse needs to ship {{total_items}} items. Each shipping crate can hold {{crate_size}} items. How many crates are required? How many items will be in the last crate if it's not completely full?
+
+solution: |
+  # Calculate crates needed (ceiling division)
+  full_crates = total_items // crate_size
+  items_in_last = total_items % crate_size
+  
+  # If there's a remainder, we need one more crate
+  if items_in_last > 0:
+    total_crates = full_crates + 1
+    Answer = f"{total_crates} crates required | {items_in_last} items in last crate"
+  else:
+    Answer = f"{full_crates} crates required | 0 items in last crate"
+
+tests:
+  - seed: 22222
+    expected:
+      answer: "15 crates required | 4 items in last crate"
+  
+  - seed: 33333
+    expected:
+      answer: "12 crates required | 1 items in last crate"

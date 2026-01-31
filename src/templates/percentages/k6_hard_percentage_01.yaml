@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_percentage_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.test_score
+  family: percentage
+  difficulty: hard
+  steps: 4
+  tags: [percentages, test, score, comparison]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 50
+    max: 95
+  b:
+    type: integer
+    min: 60
+    max: 100
+  p:
+    type: integer
+    min: 60
+    max: 80
+    step: 5
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: string
+
+template: |
+  {{name}} scored {{a}} points out of {{b}} possible points on a test. What percentage did {{name}} score? A score of {{p}}% is needed to pass. Did {{name}} pass?
+
+solution: |
+  percentage = (a / b) * 100
+  Answer1 = round(percentage, 2)
+  
+  if percentage >= p:
+      Answer2 = "Yes"
+  else:
+      Answer2 = "No"
+
+tests:
+  - seed: 12346
+    expected:
+      answer: "76.84 | Yes"
+  - seed: 67891
+    expected:
+      answer: "63.16 | No"

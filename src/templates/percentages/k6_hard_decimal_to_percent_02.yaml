@@ -1,0 +1,66 @@
+metadata:
+  id: k6_hard_decimal_to_percent_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: decimal_to_percent
+  difficulty: hard
+  steps: 4
+  tags: [percentages, decimals, multi-player, sports]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  name3:
+    type: person
+  d1:
+    type: decimal
+    min: 0.200
+    max: 0.400
+    step: 0.001
+  d2:
+    type: decimal
+    min: 0.200
+    max: 0.400
+    step: 0.001
+  d3:
+    type: decimal
+    min: 0.200
+    max: 0.400
+    step: 0.001
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: decimal
+    min: 0
+    max: 100
+  Answer3:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  {{name1}}, {{name2}}, and {{name3}} have batting averages of {{d1}}, {{d2}}, and {{d3}} respectively. Convert each batting average to a percentage.
+
+solution: |
+  percentage1 = d1 * 100
+  percentage2 = d2 * 100
+  percentage3 = d3 * 100
+  
+  Answer1 = round(percentage1, 2)
+  Answer2 = round(percentage2, 2)
+  Answer3 = round(percentage3, 2)
+
+tests:
+  - seed: 20015
+    expected:
+      answer: "26.20 | 34.10 | 27.50"
+  - seed: 20016
+    expected:
+      answer: "37.20 | 24.90 | 22.00"

@@ -1,0 +1,49 @@
+metadata:
+  id: k6_medium_percentage_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.discount
+  family: percentage
+  difficulty: medium
+  steps: 3
+  tags: [percentages, discount, electronics, money]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: electronics
+  price:
+    type: integer
+    min: 50
+    max: 200
+    step: 10
+  discount:
+    type: integer
+    min: 15
+    max: 40
+    step: 5
+  Answer:
+    type: decimal
+    format: money
+    min: 0
+    max: 500
+
+template: |
+  {{name}} wants to buy a {{item}} that costs ${{price}}. The store is offering {{discount}}% off all electronics. How much will {{name}} pay after the discount?
+
+solution: |
+  discount_amount = (discount / 100) * price
+  final_price = price - discount_amount
+  Answer = round(final_price, 2)
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "$96.00"
+  - seed: 88888
+    expected:
+      answer: "$126.00"

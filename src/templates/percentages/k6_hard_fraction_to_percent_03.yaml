@@ -1,0 +1,68 @@
+metadata:
+  id: k6_hard_fraction_to_percent_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: fraction_to_percent
+  difficulty: hard
+  steps: 4
+  tags: [percentages, fractions, voting, choices]
+
+variables:
+  location:
+    type: location
+  total:
+    type: integer
+    min: 100
+    max: 200
+    step: 20
+  option_a:
+    type: integer
+    min: 30
+    max: 70
+  option_b:
+    type: integer
+    min: 20
+    max: 60
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: decimal
+    min: 0
+    max: 100
+  Answer3:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  In {{location}}, {{total}} people voted on a new park design. {{option_a}} voted for Design A, {{option_b}} voted for Design B, and the rest voted for Design C. What percentage voted for each design?
+
+solution: |
+  import math
+  
+  # Ensure option_a + option_b < total
+  if option_a + option_b >= total:
+      option_a = math.floor(total * 0.35)
+      option_b = math.floor(total * 0.30)
+  
+  percent_a = (option_a / total) * 100
+  percent_b = (option_b / total) * 100
+  option_c = total - option_a - option_b
+  percent_c = (option_c / total) * 100
+  
+  Answer1 = round(percent_a, 2)
+  Answer2 = round(percent_b, 2)
+  Answer3 = round(percent_c, 2)
+
+tests:
+  - seed: 10017
+    expected:
+      answer: "35.00 | 30.00 | 35.00"
+  - seed: 10018
+    expected:
+      answer: "35.00 | 30.00 | 35.00"

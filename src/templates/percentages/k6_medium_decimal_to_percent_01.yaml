@@ -1,0 +1,39 @@
+metadata:
+  id: k6_medium_decimal_to_percent_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: decimal_to_percent
+  difficulty: medium
+  steps: 3
+  tags: [percentages, decimals, sports, batting-average]
+
+variables:
+  name:
+    type: person
+  d:
+    type: decimal
+    min: 0.200
+    max: 0.400
+    step: 0.001
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  A baseball player named {{name}} has a batting average of {{d}}. What is this as a percentage?
+
+solution: |
+  percentage = d * 100
+  Answer = round(percentage, 2)
+
+tests:
+  - seed: 20007
+    expected:
+      answer: "26.20"
+  - seed: 20008
+    expected:
+      answer: "34.10"

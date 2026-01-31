@@ -1,0 +1,46 @@
+metadata:
+  id: k6_medium_fraction_to_percent_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: fraction_to_percent
+  difficulty: medium
+  steps: 3
+  tags: [percentages, fractions, distance, running]
+
+variables:
+  name:
+    type: person
+  completed:
+    type: integer
+    min: 3
+    max: 15
+  total:
+    type: integer
+    min: 10
+    max: 20
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  {{name}} ran {{completed}} miles of a {{total}}-mile race. What percentage of the race has {{name}} completed?
+
+solution: |
+  # Ensure completed < total
+  if completed >= total:
+      completed = total - 1
+  
+  percentage = (completed / total) * 100
+  Answer = round(percentage, 2)
+
+tests:
+  - seed: 10009
+    expected:
+      answer: "75.00"
+  - seed: 10010
+    expected:
+      answer: "50.00"

@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_percentage_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.test_score
+  family: percentage
+  difficulty: hard
+  steps: 4
+  tags: [percentages, test, accuracy, word-problem]
+
+variables:
+  name:
+    type: person
+  correct:
+    type: integer
+    min: 15
+    max: 45
+  total:
+    type: integer
+    min: 20
+    max: 50
+  pass_percent:
+    type: integer
+    min: 70
+    max: 85
+    step: 5
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: string
+
+template: |
+  On a quiz, {{name}} answered {{correct}} questions correctly out of {{total}} questions. Calculate {{name}}'s percentage score. If {{pass_percent}}% is required to pass, did {{name}} pass the quiz?
+
+solution: |
+  percentage = (correct / total) * 100
+  Answer1 = round(percentage, 2)
+  
+  if percentage >= pass_percent:
+      Answer2 = "Yes"
+  else:
+      Answer2 = "No"
+
+tests:
+  - seed: 22334
+    expected:
+      answer: "70.00 | No"
+  - seed: 33445
+    expected:
+      answer: "88.00 | Yes"

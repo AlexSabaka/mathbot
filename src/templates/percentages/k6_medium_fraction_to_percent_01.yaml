@@ -1,0 +1,44 @@
+metadata:
+  id: k6_medium_fraction_to_percent_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: fraction_to_percent
+  difficulty: medium
+  steps: 3
+  tags: [percentages, fractions, reading, books]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 50
+    max: 250
+    step: 10
+  b:
+    type: integer
+    min: 200
+    max: 400
+    step: 20
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  {{name}} read {{a}} pages of a {{b}}-page book. What percentage of the book has {{name}} read?
+
+solution: |
+  percentage = (a / b) * 100
+  Answer = round(percentage, 2)
+
+tests:
+  - seed: 10007
+    expected:
+      answer: "53.33"
+  - seed: 10008
+    expected:
+      answer: "42.50"

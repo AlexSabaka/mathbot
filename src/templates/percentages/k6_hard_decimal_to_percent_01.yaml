@@ -1,0 +1,66 @@
+metadata:
+  id: k6_hard_decimal_to_percent_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: decimal_to_percent
+  difficulty: hard
+  steps: 4
+  tags: [percentages, decimals, comparison, ranking]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  name3:
+    type: person
+  d1:
+    type: decimal
+    min: 0.70
+    max: 0.99
+    step: 0.01
+  d2:
+    type: decimal
+    min: 0.70
+    max: 0.99
+    step: 0.01
+  d3:
+    type: decimal
+    min: 0.70
+    max: 0.99
+    step: 0.01
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: decimal
+    min: 0
+    max: 100
+  Answer3:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  Three students scored {{d1}}, {{d2}}, and {{d3}} on a test where 1.0 is a perfect score. Convert each to a percentage.
+
+solution: |
+  percentage1 = d1 * 100
+  percentage2 = d2 * 100
+  percentage3 = d3 * 100
+  
+  Answer1 = round(percentage1, 2)
+  Answer2 = round(percentage2, 2)
+  Answer3 = round(percentage3, 2)
+
+tests:
+  - seed: 20013
+    expected:
+      answer: "79.00 | 90.00 | 81.00"
+  - seed: 20014
+    expected:
+      answer: "94.00 | 80.00 | 77.00"

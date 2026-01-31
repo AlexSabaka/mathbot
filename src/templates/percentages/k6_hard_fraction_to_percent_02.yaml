@@ -1,0 +1,68 @@
+metadata:
+  id: k6_hard_fraction_to_percent_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: fraction_to_percent
+  difficulty: hard
+  steps: 4
+  tags: [percentages, fractions, multi-sport, survey]
+
+variables:
+  name:
+    type: person
+  total:
+    type: integer
+    min: 30
+    max: 60
+    step: 5
+  basketball:
+    type: integer
+    min: 8
+    max: 20
+  soccer:
+    type: integer
+    min: 8
+    max: 20
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: decimal
+    min: 0
+    max: 100
+  Answer3:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  {{name}} surveyed {{total}} students about their favorite sport. {{basketball}} students chose basketball, {{soccer}} students chose soccer, and the rest chose other sports. Calculate the percentage for each category.
+
+solution: |
+  import math
+  
+  # Ensure basketball + soccer < total
+  if basketball + soccer >= total:
+      basketball = math.floor(total * 0.3)
+      soccer = math.floor(total * 0.3)
+  
+  basketball_percent = (basketball / total) * 100
+  soccer_percent = (soccer / total) * 100
+  other = total - basketball - soccer
+  other_percent = (other / total) * 100
+  
+  Answer1 = round(basketball_percent, 2)
+  Answer2 = round(soccer_percent, 2)
+  Answer3 = round(other_percent, 2)
+
+tests:
+  - seed: 10015
+    expected:
+      answer: "30.00 | 30.00 | 40.00"
+  - seed: 10016
+    expected:
+      answer: "30.00 | 30.00 | 40.00"

@@ -1,0 +1,39 @@
+metadata:
+  id: k6_medium_decimal_to_percent_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: decimal_to_percent
+  difficulty: medium
+  steps: 3
+  tags: [percentages, decimals, accuracy, test]
+
+variables:
+  name:
+    type: person
+  d:
+    type: decimal
+    min: 0.65
+    max: 0.98
+    step: 0.01
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  {{name}}'s test accuracy rate is {{d}}. Express this as a percentage.
+
+solution: |
+  percentage = d * 100
+  Answer = round(percentage, 2)
+
+tests:
+  - seed: 20009
+    expected:
+      answer: "79.00"
+  - seed: 20010
+    expected:
+      answer: "91.00"

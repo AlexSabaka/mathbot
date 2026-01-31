@@ -1,0 +1,46 @@
+metadata:
+  id: k6_easy_fraction_to_percent_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: fraction_to_percent
+  difficulty: easy
+  steps: 2
+  tags: [percentages, fractions, conversion]
+
+variables:
+  b:
+    type: integer
+    min: 2
+    max: 5
+  a:
+    type: integer
+    min: 1
+    max: 4
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  Convert {{a}}/{{b}} to a percentage.
+
+solution: |
+  # Ensure a < b for proper fraction
+  if a >= b:
+      a = b - 1
+  if a < 1:
+      a = 1
+  
+  percentage = (a / b) * 100
+  Answer = round(percentage, 2)
+
+tests:
+  - seed: 10001
+    expected:
+      answer: "50.00"
+  - seed: 10002
+    expected:
+      answer: "75.00"

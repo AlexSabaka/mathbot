@@ -1,0 +1,42 @@
+metadata:
+  id: k6_medium_decimal_to_percent_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: decimal_to_percent
+  difficulty: medium
+  steps: 3
+  tags: [percentages, decimals, success-rate]
+
+variables:
+  name:
+    type: person
+  sport:
+    type: string
+    choices: ["basketball", "soccer", "tennis", "volleyball"]
+  d:
+    type: decimal
+    min: 0.50
+    max: 0.90
+    step: 0.01
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  {{name}}'s success rate in {{sport}} free throws is {{d}}. Convert this to a percentage.
+
+solution: |
+  percentage = d * 100
+  Answer = round(percentage, 2)
+
+tests:
+  - seed: 20011
+    expected:
+      answer: "63.00"
+  - seed: 20012
+    expected:
+      answer: "81.00"

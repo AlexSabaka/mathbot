@@ -1,0 +1,43 @@
+metadata:
+  id: k6_easy_percentage_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.calculation
+  family: percentage
+  difficulty: easy
+  steps: 2
+  tags: [percentages, basic, money]
+
+variables:
+  p:
+    type: integer
+    min: 10
+    max: 50
+    step: 5
+  n:
+    type: integer
+    min: 40
+    max: 100
+    step: 10
+  Answer:
+    type: decimal
+    format: money
+    min: 0
+    max: 100
+
+template: |
+  Calculate {{p}}% of ${{n}}.
+
+solution: |
+  result = (p / 100) * n
+  Answer = round(result, 2)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "$12.00"
+  - seed: 22222
+    expected:
+      answer: "$30.00"

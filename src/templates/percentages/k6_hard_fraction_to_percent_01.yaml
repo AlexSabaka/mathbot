@@ -1,0 +1,66 @@
+metadata:
+  id: k6_hard_fraction_to_percent_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: fraction_to_percent
+  difficulty: hard
+  steps: 4
+  tags: [percentages, fractions, multi-category, class]
+
+variables:
+  n:
+    type: integer
+    min: 20
+    max: 40
+    step: 4
+  a:
+    type: integer
+    min: 5
+    max: 15
+  b:
+    type: integer
+    min: 5
+    max: 15
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: decimal
+    min: 0
+    max: 100
+  Answer3:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  In a class of {{n}} students, {{a}} students have brown hair, {{b}} students have black hair, and the rest have other hair colors. What percentage of students have each hair color?
+
+solution: |
+  import math
+  
+  # Ensure a + b < n
+  if a + b >= n:
+      a = math.floor(n * 0.3)
+      b = math.floor(n * 0.3)
+  
+  brown_percent = (a / n) * 100
+  black_percent = (b / n) * 100
+  other = n - a - b
+  other_percent = (other / n) * 100
+  
+  Answer1 = round(brown_percent, 2)
+  Answer2 = round(black_percent, 2)
+  Answer3 = round(other_percent, 2)
+
+tests:
+  - seed: 10013
+    expected:
+      answer: "30.00 | 30.00 | 40.00"
+  - seed: 10014
+    expected:
+      answer: "30.00 | 30.00 | 40.00"

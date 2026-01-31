@@ -1,0 +1,37 @@
+metadata:
+  id: k6_easy_decimal_to_percent_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.conversion
+  family: decimal_to_percent
+  difficulty: easy
+  steps: 2
+  tags: [percentages, decimals, conversion, basic]
+
+variables:
+  d:
+    type: decimal
+    min: 0.05
+    max: 0.95
+    step: 0.05
+  Answer:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  Express {{d}} as a percentage.
+
+solution: |
+  percentage = d * 100
+  Answer = round(percentage, 2)
+
+tests:
+  - seed: 20003
+    expected:
+      answer: "40.00"
+  - seed: 20004
+    expected:
+      answer: "85.00"

@@ -1,0 +1,48 @@
+metadata:
+  id: k6_medium_percentage_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.discount
+  family: percentage
+  difficulty: medium
+  steps: 3
+  tags: [percentages, tax, shopping, money]
+
+variables:
+  name:
+    type: person
+  store:
+    type: store
+  subtotal:
+    type: integer
+    min: 30
+    max: 150
+    step: 5
+  tax_rate:
+    type: integer
+    min: 5
+    max: 10
+    step: 1
+  Answer:
+    type: decimal
+    format: money
+    min: 0
+    max: 200
+
+template: |
+  {{name}} shops at {{store}} and the subtotal is ${{subtotal}}. If the sales tax is {{tax_rate}}%, what is the total amount {{name}} must pay?
+
+solution: |
+  tax_amount = (tax_rate / 100) * subtotal
+  total = subtotal + tax_amount
+  Answer = round(total, 2)
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "$88.00"
+  - seed: 11223
+    expected:
+      answer: "$69.30"

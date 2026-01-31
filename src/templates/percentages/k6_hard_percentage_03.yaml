@@ -1,0 +1,58 @@
+metadata:
+  id: k6_hard_percentage_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: percentages.comparison
+  family: percentage
+  difficulty: hard
+  steps: 5
+  tags: [percentages, comparison, multi-step, sports]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  shots1:
+    type: integer
+    min: 10
+    max: 25
+  total1:
+    type: integer
+    min: 20
+    max: 40
+  shots2:
+    type: integer
+    min: 12
+    max: 30
+  total2:
+    type: integer
+    min: 25
+    max: 45
+  Answer1:
+    type: decimal
+    min: 0
+    max: 100
+  Answer2:
+    type: decimal
+    min: 0
+    max: 100
+
+template: |
+  In basketball practice, {{name1}} made {{shots1}} shots out of {{total1}} attempts. {{name2}} made {{shots2}} shots out of {{total2}} attempts. Calculate each player's shooting percentage. Who has the better shooting percentage?
+
+solution: |
+  percentage1 = (shots1 / total1) * 100
+  percentage2 = (shots2 / total2) * 100
+  Answer1 = round(percentage1, 2)
+  Answer2 = round(percentage2, 2)
+
+tests:
+  - seed: 44556
+    expected:
+      answer: "50.00 | 55.56"
+  - seed: 55667
+    expected:
+      answer: "58.33 | 57.14"

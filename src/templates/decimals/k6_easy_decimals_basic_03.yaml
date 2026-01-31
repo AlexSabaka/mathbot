@@ -1,0 +1,33 @@
+metadata:
+  id: k6_easy_decimals_basic_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.basic
+  family: decimals_basic
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, fractions, fourths]
+
+variables:
+  a:
+    type: integer
+    choices: [1, 3, 5, 7]
+  Answer:
+    type: decimal
+
+template: |
+  What is {{a}}/4 written as a decimal?
+
+solution: |
+  Answer = round(a / 4, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1.75"
+  - seed: 67890
+    expected:
+      answer: "1.25"

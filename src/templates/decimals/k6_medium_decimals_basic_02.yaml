@@ -1,0 +1,41 @@
+metadata:
+  id: k6_medium_decimals_basic_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.basic
+  family: decimals_basic
+  difficulty: medium
+  steps: 1
+  culture: en-US
+  tags: [decimals, rounding, hundredths]
+
+variables:
+  decimal_val:
+    type: decimal
+    min: 1.0
+    max: 50.0
+    step: 0.001
+  place:
+    type: string
+    choices: ["hundredth", "tenth"]
+  Answer:
+    type: decimal
+
+template: |
+  Round {{decimal_val}} to the nearest {{place}}.
+
+solution: |
+  if place == "hundredth":
+      Answer = round(decimal_val, 2)
+  elif place == "tenth":
+      Answer = round(decimal_val, 1)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "19.09"
+  - seed: 67890
+    expected:
+      answer: "37.58"

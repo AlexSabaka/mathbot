@@ -1,0 +1,41 @@
+metadata:
+  id: k6_hard_decimals_basic_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.basic
+  family: decimals_basic
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, rounding, multiple_places]
+
+variables:
+  decimal_val:
+    type: decimal
+    min: 5.0
+    max: 99.9
+    step: 0.001
+  Answer1:
+    type: decimal
+  Answer2:
+    type: decimal
+  Answer3:
+    type: decimal
+
+template: |
+  Round {{decimal_val}} to: (a) the nearest whole number, (b) the nearest tenth, (c) the nearest hundredth.
+
+solution: |
+  Answer1 = round(decimal_val, 0)
+  Answer2 = round(decimal_val, 1)
+  Answer3 = round(decimal_val, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "39.00 | 38.70 | 38.67"
+  - seed: 67890
+    expected:
+      answer: "83.00 | 82.70 | 82.73"

@@ -1,0 +1,39 @@
+metadata:
+  id: k6_medium_decimals_divide_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.division
+  family: decimals_divide
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, division, money]
+
+variables:
+  a:
+    type: decimal
+    min: 20.0
+    max: 100.0
+    step: 1.0
+  b:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: decimal
+
+template: |
+  Calculate: {{a}} ÷ {{b}}
+
+solution: |
+  Answer = round(a / b, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7.92"
+  - seed: 67890
+    expected:
+      answer: "13.17"

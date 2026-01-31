@@ -1,0 +1,38 @@
+metadata:
+  id: k6_easy_decimals_divide_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.division
+  family: decimals_divide
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, division, basic]
+
+variables:
+  a:
+    type: decimal
+    min: 10.0
+    max: 20.0
+    step: 1.0
+  b:
+    type: integer
+    choices: [2, 4]
+  Answer:
+    type: decimal
+
+template: |
+  What is {{a}} divided by {{b}}?
+
+solution: |
+  Answer = round(a / b, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4.75"
+  - seed: 67890
+    expected:
+      answer: "5.25"

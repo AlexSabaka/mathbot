@@ -1,0 +1,42 @@
+metadata:
+  id: k6_hard_decimals_divide_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.division
+  family: decimals_divide
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [decimals, division, context, rounding]
+
+variables:
+  name:
+    type: person
+  a:
+    type: decimal
+    min: 100.0
+    max: 400.0
+    step: 0.5
+  b:
+    type: decimal
+    min: 5.0
+    max: 20.0
+    step: 0.5
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} drove {{a}} miles using {{b}} gallons of gas. How many miles per gallon did {{name}}'s car get? Round to the nearest hundredth.
+
+solution: |
+  Answer = round(a / b, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "9.97"
+  - seed: 67890
+    expected:
+      answer: "16.60"

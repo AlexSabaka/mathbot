@@ -1,0 +1,38 @@
+metadata:
+  id: k6_easy_decimals_divide_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.division
+  family: decimals_divide
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, division]
+
+variables:
+  a:
+    type: decimal
+    min: 2.0
+    max: 20.0
+    step: 0.5
+  b:
+    type: integer
+    choices: [2, 4, 5]
+  Answer:
+    type: decimal
+
+template: |
+  Divide: {{a}} ÷ {{b}}
+
+solution: |
+  Answer = round(a / b, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2.38"
+  - seed: 67890
+    expected:
+      answer: "2.63"

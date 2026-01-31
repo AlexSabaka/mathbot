@@ -1,0 +1,40 @@
+metadata:
+  id: k6_hard_decimals_divide_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.division
+  family: decimals_divide
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [decimals, division, decimal_divisor]
+
+variables:
+  a:
+    type: decimal
+    min: 10.0
+    max: 50.0
+    step: 0.1
+  b:
+    type: decimal
+    min: 0.2
+    max: 2.0
+    step: 0.1
+  Answer:
+    type: decimal
+
+template: |
+  Divide: {{a}} ÷ {{b}}
+
+solution: |
+  Answer = round(a / b, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "18.98"
+  - seed: 67890
+    expected:
+      answer: "43.83"

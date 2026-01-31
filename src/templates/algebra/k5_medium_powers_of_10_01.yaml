@@ -1,0 +1,45 @@
+metadata:
+  id: k5_medium_powers_of_10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: medium
+  steps: 2
+  tags: [powers, exponents, scientific_notation, conversion]
+
+variables:
+  large_number:
+    type: integer
+    min: 20000
+    max: 90000
+    step: 10000
+  Answer:
+    type: string
+
+template: |
+  Express {{large_number}} as a product of a single digit and a power of 10.
+
+solution: |
+  # Find the single digit and power
+  digit = large_number // 10000
+  if large_number == digit * 10000:
+      Answer = f"{digit} × 10^4"
+  else:
+      # Adjust for cases where it's not exactly divisible
+      temp = large_number
+      power = 0
+      while temp >= 10:
+          temp = temp / 10
+          power += 1
+      Answer = f"{int(temp)} × 10^{power}"
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "7 × 10^4"
+  - seed: 88888
+    expected:
+      answer: "4 × 10^4"

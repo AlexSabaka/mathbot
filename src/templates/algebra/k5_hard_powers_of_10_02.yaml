@@ -1,0 +1,60 @@
+metadata:
+  id: k5_hard_powers_of_10_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: hard
+  steps: 3
+  tags: [powers, exponents, comparison, subtraction, real-world]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  item1:
+    type: string
+    choices: ["container", "tank", "barrel", "silo", "reservoir"]
+  item2:
+    type: string
+    choices: ["box", "crate", "bin", "vessel", "drum"]
+  digit1:
+    type: integer
+    min: 4
+    max: 9
+  power1:
+    type: integer
+    min: 3
+    max: 4
+  digit2:
+    type: integer
+    min: 1
+    max: 5
+  power2:
+    type: integer
+    min: 3
+    max: 4
+  unit:
+    type: string
+    choices: ["liters", "gallons", "milliliters"]
+  Answer:
+    type: integer
+
+template: |
+  {{name1}}'s {{item1}} holds {{digit1}} × 10^{{power1}} {{unit}}. {{name2}}'s {{item2}} holds {{digit2}} × 10^{{power2}} {{unit}}. Which container is larger and by how much?
+
+solution: |
+  capacity1 = digit1 * (10 ** power1)
+  capacity2 = digit2 * (10 ** power2)
+  Answer = abs(capacity1 - capacity2)
+
+tests:
+  - seed: 60606
+    expected:
+      answer: "24000"
+  - seed: 70707
+    expected:
+      answer: "78000"

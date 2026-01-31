@@ -1,0 +1,56 @@
+metadata:
+  id: k5_hard_powers_of_10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: hard
+  steps: 3
+  tags: [powers, exponents, comparison, subtraction, real-world]
+
+variables:
+  object1:
+    type: string
+    choices: ["truck", "ship", "airplane", "train", "crane"]
+  object2:
+    type: string
+    choices: ["car", "boat", "helicopter", "bus", "forklift"]
+  digit1:
+    type: integer
+    min: 5
+    max: 9
+  exponent1:
+    type: integer
+    min: 3
+    max: 4
+  digit2:
+    type: integer
+    min: 2
+    max: 4
+  exponent2:
+    type: integer
+    min: 3
+    max: 4
+  unit:
+    type: string
+    choices: ["kilograms", "grams", "pounds"]
+  Answer:
+    type: integer
+
+template: |
+  A {{object1}} weighs {{digit1}} × 10^{{exponent1}} {{unit}}. A {{object2}} weighs {{digit2}} × 10^{{exponent2}} {{unit}}. Which is heavier and by how much?
+
+solution: |
+  weight1 = digit1 * (10 ** exponent1)
+  weight2 = digit2 * (10 ** exponent2)
+  Answer = abs(weight1 - weight2)
+
+tests:
+  - seed: 40404
+    expected:
+      answer: "77000"
+  - seed: 50505
+    expected:
+      answer: "5000"

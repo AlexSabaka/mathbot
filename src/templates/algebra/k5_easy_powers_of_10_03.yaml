@@ -1,0 +1,37 @@
+metadata:
+  id: k5_easy_powers_of_10_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: easy
+  steps: 1
+  tags: [powers, exponents, multiplication]
+
+variables:
+  number:
+    type: integer
+    min: 2
+    max: 9
+  exp_value:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: integer
+
+template: |
+  What is {{number}} multiplied by 10 to the power of {{exp_value}}?
+
+solution: |
+  Answer = number * (10 ** exp_value)
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "30000"
+  - seed: 66666
+    expected:
+      answer: "70000"

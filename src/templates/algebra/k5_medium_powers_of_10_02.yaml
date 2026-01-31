@@ -1,0 +1,44 @@
+metadata:
+  id: k5_medium_powers_of_10_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: medium
+  steps: 2
+  tags: [powers, exponents, scientific_notation, conversion]
+
+variables:
+  multiplier:
+    type: integer
+    min: 100
+    max: 900
+    step: 100
+  power_of_ten:
+    type: integer
+    min: 2
+    max: 3
+  Answer:
+    type: string
+
+template: |
+  Express {{multiplier * (10 ** power_of_ten)}} as a product of a single digit and a power of 10.
+
+solution: |
+  # Calculate the number first
+  number = multiplier * (10 ** power_of_ten)
+  
+  # Find single digit representation
+  digit = multiplier // 100
+  total_power = power_of_ten + 2
+  Answer = f"{digit} × 10^{total_power}"
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "2 × 10^5"
+  - seed: 10101
+    expected:
+      answer: "4 × 10^5"

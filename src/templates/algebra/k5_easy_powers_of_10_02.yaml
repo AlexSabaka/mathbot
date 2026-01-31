@@ -1,0 +1,37 @@
+metadata:
+  id: k5_easy_powers_of_10_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: easy
+  steps: 1
+  tags: [powers, exponents, multiplication, scientific_notation]
+
+variables:
+  digit:
+    type: integer
+    min: 1
+    max: 9
+  power:
+    type: integer
+    min: 1
+    max: 2
+  Answer:
+    type: integer
+
+template: |
+  Calculate {{digit}} × 10^{{power}}.
+
+solution: |
+  Answer = digit * (10 ** power)
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "300"
+  - seed: 44444
+    expected:
+      answer: "10"

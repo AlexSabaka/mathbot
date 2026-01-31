@@ -1,0 +1,54 @@
+metadata:
+  id: k5_hard_powers_of_10_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: hard
+  steps: 3
+  tags: [powers, exponents, comparison, subtraction, real-world]
+
+variables:
+  location1:
+    type: location
+  location2:
+    type: location
+  digit1:
+    type: integer
+    min: 3
+    max: 9
+  exp1:
+    type: integer
+    min: 4
+    max: 5
+  digit2:
+    type: integer
+    min: 1
+    max: 8
+  exp2:
+    type: integer
+    min: 4
+    max: 5
+  measurement:
+    type: string
+    choices: ["meters", "kilometers", "feet", "miles"]
+  Answer:
+    type: integer
+
+template: |
+  A road from {{location1}} is {{digit1}} × 10^{{exp1}} {{measurement}} long. A road from {{location2}} is {{digit2}} × 10^{{exp2}} {{measurement}} long. Which road is longer and by how much?
+
+solution: |
+  length1 = digit1 * (10 ** exp1)
+  length2 = digit2 * (10 ** exp2)
+  Answer = abs(length1 - length2)
+
+tests:
+  - seed: 80808
+    expected:
+      answer: "270000"
+  - seed: 90909
+    expected:
+      answer: "20000"

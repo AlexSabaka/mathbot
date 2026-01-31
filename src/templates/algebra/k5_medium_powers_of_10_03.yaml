@@ -1,0 +1,39 @@
+metadata:
+  id: k5_medium_powers_of_10_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.powers
+  family: powers_of_10
+  difficulty: medium
+  steps: 2
+  tags: [powers, exponents, scientific_notation, conversion]
+
+variables:
+  digit:
+    type: integer
+    min: 2
+    max: 9
+  zeros:
+    type: integer
+    min: 3
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  Express {{digit}}{% for i in range(zeros) %}0{% endfor %} as a product of a single digit and a power of 10.
+
+solution: |
+  # The number is digit followed by 'zeros' zeros
+  power = zeros
+  Answer = f"{digit} × 10^{power}"
+
+tests:
+  - seed: 20202
+    expected:
+      answer: "6 × 10^4"
+  - seed: 30303
+    expected:
+      answer: "2 × 10^5"

@@ -1,0 +1,51 @@
+metadata:
+  id: k6_medium_gcd_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: gcd
+  difficulty: medium
+  steps: 3
+  tags: [gcd, gcf, real-world, grouping]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 24
+    max: 72
+  b:
+    type: integer
+    min: 24
+    max: 72
+  item1:
+    type: item
+    category: grocery
+    plural: true
+  item2:
+    type: item
+    category: grocery
+    plural: true
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{a}} {{item1}} and {{b}} {{item2}} to pack into gift baskets. Each basket must have the same number of {{item1}} and the same number of {{item2}}, with nothing left over.
+  
+  What is the maximum number of baskets {{name}} can make?
+
+solution: |
+  # The maximum number of baskets is the GCD
+  Answer = math.gcd(a, b)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "24"
+  
+  - seed: 22222
+    expected:
+      answer: "10"

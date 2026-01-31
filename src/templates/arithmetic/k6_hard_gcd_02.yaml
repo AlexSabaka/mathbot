@@ -1,0 +1,41 @@
+metadata:
+  id: k6_hard_gcd_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: gcd
+  difficulty: hard
+  steps: 4
+  tags: [gcd, gcf, real-world, tiles]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 36
+    max: 108
+  b:
+    type: integer
+    min: 36
+    max: 108
+  Answer:
+    type: integer
+
+template: |
+  {{name}} wants to tile a floor that is {{a}} inches by {{b}} inches using square tiles with no gaps or overlaps. What is the side length of the largest square tile {{name}} can use?
+
+solution: |
+  # The largest tile side length is the GCD
+  Answer = math.gcd(a, b)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "12"
+  
+  - seed: 22222
+    expected:
+      answer: "10"

@@ -1,0 +1,43 @@
+metadata:
+  id: k6_medium_gcd_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: gcd
+  difficulty: medium
+  steps: 3
+  tags: [gcd, gcf, real-world, students]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 20
+    max: 60
+  b:
+    type: integer
+    min: 20
+    max: 60
+  Answer:
+    type: integer
+
+template: |
+  A teacher has {{a}} pencils and {{b}} erasers to distribute equally among students. Each student must receive the same number of pencils and the same number of erasers with none left over.
+  
+  What is the greatest number of students that can receive supplies?
+
+solution: |
+  # The greatest number of students is the GCD
+  Answer = math.gcd(a, b)
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "5"
+  
+  - seed: 44444
+    expected:
+      answer: "16"

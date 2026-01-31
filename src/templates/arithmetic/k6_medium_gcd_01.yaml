@@ -1,0 +1,41 @@
+metadata:
+  id: k6_medium_gcd_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: gcd
+  difficulty: medium
+  steps: 3
+  tags: [gcd, gcf, real-world, grouping]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 18
+    max: 72
+  b:
+    type: integer
+    min: 18
+    max: 72
+  Answer:
+    type: integer
+
+template: |
+  {{name}} has {{a}} red marbles and {{b}} blue marbles. {{name}} wants to divide them into groups so that each group has the same number of red marbles and the same number of blue marbles, with no marbles left over. What is the greatest number of groups {{name}} can make?
+
+solution: |
+  # The greatest number of groups is the GCD
+  Answer = math.gcd(a, b)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8"
+  
+  - seed: 67890
+    expected:
+      answer: "18"

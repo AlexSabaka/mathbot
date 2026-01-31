@@ -1,0 +1,41 @@
+metadata:
+  id: k6_hard_gcd_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.number_theory
+  family: gcd
+  difficulty: hard
+  steps: 4
+  tags: [gcd, gcf, real-world, geometry]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 24
+    max: 120
+  b:
+    type: integer
+    min: 24
+    max: 120
+  Answer:
+    type: integer
+
+template: |
+  A rectangular garden measures {{a}} feet by {{b}} feet. {{name}} wants to divide it into identical square plots with no leftover space. What is the largest possible side length for each square plot?
+
+solution: |
+  # The largest square side length is the GCD
+  Answer = math.gcd(a, b)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8"
+  
+  - seed: 67890
+    expected:
+      answer: "18"

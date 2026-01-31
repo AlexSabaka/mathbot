@@ -1,0 +1,61 @@
+metadata:
+  id: k6_hard_volume_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.volume
+  family: volume
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [volume, aquarium, fraction]
+
+variables:
+  length:
+    type: integer
+    min: 18
+    max: 36
+  
+  width:
+    type: integer
+    min: 15
+    max: 30
+  
+  height:
+    type: integer
+    min: 12
+    max: 24
+  
+  fraction_num:
+    type: integer
+    min: 2
+    max: 4
+  
+  fraction_den:
+    type: integer
+    min: 3
+    max: 5
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  An aquarium measures {{length}} inches long, {{width}} inches wide, and {{height}} inches tall. If the aquarium is filled to {{fraction_num}}/{{fraction_den}} of its height with water, how many cubic inches of water are in the tank?
+
+solution: |
+  # Total volume
+  total_volume = length * width * height
+  # Volume filled
+  filled_volume = total_volume * fraction_num / fraction_den
+  Answer = int(filled_volume)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6480 cubic inches"
+  
+  - seed: 67890
+    expected:
+      answer: "5400 cubic inches"

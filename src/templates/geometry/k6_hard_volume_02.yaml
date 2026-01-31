@@ -1,0 +1,64 @@
+metadata:
+  id: k6_hard_volume_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.volume
+  family: volume
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [volume, pool, partial filling]
+
+variables:
+  name:
+    type: person
+  
+  pool_l:
+    type: integer
+    min: 20
+    max: 32
+  
+  pool_w:
+    type: integer
+    min: 16
+    max: 28
+  
+  pool_h:
+    type: integer
+    min: 14
+    max: 22
+  
+  fill_fraction:
+    type: string
+    choices: ["3/4", "2/3", "4/5"]
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  {{name}} has a rectangular pool that is {{pool_l}} feet long, {{pool_w}} feet wide, and {{pool_h}} feet deep. {{name}} fills the pool to {{fill_fraction}} of its depth.
+  
+  How many cubic feet of water are in the pool?
+
+solution: |
+  # Parse fraction
+  fractions = {"3/4": 0.75, "2/3": 2/3, "4/5": 0.8}
+  fraction_value = fractions.get(fill_fraction, 0.75)
+  
+  # Total volume
+  total = pool_l * pool_w * pool_h
+  # Filled volume
+  filled = total * fraction_value
+  Answer = int(filled)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "6336 cubic feet"
+  
+  - seed: 22222
+    expected:
+      answer: "8400 cubic feet"

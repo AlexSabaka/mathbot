@@ -1,0 +1,43 @@
+metadata:
+  id: k6_easy_volume_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.volume
+  family: volume
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [volume, cube, calculation]
+
+variables:
+  name:
+    type: person
+  
+  s:
+    type: integer
+    min: 2
+    max: 9
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  {{name}} has a cube-shaped box with edges measuring {{s}} inches.
+  
+  What is the volume of the box?
+
+solution: |
+  volume = s ** 3
+  Answer = volume
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "216 cubic inches"
+  
+  - seed: 22222
+    expected:
+      answer: "343 cubic inches"

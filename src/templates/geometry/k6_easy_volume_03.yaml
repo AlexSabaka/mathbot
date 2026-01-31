@@ -1,0 +1,38 @@
+metadata:
+  id: k6_easy_volume_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.volume
+  family: volume
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [volume, cube, formula]
+
+variables:
+  cube_side:
+    type: integer
+    min: 4
+    max: 10
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  Calculate the volume of a cube with side length {{cube_side}} units.
+
+solution: |
+  volume = cube_side ** 3
+  Answer = volume
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "343 cubic units"
+  
+  - seed: 44444
+    expected:
+      answer: "512 cubic units"

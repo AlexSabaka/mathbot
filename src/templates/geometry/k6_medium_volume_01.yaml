@@ -1,0 +1,49 @@
+metadata:
+  id: k6_medium_volume_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.volume
+  family: volume
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [volume, rectangular prism, dimensions]
+
+variables:
+  length:
+    type: integer
+    min: 4
+    max: 12
+  
+  width:
+    type: integer
+    min: 3
+    max: 10
+  
+  height:
+    type: integer
+    min: 2
+    max: 8
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  Find the volume of a rectangular prism with length {{length}} m, width {{width}} m, and height {{height}} m.
+
+solution: |
+  # Volume = length × width × height
+  volume = length * width * height
+  Answer = volume
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "330 cubic m"
+  
+  - seed: 67890
+    expected:
+      answer: "240 cubic m"

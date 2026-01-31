@@ -1,0 +1,53 @@
+metadata:
+  id: k6_medium_volume_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.volume
+  family: volume
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [volume, rectangular prism, calculation]
+
+variables:
+  name:
+    type: person
+  
+  l:
+    type: integer
+    min: 5
+    max: 11
+  
+  w:
+    type: integer
+    min: 4
+    max: 9
+  
+  h:
+    type: integer
+    min: 3
+    max: 7
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  {{name}} has a storage container shaped like a rectangular prism. It measures {{l}} feet long, {{w}} feet wide, and {{h}} feet tall.
+  
+  What is the volume of the container?
+
+solution: |
+  volume = l * w * h
+  Answer = volume
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "252 cubic feet"
+  
+  - seed: 22222
+    expected:
+      answer: "455 cubic feet"

@@ -1,0 +1,39 @@
+metadata:
+  id: k6_easy_volume_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.volume
+  family: volume
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [volume, cube, 3D]
+
+variables:
+  side:
+    type: integer
+    min: 3
+    max: 10
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  Find the volume of a cube with side length {{side}} cm.
+
+solution: |
+  # Volume of cube = s³
+  volume = side ** 3
+  Answer = volume
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "343 cubic cm"
+  
+  - seed: 67890
+    expected:
+      answer: "216 cubic cm"

@@ -1,0 +1,43 @@
+metadata:
+  id: k5_hard_decimals_mult_power10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_mult_power10
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, powers_of_10, multiplication, time]
+
+variables:
+  item:
+    type: item
+    category: electronics
+  rate:
+    type: decimal
+    min: 0.01
+    max: 0.09
+    step: 0.01
+  time:
+    type: integer
+    min: 100
+    max: 1000
+    step: 100
+  Answer:
+    type: decimal
+
+template: |
+  A factory produces {{rate}} liters of {{item}} per second. How much does it produce in {{time}} seconds?
+
+solution: |
+  Answer = round(rate * time, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.00"
+  - seed: 67890
+    expected:
+      answer: "20.00"

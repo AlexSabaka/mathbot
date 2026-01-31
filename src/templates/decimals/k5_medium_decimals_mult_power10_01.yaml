@@ -1,0 +1,40 @@
+metadata:
+  id: k5_medium_decimals_mult_power10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_mult_power10
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, powers_of_10, multiplication, measurement]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: grocery
+  weight:
+    type: decimal
+    min: 0.001
+    max: 0.009
+    step: 0.001
+  Answer:
+    type: decimal
+
+template: |
+  A {{item}} weighs {{weight}} kilograms. What is its weight in grams? (1 kilogram = 1000 grams)
+
+solution: |
+  Answer = round(weight * 1000, 3)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.000"
+  - seed: 67890
+    expected:
+      answer: "4.000"

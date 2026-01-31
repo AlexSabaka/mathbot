@@ -1,0 +1,39 @@
+metadata:
+  id: k5_easy_decimals_mult_power10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.powers_of_10
+  family: decimals_mult_power10
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, powers_of_10, multiplication]
+
+variables:
+  decimal_val:
+    type: decimal
+    min: 1.0
+    max: 9.9
+    step: 0.1
+  power:
+    type: string
+    choices: ["10", "100"]
+  Answer:
+    type: decimal
+
+template: |
+  Calculate {{decimal_val}} × {{power}}.
+
+solution: |
+  power_val = int(power)
+  Answer = round(decimal_val * power_val, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "330.00"
+  - seed: 67890
+    expected:
+      answer: "390.00"

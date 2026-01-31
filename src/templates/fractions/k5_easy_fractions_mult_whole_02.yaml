@@ -1,0 +1,53 @@
+metadata:
+  id: k5_easy_fractions_mult_whole_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.multiplication
+  family: fractions_mult_whole
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [fractions, multiplication, whole-number]
+
+variables:
+  whole_number:
+    type: integer
+    min: 3
+    max: 7
+  numerator:
+    type: integer
+    min: 1
+    max: 5
+  denominator:
+    type: integer
+    min: 4
+    max: 10
+  Answer:
+    type: fraction
+
+template: |
+  Calculate {{whole_number}} × {{numerator}}/{{denominator}}.
+
+solution: |
+  # Multiply whole number by numerator
+  result_numerator = whole_number * numerator
+  
+  # Simplify the fraction
+  common = math.gcd(result_numerator, denominator)
+  final_num = result_numerator // common
+  final_den = denominator // common
+  
+  Answer = (final_num, final_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7/2"
+  - seed: 67890
+    expected:
+      answer: "3/1"
+  - seed: 22222
+    expected:
+      answer: "7/4"

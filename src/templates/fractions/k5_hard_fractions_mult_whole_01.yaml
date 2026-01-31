@@ -1,0 +1,73 @@
+metadata:
+  id: k5_hard_fractions_mult_whole_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.multiplication
+  family: fractions_mult_whole
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [fractions, multiplication, whole-number, word-problem, multi-step]
+
+variables:
+  name:
+    type: person
+  numerator1:
+    type: integer
+    min: 2
+    max: 5
+  denominator1:
+    type: integer
+    min: 3
+    max: 8
+  numerator2:
+    type: integer
+    min: 1
+    max: 4
+  denominator2:
+    type: integer
+    min: 3
+    max: 8
+  batches:
+    type: integer
+    min: 4
+    max: 8
+  Answer1:
+    type: fraction
+  Answer2:
+    type: fraction
+
+template: |
+  A recipe needs {{numerator1}}/{{denominator1}} cup of flour and {{numerator2}}/{{denominator2}} cup of sugar.
+  If {{name}} wants to make {{batches}} batches, how much of each ingredient does {{name}} need?
+
+solution: |
+  # Calculate flour needed
+  flour_numerator = batches * numerator1
+  common1 = math.gcd(flour_numerator, denominator1)
+  final_flour_num = flour_numerator // common1
+  final_flour_den = denominator1 // common1
+  Answer1 = (final_flour_num, final_flour_den)
+  
+  # Calculate sugar needed
+  sugar_numerator = batches * numerator2
+  common2 = math.gcd(sugar_numerator, denominator2)
+  final_sugar_num = sugar_numerator // common2
+  final_sugar_den = denominator2 // common2
+  Answer2 = (final_sugar_num, final_sugar_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer1: "8/3"
+      answer2: "2/1"
+  - seed: 67890
+    expected:
+      answer1: "3/1"
+      answer2: "4/3"
+  - seed: 77777
+    expected:
+      answer1: "10/3"
+      answer2: "7/2"

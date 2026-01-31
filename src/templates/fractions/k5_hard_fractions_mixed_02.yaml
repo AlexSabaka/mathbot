@@ -1,0 +1,95 @@
+metadata:
+  id: k5_hard_fractions_mixed_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.mixed
+  family: fractions_mixed
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [fractions, mixed-number, subtraction, word-problem]
+
+variables:
+  name:
+    type: person
+  whole1:
+    type: integer
+    min: 5
+    max: 8
+  numerator1:
+    type: integer
+    min: 1
+    max: 6
+  denominator1:
+    type: integer
+    min: 5
+    max: 10
+  whole2:
+    type: integer
+    min: 2
+    max: 4
+  numerator2:
+    type: integer
+    min: 1
+    max: 6
+  denominator2:
+    type: integer
+    min: 5
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  A baker had {{whole1}} {{numerator1}}/{{denominator1}} pounds of flour.
+  {{name}} used {{whole2}} {{numerator2}}/{{denominator2}} pounds for baking.
+  How much flour is left? Express your answer as a mixed number in simplest form.
+
+solution: |
+  # Ensure numerators < denominators
+  if numerator1 >= denominator1:
+      numerator1 = denominator1 - 1
+  if numerator2 >= denominator2:
+      numerator2 = denominator2 - 1
+  
+  # Ensure we can subtract
+  if whole1 < whole2 or (whole1 == whole2 and numerator1 * denominator2 < numerator2 * denominator1):
+      whole1, whole2 = whole2 + 2, whole2
+  
+  # Convert mixed numbers to improper fractions
+  improper1 = whole1 * denominator1 + numerator1
+  improper2 = whole2 * denominator2 + numerator2
+  
+  # Find LCD
+  lcd = math.lcm(denominator1, denominator2)
+  
+  # Convert to common denominator and subtract
+  new_num1 = improper1 * (lcd // denominator1)
+  new_num2 = improper2 * (lcd // denominator2)
+  result_numerator = new_num1 - new_num2
+  
+  # Simplify
+  common = math.gcd(result_numerator, lcd)
+  final_num = result_numerator // common
+  final_den = lcd // common
+  
+  # Convert to mixed number
+  whole_part = final_num // final_den
+  remainder = final_num % final_den
+  
+  if remainder == 0:
+      Answer = str(whole_part)
+  else:
+      Answer = f"{whole_part} {remainder}/{final_den}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4 3/10"
+  - seed: 67890
+    expected:
+      answer: "2 7/10"
+  - seed: 88888
+    expected:
+      answer: "3 1/2"

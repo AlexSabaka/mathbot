@@ -1,0 +1,77 @@
+metadata:
+  id: k5_hard_fractions_mult_whole_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.multiplication
+  family: fractions_mult_whole
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [fractions, multiplication, whole-number, word-problem, multi-step, addition]
+
+variables:
+  name:
+    type: person
+  numerator1:
+    type: integer
+    min: 1
+    max: 3
+  denominator1:
+    type: integer
+    min: 4
+    max: 8
+  weeks1:
+    type: integer
+    min: 2
+    max: 4
+  numerator2:
+    type: integer
+    min: 2
+    max: 5
+  denominator2:
+    type: integer
+    min: 4
+    max: 8
+  weeks2:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} practiced {{numerator1}}/{{denominator1}} hour per day for {{weeks1}} weeks, then increased to {{numerator2}}/{{denominator2}} hour per day for {{weeks2}} weeks.
+  How many total hours did {{name}} practice? (Assume 7 days per week.)
+
+solution: |
+  # Calculate total hours for first period (7 days per week)
+  period1_numerator = numerator1 * weeks1 * 7
+  
+  # Calculate total hours for second period
+  period2_numerator = numerator2 * weeks2 * 7
+  
+  # Find LCD and add
+  lcd = math.lcm(denominator1, denominator2)
+  new_num1 = period1_numerator * (lcd // denominator1)
+  new_num2 = period2_numerator * (lcd // denominator2)
+  result_numerator = new_num1 + new_num2
+  
+  # Simplify
+  common = math.gcd(result_numerator, lcd)
+  final_num = result_numerator // common
+  final_den = lcd // common
+  
+  Answer = (final_num, final_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "77/8"
+  - seed: 67890
+    expected:
+      answer: "11/1"
+  - seed: 99999
+    expected:
+      answer: "21/2"

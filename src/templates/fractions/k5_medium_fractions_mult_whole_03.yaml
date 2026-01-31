@@ -1,0 +1,56 @@
+metadata:
+  id: k5_medium_fractions_mult_whole_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.multiplication
+  family: fractions_mult_whole
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [fractions, multiplication, whole-number, word-problem]
+
+variables:
+  name:
+    type: person
+  numerator:
+    type: integer
+    min: 2
+    max: 6
+  denominator:
+    type: integer
+    min: 5
+    max: 12
+  weeks:
+    type: integer
+    min: 3
+    max: 6
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} reads {{numerator}}/{{denominator}} of a book each week.
+  How much of the book will {{name}} read in {{weeks}} weeks?
+
+solution: |
+  # Multiply whole number by numerator
+  result_numerator = weeks * numerator
+  
+  # Simplify the fraction
+  common = math.gcd(result_numerator, denominator)
+  final_num = result_numerator // common
+  final_den = denominator // common
+  
+  Answer = (final_num, final_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6/5"
+  - seed: 67890
+    expected:
+      answer: "3/1"
+  - seed: 66666
+    expected:
+      answer: "4/3"

@@ -1,0 +1,56 @@
+metadata:
+  id: k5_medium_fractions_mult_whole_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.multiplication
+  family: fractions_mult_whole
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [fractions, multiplication, whole-number, word-problem]
+
+variables:
+  name:
+    type: person
+  numerator:
+    type: integer
+    min: 1
+    max: 4
+  denominator:
+    type: integer
+    min: 3
+    max: 8
+  students:
+    type: integer
+    min: 4
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  Each student in a class needs {{numerator}}/{{denominator}} of a meter of string for a project.
+  If there are {{students}} students, how much string is needed in total?
+
+solution: |
+  # Multiply whole number by numerator
+  result_numerator = students * numerator
+  
+  # Simplify the fraction
+  common = math.gcd(result_numerator, denominator)
+  final_num = result_numerator // common
+  final_den = denominator // common
+  
+  Answer = (final_num, final_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8/3"
+  - seed: 67890
+    expected:
+      answer: "3/1"
+  - seed: 55555
+    expected:
+      answer: "5/2"

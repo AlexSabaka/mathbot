@@ -1,0 +1,56 @@
+metadata:
+  id: k5_medium_fractions_mult_whole_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.multiplication
+  family: fractions_mult_whole
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [fractions, multiplication, whole-number, word-problem]
+
+variables:
+  name:
+    type: person
+  numerator:
+    type: integer
+    min: 2
+    max: 5
+  denominator:
+    type: integer
+    min: 4
+    max: 10
+  days:
+    type: integer
+    min: 3
+    max: 7
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} drinks {{numerator}}/{{denominator}} of a bottle of water each day.
+  How much water does {{name}} drink in {{days}} days?
+
+solution: |
+  # Multiply whole number by numerator
+  result_numerator = days * numerator
+  
+  # Simplify the fraction
+  common = math.gcd(result_numerator, denominator)
+  final_num = result_numerator // common
+  final_den = denominator // common
+  
+  Answer = (final_num, final_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/2"
+  - seed: 67890
+    expected:
+      answer: "2/1"
+  - seed: 44444
+    expected:
+      answer: "9/4"

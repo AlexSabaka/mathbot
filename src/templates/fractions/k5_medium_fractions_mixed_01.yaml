@@ -1,0 +1,60 @@
+metadata:
+  id: k5_medium_fractions_mixed_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.mixed
+  family: fractions_mixed
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [fractions, mixed-number, improper, conversion, word-problem]
+
+variables:
+  name:
+    type: person
+  whole:
+    type: integer
+    min: 2
+    max: 5
+  numerator:
+    type: integer
+    min: 1
+    max: 7
+  denominator:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} has {{whole}} whole pizzas and {{numerator}}/{{denominator}} of another pizza.
+  Write this as an improper fraction.
+
+solution: |
+  # Ensure numerator < denominator
+  if numerator >= denominator:
+      numerator = denominator - 1
+  
+  # Convert mixed number to improper fraction
+  improper_numerator = whole * denominator + numerator
+  
+  # Simplify if possible
+  common = math.gcd(improper_numerator, denominator)
+  final_num = improper_numerator // common
+  final_den = denominator // common
+  
+  Answer = (final_num, final_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "11/4"
+  - seed: 67890
+    expected:
+      answer: "29/8"
+  - seed: 44444
+    expected:
+      answer: "19/5"

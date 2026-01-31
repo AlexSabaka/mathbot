@@ -1,0 +1,66 @@
+metadata:
+  id: k5_hard_fractions_mult_whole_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.multiplication
+  family: fractions_mult_whole
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [fractions, multiplication, whole-number, word-problem, multi-step]
+
+variables:
+  name:
+    type: person
+  numerator:
+    type: integer
+    min: 2
+    max: 5
+  denominator:
+    type: integer
+    min: 4
+    max: 10
+  days:
+    type: integer
+    min: 5
+    max: 8
+  friends:
+    type: integer
+    min: 2
+    max: 4
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} and {{friends}} friends each walk {{numerator}}/{{denominator}} of a mile to school each day.
+  How far does the entire group walk together in {{days}} days?
+
+solution: |
+  # Total people in the group
+  total_people = friends + 1
+  
+  # Distance per day for the group
+  distance_per_day_numerator = total_people * numerator
+  
+  # Total distance for all days
+  total_numerator = distance_per_day_numerator * days
+  
+  # Simplify the fraction
+  common = math.gcd(total_numerator, denominator)
+  final_num = total_numerator // common
+  final_den = denominator // common
+  
+  Answer = (final_num, final_den)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/1"
+  - seed: 67890
+    expected:
+      answer: "12/1"
+  - seed: 88888
+    expected:
+      answer: "15/2"

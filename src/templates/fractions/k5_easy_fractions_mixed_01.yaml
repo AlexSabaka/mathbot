@@ -1,0 +1,53 @@
+metadata:
+  id: k5_easy_fractions_mixed_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: fractions.mixed
+  family: fractions_mixed
+  difficulty: easy
+  steps: 2
+  culture: en-US
+  tags: [fractions, mixed-number, improper, conversion]
+
+variables:
+  numerator:
+    type: integer
+    min: 8
+    max: 20
+  denominator:
+    type: integer
+    min: 3
+    max: 7
+  Answer:
+    type: string
+
+template: |
+  Convert the improper fraction {{numerator}}/{{denominator}} to a mixed number.
+
+solution: |
+  # Simplify first
+  common = math.gcd(numerator, denominator)
+  num = numerator // common
+  den = denominator // common
+  
+  # Convert to mixed number
+  whole_part = num // den
+  remainder = num % den
+  
+  if remainder == 0:
+      Answer = str(whole_part)
+  else:
+      Answer = f"{whole_part} {remainder}/{den}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3 1/2"
+  - seed: 67890
+    expected:
+      answer: "2 2/3"
+  - seed: 11111
+    expected:
+      answer: "4 1/3"

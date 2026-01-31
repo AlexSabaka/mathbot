@@ -1,0 +1,73 @@
+metadata:
+  id: k5_medium_coordinate_plane_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [coordinates, distance, calculation]
+
+variables:
+  name:
+    type: person
+  
+  place1:
+    type: string
+    choices: ["starting point", "home", "base camp"]
+  
+  place2:
+    type: string
+    choices: ["destination", "finish line", "checkpoint"]
+  
+  x1:
+    type: integer
+    min: -5
+    max: 5
+  
+  y1:
+    type: integer
+    min: -5
+    max: 5
+  
+  x2:
+    type: integer
+    min: -5
+    max: 5
+  
+  y2:
+    type: integer
+    min: -5
+    max: 5
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+
+template: |
+  On a coordinate plane, {{name}}'s {{place1}} is at ({{x1}}, {{y1}}).
+  The {{place2}} is at ({{x2}}, {{y2}}).
+  
+  How many units right (or left if negative) and how many units up (or down if negative) must {{name}} move?
+
+solution: |
+  # Calculate horizontal and vertical movements
+  horizontal = x2 - x1
+  vertical = y2 - y1
+  
+  Answer1 = horizontal
+  Answer2 = vertical
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4 | 3"
+  
+  - seed: 67890
+    expected:
+      answer: "-3 | -1"

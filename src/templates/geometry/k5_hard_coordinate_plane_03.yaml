@@ -1,0 +1,73 @@
+metadata:
+  id: k5_hard_coordinate_plane_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [coordinates, area, rectangle]
+
+variables:
+  name:
+    type: person
+  
+  x1:
+    type: integer
+    min: 1
+    max: 3
+  
+  y1:
+    type: integer
+    min: 1
+    max: 3
+  
+  width:
+    type: integer
+    min: 4
+    max: 7
+  
+  height:
+    type: integer
+    min: 3
+    max: 6
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+  
+  Answer3:
+    type: integer
+
+template: |
+  {{name}} draws a rectangle on a coordinate plane.
+  One corner is at ({{x1}}, {{y1}}).
+  The rectangle has a width of {{width}} units and a height of {{height}} units.
+  
+  What are the coordinates of the opposite corner (give x-coordinate and y-coordinate)? What is the area of the rectangle?
+
+solution: |
+  # Calculate opposite corner coordinates
+  x2 = x1 + width
+  y2 = y1 + height
+  
+  # Calculate area
+  area = width * height
+  
+  Answer1 = x2
+  Answer2 = y2
+  Answer3 = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8 | 7 | 20"
+  
+  - seed: 67890
+    expected:
+      answer: "10 | 8 | 35"

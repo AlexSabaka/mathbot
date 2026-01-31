@@ -1,0 +1,93 @@
+metadata:
+  id: k5_hard_coordinate_plane_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [coordinates, rectangle, perimeter]
+
+variables:
+  x1:
+    type: integer
+    min: 1
+    max: 5
+  
+  y1:
+    type: integer
+    min: 1
+    max: 5
+  
+  x2:
+    type: integer
+    min: 6
+    max: 10
+  
+  y2:
+    type: integer
+    min: 1
+    max: 5
+  
+  x3:
+    type: integer
+    min: 6
+    max: 10
+  
+  y3:
+    type: integer
+    min: 6
+    max: 10
+  
+  x4:
+    type: integer
+    min: 1
+    max: 5
+  
+  y4:
+    type: integer
+    min: 6
+    max: 10
+  
+  Answer1:
+    type: string
+    choices: ["square", "rectangle", "quadrilateral"]
+  
+  Answer2:
+    type: integer
+
+template: |
+  A shape has vertices at ({{x1}}, {{y1}}), ({{x2}}, {{y2}}), ({{x3}}, {{y3}}), and ({{x4}}, {{y4}}).
+  
+  Plot the shape, identify what type of quadrilateral it is, and find its perimeter.
+
+solution: |
+  # Calculate side lengths
+  side1 = abs(x2 - x1)
+  side2 = abs(y3 - y2)
+  side3 = abs(x4 - x3)
+  side4 = abs(y1 - y4)
+  
+  # Determine shape type
+  if side1 == side2 == side3 == side4:
+      Answer1 = "square"
+  elif side1 == side3 and side2 == side4:
+      Answer1 = "rectangle"
+  else:
+      Answer1 = "quadrilateral"
+  
+  # Calculate perimeter
+  perimeter = side1 + side2 + side3 + side4
+  Answer2 = perimeter
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "rectangle | 18"
+  
+  - seed: 67890
+    expected:
+      answer: "rectangle | 20"

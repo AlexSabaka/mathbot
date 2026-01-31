@@ -1,0 +1,64 @@
+metadata:
+  id: k5_medium_coordinate_plane_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [coordinates, distance, travel]
+
+variables:
+  name:
+    type: person
+  
+  x1:
+    type: integer
+    min: 0
+    max: 8
+  
+  y1:
+    type: integer
+    min: 0
+    max: 8
+  
+  x2:
+    type: integer
+    min: 0
+    max: 8
+  
+  y2:
+    type: integer
+    min: 0
+    max: 8
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} walks from point ({{x1}}, {{y1}}) to point ({{x2}}, {{y2}}) on a coordinate grid where each unit represents 1 block.
+  
+  If {{name}} walks only horizontally and then vertically, what is the horizontal distance and vertical distance traveled?
+
+solution: |
+  # Calculate distances
+  horizontal_distance = abs(x2 - x1)
+  vertical_distance = abs(y2 - y1)
+  
+  Answer1 = horizontal_distance
+  Answer2 = vertical_distance
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3 | 5"
+  
+  - seed: 67890
+    expected:
+      answer: "5 | 3"

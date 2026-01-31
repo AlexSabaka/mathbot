@@ -1,0 +1,95 @@
+metadata:
+  id: k5_hard_coordinate_plane_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [coordinates, distance, comparison]
+
+variables:
+  name:
+    type: person
+  
+  place1:
+    type: string
+    choices: ["house", "school", "library"]
+  
+  place2:
+    type: string
+    choices: ["park", "store", "gym"]
+  
+  place3:
+    type: string
+    choices: ["cafe", "museum", "theater"]
+  
+  x1:
+    type: integer
+    min: 0
+    max: 5
+  
+  y1:
+    type: integer
+    min: 0
+    max: 5
+  
+  x2:
+    type: integer
+    min: 6
+    max: 10
+  
+  y2:
+    type: integer
+    min: 0
+    max: 5
+  
+  x3:
+    type: integer
+    min: 0
+    max: 5
+  
+  y3:
+    type: integer
+    min: 6
+    max: 10
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+  
+  Answer3:
+    type: integer
+
+template: |
+  On a coordinate plane, {{name}}'s {{place1}} is at ({{x1}}, {{y1}}), the {{place2}} is at ({{x2}}, {{y2}}), and the {{place3}} is at ({{x3}}, {{y3}}).
+  
+  If {{name}} can only walk horizontally or vertically, calculate the total distance from the {{place1}} to the {{place2}}, then from the {{place2}} to the {{place3}}, and then from the {{place3}} back to the {{place1}}. Give each distance separately.
+
+solution: |
+  # Distance from place1 to place2
+  dist1 = abs(x2 - x1) + abs(y2 - y1)
+  
+  # Distance from place2 to place3
+  dist2 = abs(x3 - x2) + abs(y3 - y2)
+  
+  # Distance from place3 to place1
+  dist3 = abs(x1 - x3) + abs(y1 - y3)
+  
+  Answer1 = dist1
+  Answer2 = dist2
+  Answer3 = dist3
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8 | 12 | 6"
+  
+  - seed: 67890
+    expected:
+      answer: "7 | 11 | 6"

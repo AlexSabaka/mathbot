@@ -9,10 +9,12 @@ MATH_TOPICS = [
     "arithmetic",
     "percentages",
     "fractions",
+    "decimals",
     "ratios",
     "algebra",
     "geometry",
     "measurement",
+    "statistics",
     "quadratics",
     "derivatives",
     "powers_logs"
@@ -51,7 +53,25 @@ PROBLEM_FAMILIES = [
     "angles",
     "triangles",
     "quadrilaterals",
-    "symmetry"
+    "symmetry",
+    "numbers_standard",
+    "powers_of_10",
+    "expressions_intro",
+    "expressions_terms",
+    "coordinate_plane",
+    "statistics_mean",
+    "statistics_median",
+    "statistics_mode",
+    "polygons",
+    "triangle_area",
+    "square_area",
+    "rectangle_area",
+    "parallelogram_area",
+    "rhombus_area",
+    "trapezium_area",
+    "volume",
+    "fractions_mixed",
+    "fractions_mult_whole"
 ]
 
 # Grade to max complexity mapping
@@ -69,8 +89,10 @@ TOPIC_GRADE_COMPATIBILITY = {
     "arithmetic": ["elementary", "middle", "high", "college", "university"],
     "percentages": ["middle", "high", "college", "university"],
     "fractions": ["elementary", "middle", "high", "college", "university"],
+    "decimals": ["elementary", "middle", "high", "college", "university"],
+    "statistics": ["elementary", "middle", "high", "college", "university"],
     "ratios": ["elementary", "middle", "high", "college", "university"],
-    "algebra": ["middle", "high", "college", "university"],
+    "algebra": ["elementary", "middle", "high", "college", "university"],
     "geometry": ["elementary", "middle", "high", "college", "university"],
     "measurement": ["elementary", "middle", "high", "college", "university"],
     "quadratics": ["high", "college", "university"],
@@ -119,7 +141,29 @@ FAMILY_TOPIC_SUPPORT = {
     "angles": ["geometry"],  # angle measurement and relationships
     "triangles": ["geometry"],  # triangle classification and properties
     "quadrilaterals": ["geometry"],  # quadrilateral identification and properties
-    "symmetry": ["geometry"]  # lines of symmetry, rotational, point, reflexive
+    "symmetry": ["geometry"],  # lines of symmetry, rotational, point, reflexive
+    "numbers_standard": ["arithmetic", "numbers"],  # writing numbers in standard form
+    "powers_of_10": ["algebra"],  # powers of 10 and scientific notation
+    "expressions_intro": ["algebra"],  # introduction to algebraic expressions
+    "expressions_terms": ["algebra"],  # variables, coefficients, terms, and constants
+    "decimals_mult_whole": ["decimals"],  # multiply decimals by whole numbers
+    "decimals_mult_power10": ["decimals"],  # multiply decimals by powers of 10
+    "decimals_div_power10": ["decimals"],  # divide decimals by powers of 10
+    "decimals_fractions": ["decimals"],  # convert between decimals and fractions
+    "coordinate_plane": ["geometry"],  # coordinate plane and graphing
+    "statistics_mean": ["statistics"],  # calculating mean/average
+    "statistics_median": ["statistics"],  # calculating median
+    "statistics_mode": ["statistics"],  # calculating mode
+    "polygons": ["geometry"],  # types of polygons
+    "triangle_area": ["geometry"],  # triangle area and perimeter
+    "square_area": ["geometry"],  # square area and perimeter
+    "rectangle_area": ["geometry"],  # rectangle area and perimeter
+    "parallelogram_area": ["geometry"],  # parallelogram area
+    "rhombus_area": ["geometry"],  # rhombus area
+    "trapezium_area": ["geometry"],  # trapezium/trapezoid area
+    "volume": ["geometry"],  # volume of 3D shapes
+    "fractions_mixed": ["fractions"],  # mixed fractions conversion
+    "fractions_mult_whole": ["fractions"]  # multiply fractions by whole numbers
 }
 
 # Topics that require specific problem types (these need special handling)

@@ -1,0 +1,46 @@
+metadata:
+  id: k6_medium_area_2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [area, parallelogram, base, height]
+
+variables:
+  base:
+    type: integer
+    min: 6
+    max: 18
+  
+  height:
+    type: integer
+    min: 4
+    max: 15
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A parallelogram has a base of {{base}} cm and a height of {{height}} cm.
+  
+  Find its area.
+
+solution: |
+  # Area of parallelogram = base × height
+  area = base * height
+  Answer = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "110 square cm"
+  
+  - seed: 67890
+    expected:
+      answer: "70 square cm"

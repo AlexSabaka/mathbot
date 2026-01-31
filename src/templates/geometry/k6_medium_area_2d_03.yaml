@@ -1,0 +1,43 @@
+metadata:
+  id: k6_medium_area_2d_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [area, parallelogram, dimensions]
+
+variables:
+  base_m:
+    type: integer
+    min: 10
+    max: 18
+  
+  height_m:
+    type: integer
+    min: 6
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Calculate the area of a parallelogram with base {{base_m}} meters and height {{height_m}} meters.
+
+solution: |
+  area = base_m * height_m
+  Answer = area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "112 square meters"
+  
+  - seed: 44444
+    expected:
+      answer: "126 square meters"

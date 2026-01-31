@@ -1,0 +1,56 @@
+metadata:
+  id: k6_hard_area_2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [area, triangle, real-world, paint]
+
+variables:
+  name:
+    type: person
+  
+  base:
+    type: integer
+    min: 14
+    max: 28
+  
+  height:
+    type: integer
+    min: 10
+    max: 20
+  
+  cover_area:
+    type: integer
+    min: 15
+    max: 25
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} is painting a triangular wall with a base of {{base}} feet and a height of {{height}} feet. One can of paint covers {{cover_area}} square feet.
+  
+  How many cans of paint does {{name}} need to buy?
+
+solution: |
+  import math
+  # Area of triangle
+  wall_area = (base * height) / 2
+  # Cans needed (round up)
+  cans = math.ceil(wall_area / cover_area)
+  Answer = cans
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "5"
+  
+  - seed: 22222
+    expected:
+      answer: "12"

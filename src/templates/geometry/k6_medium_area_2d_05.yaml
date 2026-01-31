@@ -1,0 +1,53 @@
+metadata:
+  id: k6_medium_area_2d_05
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: medium
+  culture: en-US
+  steps: 3
+  tags: [area, trapezoid, formula]
+
+variables:
+  name:
+    type: person
+  
+  a:
+    type: integer
+    min: 5
+    max: 14
+  
+  b:
+    type: integer
+    min: 10
+    max: 18
+  
+  h:
+    type: integer
+    min: 6
+    max: 10
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} is calculating the area of a trapezoid. The two parallel sides are {{a}} feet and {{b}} feet, and the height is {{h}} feet.
+  
+  What is the area?
+
+solution: |
+  area = (a + b) * h / 2
+  Answer = int(area)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "80 square feet"
+  
+  - seed: 22222
+    expected:
+      answer: "105 square feet"

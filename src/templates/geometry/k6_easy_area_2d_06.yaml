@@ -1,0 +1,45 @@
+metadata:
+  id: k6_easy_area_2d_06
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [area, rectangle, multiplication]
+
+variables:
+  rect_length:
+    type: integer
+    min: 12
+    max: 24
+  
+  rect_width:
+    type: integer
+    min: 7
+    max: 16
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A rectangle measures {{rect_length}} meters by {{rect_width}} meters.
+  
+  Find its area.
+
+solution: |
+  area = rect_length * rect_width
+  Answer = area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "160 square meters"
+  
+  - seed: 44444
+    expected:
+      answer: "168 square meters"

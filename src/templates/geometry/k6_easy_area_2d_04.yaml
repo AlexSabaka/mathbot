@@ -1,0 +1,44 @@
+metadata:
+  id: k6_easy_area_2d_04
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [area, rectangle, length, width]
+
+variables:
+  length:
+    type: integer
+    min: 8
+    max: 25
+  
+  width:
+    type: integer
+    min: 5
+    max: 20
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a rectangle with length {{length}} units and width {{width}} units.
+
+solution: |
+  # Area of rectangle = length × width
+  area = length * width
+  Answer = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "165 square units"
+  
+  - seed: 67890
+    expected:
+      answer: "132 square units"

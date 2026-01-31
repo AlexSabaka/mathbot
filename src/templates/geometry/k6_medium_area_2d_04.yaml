@@ -1,0 +1,49 @@
+metadata:
+  id: k6_medium_area_2d_04
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: medium
+  culture: en-US
+  steps: 3
+  tags: [area, trapezoid, parallel sides]
+
+variables:
+  side1:
+    type: integer
+    min: 6
+    max: 16
+  
+  side2:
+    type: integer
+    min: 8
+    max: 20
+  
+  height:
+    type: integer
+    min: 4
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a trapezoid with parallel sides of {{side1}} m and {{side2}} m, and a height of {{height}} m.
+
+solution: |
+  # Area of trapezoid = (a + b) × h / 2
+  area = (side1 + side2) * height / 2
+  Answer = int(area)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "100 square m"
+  
+  - seed: 67890
+    expected:
+      answer: "80 square m"

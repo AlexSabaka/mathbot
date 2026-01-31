@@ -1,0 +1,44 @@
+metadata:
+  id: k6_easy_area_2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [area, triangle, formula]
+
+variables:
+  base:
+    type: integer
+    min: 6
+    max: 20
+  
+  height:
+    type: integer
+    min: 4
+    max: 18
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a triangle with base {{base}} units and height {{height}} units.
+
+solution: |
+  # Area of triangle = (base × height) / 2
+  area = (base * height) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "60 square units"
+  
+  - seed: 67890
+    expected:
+      answer: "40 square units"

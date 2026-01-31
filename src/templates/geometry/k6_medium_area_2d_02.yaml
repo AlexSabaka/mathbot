@@ -1,0 +1,48 @@
+metadata:
+  id: k6_medium_area_2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [area, parallelogram, formula]
+
+variables:
+  name:
+    type: person
+  
+  b:
+    type: integer
+    min: 8
+    max: 16
+  
+  h:
+    type: integer
+    min: 5
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} draws a parallelogram with a base of {{b}} inches and a height of {{h}} inches.
+  
+  What is the area of {{name}}'s parallelogram?
+
+solution: |
+  area = b * h
+  Answer = area
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "90 square inches"
+  
+  - seed: 22222
+    expected:
+      answer: "105 square inches"

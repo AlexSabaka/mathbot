@@ -1,0 +1,50 @@
+metadata:
+  id: k6_medium_area_2d_06
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: medium
+  culture: en-US
+  steps: 3
+  tags: [area, trapezoid, bases, height]
+
+variables:
+  base_a:
+    type: integer
+    min: 7
+    max: 15
+  
+  base_b:
+    type: integer
+    min: 12
+    max: 20
+  
+  trap_height:
+    type: integer
+    min: 5
+    max: 11
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A trapezoid has parallel bases measuring {{base_a}} cm and {{base_b}} cm, with a height of {{trap_height}} cm.
+  
+  Find the area.
+
+solution: |
+  area = (base_a + base_b) * trap_height / 2
+  Answer = int(area)
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "98 square cm"
+  
+  - seed: 44444
+    expected:
+      answer: "108 square cm"

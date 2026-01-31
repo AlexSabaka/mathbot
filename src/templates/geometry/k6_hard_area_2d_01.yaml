@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_area_2d_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [area, application, mulch, coverage]
+
+variables:
+  name:
+    type: person
+  
+  length:
+    type: integer
+    min: 12
+    max: 24
+  
+  width:
+    type: integer
+    min: 10
+    max: 20
+  
+  coverage:
+    type: integer
+    min: 10
+    max: 20
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}}'s garden is shaped like a rectangle with dimensions {{length}} feet by {{width}} feet. If {{name}} wants to cover the entire garden with mulch, and one bag of mulch covers {{coverage}} square feet, how many bags does {{name}} need?
+
+solution: |
+  # Calculate area of garden
+  garden_area = length * width
+  # Calculate bags needed (round up)
+  import math
+  bags_needed = math.ceil(garden_area / coverage)
+  Answer = bags_needed
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "17"
+  
+  - seed: 67890
+    expected:
+      answer: "14"

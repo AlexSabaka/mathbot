@@ -1,0 +1,48 @@
+metadata:
+  id: k6_easy_area_2d_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [area, triangle, base, height]
+
+variables:
+  name:
+    type: person
+  
+  b:
+    type: integer
+    min: 8
+    max: 16
+  
+  h:
+    type: integer
+    min: 6
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} measures a triangle with a base of {{b}} cm and a height of {{h}} cm.
+  
+  What is the area of the triangle?
+
+solution: |
+  area = (b * h) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "45 square cm"
+  
+  - seed: 22222
+    expected:
+      answer: "70 square cm"

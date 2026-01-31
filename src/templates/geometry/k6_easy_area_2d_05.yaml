@@ -1,0 +1,48 @@
+metadata:
+  id: k6_easy_area_2d_05
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area
+  family: area_2d
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [area, rectangle, dimensions]
+
+variables:
+  name:
+    type: person
+  
+  l:
+    type: integer
+    min: 10
+    max: 22
+  
+  w:
+    type: integer
+    min: 6
+    max: 18
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} has a rectangular room that is {{l}} feet long and {{w}} feet wide.
+  
+  What is the area of the room?
+
+solution: |
+  area = l * w
+  Answer = area
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "126 square feet"
+  
+  - seed: 22222
+    expected:
+      answer: "210 square feet"

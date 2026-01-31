@@ -1,0 +1,48 @@
+metadata:
+  id: k6_medium_order_operations_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.operations
+  family: order_operations
+  difficulty: medium
+  steps: 3
+  tags: [pemdas, order_of_operations, parentheses, division, addition]
+
+variables:
+  a:
+    type: integer
+    min: 20
+    max: 50
+  b:
+    type: integer
+    min: 5
+    max: 15
+  c:
+    type: integer
+    min: 2
+    max: 5
+  d:
+    type: integer
+    min: 3
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  Evaluate: ({{a}} − {{b}}) ÷ {{c}} + {{d}}
+
+solution: |
+  # PEMDAS: Parentheses, then division, then addition
+  result = (a - b) // c + d
+  Answer = result
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "12"
+  
+  - seed: 67890
+    expected:
+      answer: "15"

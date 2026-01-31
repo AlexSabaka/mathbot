@@ -1,0 +1,52 @@
+metadata:
+  id: k6_hard_order_operations_04
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.operations
+  family: order_operations
+  difficulty: hard
+  steps: 4
+  tags: [pemdas, order_of_operations, parentheses_placement, problem_solving]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 8
+  b:
+    type: integer
+    min: 2
+    max: 6
+  c:
+    type: integer
+    min: 2
+    max: 5
+  d:
+    type: integer
+    min: 1
+    max: 4
+  Answer:
+    type: string
+
+template: |
+  Insert parentheses to make this equation true: {{a}} + {{b}} × {{c}} − {{d}} = {% set target = (a + b) * (c - d) %}{{target}}
+  
+  Show where the parentheses should go.
+
+solution: |
+  # Calculate the target: (a + b) × (c − d)
+  target = (a + b) * (c - d)
+  
+  # The answer is showing where parentheses go
+  Answer = f"({a} + {b}) × ({c} − {d}) = {target}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "(5 + 3) × (4 − 2) = 16"
+  
+  - seed: 67890
+    expected:
+      answer: "(7 + 5) × (3 − 2) = 12"

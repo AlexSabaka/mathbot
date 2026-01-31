@@ -1,0 +1,44 @@
+metadata:
+  id: k6_easy_order_operations_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.operations
+  family: order_operations
+  difficulty: easy
+  steps: 2
+  tags: [pemdas, order_of_operations, division, addition]
+
+variables:
+  a:
+    type: integer
+    min: 20
+    max: 40
+  b:
+    type: integer
+    min: 2
+    max: 5
+  c:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: integer
+
+template: |
+  Evaluate: {{a}} ÷ {{b}} + {{c}}
+
+solution: |
+  # PEMDAS: Division before addition
+  result = (a // b) + c
+  Answer = result
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "12"
+  
+  - seed: 67890
+    expected:
+      answer: "17"

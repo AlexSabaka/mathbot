@@ -1,0 +1,60 @@
+metadata:
+  id: k6_hard_order_operations_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.operations
+  family: order_operations
+  difficulty: hard
+  steps: 4
+  tags: [pemdas, order_of_operations, exponents, complex_expression]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 8
+  b:
+    type: integer
+    min: 2
+    max: 4
+  c:
+    type: integer
+    min: 10
+    max: 25
+  d:
+    type: integer
+    min: 2
+    max: 6
+  e:
+    type: integer
+    min: 2
+    max: 5
+  Answer:
+    type: integer
+
+template: |
+  Evaluate: ({{a}} + {{b}})² − {{c}} ÷ {{d}} × {{e}}
+
+solution: |
+  # PEMDAS: Parentheses, Exponents, Division/Multiplication left to right, Subtraction
+  # First: parentheses
+  paren_result = a + b
+  # Second: exponent
+  exp_result = paren_result ** 2
+  # Third: division and multiplication left to right
+  div_result = c // d
+  mult_result = div_result * e
+  # Finally: subtract
+  result = exp_result - mult_result
+  Answer = result
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "64"
+  
+  - seed: 67890
+    expected:
+      answer: "76"

@@ -1,0 +1,44 @@
+metadata:
+  id: k6_easy_order_operations_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.operations
+  family: order_operations
+  difficulty: easy
+  steps: 2
+  tags: [pemdas, order_of_operations, multiplication, addition]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 10
+  b:
+    type: integer
+    min: 2
+    max: 10
+  c:
+    type: integer
+    min: 2
+    max: 10
+  Answer:
+    type: integer
+
+template: |
+  Evaluate: {{a}} + {{b}} × {{c}}
+
+solution: |
+  # PEMDAS: Multiplication before addition
+  result = a + (b * c)
+  Answer = result
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "30"
+  
+  - seed: 67890
+    expected:
+      answer: "54"

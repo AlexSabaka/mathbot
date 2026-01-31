@@ -1,0 +1,48 @@
+metadata:
+  id: k6_medium_order_operations_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: arithmetic.operations
+  family: order_operations
+  difficulty: medium
+  steps: 3
+  tags: [pemdas, order_of_operations, multiplication, division, addition]
+
+variables:
+  a:
+    type: integer
+    min: 5
+    max: 20
+  b:
+    type: integer
+    min: 2
+    max: 8
+  c:
+    type: integer
+    min: 2
+    max: 6
+  d:
+    type: integer
+    min: 2
+    max: 5
+  Answer:
+    type: integer
+
+template: |
+  Evaluate: {{a}} + {{b}} × {{c}} ÷ {{d}}
+
+solution: |
+  # PEMDAS: Multiplication and division left to right, then addition
+  result = a + ((b * c) // d)
+  Answer = result
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "12"
+  
+  - seed: 67890
+    expected:
+      answer: "21"

@@ -1,0 +1,44 @@
+metadata:
+  id: k5_medium_expressions_intro_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: medium
+  steps: 2
+  tags: [expressions, variables, multiplication, real-world]
+
+variables:
+  name:
+    type: person
+  number:
+    type: integer
+    min: 3
+    max: 8
+  item:
+    type: item
+    category: grocery
+  container:
+    type: string
+    choices: ["box", "bag", "package", "carton"]
+  variable:
+    type: string
+    choices: ["b", "c", "p", "n"]
+  Answer:
+    type: string
+
+template: |
+  Each {{container}} holds {{number}} {{item}}. Write an expression for the total number of {{item}} in {{variable}} {{container}}es.
+
+solution: |
+  Answer = f"{number}{variable}"
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "5b"
+  - seed: 22222
+    expected:
+      answer: "7c"

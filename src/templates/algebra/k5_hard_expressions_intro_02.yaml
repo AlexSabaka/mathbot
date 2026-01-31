@@ -1,0 +1,50 @@
+metadata:
+  id: k5_hard_expressions_intro_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: hard
+  steps: 3
+  tags: [expressions, variables, calculation, real-world]
+
+variables:
+  name:
+    type: person
+  start_pages:
+    type: integer
+    min: 45
+    max: 120
+  pages_per_day:
+    type: integer
+    min: 15
+    max: 35
+  variable:
+    type: string
+    choices: ["d", "n", "t"]
+  specific_days:
+    type: integer
+    min: 3
+    max: 7
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+
+template: |
+  {{name}} is reading a book with {{start_pages}} pages. {% if name[-1] == 's' %}{{name}}'{% else %}{{name}}'s{% endif %} goal is to read {{pages_per_day}} pages each day. Write an expression for how many pages {{name}} will have left after {{variable}} days, then calculate how many pages are left after {{specific_days}} days.
+
+solution: |
+  Answer1 = f"{start_pages} - {pages_per_day}{variable}"
+  pages_left = start_pages - (pages_per_day * specific_days)
+  Answer2 = str(pages_left)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "72 - 20d | 12"
+  - seed: 22222
+    expected:
+      answer: "105 - 30n | 15"

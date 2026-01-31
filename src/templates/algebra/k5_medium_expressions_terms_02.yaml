@@ -1,0 +1,50 @@
+metadata:
+  id: k5_medium_expressions_terms_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_terms
+  difficulty: medium
+  steps: 2
+  tags: [expressions, coefficient, variable, constant, terms, real-world]
+
+variables:
+  coefficient1:
+    type: integer
+    min: 2
+    max: 5
+  coefficient2:
+    type: integer
+    min: 2
+    max: 6
+  variable1:
+    type: string
+    choices: ["x", "y", "z"]
+  variable2:
+    type: string
+    choices: ["w", "m", "n"]
+  constant:
+    type: integer
+    min: 5
+    max: 15
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+
+template: |
+  In the expression {{coefficient1}}{{variable1}} + {{coefficient2}}{{variable2}} + {{constant}}, how many terms are there and what is the constant term?
+
+solution: |
+  Answer1 = "3"
+  Answer2 = str(constant)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "3 | 9"
+  - seed: 22222
+    expected:
+      answer: "3 | 13"

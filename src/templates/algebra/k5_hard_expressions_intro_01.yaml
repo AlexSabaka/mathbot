@@ -1,0 +1,55 @@
+metadata:
+  id: k5_hard_expressions_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: hard
+  steps: 3
+  tags: [expressions, variables, calculation, real-world, money]
+
+variables:
+  business:
+    type: string
+    choices: ["parking lot", "bike rental shop", "tool rental store", "storage facility"]
+  base_fee:
+    type: integer
+    min: 3
+    max: 10
+  rate:
+    type: integer
+    min: 2
+    max: 8
+  unit:
+    type: string
+    choices: ["hour", "day", "week"]
+  variable:
+    type: string
+    choices: ["h", "d", "w", "t"]
+  specific_value:
+    type: integer
+    min: 4
+    max: 8
+  Answer1:
+    type: string
+  Answer2:
+    type: decimal
+    format: money
+
+template: |
+  A {{business}} charges ${{base_fee}} plus ${{rate}} per {{unit}}. Write an expression for the total cost of {{variable}} {{unit}}s, then calculate the cost for {{specific_value}} {{unit}}s.
+
+solution: |
+  Answer1 = f"{base_fee} + {rate}{variable}"
+  total_cost = base_fee + (rate * specific_value)
+  Answer2 = round(total_cost, 2)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "5 + 3h | $20.00"
+  - seed: 22222
+    expected:
+      answer: "8 + 6d | $56.00"

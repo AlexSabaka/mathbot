@@ -1,0 +1,36 @@
+metadata:
+  id: k5_easy_expressions_intro_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: easy
+  steps: 1
+  tags: [expressions, variables, subtraction]
+
+variables:
+  number:
+    type: integer
+    min: 3
+    max: 12
+  variable:
+    type: string
+    choices: ["n", "x", "m", "p"]
+  Answer:
+    type: string
+
+template: |
+  Write an expression for: {{number}} less than a number {{variable}}.
+
+solution: |
+  Answer = f"{variable} - {number}"
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "n - 7"
+  - seed: 22222
+    expected:
+      answer: "x - 10"

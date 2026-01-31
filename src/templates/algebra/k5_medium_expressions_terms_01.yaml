@@ -1,0 +1,47 @@
+metadata:
+  id: k5_medium_expressions_terms_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_terms
+  difficulty: medium
+  steps: 2
+  tags: [expressions, coefficient, variable, constant, terms, real-world]
+
+variables:
+  name:
+    type: person
+  age_diff:
+    type: integer
+    min: 2
+    max: 8
+  relationship:
+    type: string
+    choices: ["brother", "sister", "cousin", "friend"]
+  variable:
+    type: string
+    choices: ["b", "s", "c", "a"]
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+  Answer3:
+    type: string
+
+template: |
+  Write an algebraic expression for: {{name}} is {{age_diff}} years older than {% if relationship == "sister" %}her{% else %}his{% endif %} {{relationship}}, who is {{variable}} years old. Then identify the coefficient and the constant.
+
+solution: |
+  Answer1 = f"{variable} + {age_diff}"
+  Answer2 = "1"
+  Answer3 = str(age_diff)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "b + 4 | 1 | 4"
+  - seed: 22222
+    expected:
+      answer: "s + 6 | 1 | 6"

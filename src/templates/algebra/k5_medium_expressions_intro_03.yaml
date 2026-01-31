@@ -1,0 +1,41 @@
+metadata:
+  id: k5_medium_expressions_intro_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: medium
+  steps: 2
+  tags: [expressions, variables, division, real-world]
+
+variables:
+  name:
+    type: person
+  total_number:
+    type: integer
+    min: 20
+    max: 50
+  item:
+    type: item
+    category: online
+  variable:
+    type: string
+    choices: ["p", "s", "g", "n"]
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{total_number}} {{item}} to share equally among {{variable}} students. Write an expression for the number of {{item}} each student receives.
+
+solution: |
+  Answer = f"{total_number} ÷ {variable}"
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "24 ÷ p"
+  - seed: 22222
+    expected:
+      answer: "42 ÷ s"

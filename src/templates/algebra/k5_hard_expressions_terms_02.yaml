@@ -1,0 +1,62 @@
+metadata:
+  id: k5_hard_expressions_terms_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_terms
+  difficulty: hard
+  steps: 3
+  tags: [expressions, coefficient, variable, constant, terms, real-world, calculation]
+
+variables:
+  name:
+    type: person
+  initial_savings:
+    type: integer
+    min: 50
+    max: 150
+  weekly_amount:
+    type: integer
+    min: 10
+    max: 25
+  weekly_spending:
+    type: integer
+    min: 5
+    max: 15
+  variable:
+    type: string
+    choices: ["w", "n"]
+  specific_weeks:
+    type: integer
+    min: 4
+    max: 8
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+  Answer3:
+    type: string
+  Answer4:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} has ${{initial_savings}} in savings. Each week, {% if name[-1] == 's' %}{{name}}'{% else %}{{name}}'s{% endif %} parent gives {% if name[-1] == 's' %}them{% else %}{{name | lower}}{% endif %} ${{weekly_amount}}, but {{name}} spends ${{weekly_spending}} each week. Write an expression for the total amount after {{variable}} weeks. Identify all terms, then calculate the amount after {{specific_weeks}} weeks.
+
+solution: |
+  net_change = weekly_amount - weekly_spending
+  Answer1 = f"{initial_savings} + {net_change}{variable}"
+  Answer2 = str(net_change)
+  Answer3 = str(initial_savings)
+  total_amount = initial_savings + (net_change * specific_weeks)
+  Answer4 = round(total_amount, 2)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "75 + 5w | 5 | 75 | $95.00"
+  - seed: 22222
+    expected:
+      answer: "125 + 10n | 10 | 125 | $165.00"

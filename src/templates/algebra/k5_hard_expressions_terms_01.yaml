@@ -1,0 +1,58 @@
+metadata:
+  id: k5_hard_expressions_terms_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_terms
+  difficulty: hard
+  steps: 3
+  tags: [expressions, coefficient, variable, constant, terms, real-world, calculation, money]
+
+variables:
+  service:
+    type: string
+    choices: ["plumber", "electrician", "carpenter", "mechanic"]
+  service_fee:
+    type: integer
+    min: 35
+    max: 75
+  hourly_rate:
+    type: integer
+    min: 25
+    max: 60
+  variable:
+    type: string
+    choices: ["h", "t"]
+  specific_hours:
+    type: integer
+    min: 3
+    max: 6
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+  Answer3:
+    type: string
+  Answer4:
+    type: decimal
+    format: money
+
+template: |
+  A {{service}} charges a ${{service_fee}} service fee plus ${{hourly_rate}} per hour of work. If the {{service}} worked for {{variable}} hours, write an expression for the total cost. Identify the coefficient and constant, then calculate the cost for {{specific_hours}} hours.
+
+solution: |
+  Answer1 = f"{hourly_rate}{variable} + {service_fee}"
+  Answer2 = str(hourly_rate)
+  Answer3 = str(service_fee)
+  total_cost = (hourly_rate * specific_hours) + service_fee
+  Answer4 = round(total_cost, 2)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "35h + 50 | 35 | 50 | $155.00"
+  - seed: 22222
+    expected:
+      answer: "50t + 65 | 50 | 65 | $265.00"

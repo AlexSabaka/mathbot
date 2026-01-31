@@ -1,0 +1,46 @@
+metadata:
+  id: k5_easy_expressions_terms_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_terms
+  difficulty: easy
+  steps: 1
+  tags: [expressions, coefficient, variable, constant, terms]
+
+variables:
+  coefficient:
+    type: integer
+    min: 2
+    max: 9
+  variable:
+    type: string
+    choices: ["x", "y", "n", "m"]
+  constant:
+    type: integer
+    min: 5
+    max: 20
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+  Answer3:
+    type: string
+
+template: |
+  In the expression {{coefficient}}{{variable}} + {{constant}}, identify the coefficient, variable, and constant.
+
+solution: |
+  Answer1 = str(coefficient)
+  Answer2 = variable
+  Answer3 = str(constant)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "5 | n | 12"
+  - seed: 22222
+    expected:
+      answer: "7 | x | 17"

@@ -1,0 +1,50 @@
+metadata:
+  id: k5_medium_expressions_terms_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_terms
+  difficulty: medium
+  steps: 2
+  tags: [expressions, coefficient, variable, constant, terms]
+
+variables:
+  coefficient1:
+    type: integer
+    min: 3
+    max: 8
+  coefficient2:
+    type: integer
+    min: 2
+    max: 7
+  variable:
+    type: string
+    choices: ["n", "p", "t"]
+  constant:
+    type: integer
+    min: 10
+    max: 30
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+  Answer3:
+    type: string
+
+template: |
+  In the expression {{coefficient1}}{{variable}} + {{constant}} - {{coefficient2}}{{variable}}, identify all the coefficients and the constant. How many variable terms are there?
+
+solution: |
+  Answer1 = str(coefficient1)
+  Answer2 = str(coefficient2)
+  Answer3 = str(constant)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "5 | 4 | 18"
+  - seed: 22222
+    expected:
+      answer: "7 | 5 | 25"

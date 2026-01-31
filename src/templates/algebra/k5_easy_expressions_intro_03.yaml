@@ -1,0 +1,36 @@
+metadata:
+  id: k5_easy_expressions_intro_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: easy
+  steps: 1
+  tags: [expressions, variables, multiplication]
+
+variables:
+  number:
+    type: integer
+    min: 2
+    max: 8
+  variable:
+    type: string
+    choices: ["n", "x", "y", "t"]
+  Answer:
+    type: string
+
+template: |
+  Write an expression for: {{number}} times a number {{variable}}.
+
+solution: |
+  Answer = f"{number} × {variable}"
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "5 × n"
+  - seed: 22222
+    expected:
+      answer: "7 × x"

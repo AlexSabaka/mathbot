@@ -1,0 +1,52 @@
+metadata:
+  id: k5_hard_expressions_intro_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: hard
+  steps: 3
+  tags: [expressions, variables, calculation, real-world, money]
+
+variables:
+  service:
+    type: string
+    choices: ["lawn mowing service", "car wash business", "pet sitting service", "tutoring service"]
+  initial_cost:
+    type: integer
+    min: 40
+    max: 100
+  customer_fee:
+    type: integer
+    min: 8
+    max: 25
+  variable:
+    type: string
+    choices: ["c", "n", "p"]
+  num_customers:
+    type: integer
+    min: 5
+    max: 12
+  Answer1:
+    type: string
+  Answer2:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} starts a {{service}} with an initial cost of ${{initial_cost}} for supplies. {% if name[-1] == 's' %}{{name}}'{% else %}{{name}}'s{% endif %} service charges ${{customer_fee}} per customer. Write an expression for the total profit after {{variable}} customers (remembering to subtract the initial cost), then calculate the profit for {{num_customers}} customers.
+
+solution: |
+  Answer1 = f"{customer_fee}{variable} - {initial_cost}"
+  profit = (customer_fee * num_customers) - initial_cost
+  Answer2 = round(profit, 2)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "12c - 60 | $60.00"
+  - seed: 22222
+    expected:
+      answer: "20n - 80 | $140.00"

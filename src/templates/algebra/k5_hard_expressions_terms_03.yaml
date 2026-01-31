@@ -1,0 +1,60 @@
+metadata:
+  id: k5_hard_expressions_terms_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_terms
+  difficulty: hard
+  steps: 3
+  tags: [expressions, coefficient, variable, constant, terms, calculation]
+
+variables:
+  coefficient1:
+    type: integer
+    min: 4
+    max: 9
+  coefficient2:
+    type: integer
+    min: 2
+    max: 6
+  coefficient3:
+    type: integer
+    min: 3
+    max: 7
+  variable:
+    type: string
+    choices: ["x", "y", "z"]
+  constant:
+    type: integer
+    min: 15
+    max: 40
+  specific_value:
+    type: integer
+    min: 3
+    max: 7
+  Answer1:
+    type: string
+  Answer2:
+    type: string
+  Answer3:
+    type: string
+
+template: |
+  In the expression {{coefficient1}}{{variable}} + {{coefficient2}}{{variable}} - {{coefficient3}}{{variable}} + {{constant}}, identify how many terms contain the variable {{variable}}, what is the constant term, and calculate the value when {{variable}} = {{specific_value}}.
+
+solution: |
+  Answer1 = "3"
+  Answer2 = str(constant)
+  combined_coefficient = coefficient1 + coefficient2 - coefficient3
+  result = (combined_coefficient * specific_value) + constant
+  Answer3 = str(result)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "3 | 25 | 45"
+  - seed: 22222
+    expected:
+      answer: "3 | 35 | 65"

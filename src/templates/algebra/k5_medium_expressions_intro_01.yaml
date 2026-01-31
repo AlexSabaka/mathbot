@@ -1,0 +1,48 @@
+metadata:
+  id: k5_medium_expressions_intro_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: algebra.expressions
+  family: expressions_intro
+  difficulty: medium
+  steps: 2
+  tags: [expressions, variables, real-world]
+
+variables:
+  name:
+    type: person
+  start_amount:
+    type: integer
+    min: 8
+    max: 20
+  number:
+    type: integer
+    min: 2
+    max: 5
+  item:
+    type: item
+    category: online
+  time_period:
+    type: string
+    choices: ["week", "day", "month"]
+  variable:
+    type: string
+    choices: ["w", "d", "m", "t"]
+  Answer:
+    type: string
+
+template: |
+  {{name}} has {{start_amount}} {{item}}. {% if name[-1] == 's' %}{{name}}'{% else %}{{name}}'s{% endif %} parent gives {% if name[-1] == 's' %}them{% else %}{{name | lower}}{% endif %} {{number}} more {{item}} each {{time_period}}. Write an expression for the total number of {{item}} after {{variable}} {{time_period}}s.
+
+solution: |
+  Answer = f"{start_amount} + {number}{variable}"
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "12 + 3w"
+  - seed: 22222
+    expected:
+      answer: "17 + 4d"

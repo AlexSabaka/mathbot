@@ -1,0 +1,51 @@
+metadata:
+  id: k5_hard_decimals_fractions_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.conversion
+  family: decimals_fractions
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, fractions, conversion, operations]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  fraction:
+    type: string
+    choices: ["3/4", "2/5", "5/8"]
+  decimal_val:
+    type: string
+    choices: ["0.8", "0.6", "0.7"]
+  Answer:
+    type: string
+
+template: |
+  {{name1}} has {{fraction}} of a pizza. {{name2}} has {{decimal_val}} of a pizza. Convert both to decimals and determine how much pizza they have together.
+
+solution: |
+  # Convert fractions to decimals
+  frac_to_dec = {
+      "3/4": 0.75,
+      "2/5": 0.4,
+      "5/8": 0.625
+  }
+  
+  frac_val = frac_to_dec[fraction]
+  dec_val = float(decimal_val)
+  total = frac_val + dec_val
+  
+  Answer = str(round(total, 3))
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1.55"
+  - seed: 67890
+    expected:
+      answer: "1.0"

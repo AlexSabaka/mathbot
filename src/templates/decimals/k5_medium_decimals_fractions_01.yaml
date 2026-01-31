@@ -1,0 +1,53 @@
+metadata:
+  id: k5_medium_decimals_fractions_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.conversion
+  family: decimals_fractions
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, fractions, conversion, comparison]
+
+variables:
+  name:
+    type: person
+  fraction:
+    type: string
+    choices: ["4/5", "3/4", "2/3"]
+  decimal_val:
+    type: string
+    choices: ["0.85", "0.78", "0.70"]
+  Answer:
+    type: string
+
+template: |
+  {{name}} scored {{fraction}} on the first test and {{decimal_val}} on the second test. Convert the fraction to a decimal and determine which score was higher.
+
+solution: |
+  # Convert fractions to decimals
+  frac_to_dec = {
+      "4/5": 0.8,
+      "3/4": 0.75,
+      "2/3": 0.67
+  }
+  
+  frac_val = frac_to_dec[fraction]
+  dec_val = float(decimal_val)
+  
+  if frac_val > dec_val:
+      Answer = f"First test ({fraction} = {frac_val})"
+  elif dec_val > frac_val:
+      Answer = f"Second test ({decimal_val})"
+  else:
+      Answer = "Both scores are equal"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Second test (0.85)"
+  - seed: 67890
+    expected:
+      answer: "Second test (0.78)"

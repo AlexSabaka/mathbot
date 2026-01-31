@@ -1,0 +1,41 @@
+metadata:
+  id: k5_easy_decimals_fractions_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.conversion
+  family: decimals_fractions
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, fractions, conversion]
+
+variables:
+  fraction:
+    type: string
+    choices: ["1/2", "1/4", "3/4", "1/5", "2/5"]
+  Answer:
+    type: string
+
+template: |
+  Convert the fraction {{fraction}} to a decimal.
+
+solution: |
+  # Map fractions to decimals
+  conversions = {
+      "1/2": "0.5",
+      "1/4": "0.25",
+      "3/4": "0.75",
+      "1/5": "0.2",
+      "2/5": "0.4"
+  }
+  Answer = conversions[fraction]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "0.75"
+  - seed: 67890
+    expected:
+      answer: "0.4"

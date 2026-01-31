@@ -1,0 +1,55 @@
+metadata:
+  id: k5_hard_decimals_fractions_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.conversion
+  family: decimals_fractions
+  difficulty: hard
+  steps: 3
+  culture: en-US
+  tags: [decimals, fractions, conversion, measurement]
+
+variables:
+  name:
+    type: person
+  whole:
+    type: integer
+    min: 2
+    max: 5
+  numerator:
+    type: integer
+    min: 1
+    max: 7
+  denominator:
+    type: integer
+    choices: [4, 8]
+  decimal_available:
+    type: decimal
+    min: 2.0
+    max: 6.0
+    step: 0.05
+  Answer:
+    type: string
+
+template: |
+  A carpenter needs a board that is {{whole}} {{numerator}}/{{denominator}} feet long. What decimal length should the carpenter look for? If the closest available size is {{decimal_available}} feet, is it long enough?
+
+solution: |
+  # Convert mixed number to decimal
+  # Simply divide numerator by denominator
+  needed_length = whole + (numerator / denominator)
+  
+  if decimal_available >= needed_length:
+      Answer = f"{round(needed_length, 3)} feet | Yes, {decimal_available} feet is long enough"
+  else:
+      Answer = f"{round(needed_length, 3)} feet | No, {decimal_available} feet is too short"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3.5 feet | Yes, 3.55 feet is long enough"
+  - seed: 67890
+    expected:
+      answer: "2.25 feet | No, 2.15 feet is too short"

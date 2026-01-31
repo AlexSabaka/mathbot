@@ -1,0 +1,40 @@
+metadata:
+  id: k5_easy_decimals_fractions_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.conversion
+  family: decimals_fractions
+  difficulty: easy
+  steps: 1
+  culture: en-US
+  tags: [decimals, fractions, conversion]
+
+variables:
+  decimal_val:
+    type: string
+    choices: ["0.2", "0.4", "0.6", "0.8"]
+  Answer:
+    type: string
+
+template: |
+  Write {{decimal_val}} as a fraction in simplest form.
+
+solution: |
+  # Map decimal strings to simplified fractions
+  conversions = {
+      "0.2": "1/5",
+      "0.4": "2/5",
+      "0.6": "3/5",
+      "0.8": "4/5"
+  }
+  Answer = conversions[decimal_val]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/5"
+  - seed: 67890
+    expected:
+      answer: "2/5"

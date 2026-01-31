@@ -1,0 +1,42 @@
+metadata:
+  id: k5_medium_decimals_fractions_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: decimals.conversion
+  family: decimals_fractions
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, fractions, conversion]
+
+variables:
+  name:
+    type: person
+  fraction:
+    type: string
+    choices: ["1/8", "3/8", "5/8", "7/8"]
+  Answer:
+    type: string
+
+template: |
+  {{name}} completed {{fraction}} of their homework. Express this as a decimal.
+
+solution: |
+  # Map fractions to decimals
+  conversions = {
+      "1/8": "0.125",
+      "3/8": "0.375",
+      "5/8": "0.625",
+      "7/8": "0.875"
+  }
+  Answer = conversions[fraction]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "0.625"
+  - seed: 67890
+    expected:
+      answer: "0.375"

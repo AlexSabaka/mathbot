@@ -1,0 +1,53 @@
+metadata:
+  id: k5_hard_polygons_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [polygons, regular, perimeter, area]
+
+variables:
+  name:
+    type: person
+  
+  side:
+    type: integer
+    min: 6
+    max: 12
+  
+  shape:
+    type: string
+    choices: ["square", "hexagon"]
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} built a fence around a regular {{shape}} garden.
+  {% if shape == "square" %}
+  Each side is {{side}} meters long. What is the total length of fence needed?
+  {% else %}
+  Each of the 6 sides is {{side}} meters long. What is the total length of fence needed?
+  {% endif %}
+
+solution: |
+  if shape == "square":
+    perimeter = 4 * side
+  else:  # hexagon
+    perimeter = 6 * side
+  
+  Answer = perimeter
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "48"
+  
+  - seed: 66666
+    expected:
+      answer: "36"

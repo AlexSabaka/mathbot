@@ -1,0 +1,41 @@
+metadata:
+  id: k5_easy_polygons_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [polygons, shapes, identification]
+
+variables:
+  shape_name:
+    type: string
+    choices: ["triangle", "quadrilateral", "pentagon", "hexagon"]
+  
+  Answer:
+    type: integer
+
+template: |
+  How many sides does a {{shape_name}} have?
+
+solution: |
+  sides_dict = {
+    "triangle": 3,
+    "quadrilateral": 4,
+    "pentagon": 5,
+    "hexagon": 6
+  }
+  Answer = sides_dict[shape_name]
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "4"
+  
+  - seed: 22222
+    expected:
+      answer: "3"

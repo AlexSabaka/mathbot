@@ -1,0 +1,45 @@
+metadata:
+  id: k5_easy_polygons_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [polygons, shapes, identification]
+
+variables:
+  num_sides:
+    type: integer
+    min: 3
+    max: 8
+  
+  Answer:
+    type: string
+    choices: ["triangle", "quadrilateral", "pentagon", "hexagon", "heptagon", "octagon"]
+
+template: |
+  A polygon has {{num_sides}} sides. What is it called?
+
+solution: |
+  names = {
+    3: "triangle",
+    4: "quadrilateral",
+    5: "pentagon",
+    6: "hexagon",
+    7: "heptagon",
+    8: "octagon"
+  }
+  Answer = names[num_sides]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "hexagon"
+  
+  - seed: 67890
+    expected:
+      answer: "pentagon"

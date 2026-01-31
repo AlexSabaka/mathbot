@@ -1,0 +1,64 @@
+metadata:
+  id: k5_hard_polygons_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [polygons, perimeter, mixed sides]
+
+variables:
+  polygon_name:
+    type: string
+    choices: ["pentagon", "hexagon", "heptagon"]
+  
+  perimeter:
+    type: integer
+    min: 50
+    max: 70
+    step: 2
+  
+  num_known:
+    type: integer
+    min: 2
+    max: 3
+  
+  Answer:
+    type: integer
+
+template: |
+  {% set sides_dict = {"pentagon": 5, "hexagon": 6, "heptagon": 7} %}
+  {% set total_sides = sides_dict[polygon_name] %}
+  A {{polygon_name}} has a perimeter of {{perimeter}} cm.
+  {% if num_known == 2 %}
+  If 2 of its sides measure 8 cm and 10 cm, and the remaining sides are all equal, what is the length of each remaining side?
+  {% else %}
+  If 3 of its sides measure 7 cm, 9 cm, and 10 cm, and the remaining sides are all equal, what is the length of each remaining side?
+  {% endif %}
+
+solution: |
+  sides_dict = {"pentagon": 5, "hexagon": 6, "heptagon": 7}
+  total_sides = sides_dict[polygon_name]
+  
+  if num_known == 2:
+    known_sum = 8 + 10
+  else:
+    known_sum = 7 + 9 + 10
+  
+  remaining_sides = total_sides - num_known
+  remaining_length = perimeter - known_sum
+  
+  Answer = remaining_length // remaining_sides
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "11"
+  
+  - seed: 67890
+    expected:
+      answer: "10"

@@ -1,0 +1,54 @@
+metadata:
+  id: k5_medium_polygons_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [polygons, perimeter, equal sides]
+
+variables:
+  name:
+    type: person
+  
+  shape_name:
+    type: string
+    choices: ["pentagon", "hexagon", "octagon"]
+  
+  perimeter:
+    type: integer
+    min: 30
+    max: 80
+    step: 5
+  
+  Answer:
+    type: integer
+
+template: |
+  {{name}} drew a regular {{shape_name}} with a perimeter of {{perimeter}} cm.
+  What is the length of each side?
+
+solution: |
+  sides_dict = {
+    "pentagon": 5,
+    "hexagon": 6,
+    "octagon": 8
+  }
+  
+  num_sides = sides_dict[shape_name]
+  side_length = perimeter // num_sides
+  
+  Answer = side_length
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "10"
+  
+  - seed: 22222
+    expected:
+      answer: "8"

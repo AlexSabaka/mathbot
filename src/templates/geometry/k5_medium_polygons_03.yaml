@@ -1,0 +1,37 @@
+metadata:
+  id: k5_medium_polygons_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [polygons, angles, sum]
+
+variables:
+  num_sides:
+    type: integer
+    choices: [4, 5, 6]
+  
+  Answer:
+    type: integer
+
+template: |
+  What is the sum of all interior angles in a polygon with {{num_sides}} sides?
+
+solution: |
+  # Formula: sum of interior angles = (n - 2) × 180
+  angle_sum = (num_sides - 2) * 180
+  Answer = angle_sum
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "540"
+  
+  - seed: 44444
+    expected:
+      answer: "720"

@@ -1,0 +1,59 @@
+metadata:
+  id: k5_medium_polygons_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [polygons, regular, angles, sides]
+
+variables:
+  name:
+    type: person
+  
+  angle:
+    type: integer
+    choices: [60, 90, 108, 120]
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: string
+
+template: |
+  {{name}} drew a polygon where all sides are equal and all angles are equal.
+  If each interior angle measures {{angle}}°, how many sides does the polygon have, and what is it called?
+
+solution: |
+  # Formula: interior angle = (n-2) × 180 / n
+  # Solving: n × angle = (n-2) × 180
+  # n × angle = 180n - 360
+  # 360 = 180n - n × angle
+  # 360 = n(180 - angle)
+  # n = 360 / (180 - angle)
+  
+  num_sides = 360 // (180 - angle)
+  
+  names = {
+    3: "equilateral triangle",
+    4: "square",
+    5: "regular pentagon",
+    6: "regular hexagon"
+  }
+  
+  Answer1 = num_sides
+  Answer2 = names[num_sides]
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6 | regular hexagon"
+  
+  - seed: 67890
+    expected:
+      answer: "3 | equilateral triangle"

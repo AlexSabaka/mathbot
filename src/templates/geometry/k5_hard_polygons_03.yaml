@@ -1,0 +1,54 @@
+metadata:
+  id: k5_hard_polygons_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.polygons
+  family: polygons
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [polygons, diagonals, problem-solving]
+
+variables:
+  name:
+    type: person
+  
+  num_sides:
+    type: integer
+    choices: [5, 6, 7, 8]
+  
+  Answer1:
+    type: string
+  
+  Answer2:
+    type: integer
+
+template: |
+  {{name}} drew a polygon with {{num_sides}} sides.
+  What is the name of this polygon, and how many diagonals can be drawn from one vertex?
+
+solution: |
+  names = {
+    5: "pentagon",
+    6: "hexagon",
+    7: "heptagon",
+    8: "octagon"
+  }
+  
+  # Diagonals from one vertex = n - 3
+  # (Cannot connect to itself or two adjacent vertices)
+  diagonals = num_sides - 3
+  
+  Answer1 = names[num_sides]
+  Answer2 = diagonals
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "hexagon | 3"
+  
+  - seed: 88888
+    expected:
+      answer: "heptagon | 4"

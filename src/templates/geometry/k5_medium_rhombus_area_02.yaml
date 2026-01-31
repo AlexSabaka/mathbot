@@ -1,0 +1,48 @@
+metadata:
+  id: k5_medium_rhombus_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [rhombus, area, word problem]
+
+variables:
+  name:
+    type: person
+  
+  diagonal1:
+    type: integer
+    min: 14
+    max: 22
+  
+  diagonal2:
+    type: integer
+    min: 16
+    max: 24
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} is making a rhombus-shaped garden bed.
+  The diagonals will be {{diagonal1}} feet and {{diagonal2}} feet.
+  How much area will the garden bed cover?
+
+solution: |
+  area = (diagonal1 * diagonal2) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "270 square feet"
+  
+  - seed: 66666
+    expected:
+      answer: "240 square feet"

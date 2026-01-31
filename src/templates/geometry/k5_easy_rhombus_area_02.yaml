@@ -1,0 +1,47 @@
+metadata:
+  id: k5_easy_rhombus_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [rhombus, area, simple]
+
+variables:
+  name:
+    type: person
+  
+  diagonal1:
+    type: integer
+    min: 10
+    max: 18
+  
+  diagonal2:
+    type: integer
+    min: 12
+    max: 20
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} drew a rhombus with diagonals measuring {{diagonal1}} inches and {{diagonal2}} inches.
+  What is the area?
+
+solution: |
+  area = (diagonal1 * diagonal2) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "152 square inches"
+  
+  - seed: 22222
+    expected:
+      answer: "104 square inches"

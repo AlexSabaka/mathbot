@@ -1,0 +1,51 @@
+metadata:
+  id: k5_medium_rhombus_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [rhombus, area, inverse]
+
+variables:
+  object:
+    type: string
+    choices: ["kite", "sign", "decoration", "tile"]
+  
+  area:
+    type: integer
+    min: 60
+    max: 120
+    step: 6
+  
+  diagonal1:
+    type: integer
+    min: 10
+    max: 16
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A rhombus-shaped {{object}} has an area of {{area}} square inches.
+  If one diagonal is {{diagonal1}} inches, what is the length of the other diagonal?
+
+solution: |
+  # Area = (diagonal1 × diagonal2) / 2
+  # diagonal2 = (2 × area) / diagonal1
+  diagonal2 = (2 * area) // diagonal1
+  Answer = diagonal2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "13 inches"
+  
+  - seed: 67890
+    expected:
+      answer: "12 inches"

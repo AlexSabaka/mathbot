@@ -1,0 +1,46 @@
+metadata:
+  id: k5_medium_rhombus_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [rhombus, area, inverse]
+
+variables:
+  area:
+    type: integer
+    min: 80
+    max: 160
+    step: 8
+  
+  diagonal2:
+    type: integer
+    min: 12
+    max: 20
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A rhombus has an area of {{area}} square cm.
+  If one diagonal is {{diagonal2}} cm, find the other diagonal.
+
+solution: |
+  # diagonal1 = (2 × area) / diagonal2
+  diagonal1 = (2 * area) // diagonal2
+  Answer = diagonal1
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "11 cm"
+  
+  - seed: 88888
+    expected:
+      answer: "13 cm"

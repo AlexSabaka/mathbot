@@ -1,0 +1,53 @@
+metadata:
+  id: k5_hard_rhombus_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [rhombus, area, cost]
+
+variables:
+  name:
+    type: person
+  
+  diagonal1:
+    type: integer
+    min: 18
+    max: 26
+  
+  diagonal2:
+    type: integer
+    min: 16
+    max: 24
+  
+  price:
+    type: integer
+    min: 4
+    max: 7
+  
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} wants to cover a rhombus-shaped patio with diagonals of {{diagonal1}} feet and {{diagonal2}} feet.
+  Tiles cost ${{price}} per square foot. What is the total cost?
+
+solution: |
+  area = (diagonal1 * diagonal2) / 2
+  total_cost = area * price
+  Answer = round(total_cost, 2)
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "$1248.00"
+  
+  - seed: 55667
+    expected:
+      answer: "$1092.00"

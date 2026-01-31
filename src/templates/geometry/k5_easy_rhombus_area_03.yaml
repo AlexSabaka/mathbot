@@ -1,0 +1,44 @@
+metadata:
+  id: k5_easy_rhombus_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [rhombus, area, basic]
+
+variables:
+  diagonal1:
+    type: integer
+    min: 6
+    max: 14
+  
+  diagonal2:
+    type: integer
+    min: 8
+    max: 16
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A rhombus has diagonals of {{diagonal1}} meters and {{diagonal2}} meters.
+  Calculate its area.
+
+solution: |
+  area = (diagonal1 * diagonal2) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "50 square meters"
+  
+  - seed: 44444
+    expected:
+      answer: "55 square meters"

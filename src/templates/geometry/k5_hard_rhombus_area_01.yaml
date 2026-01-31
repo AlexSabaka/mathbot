@@ -1,0 +1,59 @@
+metadata:
+  id: k5_hard_rhombus_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [rhombus, area, perimeter, combined]
+
+variables:
+  diagonal1:
+    type: integer
+    min: 14
+    max: 20
+  
+  diagonal2:
+    type: integer
+    min: 10
+    max: 16
+  
+  side:
+    type: integer
+    min: 9
+    max: 12
+  
+  Answer1:
+    type: integer
+    format: area
+  
+  Answer2:
+    type: integer
+    format: length
+
+template: |
+  A rhombus has diagonals of {{diagonal1}} cm and {{diagonal2}} cm.
+  Each side is {{side}} cm long. Find both the area and the perimeter of the rhombus.
+
+solution: |
+  # Area = (diagonal1 × diagonal2) / 2
+  area = (diagonal1 * diagonal2) / 2
+  
+  # Perimeter = 4 × side (all sides equal in rhombus)
+  perimeter = 4 * side
+  
+  Answer1 = int(area)
+  Answer2 = perimeter
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "96 square cm | 44 cm"
+  
+  - seed: 67890
+    expected:
+      answer: "80 square cm | 40 cm"

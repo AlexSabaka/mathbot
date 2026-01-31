@@ -1,0 +1,63 @@
+metadata:
+  id: k5_hard_rhombus_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rhombus
+  family: rhombus_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [rhombus, area, comparison]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  d1a:
+    type: integer
+    min: 14
+    max: 20
+  
+  d1b:
+    type: integer
+    min: 12
+    max: 18
+  
+  d2a:
+    type: integer
+    min: 12
+    max: 18
+  
+  d2b:
+    type: integer
+    min: 10
+    max: 16
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name1}} has a rhombus kite with diagonals {{d1a}} inches and {{d1b}} inches.
+  {{name2}} has a rhombus kite with diagonals {{d2a}} inches and {{d2b}} inches.
+  How much larger is the bigger kite?
+
+solution: |
+  area1 = (d1a * d1b) / 2
+  area2 = (d2a * d2b) / 2
+  difference = int(abs(area1 - area2))
+  Answer = difference
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "21 square inches"
+  
+  - seed: 11223
+    expected:
+      answer: "28 square inches"

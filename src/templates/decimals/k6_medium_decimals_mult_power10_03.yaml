@@ -1,0 +1,39 @@
+metadata:
+  id: k6_medium_decimals_mult_power10_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.powers_of_10
+  family: decimals_mult_power10
+  difficulty: medium
+  steps: 2
+  culture: en-US
+  tags: [decimals, powers_of_10, multiplication]
+
+variables:
+  decimal_val:
+    type: decimal
+    min: 0.01
+    max: 1.0
+    step: 0.01
+  power:
+    type: string
+    choices: ["100", "1000"]
+  Answer:
+    type: decimal
+
+template: |
+  Find the product of {{decimal_val}} and {{power}}.
+
+solution: |
+  power_val = int(power)
+  Answer = round(decimal_val * power_val, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "19.00"
+  - seed: 67890
+    expected:
+      answer: "376.00"

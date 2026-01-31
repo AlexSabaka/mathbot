@@ -1,0 +1,41 @@
+metadata:
+  id: k6_hard_decimals_mult_power10_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: decimals.powers_of_10
+  family: decimals_mult_power10
+  difficulty: hard
+  steps: 2
+  culture: en-US
+  tags: [decimals, powers_of_10, multiplication, context]
+
+variables:
+  name:
+    type: person
+  decimal_val:
+    type: decimal
+    min: 0.01
+    max: 1.0
+    step: 0.01
+  power:
+    type: string
+    choices: ["100", "1000", "10000"]
+  Answer:
+    type: decimal
+
+template: |
+  A factory produces {{decimal_val}} kilograms of product per second. How many kilograms are produced in {{power}} seconds?
+
+solution: |
+  power_val = int(power)
+  Answer = round(decimal_val * power_val, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1909.00"
+  - seed: 67890
+    expected:
+      answer: "37576.00"

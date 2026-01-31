@@ -1,0 +1,74 @@
+metadata:
+  id: k5_hard_rectangle_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [rectangle, area, subtraction, cost]
+
+variables:
+  area_type:
+    type: string
+    choices: ["garden", "lawn", "field"]
+  
+  length:
+    type: integer
+    min: 18
+    max: 24
+  
+  width:
+    type: integer
+    min: 12
+    max: 18
+  
+  feature_length:
+    type: integer
+    min: 3
+    max: 5
+  
+  feature_width:
+    type: integer
+    min: 2
+    max: 4
+  
+  price:
+    type: integer
+    min: 2
+    max: 4
+  
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  A rectangular {{area_type}} is {{length}} meters by {{width}} meters.
+  A pond measuring {{feature_length}} meters by {{feature_width}} meters is in the center.
+  If grass seed costs ${{price}} per square meter, how much will it cost to cover the {{area_type}} excluding the pond?
+
+solution: |
+  # Calculate total area
+  total_area = length * width
+  
+  # Calculate pond area
+  pond_area = feature_length * feature_width
+  
+  # Calculate grass area
+  grass_area = total_area - pond_area
+  
+  # Calculate cost
+  total_cost = grass_area * price
+  Answer = float(total_cost)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$712.00"
+  
+  - seed: 67890
+    expected:
+      answer: "$456.00"

@@ -1,0 +1,51 @@
+metadata:
+  id: k5_easy_rectangle_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [rectangle, area, real-world]
+
+variables:
+  name:
+    type: person
+  
+  object:
+    type: string
+    choices: ["poster", "table", "rug", "picture"]
+  
+  length:
+    type: integer
+    min: 15
+    max: 25
+  
+  width:
+    type: integer
+    min: 8
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} has a rectangular {{object}} that is {{length}} inches long and {{width}} inches wide.
+  What is the area?
+
+solution: |
+  area = length * width
+  Answer = area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "240 square inches"
+  
+  - seed: 44444
+    expected:
+      answer: "238 square inches"

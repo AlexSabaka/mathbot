@@ -1,0 +1,63 @@
+metadata:
+  id: k5_hard_rectangle_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [rectangle, area, comparison]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  length1:
+    type: integer
+    min: 18
+    max: 25
+  
+  width1:
+    type: integer
+    min: 12
+    max: 16
+  
+  length2:
+    type: integer
+    min: 15
+    max: 22
+  
+  width2:
+    type: integer
+    min: 10
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name1}} has a rectangular garden measuring {{length1}} meters by {{width1}} meters.
+  {{name2}} has a rectangular garden measuring {{length2}} meters by {{width2}} meters.
+  How much larger is the bigger garden?
+
+solution: |
+  area1 = length1 * width1
+  area2 = length2 * width2
+  difference = abs(area1 - area2)
+  Answer = difference
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "82 square meters"
+  
+  - seed: 55667
+    expected:
+      answer: "99 square meters"

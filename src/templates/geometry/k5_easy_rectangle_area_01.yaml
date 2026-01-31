@@ -1,0 +1,44 @@
+metadata:
+  id: k5_easy_rectangle_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [rectangle, area, basic]
+
+variables:
+  length:
+    type: integer
+    min: 10
+    max: 18
+  
+  width:
+    type: integer
+    min: 6
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a rectangle with length {{length}} cm and width {{width}} cm.
+
+solution: |
+  # Area = length × width
+  area = length * width
+  Answer = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "182 square cm"
+  
+  - seed: 67890
+    expected:
+      answer: "120 square cm"

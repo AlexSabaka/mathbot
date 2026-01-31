@@ -1,0 +1,47 @@
+metadata:
+  id: k5_medium_rectangle_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [rectangle, perimeter, inverse]
+
+variables:
+  perimeter:
+    type: integer
+    min: 50
+    max: 80
+    step: 2
+  
+  length:
+    type: integer
+    min: 18
+    max: 25
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A rectangle has a perimeter of {{perimeter}} cm and a length of {{length}} cm.
+  What is the width?
+
+solution: |
+  # Perimeter = 2 × (length + width)
+  # width = (perimeter / 2) - length
+  width = (perimeter // 2) - length
+  Answer = width
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "11 cm"
+  
+  - seed: 88888
+    expected:
+      answer: "10 cm"

@@ -1,0 +1,44 @@
+metadata:
+  id: k5_easy_rectangle_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [rectangle, perimeter, basic]
+
+variables:
+  length:
+    type: integer
+    min: 12
+    max: 20
+  
+  width:
+    type: integer
+    min: 8
+    max: 15
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  What is the perimeter of a rectangle with length {{length}} meters and width {{width}} meters?
+
+solution: |
+  # Perimeter = 2 × (length + width)
+  perimeter = 2 * (length + width)
+  Answer = perimeter
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "58 meters"
+  
+  - seed: 22222
+    expected:
+      answer: "46 meters"

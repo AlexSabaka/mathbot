@@ -1,0 +1,67 @@
+metadata:
+  id: k5_hard_rectangle_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [rectangle, area, perimeter, cost]
+
+variables:
+  name:
+    type: person
+  
+  length:
+    type: integer
+    min: 20
+    max: 30
+  
+  width:
+    type: integer
+    min: 12
+    max: 18
+  
+  fence_price:
+    type: integer
+    min: 8
+    max: 12
+  
+  grass_price:
+    type: integer
+    min: 2
+    max: 5
+  
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} has a rectangular yard that is {{length}} feet by {{width}} feet.
+  Fencing costs ${{fence_price}} per foot and grass seed costs ${{grass_price}} per square foot.
+  What is the total cost to fence and seed the entire yard?
+
+solution: |
+  # Calculate perimeter for fencing
+  perimeter = 2 * (length + width)
+  fence_cost = perimeter * fence_price
+  
+  # Calculate area for grass
+  area = length * width
+  grass_cost = area * grass_price
+  
+  # Total cost
+  total_cost = fence_cost + grass_cost
+  Answer = float(total_cost)
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "$2016.00"
+  
+  - seed: 11223
+    expected:
+      answer: "$1640.00"

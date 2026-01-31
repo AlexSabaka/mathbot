@@ -1,0 +1,54 @@
+metadata:
+  id: k5_medium_rectangle_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [rectangle, area, perimeter, combined]
+
+variables:
+  name:
+    type: person
+  
+  length:
+    type: integer
+    min: 18
+    max: 28
+  
+  width:
+    type: integer
+    min: 10
+    max: 16
+  
+  Answer1:
+    type: integer
+    format: area
+  
+  Answer2:
+    type: integer
+    format: length
+
+template: |
+  {{name}} is building a rectangular fence that is {{length}} feet long and {{width}} feet wide.
+  Calculate both the area inside the fence and the total length of fencing needed.
+
+solution: |
+  area = length * width
+  perimeter = 2 * (length + width)
+  
+  Answer1 = area
+  Answer2 = perimeter
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "270 square feet | 66 feet"
+  
+  - seed: 66666
+    expected:
+      answer: "280 square feet | 68 feet"

@@ -1,0 +1,59 @@
+metadata:
+  id: k5_medium_rectangle_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.rectangles
+  family: rectangle_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [rectangle, area, perimeter, inverse]
+
+variables:
+  room_type:
+    type: string
+    choices: ["bedroom", "living room", "classroom", "office"]
+  
+  area:
+    type: integer
+    min: 120
+    max: 200
+    step: 10
+  
+  length:
+    type: integer
+    min: 12
+    max: 20
+  
+  Answer1:
+    type: integer
+    format: length
+  
+  Answer2:
+    type: integer
+    format: length
+
+template: |
+  A rectangular {{room_type}} has an area of {{area}} square feet and a length of {{length}} feet.
+  What is the width and perimeter?
+
+solution: |
+  # Area = length × width, so width = area / length
+  width = area // length
+  
+  # Perimeter = 2 × (length + width)
+  perimeter = 2 * (length + width)
+  
+  Answer1 = width
+  Answer2 = perimeter
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "10 feet | 56 feet"
+  
+  - seed: 67890
+    expected:
+      answer: "10 feet | 48 feet"

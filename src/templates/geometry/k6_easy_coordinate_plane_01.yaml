@@ -1,0 +1,59 @@
+metadata:
+  id: k6_easy_coordinate_plane_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [coordinates, quadrants, plotting]
+
+variables:
+  x_coord:
+    type: integer
+    min: -10
+    max: 10
+  
+  y_coord:
+    type: integer
+    min: -10
+    max: 10
+  
+  Answer:
+    type: string
+
+template: |
+  Plot the point ({{x_coord}}, {{y_coord}}) on a coordinate plane.
+  
+  In which quadrant is the point located?
+
+solution: |
+  # Determine quadrant based on coordinates
+  # Ensure both coordinates are non-zero for clear quadrant
+  if x_coord == 0 or y_coord == 0:
+      if x_coord == 0 and y_coord == 0:
+          Answer = "origin"
+      elif x_coord == 0:
+          Answer = "y-axis"
+      else:
+          Answer = "x-axis"
+  elif x_coord > 0 and y_coord > 0:
+      Answer = "Quadrant I"
+  elif x_coord < 0 and y_coord > 0:
+      Answer = "Quadrant II"
+  elif x_coord < 0 and y_coord < 0:
+      Answer = "Quadrant III"
+  else:  # x_coord > 0 and y_coord < 0
+      Answer = "Quadrant IV"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Quadrant I"
+  
+  - seed: 67890
+    expected:
+      answer: "Quadrant III"

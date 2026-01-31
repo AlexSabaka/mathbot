@@ -1,0 +1,60 @@
+metadata:
+  id: k6_easy_coordinate_plane_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: easy
+  culture: en-US
+  steps: 2
+  tags: [coordinates, quadrants, ordered pairs]
+
+variables:
+  name:
+    type: person
+  
+  x1:
+    type: integer
+    min: -8
+    max: 8
+  
+  y1:
+    type: integer
+    min: -8
+    max: 8
+  
+  Answer:
+    type: string
+
+template: |
+  {{name}} is learning about the coordinate plane.
+  
+  If a point is at ({{x1}}, {{y1}}), in which quadrant is it located?
+
+solution: |
+  if x1 == 0 or y1 == 0:
+      if x1 == 0 and y1 == 0:
+          Answer = "origin"
+      elif x1 == 0:
+          Answer = "y-axis"
+      else:
+          Answer = "x-axis"
+  elif x1 > 0 and y1 > 0:
+      Answer = "Quadrant I"
+  elif x1 < 0 and y1 > 0:
+      Answer = "Quadrant II"
+  elif x1 < 0 and y1 < 0:
+      Answer = "Quadrant III"
+  else:
+      Answer = "Quadrant IV"
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "Quadrant I"
+  
+  - seed: 44444
+    expected:
+      answer: "Quadrant II"

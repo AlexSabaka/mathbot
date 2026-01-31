@@ -1,0 +1,63 @@
+metadata:
+  id: k6_hard_coordinate_plane_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [coordinates, rectangle, dimensions, area]
+
+variables:
+  name:
+    type: person
+  
+  x_corner:
+    type: integer
+    min: -5
+    max: 0
+  
+  y_corner:
+    type: integer
+    min: -5
+    max: 0
+  
+  rect_width:
+    type: integer
+    min: 5
+    max: 9
+  
+  rect_height:
+    type: integer
+    min: 4
+    max: 8
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+    format: area
+
+template: |
+  {{name}} draws a rectangle on a coordinate plane. The bottom-left corner is at ({{x_corner}}, {{y_corner}}) and the top-right corner is at ({{x_corner + rect_width}}, {{y_corner + rect_height}}).
+  
+  Find the perimeter and area of {{name}}'s rectangle.
+
+solution: |
+  perimeter = 2 * (rect_width + rect_height)
+  area = rect_width * rect_height
+  Answer1 = perimeter
+  Answer2 = area
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "26 | 42 square units"
+  
+  - seed: 44444
+    expected:
+      answer: "24 | 36 square units"

@@ -1,0 +1,58 @@
+metadata:
+  id: k6_medium_coordinate_plane_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [coordinates, translation, movement]
+
+variables:
+  name:
+    type: person
+  
+  x_start:
+    type: integer
+    min: -5
+    max: 5
+  
+  y_start:
+    type: integer
+    min: -5
+    max: 5
+  
+  move_right:
+    type: integer
+    min: 2
+    max: 8
+  
+  move_up:
+    type: integer
+    min: 2
+    max: 8
+  
+  Answer:
+    type: string
+
+template: |
+  Point A is at ({{x_start}}, {{y_start}}). Point B is {{move_right}} units to the right and {{move_up}} units up from Point A.
+  
+  What are the coordinates of Point B?
+
+solution: |
+  new_x = x_start + move_right
+  new_y = y_start + move_up
+  Answer = f"({new_x}, {new_y})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "(8, 10)"
+  
+  - seed: 67890
+    expected:
+      answer: "(5, 10)"

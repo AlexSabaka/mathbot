@@ -1,0 +1,60 @@
+metadata:
+  id: k6_hard_coordinate_plane_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [coordinates, rectangle, area, perimeter]
+
+variables:
+  x1:
+    type: integer
+    min: -6
+    max: -2
+  
+  y1:
+    type: integer
+    min: -6
+    max: -2
+  
+  width:
+    type: integer
+    min: 4
+    max: 8
+  
+  height:
+    type: integer
+    min: 3
+    max: 7
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+    format: area
+
+template: |
+  A rectangle has vertices at ({{x1}}, {{y1}}), ({{x1 + width}}, {{y1}}), ({{x1 + width}}, {{y1 + height}}), and ({{x1}}, {{y1 + height}}).
+  
+  What is the perimeter and area of the rectangle?
+
+solution: |
+  perimeter = 2 * (width + height)
+  area = width * height
+  Answer1 = perimeter
+  Answer2 = area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "22 | 30 square units"
+  
+  - seed: 67890
+    expected:
+      answer: "18 | 20 square units"

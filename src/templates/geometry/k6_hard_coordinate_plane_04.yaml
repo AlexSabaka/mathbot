@@ -1,0 +1,49 @@
+metadata:
+  id: k6_hard_coordinate_plane_04
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [coordinates, shapes, identification]
+
+variables:
+  x1:
+    type: integer
+    min: 0
+    max: 2
+  
+  y1:
+    type: integer
+    min: 0
+    max: 2
+  
+  side:
+    type: integer
+    min: 3
+    max: 5
+  
+  Answer:
+    type: string
+
+template: |
+  Plot these points and identify the shape they form: ({{x1}}, {{y1}}), ({{x1 + side}}, {{y1}}), ({{x1 + side}}, {{y1 + side}}), ({{x1}}, {{y1 + side}}).
+  
+  What shape is formed by connecting these points?
+
+solution: |
+  # These points form a square since all sides are equal
+  Answer = "square"
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "square"
+  
+  - seed: 66666
+    expected:
+      answer: "square"

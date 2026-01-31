@@ -1,0 +1,61 @@
+metadata:
+  id: k6_easy_coordinate_plane_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [coordinates, quadrants, negative numbers]
+
+variables:
+  name:
+    type: person
+  
+  x_coord:
+    type: integer
+    min: -9
+    max: 9
+  
+  y_coord:
+    type: integer
+    min: -9
+    max: 9
+  
+  Answer:
+    type: string
+
+template: |
+  {{name}} plots a point at ({{x_coord}}, {{y_coord}}).
+  
+  What quadrant is this point in?
+
+solution: |
+  # Determine quadrant
+  if x_coord == 0 or y_coord == 0:
+      if x_coord == 0 and y_coord == 0:
+          Answer = "origin"
+      elif x_coord == 0:
+          Answer = "y-axis"
+      else:
+          Answer = "x-axis"
+  elif x_coord > 0 and y_coord > 0:
+      Answer = "Quadrant I"
+  elif x_coord < 0 and y_coord > 0:
+      Answer = "Quadrant II"
+  elif x_coord < 0 and y_coord < 0:
+      Answer = "Quadrant III"
+  else:
+      Answer = "Quadrant IV"
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "Quadrant II"
+  
+  - seed: 22222
+    expected:
+      answer: "Quadrant IV"

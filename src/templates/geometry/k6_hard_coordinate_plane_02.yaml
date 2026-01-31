@@ -1,0 +1,55 @@
+metadata:
+  id: k6_hard_coordinate_plane_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.coordinate_plane
+  family: coordinate_plane
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [coordinates, shapes, distance, perimeter]
+
+variables:
+  x_start:
+    type: integer
+    min: 1
+    max: 4
+  
+  y_start:
+    type: integer
+    min: 1
+    max: 4
+  
+  side_length:
+    type: integer
+    min: 3
+    max: 6
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: integer
+    format: area
+
+template: |
+  A square has one vertex at ({{x_start}}, {{y_start}}) and another vertex at ({{x_start + side_length}}, {{y_start}}).
+  
+  If the square extends upward from these points, what is the perimeter and area of the square?
+
+solution: |
+  perimeter = 4 * side_length
+  area = side_length * side_length
+  Answer1 = perimeter
+  Answer2 = area
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "16 | 16 square units"
+  
+  - seed: 22222
+    expected:
+      answer: "20 | 25 square units"

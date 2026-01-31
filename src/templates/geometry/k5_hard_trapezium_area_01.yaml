@@ -1,0 +1,81 @@
+metadata:
+  id: k5_hard_trapezium_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [trapezium, trapezoid, area, perimeter, cost]
+
+variables:
+  area_type:
+    type: string
+    choices: ["field", "garden", "yard"]
+  
+  base1:
+    type: integer
+    min: 25
+    max: 35
+  
+  base2:
+    type: integer
+    min: 45
+    max: 55
+  
+  height:
+    type: integer
+    min: 20
+    max: 28
+  
+  side1:
+    type: integer
+    min: 22
+    max: 28
+  
+  side2:
+    type: integer
+    min: 24
+    max: 30
+  
+  price:
+    type: integer
+    min: 12
+    max: 18
+  
+  Answer1:
+    type: integer
+    format: area
+  
+  Answer2:
+    type: decimal
+    format: money
+
+template: |
+  A {{area_type}} is shaped like a trapezium with parallel sides {{base1}} m and {{base2}} m, height {{height}} m, and non-parallel sides {{side1}} m and {{side2}} m.
+  Calculate both the area and the total fencing cost if fencing costs ${{price}} per meter.
+
+solution: |
+  # Calculate area
+  area = ((base1 + base2) * height) / 2
+  
+  # Calculate perimeter
+  perimeter = base1 + base2 + side1 + side2
+  
+  # Calculate fencing cost
+  fence_cost = perimeter * price
+  
+  Answer1 = int(area)
+  Answer2 = float(fence_cost)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "900 square m | $2088.00"
+  
+  - seed: 67890
+    expected:
+      answer: "816 square m | $1840.00"

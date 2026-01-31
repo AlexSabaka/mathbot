@@ -1,0 +1,49 @@
+metadata:
+  id: k5_easy_trapezium_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [trapezium, trapezoid, area, basic]
+
+variables:
+  base1:
+    type: integer
+    min: 6
+    max: 12
+  
+  base2:
+    type: integer
+    min: 10
+    max: 16
+  
+  height:
+    type: integer
+    min: 4
+    max: 8
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of a trapezium with parallel sides {{base1}} cm and {{base2}} cm, and height {{height}} cm.
+
+solution: |
+  # Area = ((base1 + base2) × height) / 2
+  area = ((base1 + base2) * height) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "56 square cm"
+  
+  - seed: 67890
+    expected:
+      answer: "48 square cm"

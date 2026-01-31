@@ -1,0 +1,57 @@
+metadata:
+  id: k5_medium_trapezium_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [trapezium, trapezoid, area, word problem]
+
+variables:
+  name:
+    type: person
+  
+  object:
+    type: string
+    choices: ["garden bed", "patio", "field section"]
+  
+  base1:
+    type: integer
+    min: 15
+    max: 22
+  
+  base2:
+    type: integer
+    min: 24
+    max: 32
+  
+  height:
+    type: integer
+    min: 12
+    max: 18
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} is building a trapezoidal {{object}}.
+  The parallel sides are {{base1}} feet and {{base2}} feet, with a height of {{height}} feet.
+  How much area will it cover?
+
+solution: |
+  area = ((base1 + base2) * height) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "360 square feet"
+  
+  - seed: 66666
+    expected:
+      answer: "320 square feet"

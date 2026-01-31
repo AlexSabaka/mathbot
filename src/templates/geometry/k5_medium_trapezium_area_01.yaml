@@ -1,0 +1,56 @@
+metadata:
+  id: k5_medium_trapezium_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [trapezium, trapezoid, area, inverse]
+
+variables:
+  object:
+    type: string
+    choices: ["table top", "window", "sign", "deck"]
+  
+  base1:
+    type: integer
+    min: 50
+    max: 70
+  
+  base2:
+    type: integer
+    min: 80
+    max: 100
+  
+  area:
+    type: integer
+    min: 3000
+    max: 5000
+    step: 100
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A trapezoidal {{object}} has parallel sides of {{base1}} cm and {{base2}} cm.
+  If the area is {{area}} square cm, what is the height?
+
+solution: |
+  # Area = ((base1 + base2) × height) / 2
+  # height = (2 × area) / (base1 + base2)
+  height = (2 * area) // (base1 + base2)
+  Answer = height
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "51 cm"
+  
+  - seed: 67890
+    expected:
+      answer: "48 cm"

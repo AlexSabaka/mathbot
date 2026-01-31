@@ -1,0 +1,52 @@
+metadata:
+  id: k5_easy_trapezium_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [trapezium, trapezoid, area, simple]
+
+variables:
+  name:
+    type: person
+  
+  base1:
+    type: integer
+    min: 8
+    max: 14
+  
+  base2:
+    type: integer
+    min: 12
+    max: 18
+  
+  height:
+    type: integer
+    min: 5
+    max: 10
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} drew a trapezoid with parallel sides of {{base1}} inches and {{base2}} inches, and a height of {{height}} inches.
+  What is the area?
+
+solution: |
+  area = ((base1 + base2) * height) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "152 square inches"
+  
+  - seed: 22222
+    expected:
+      answer: "104 square inches"

@@ -1,0 +1,52 @@
+metadata:
+  id: k5_medium_trapezium_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [trapezium, trapezoid, area, inverse]
+
+variables:
+  area:
+    type: integer
+    min: 150
+    max: 300
+    step: 10
+  
+  height:
+    type: integer
+    min: 10
+    max: 15
+  
+  base1:
+    type: integer
+    min: 12
+    max: 18
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A trapezoid has an area of {{area}} square meters, a height of {{height}} meters, and one parallel side of {{base1}} meters.
+  What is the length of the other parallel side?
+
+solution: |
+  # Area = ((base1 + base2) × height) / 2
+  # base2 = (2 × area / height) - base1
+  base2 = (2 * area // height) - base1
+  Answer = base2
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "21 meters"
+  
+  - seed: 88888
+    expected:
+      answer: "26 meters"

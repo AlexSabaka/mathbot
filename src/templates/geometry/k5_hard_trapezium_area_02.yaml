@@ -1,0 +1,73 @@
+metadata:
+  id: k5_hard_trapezium_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [trapezium, trapezoid, area, comparison]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  b1a:
+    type: integer
+    min: 18
+    max: 24
+  
+  b2a:
+    type: integer
+    min: 28
+    max: 36
+  
+  ha:
+    type: integer
+    min: 12
+    max: 18
+  
+  b1b:
+    type: integer
+    min: 16
+    max: 22
+  
+  b2b:
+    type: integer
+    min: 26
+    max: 34
+  
+  hb:
+    type: integer
+    min: 10
+    max: 16
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name1}} has a trapezoidal garden with parallel sides {{b1a}} feet and {{b2a}} feet, and height {{ha}} feet.
+  {{name2}} has a trapezoidal garden with parallel sides {{b1b}} feet and {{b2b}} feet, and height {{hb}} feet.
+  What is the difference in their areas?
+
+solution: |
+  area1 = ((b1a + b2a) * ha) / 2
+  area2 = ((b1b + b2b) * hb) / 2
+  difference = int(abs(area1 - area2))
+  Answer = difference
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "84 square feet"
+  
+  - seed: 11223
+    expected:
+      answer: "95 square feet"

@@ -1,0 +1,49 @@
+metadata:
+  id: k5_easy_trapezium_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [trapezium, trapezoid, area, basic]
+
+variables:
+  base1:
+    type: integer
+    min: 10
+    max: 16
+  
+  base2:
+    type: integer
+    min: 14
+    max: 20
+  
+  height:
+    type: integer
+    min: 6
+    max: 10
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A trapezoid has parallel sides {{base1}} meters and {{base2}} meters, with a height of {{height}} meters.
+  Calculate its area.
+
+solution: |
+  area = ((base1 + base2) * height) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "100 square meters"
+  
+  - seed: 44444
+    expected:
+      answer: "110 square meters"

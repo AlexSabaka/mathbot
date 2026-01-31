@@ -1,0 +1,58 @@
+metadata:
+  id: k5_hard_trapezium_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.trapezium
+  family: trapezium_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [trapezium, trapezoid, area, cost]
+
+variables:
+  name:
+    type: person
+  
+  base1:
+    type: integer
+    min: 20
+    max: 28
+  
+  base2:
+    type: integer
+    min: 32
+    max: 42
+  
+  height:
+    type: integer
+    min: 16
+    max: 24
+  
+  price:
+    type: integer
+    min: 5
+    max: 8
+  
+  Answer:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} wants to install flooring on a trapezoidal room with parallel sides {{base1}} feet and {{base2}} feet, and height {{height}} feet.
+  Flooring costs ${{price}} per square foot. What is the total cost?
+
+solution: |
+  area = ((base1 + base2) * height) / 2
+  total_cost = area * price
+  Answer = round(total_cost, 2)
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "$3264.00"
+  
+  - seed: 55667
+    expected:
+      answer: "$2964.00"

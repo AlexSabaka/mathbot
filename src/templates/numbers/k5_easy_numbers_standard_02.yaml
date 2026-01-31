@@ -1,0 +1,42 @@
+metadata:
+  id: k5_easy_numbers_standard_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: arithmetic.numbers
+  family: numbers_standard
+  difficulty: easy
+  steps: 1
+  tags: [numbers, standard_form, word_form]
+
+variables:
+  thousands:
+    type: integer
+    min: 20
+    max: 90
+    step: 10
+  hundreds:
+    type: integer
+    min: 1
+    max: 9
+  tens_ones:
+    type: integer
+    min: 10
+    max: 99
+  Answer:
+    type: integer
+
+template: |
+  Write the number "{{thousands|number_to_words}} thousand, {{hundreds|number_to_words}} hundred {{tens_ones|number_to_words}}" in standard form.
+
+solution: |
+  Answer = thousands * 1000 + hundreds * 100 + tens_ones
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "70155"
+  - seed: 22222
+    expected:
+      answer: "60572"

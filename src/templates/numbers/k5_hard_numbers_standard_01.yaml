@@ -1,0 +1,47 @@
+metadata:
+  id: k5_hard_numbers_standard_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: arithmetic.numbers
+  family: numbers_standard
+  difficulty: hard
+  steps: 3
+  tags: [numbers, standard_form, word_form, addition, real-world]
+
+variables:
+  millions1:
+    type: integer
+    min: 1
+    max: 9
+  remainder1:
+    type: integer
+    min: 100000
+    max: 999999
+  millions2:
+    type: integer
+    min: 1
+    max: 9
+  remainder2:
+    type: integer
+    min: 100000
+    max: 999999
+  Answer:
+    type: integer
+
+template: |
+  A city has a population of "{{(millions1 * 1000000 + remainder1)|number_to_words}}." The neighboring city has "{{(millions2 * 1000000 + remainder2)|number_to_words}}" people. Write both numbers in standard form and find the total population.
+
+solution: |
+  city1 = millions1 * 1000000 + remainder1
+  city2 = millions2 * 1000000 + remainder2
+  Answer = city1 + city2
+
+tests:
+  - seed: 12121
+    expected:
+      answer: "11716842"
+  - seed: 23232
+    expected:
+      answer: "13119683"

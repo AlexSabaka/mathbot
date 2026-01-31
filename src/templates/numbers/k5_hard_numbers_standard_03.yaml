@@ -1,0 +1,53 @@
+metadata:
+  id: k5_hard_numbers_standard_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: arithmetic.numbers
+  family: numbers_standard
+  difficulty: hard
+  steps: 3
+  tags: [numbers, standard_form, word_form, addition, real-world]
+
+variables:
+  region1:
+    type: string
+    choices: ["state", "country", "region", "province"]
+  region2:
+    type: string
+    choices: ["state", "country", "region", "province"]
+  millions1:
+    type: integer
+    min: 1
+    max: 9
+  thousands1:
+    type: integer
+    min: 100000
+    max: 999999
+  millions2:
+    type: integer
+    min: 1
+    max: 9
+  thousands2:
+    type: integer
+    min: 100000
+    max: 999999
+  Answer:
+    type: integer
+
+template: |
+  One {{region1}} has a population of "{{(millions1 * 1000000 + thousands1)|number_to_words}}." Another {{region2}} has "{{(millions2 * 1000000 + thousands2)|number_to_words}}" people. Write both numbers in standard form and find the total population.
+
+solution: |
+  pop1 = millions1 * 1000000 + thousands1
+  pop2 = millions2 * 1000000 + thousands2
+  Answer = pop1 + pop2
+
+tests:
+  - seed: 56565
+    expected:
+      answer: "12140345"
+  - seed: 67676
+    expected:
+      answer: "11127326"

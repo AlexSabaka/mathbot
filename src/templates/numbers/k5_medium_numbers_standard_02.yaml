@@ -1,0 +1,39 @@
+metadata:
+  id: k5_medium_numbers_standard_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: arithmetic.numbers
+  family: numbers_standard
+  difficulty: medium
+  steps: 1
+  tags: [numbers, standard_form, word_form, real-world]
+
+variables:
+  name:
+    type: person
+  hundred_thousands:
+    type: integer
+    min: 2
+    max: 8
+  remainder:
+    type: integer
+    min: 10000
+    max: 99999
+  Answer:
+    type: integer
+
+template: |
+  {{name}} wrote a check for "{{(hundred_thousands * 100000 + remainder)|number_to_words}}" dollars. Write this amount in standard form.
+
+solution: |
+  Answer = hundred_thousands * 100000 + remainder
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "660550"
+  - seed: 88888
+    expected:
+      answer: "541810"

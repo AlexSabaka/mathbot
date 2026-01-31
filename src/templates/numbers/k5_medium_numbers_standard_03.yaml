@@ -1,0 +1,58 @@
+metadata:
+  id: k5_medium_numbers_standard_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: arithmetic.numbers
+  family: numbers_standard
+  difficulty: medium
+  steps: 1
+  tags: [numbers, standard_form, word_form, real-world]
+
+variables:
+  name:
+    type: person
+  item:
+    type: string
+    choices: ["house", "car", "boat", "property"]
+  hundred_thousands:
+    type: integer
+    min: 1
+    max: 9
+  ten_thousands:
+    type: integer
+    min: 0
+    max: 9
+  thousands:
+    type: integer
+    min: 0
+    max: 9
+  hundreds:
+    type: integer
+    min: 0
+    max: 9
+  tens:
+    type: integer
+    min: 0
+    max: 9
+  ones:
+    type: integer
+    min: 0
+    max: 9
+  Answer:
+    type: integer
+
+template: |
+  {{name}} is buying a {{item}} that costs "{{(hundred_thousands * 100000 + ten_thousands * 10000 + thousands * 1000 + hundreds * 100 + tens * 10 + ones)|number_to_words}}" dollars. Write this amount in standard form.
+
+solution: |
+  Answer = hundred_thousands * 100000 + ten_thousands * 10000 + thousands * 1000 + hundreds * 100 + tens * 10 + ones
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "663469"
+  - seed: 11122
+    expected:
+      answer: "936394"

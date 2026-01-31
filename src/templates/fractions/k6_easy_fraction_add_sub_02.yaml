@@ -1,0 +1,50 @@
+metadata:
+  id: k6_easy_fraction_add_sub_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_add_sub
+  difficulty: easy
+  steps: 1
+  tags: [fractions, subtraction, same_denominator]
+
+variables:
+  a:
+    type: integer
+    min: 5
+    max: 9
+  c:
+    type: integer
+    min: 1
+    max: 4
+  b:
+    type: integer
+    min: 10
+    max: 12
+  Answer:
+    type: fraction
+
+template: |
+  Subtract: {{a}}/{{b}} − {{c}}/{{b}}
+
+solution: |
+  # Same denominator - just subtract numerators
+  from math import gcd
+  
+  numerator = a - c
+  denominator = b
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3/8"
+  
+  - seed: 67890
+    expected:
+      answer: "2/5"

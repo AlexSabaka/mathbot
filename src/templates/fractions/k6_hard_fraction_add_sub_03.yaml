@@ -1,0 +1,83 @@
+metadata:
+  id: k6_hard_fraction_add_sub_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_add_sub
+  difficulty: hard
+  steps: 4
+  tags: [fractions, addition, subtraction, real_world, comparison]
+
+variables:
+  name_1:
+    type: person
+  name_2:
+    type: person
+  name_3:
+    type: person
+  a:
+    type: integer
+    min: 3
+    max: 7
+  b:
+    type: integer
+    min: 8
+    max: 12
+  c:
+    type: integer
+    min: 4
+    max: 7
+  d:
+    type: integer
+    min: 10
+    max: 15
+  e:
+    type: integer
+    min: 2
+    max: 5
+  f:
+    type: integer
+    min: 6
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  {{name_1}} completed {{a}}/{{b}} of a project, {{name_2}} completed {{c}}/{{d}}, and {{name_3}} completed {{e}}/{{f}}. Who completed the most? Express each fraction with a common denominator to compare.
+
+solution: |
+  from math import gcd
+  
+  # Find LCD manually
+  def lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+  
+  # Find LCD of all three
+  lcd = lcm(lcm(b, d), f)
+  
+  # Convert all to common denominator
+  new_a = a * (lcd // b)
+  new_c = c * (lcd // d)
+  new_e = e * (lcd // f)
+  
+  # Determine who has the largest numerator
+  fractions = [
+    (new_a, "{{name_1}}"),
+    (new_c, "{{name_2}}"),
+    (new_e, "{{name_3}}")
+  ]
+  
+  max_frac = max(fractions, key=lambda x: x[0])
+  
+  Answer = f"{max_frac[1]} completed the most"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "James completed the most"
+  
+  - seed: 67890
+    expected:
+      answer: "Patricia completed the most"

@@ -1,0 +1,78 @@
+metadata:
+  id: k6_hard_fraction_add_sub_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_add_sub
+  difficulty: hard
+  steps: 4
+  tags: [fractions, addition, subtraction, multi_step, real_world]
+
+variables:
+  name:
+    type: person
+  name_2:
+    type: person
+  a:
+    type: integer
+    min: 1
+    max: 3
+  b:
+    type: integer
+    min: 8
+    max: 12
+  c:
+    type: integer
+    min: 1
+    max: 3
+  d:
+    type: integer
+    min: 6
+    max: 10
+  Answer1:
+    type: fraction
+  Answer2:
+    type: fraction
+
+template: |
+  {{name}} ate {{a}}/{{b}} of a pizza. {{name_2}} ate {{c}}/{{d}} of the same pizza. What fraction of the pizza did they eat together? What fraction is left?
+
+solution: |
+  from math import gcd
+  
+  # Find LCD manually
+  def lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+  
+  lcd = lcm(b, d)
+  
+  # Convert to common denominator
+  new_a = a * (lcd // b)
+  new_c = c * (lcd // d)
+  
+  # Add numerators for total eaten
+  eaten_numerator = new_a + new_c
+  eaten_denominator = lcd
+  
+  # Simplify eaten
+  common1 = gcd(eaten_numerator, eaten_denominator)
+  Answer1 = (eaten_numerator // common1, eaten_denominator // common1)
+  
+  # Calculate left (1 - eaten)
+  left_numerator = lcd - eaten_numerator
+  left_denominator = lcd
+  
+  # Simplify left
+  common2 = gcd(left_numerator, left_denominator)
+  Answer2 = (left_numerator // common2, left_denominator // common2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7/12 | 5/12"
+  
+  - seed: 67890
+    expected:
+      answer: "13/30 | 17/30"

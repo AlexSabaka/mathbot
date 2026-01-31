@@ -1,0 +1,74 @@
+metadata:
+  id: k6_hard_fraction_add_sub_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_add_sub
+  difficulty: hard
+  steps: 4
+  tags: [fractions, addition, subtraction, multi_step]
+
+variables:
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 8
+    max: 12
+  c:
+    type: integer
+    min: 1
+    max: 3
+  d:
+    type: integer
+    min: 6
+    max: 10
+  e:
+    type: integer
+    min: 1
+    max: 2
+  f:
+    type: integer
+    min: 4
+    max: 8
+  Answer:
+    type: fraction
+
+template: |
+  Calculate: {{a}}/{{b}} + {{c}}/{{d}} − {{e}}/{{f}}
+
+solution: |
+  from math import gcd
+  
+  # Find LCD manually
+  def lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+  
+  # Find LCD of all three denominators
+  lcd = lcm(lcm(b, d), f)
+  
+  # Convert all to common denominator
+  new_a = a * (lcd // b)
+  new_c = c * (lcd // d)
+  new_e = e * (lcd // f)
+  
+  # Perform operations
+  numerator = new_a + new_c - new_e
+  denominator = lcd
+  
+  # Simplify
+  common = gcd(abs(numerator), denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "1/2"
+  
+  - seed: 67890
+    expected:
+      answer: "29/60"

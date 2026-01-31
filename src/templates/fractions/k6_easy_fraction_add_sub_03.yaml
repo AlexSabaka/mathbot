@@ -1,0 +1,55 @@
+metadata:
+  id: k6_easy_fraction_add_sub_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_add_sub
+  difficulty: easy
+  steps: 2
+  tags: [fractions, addition, same_denominator, real_world]
+
+variables:
+  name:
+    type: person
+  item:
+    type: item
+    category: grocery
+  a:
+    type: integer
+    min: 1
+    max: 4
+  c:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 8
+    max: 12
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} used {{a}}/{{b}} of a {{item}} for breakfast and {{c}}/{{b}} for lunch. What fraction did {{name}} use in total?
+
+solution: |
+  # Same denominator - add numerators
+  from math import gcd
+  
+  numerator = a + c
+  denominator = b
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5/8"
+  
+  - seed: 67890
+    expected:
+      answer: "7/10"

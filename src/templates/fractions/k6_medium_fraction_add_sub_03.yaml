@@ -1,0 +1,66 @@
+metadata:
+  id: k6_medium_fraction_add_sub_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: fractions.operations
+  family: fraction_add_sub
+  difficulty: medium
+  steps: 3
+  tags: [fractions, addition, different_denominators, real_world]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 8
+    max: 12
+  c:
+    type: integer
+    min: 1
+    max: 3
+  d:
+    type: integer
+    min: 6
+    max: 10
+  Answer:
+    type: fraction
+
+template: |
+  {{name}} walked {{a}}/{{b}} of a mile in the morning and {{c}}/{{d}} of a mile in the afternoon. How far did {{name}} walk in total?
+
+solution: |
+  from math import gcd
+  
+  # Find LCD manually
+  def lcm(a, b):
+    return abs(a * b) // gcd(a, b)
+  
+  lcd = lcm(b, d)
+  
+  # Convert to common denominator
+  new_a = a * (lcd // b)
+  new_c = c * (lcd // d)
+  
+  # Add numerators
+  numerator = new_a + new_c
+  denominator = lcd
+  
+  # Simplify
+  common = gcd(numerator, denominator)
+  Answer = (numerator // common, denominator // common)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7/8"
+  
+  - seed: 67890
+    expected:
+      answer: "23/30"

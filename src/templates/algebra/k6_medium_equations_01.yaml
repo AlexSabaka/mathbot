@@ -1,0 +1,47 @@
+metadata:
+  id: k6_medium_equations_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equations
+  family: equations
+  difficulty: medium
+  steps: 2
+  tags: [equations, solving, two_step]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 2
+    max: 8
+  b:
+    type: integer
+    min: 5
+    max: 20
+  c:
+    type: integer
+    min: 1
+    max: 50
+  Answer:
+    type: integer
+
+template: |
+  Solve for {{var}}: {{a}}{{var}} - {{b}} = {{c}}
+
+solution: |
+  # Add b to both sides: a*var = c + b
+  # Divide by a: var = (c + b) / a
+  Answer = (c + b) // a
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "9"
+  
+  - seed: 67890
+    expected:
+      answer: "8"

@@ -1,0 +1,42 @@
+metadata:
+  id: k6_easy_equations_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equations
+  family: equations
+  difficulty: easy
+  steps: 1
+  tags: [equations, solving, one_step, addition]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 3
+    max: 20
+  b:
+    type: integer
+    min: 10
+    max: 50
+  Answer:
+    type: integer
+
+template: |
+  Solve for {{var}}: {{var}} + {{a}} = {{b}}
+
+solution: |
+  # Subtract a from both sides
+  Answer = b - a
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "29"
+  
+  - seed: 67890
+    expected:
+      answer: "24"

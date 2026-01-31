@@ -1,0 +1,48 @@
+metadata:
+  id: k6_hard_equations_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equations
+  family: equations
+  difficulty: hard
+  steps: 3
+  tags: [equations, word_problems, geometry]
+
+variables:
+  a:
+    type: integer
+    min: 3
+    max: 8
+  perimeter:
+    type: integer
+    min: 30
+    max: 80
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  A rectangle has a length that is {{a}} times its width. If the perimeter is {{perimeter}} units, what are the length and width?
+
+solution: |
+  # Let w = width, then length = a*w
+  # Perimeter = 2*(length + width) = 2*(a*w + w) = 2*w*(a+1)
+  # 2*w*(a+1) = perimeter
+  # w = perimeter / (2*(a+1))
+  width = perimeter // (2 * (a + 1))
+  length = a * width
+  
+  Answer1 = length
+  Answer2 = width
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "24 | 6"
+  
+  - seed: 67890
+    expected:
+      answer: "21 | 7"

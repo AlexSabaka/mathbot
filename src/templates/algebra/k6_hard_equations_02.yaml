@@ -1,0 +1,56 @@
+metadata:
+  id: k6_hard_equations_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equations
+  family: equations
+  difficulty: hard
+  steps: 3
+  tags: [equations, word_problems, money]
+
+variables:
+  name:
+    type: person
+  item1:
+    type: string
+    choices: ["book", "toy", "game", "shirt"]
+  item2:
+    type: string
+    choices: ["pen", "candy", "sticker", "card"]
+  a:
+    type: integer
+    min: 2
+    max: 5
+  price_item2:
+    type: integer
+    min: 1
+    max: 5
+  total:
+    type: integer
+    min: 15
+    max: 40
+  Answer:
+    type: integer
+
+template: |
+  {{name}} bought {{a}} {{item1}}s and some {{item2}}s. Each {{item1}} costs ${{price_item2 * 3}}, and each {{item2}} costs ${{price_item2}}. If {{name}} spent ${{total}} total, how many {{item2}}s did {{name}} buy?
+
+solution: |
+  # a * (price_item2 * 3) + x * price_item2 = total
+  # 3*a*price_item2 + x*price_item2 = total
+  # x*price_item2 = total - 3*a*price_item2
+  # x = (total - 3*a*price_item2) / price_item2
+  spent_on_item1 = a * price_item2 * 3
+  remaining = total - spent_on_item1
+  Answer = remaining // price_item2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "4"
+  
+  - seed: 67890
+    expected:
+      answer: "5"

@@ -1,0 +1,47 @@
+metadata:
+  id: k6_medium_equations_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equations
+  family: equations
+  difficulty: medium
+  steps: 2
+  tags: [equations, solving, two_step, division]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 2
+    max: 6
+  b:
+    type: integer
+    min: 2
+    max: 10
+  result:
+    type: integer
+    min: 3
+    max: 15
+  Answer:
+    type: integer
+
+template: |
+  Solve for {{var}}: {{var}}/{{a}} + {{b}} = {{result}}
+
+solution: |
+  # Subtract b from both sides: var/a = result - b
+  # Multiply by a: var = a * (result - b)
+  Answer = a * (result - b)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "28"
+  
+  - seed: 67890
+    expected:
+      answer: "24"

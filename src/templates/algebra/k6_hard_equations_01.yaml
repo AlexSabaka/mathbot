@@ -1,0 +1,54 @@
+metadata:
+  id: k6_hard_equations_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equations
+  family: equations
+  difficulty: hard
+  steps: 3
+  tags: [equations, word_problems, age_problems]
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  a:
+    type: integer
+    min: 2
+    max: 10
+  sum_ages:
+    type: integer
+    min: 20
+    max: 60
+  Answer1:
+    type: integer
+  Answer2:
+    type: integer
+
+template: |
+  {{name1}} is {{a}} years older than {{name2}}. The sum of their ages is {{sum_ages}}. How old is each person?
+
+solution: |
+  # Let x = age of name2
+  # Then x + a = age of name1
+  # x + (x + a) = sum_ages
+  # 2x + a = sum_ages
+  # 2x = sum_ages - a
+  # x = (sum_ages - a) / 2
+  age_name2 = (sum_ages - a) // 2
+  age_name1 = age_name2 + a
+  
+  Answer1 = age_name1
+  Answer2 = age_name2
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "28 | 21"
+  
+  - seed: 67890
+    expected:
+      answer: "19 | 14"

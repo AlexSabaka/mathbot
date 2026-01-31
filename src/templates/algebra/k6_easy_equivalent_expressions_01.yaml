@@ -1,0 +1,51 @@
+metadata:
+  id: k6_easy_equivalent_expressions_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equivalent_expressions
+  family: equivalent_expressions
+  difficulty: easy
+  steps: 1
+  tags: [equivalent_expressions, like_terms]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 2
+    max: 10
+  b:
+    type: integer
+    min: 2
+    max: 10
+  c:
+    type: integer
+    min: 2
+    max: 20
+  Answer:
+    type: string
+
+template: |
+  Are these expressions equivalent? {{a}}{{var}} + {{b}}{{var}} and {{c}}{{var}}
+  
+  Answer "yes" if they are equivalent, or "no" if they are not.
+
+solution: |
+  # Check if a + b equals c
+  if a + b == c:
+      Answer = "yes"
+  else:
+      Answer = "no"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "yes"
+  
+  - seed: 67890
+    expected:
+      answer: "no"

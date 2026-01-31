@@ -1,0 +1,59 @@
+metadata:
+  id: k6_hard_equivalent_expressions_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equivalent_expressions
+  family: equivalent_expressions
+  difficulty: hard
+  steps: 3
+  tags: [equivalent_expressions, distributive_property, negative_numbers]
+
+variables:
+  var:
+    type: string
+    choices: [x, y]
+  a:
+    type: integer
+    min: 3
+    max: 7
+  b:
+    type: integer
+    min: 2
+    max: 6
+  c:
+    type: integer
+    min: 2
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  Write an equivalent expression for: {{a}}({{var}} + {{b}}) - {{c}}{{var}}
+
+solution: |
+  # Distribute: ax + ab - cx = (a-c)x + ab
+  x_coefficient = a - c
+  constant = a * b
+
+
+
+
+
+
+
+
+
+
+
+      answer: "3y + 25"    expected:  - seed: 67890        answer: "2x + 30"    expected:  - seed: 12345tests:  Answer = f"{x_coefficient}{var} + {constant}"  Answer = f"{x_coefficient}{var} + {constant}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2x + 30"
+  
+  - seed: 67890
+    expected:
+      answer: "3y + 25"

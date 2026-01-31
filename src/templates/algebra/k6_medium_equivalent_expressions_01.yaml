@@ -1,0 +1,43 @@
+metadata:
+  id: k6_medium_equivalent_expressions_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equivalent_expressions
+  family: equivalent_expressions
+  difficulty: medium
+  steps: 2
+  tags: [equivalent_expressions, distributive_property]
+
+variables:
+  var:
+    type: string
+    choices: [x, y]
+  a:
+    type: integer
+    min: 2
+    max: 8
+  b:
+    type: integer
+    min: 1
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  Write an equivalent expression for: {{a}}({{var}} + {{b}})
+
+solution: |
+  # Apply distributive property: a(x + b) = ax + ab
+  product = a * b
+  Answer = f"{a}{var} + {product}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5x + 40"
+  
+  - seed: 67890
+    expected:
+      answer: "6y + 30"

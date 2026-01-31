@@ -1,0 +1,54 @@
+metadata:
+  id: k6_medium_equivalent_expressions_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equivalent_expressions
+  family: equivalent_expressions
+  difficulty: medium
+  steps: 2
+  tags: [equivalent_expressions, like_terms, multiple_terms]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 2
+    max: 7
+  b:
+    type: integer
+    min: 3
+    max: 8
+  c:
+    type: integer
+    min: 2
+    max: 6
+  d:
+    type: integer
+    min: 1
+    max: 9
+  Answer:
+    type: string
+
+template: |
+  Which expression is equivalent to {{a}}{{var}} + {{b}} + {{c}}{{var}} + {{d}}?
+  
+  A) {{a + c}}{{var}} + {{b + d}}
+  B) {{a + c + 1}}{{var}} + {{b + d - 1}}
+  C) {{a + c - 1}}{{var}} + {{b + d}}
+
+solution: |
+  # Combine like terms: (a + c)var + (b + d)
+  Answer = "A"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "A"
+  
+  - seed: 67890
+    expected:
+      answer: "A"

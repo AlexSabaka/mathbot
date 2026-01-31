@@ -1,0 +1,66 @@
+metadata:
+  id: k6_hard_equivalent_expressions_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equivalent_expressions
+  family: equivalent_expressions
+  difficulty: hard
+  steps: 3
+  tags: [equivalent_expressions, distributive_property, identification]
+
+variables:
+  var:
+    type: string
+    choices: [x, y]
+  a:
+    type: integer
+    min: 2
+    max: 6
+  b:
+    type: integer
+    min: 2
+    max: 6
+  c:
+    type: integer
+    min: 2
+    max: 6
+  d:
+    type: integer
+    min: 2
+    max: 6
+  Answer:
+    type: string
+
+template: |
+  Which expression is NOT equivalent to the others?
+  
+  A) {{a}}({{var}} + {{b}})
+  B) {{a}}{{var}} + {{a * b}}
+  C) {{c}}{{var}} + {{d}}
+
+solution: |
+  # A and B are equivalent: a(x + b) = ax + ab
+  # C is different if c != a or d != ab
+  if c == a and d == a * b:
+      Answer = "A and B are equivalent to C"
+  else:
+      Answer = "C"
+
+tests:
+
+
+
+
+
+
+
+
+      answer: "C"    expected:  - seed: 67890        answer: "C"    expected:  - seed: 12345  - seed: 12345
+    expected:
+      answer: "C"
+  
+  - seed: 67890
+    expected:
+      answer: "C"

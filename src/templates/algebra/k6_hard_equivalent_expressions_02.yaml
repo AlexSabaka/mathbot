@@ -1,0 +1,67 @@
+metadata:
+  id: k6_hard_equivalent_expressions_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.equivalent_expressions
+  family: equivalent_expressions
+  difficulty: hard
+  steps: 3
+  tags: [equivalent_expressions, distributive_property, multiple_steps]
+
+variables:
+  var:
+    type: string
+    choices: [x, y]
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 2
+    max: 6
+  c:
+    type: integer
+    min: 2
+    max: 5
+  d:
+    type: integer
+    min: 1
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  Write an equivalent expression for: {{a}}({{var}} + {{b}}) + {{c}}({{var}} + {{d}})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "9y + 35"    expected:  - seed: 67890        answer: "9x + 38"    expected:  - seed: 12345tests:  Answer = f"{x_coefficient}{var} + {constant}"  constant = a * b + c * d  x_coefficient = a + c  # Distribute: ax + ab + cx + cd = (a+c)x + (ab+cd)solution: |solution: |
+  # Distribute: ax + ab + cx + cd = (a+c)x + (ab+cd)
+  x_coefficient = a + c
+  constant = a * b + c * d
+  Answer = f"{x_coefficient}{var} + {constant}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "9x + 38"
+  
+  - seed: 67890
+    expected:
+      answer: "9y + 35"

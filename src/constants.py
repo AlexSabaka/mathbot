@@ -71,7 +71,45 @@ PROBLEM_FAMILIES = [
     "trapezium_area",
     "volume",
     "fractions_mixed",
-    "fractions_mult_whole"
+    "fractions_mult_whole",
+    "factors",
+    "multiples",
+    "gcd",
+    "lcm",
+    "integers",
+    "rational_compare",
+    "division_basic",
+    "division_long",
+    "exponents",
+    "order_operations",
+    "fraction_add_sub",
+    "fraction_simplify",
+    "fraction_divide",
+    "fraction_reciprocal",
+    "decimals_basic",
+    "decimals_add_sub",
+    "decimals_mult_power10",
+    "decimals_divide",
+    "percentage",
+    "fraction_to_percent",
+    "decimal_to_percent",
+    "ratio",
+    "proportions",
+    "variables",
+    "equations",
+    "equivalent_expressions",
+    "simplify_expressions",
+    "factoring",
+    "inequalities",
+    "shapes_2d",
+    "area_2d",
+    "area_composite",
+    "surface_area",
+    "mean_median_mode",
+    "range",
+    "bar_graphs",
+    "histograms",
+    "frequency_tables"
 ]
 
 # Grade to max complexity mapping
@@ -163,8 +201,44 @@ FAMILY_TOPIC_SUPPORT = {
     "trapezium_area": ["geometry"],  # trapezium/trapezoid area
     "volume": ["geometry"],  # volume of 3D shapes
     "fractions_mixed": ["fractions"],  # mixed fractions conversion
-    "fractions_mult_whole": ["fractions"]  # multiply fractions by whole numbers
-}
-
+    "fractions_mult_whole": ["fractions"],  # multiply fractions by whole numbers
+    "factors": ["arithmetic"],  # finding all factors of a number
+    "multiples": ["arithmetic"],  # listing multiples, LCM problems
+    "gcd": ["arithmetic"],  # greatest common divisor/factor
+    "lcm": ["arithmetic"],  # least common multiple
+    "integers": ["arithmetic"],  # negative numbers, ordering integers
+    "rational_compare": ["arithmetic", "fractions"],  # comparing fractions and decimals
+    "division_basic": ["arithmetic"],  # division with remainders
+    "division_long": ["arithmetic"],  # long division
+    "exponents": ["algebra"],  # powers and exponents
+    "order_operations": ["arithmetic"],  # PEMDAS/order of operations
+    "fraction_add_sub": ["fractions"],  # add and subtract fractions
+    "fraction_simplify": ["fractions"],  # simplify fractions to lowest terms
+    "fraction_divide": ["fractions"],  # divide fractions
+    "fraction_reciprocal": ["fractions"],  # reciprocals of fractions
+    "decimals_basic": ["decimals"],  # convert, round, order decimals
+    "decimals_add_sub": ["decimals"],  # add and subtract decimals
+    "decimals_mult_power10": ["decimals"],  # multiply decimals by 10, 100, 1000
+    "decimals_divide": ["decimals"],  # divide decimals
+    "percentage": ["percentages", "ratios"],  # calculate percentages
+    "fraction_to_percent": ["percentages", "fractions"],  # convert fractions to percentages
+    "decimal_to_percent": ["percentages", "decimals"],  # convert decimals to percentages
+    "ratio": ["ratios"],  # ratios and simplification
+    "proportions": ["ratios", "algebra"],  # solve proportions
+    "variables": ["algebra"],  # variables in expressions
+    "equations": ["algebra"],  # solve equations
+    "equivalent_expressions": ["algebra"],  # identify equivalent expressions
+    "simplify_expressions": ["algebra"],  # simplify algebraic expressions
+    "factoring": ["algebra"],  # factor expressions
+    "inequalities": ["algebra"],  # solve and graph inequalities
+    "shapes_2d": ["geometry"],  # identify 2D shapes and properties
+    "area_2d": ["geometry"],  # area of 2D shapes
+    "area_composite": ["geometry"],  # area of composite shapes
+    "surface_area": ["geometry"],  # surface area of 3D shapes
+    "mean_median_mode": ["statistics"],  # calculate mean, median, mode
+    "range": ["statistics"],  # calculate range
+    "bar_graphs": ["statistics"],  # interpret bar graphs
+    "histograms": ["statistics"],  # create and interpret histograms
+    "frequency_tables": ["statistics"]  # create and interpret frequency tables
 # Topics that require specific problem types (these need special handling)
 ADVANCED_TOPICS = ["quadratics", "derivatives", "powers_logs"]

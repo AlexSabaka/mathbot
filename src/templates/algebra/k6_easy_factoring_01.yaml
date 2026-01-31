@@ -1,0 +1,91 @@
+metadata:
+  id: k6_easy_factoring_01
+  version: "1.0.0"
+  author: Mathbot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "4(6n + 5)"    expected:  - seed: 67890        answer: "5(7x + 6)"    expected:  - seed: 12345tests:  Answer = f"{gcf}({a}{var} + {b})"  # Factor: gcf(a*var + b)  # GCF is gcfsolution: |  Factor out the greatest common factor: {{gcf * a}}{{var}} + {{gcf * b}}template: |    type: string  Answer:    max: 8    min: 2    type: integer  b:    max: 8    min: 2    type: integer  a:    max: 6    min: 2    type: integer  gcf:    choices: [x, y, n]    type: string  var:variables:  tags: [factoring, gcf, basic]  steps: 1  difficulty: easy  family: factoring  topic: algebra.factoring  grade: 6  created: 2026-01-31  created: 2026-01-31
+  grade: 6
+  topic: algebra.factoring
+  family: factoring
+  difficulty: easy
+  steps: 1
+  tags: [factoring, gcf, basic]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  gcf:
+    type: integer
+    min: 2
+    max: 6
+  a:
+    type: integer
+    min: 2
+    max: 8
+  b:
+    type: integer
+    min: 2
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  Factor out the greatest common factor: {{gcf * a}}{{var}} + {{gcf * b}}
+
+solution: |
+  # GCF is gcf
+  # Factor: gcf(a*var + b)
+  Answer = f"{gcf}({a}{var} + {b})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "5(7x + 6)"
+  
+  - seed: 67890
+    expected:
+      answer: "4(6n + 5)"

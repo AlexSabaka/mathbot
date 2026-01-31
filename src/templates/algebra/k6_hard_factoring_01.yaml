@@ -1,0 +1,51 @@
+metadata:
+  id: k6_hard_factoring_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.factoring
+  family: factoring
+  difficulty: hard
+  steps: 3
+  tags: [factoring, gcf, quadratic_term]
+
+variables:
+  var:
+    type: string
+    choices: [x, y, n]
+  a:
+    type: integer
+    min: 4
+    max: 20
+  b:
+    type: integer
+    min: 4
+    max: 20
+  Answer:
+    type: string
+
+template: |
+  Factor: {{a}}{{var}}^2 + {{b}}{{var}}
+
+solution: |
+  # Find GCF of a and b
+  import math
+  gcf = math.gcd(a, b)
+  coeff1 = a // gcf
+  coeff2 = b // gcf
+  
+  # Factor: gcf*var(coeff1*var + coeff2)
+  if gcf == 1:
+      Answer = f"{var}({a}{var} + {b})"
+  else:
+      Answer = f"{gcf}{var}({coeff1}{var} + {coeff2})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2x(4x + 5)"
+  
+  - seed: 67890
+    expected:
+      answer: "3n(3n + 4)"

@@ -1,0 +1,102 @@
+metadata:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "3(3y^2 + 5y + 3)"    expected:  - seed: 67890        answer: "3(4x^2 + 5x + 4)"    expected:  - seed: 12345tests:  Answer = f"{gcf}({a}{var}^2 + {b}{var} + {c})"  # Factor: gcf(a*var^2 + b*var + c)  # GCF is gcfsolution: |  Factor: {{gcf * a}}{{var}}^2 + {{gcf * b}}{{var}} + {{gcf * c}}template: |    type: string  Answer:    max: 5    min: 1    type: integer  c:    max: 6    min: 2    type: integer  b:    max: 5    min: 2    type: integer  a:    max: 4    min: 2    type: integer  gcf:    choices: [x, y]    type: string  var:variables:  tags: [factoring, gcf, three_terms, quadratic]  steps: 3  difficulty: hard  family: factoring  topic: algebra.factoring  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_hard_factoring_03  id: k6_hard_factoring_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.factoring
+  family: factoring
+  difficulty: hard
+  steps: 3
+  tags: [factoring, gcf, three_terms, quadratic]
+
+variables:
+  var:
+    type: string
+    choices: [x, y]
+  gcf:
+    type: integer
+    min: 2
+    max: 4
+  a:
+    type: integer
+    min: 2
+    max: 5
+  b:
+    type: integer
+    min: 2
+    max: 6
+  c:
+    type: integer
+    min: 1
+    max: 5
+  Answer:
+    type: string
+
+template: |
+  Factor: {{gcf * a}}{{var}}^2 + {{gcf * b}}{{var}} + {{gcf * c}}
+
+solution: |
+  # GCF is gcf
+  # Factor: gcf(a*var^2 + b*var + c)
+  Answer = f"{gcf}({a}{var}^2 + {b}{var} + {c})"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "3(4x^2 + 5x + 4)"
+  
+  - seed: 67890
+    expected:
+      answer: "3(3y^2 + 5y + 3)"

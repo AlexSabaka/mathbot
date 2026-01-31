@@ -1,0 +1,52 @@
+metadata:
+  id: k5_medium_triangle_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.triangles
+  family: triangle_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [triangle, perimeter, word problem]
+
+variables:
+  name:
+    type: person
+  
+  side_a:
+    type: integer
+    min: 12
+    max: 18
+  
+  side_b:
+    type: integer
+    min: 15
+    max: 22
+  
+  side_c:
+    type: integer
+    min: 18
+    max: 25
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  {{name}} is building a triangular frame with sides measuring {{side_a}} inches, {{side_b}} inches, and {{side_c}} inches.
+  How much wood does {{name}} need in total?
+
+solution: |
+  total_wood = side_a + side_b + side_c
+  Answer = total_wood
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "56 inches"
+  
+  - seed: 88888
+    expected:
+      answer: "54 inches"

@@ -1,0 +1,67 @@
+metadata:
+  id: k5_hard_triangle_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.triangles
+  family: triangle_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [triangle, area, perimeter, combined]
+
+variables:
+  name:
+    type: person
+  
+  base:
+    type: integer
+    min: 14
+    max: 20
+  
+  height:
+    type: integer
+    min: 10
+    max: 16
+  
+  side_b:
+    type: integer
+    min: 12
+    max: 18
+  
+  side_c:
+    type: integer
+    min: 15
+    max: 22
+  
+  Answer1:
+    type: integer
+    format: area
+  
+  Answer2:
+    type: integer
+    format: length
+
+template: |
+  {{name}} drew a triangle with a base of {{base}} cm, height of {{height}} cm, and the other two sides are {{side_b}} cm and {{side_c}} cm.
+  Calculate both the area and the perimeter.
+
+solution: |
+  # Area = (base × height) / 2
+  area = (base * height) / 2
+  
+  # Perimeter = sum of all sides
+  perimeter = base + side_b + side_c
+  
+  Answer1 = int(area)
+  Answer2 = perimeter
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "96 square cm | 48 cm"
+  
+  - seed: 55667
+    expected:
+      answer: "112 square cm | 49 cm"

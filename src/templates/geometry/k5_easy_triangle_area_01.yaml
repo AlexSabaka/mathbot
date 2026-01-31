@@ -1,0 +1,48 @@
+metadata:
+  id: k5_easy_triangle_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.triangles
+  family: triangle_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [triangle, perimeter, addition]
+
+variables:
+  side_a:
+    type: integer
+    min: 5
+    max: 12
+  
+  side_b:
+    type: integer
+    min: 6
+    max: 15
+  
+  side_c:
+    type: integer
+    min: 7
+    max: 16
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  Find the perimeter of a triangle with sides {{side_a}} cm, {{side_b}} cm, and {{side_c}} cm.
+
+solution: |
+  perimeter = side_a + side_b + side_c
+  Answer = perimeter
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "31 cm"
+  
+  - seed: 67890
+    expected:
+      answer: "28 cm"

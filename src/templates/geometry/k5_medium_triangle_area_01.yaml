@@ -1,0 +1,52 @@
+metadata:
+  id: k5_medium_triangle_area_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.triangles
+  family: triangle_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [triangle, area, real-world]
+
+variables:
+  name:
+    type: person
+  
+  object:
+    type: string
+    choices: ["garden", "sail", "flag", "patch"]
+  
+  base:
+    type: integer
+    min: 10
+    max: 18
+  
+  height:
+    type: integer
+    min: 8
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A triangular {{object}} has a base of {{base}} meters and a height of {{height}} meters.
+  What is its area?
+
+solution: |
+  # Area = (base × height) / 2
+  area = (base * height) / 2
+  Answer = int(area)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "80 square meters"
+  
+  - seed: 67890
+    expected:
+      answer: "72 square meters"

@@ -1,0 +1,63 @@
+metadata:
+  id: k5_hard_triangle_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.triangles
+  family: triangle_area
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [triangle, area, comparison]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  base1:
+    type: integer
+    min: 12
+    max: 18
+  
+  height1:
+    type: integer
+    min: 10
+    max: 14
+  
+  base2:
+    type: integer
+    min: 10
+    max: 16
+  
+  height2:
+    type: integer
+    min: 8
+    max: 12
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name1}} has a triangular garden with a base of {{base1}} meters and height of {{height1}} meters.
+  {{name2}} has a triangular garden with a base of {{base2}} meters and height of {{height2}} meters.
+  How much larger is the bigger garden?
+
+solution: |
+  area1 = (base1 * height1) / 2
+  area2 = (base2 * height2) / 2
+  difference = int(abs(area1 - area2))
+  Answer = difference
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "26 square meters"
+  
+  - seed: 11223
+    expected:
+      answer: "36 square meters"

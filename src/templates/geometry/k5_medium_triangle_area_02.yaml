@@ -1,0 +1,47 @@
+metadata:
+  id: k5_medium_triangle_area_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.triangles
+  family: triangle_area
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [triangle, area, inverse]
+
+variables:
+  area:
+    type: integer
+    min: 40
+    max: 90
+    step: 5
+  
+  base:
+    type: integer
+    min: 8
+    max: 15
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A triangle has an area of {{area}} square cm and a base of {{base}} cm.
+  What is the height?
+
+solution: |
+  # Area = (base × height) / 2
+  # height = (2 × area) / base
+  height = (2 * area) // base
+  Answer = height
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "10 cm"
+  
+  - seed: 66666
+    expected:
+      answer: "8 cm"

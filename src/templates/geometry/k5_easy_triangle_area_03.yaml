@@ -1,0 +1,43 @@
+metadata:
+  id: k5_easy_triangle_area_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.triangles
+  family: triangle_area
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [triangle, perimeter, equal sides]
+
+variables:
+  name:
+    type: person
+  
+  side:
+    type: integer
+    min: 5
+    max: 12
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  {{name}} drew an equilateral triangle where each side is {{side}} cm.
+  What is the perimeter?
+
+solution: |
+  # Equilateral triangle has 3 equal sides
+  perimeter = 3 * side
+  Answer = perimeter
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "27 cm"
+  
+  - seed: 44444
+    expected:
+      answer: "24 cm"

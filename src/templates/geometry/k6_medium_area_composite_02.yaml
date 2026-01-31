@@ -1,0 +1,54 @@
+metadata:
+  id: k6_medium_area_composite_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area_composite
+  family: area_composite
+  difficulty: medium
+  culture: en-US
+  steps: 4
+  tags: [area, composite, subtraction, garden]
+
+variables:
+  name:
+    type: person
+  
+  garden_l:
+    type: integer
+    min: 30
+    max: 50
+  
+  garden_w:
+    type: integer
+    min: 22
+    max: 38
+  
+  path_s:
+    type: integer
+    min: 10
+    max: 14
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  {{name}} has a rectangular garden measuring {{garden_l}} meters by {{garden_w}} meters. A square walkway measuring {{path_s}} meters on each side is placed in the center.
+  
+  What is the area of the garden excluding the walkway?
+
+solution: |
+  garden_area = garden_l * garden_w
+  path_area = path_s * path_s
+  Answer = garden_area - path_area
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "765 square meters"
+  
+  - seed: 22222
+    expected:
+      answer: "1260 square meters"

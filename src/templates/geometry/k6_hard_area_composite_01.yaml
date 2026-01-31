@@ -1,0 +1,50 @@
+metadata:
+  id: k6_hard_area_composite_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area_composite
+  family: area_composite
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [area, composite, semicircle, pi]
+
+variables:
+  rect_length:
+    type: integer
+    min: 12
+    max: 20
+  
+  rect_width:
+    type: integer
+    min: 8
+    max: 14
+  
+  Answer:
+    type: decimal
+
+template: |
+  A figure is made of a rectangle {{rect_length}} cm by {{rect_width}} cm with a semicircle of diameter {{rect_width}} cm attached to one end.
+  
+  Find the total area. (Use π ≈ 3.14)
+
+solution: |
+  # Rectangle area
+  rect_area = rect_length * rect_width
+  # Semicircle area: (π × r²) / 2, where r = width / 2
+  radius = rect_width / 2
+  semicircle_area = (3.14 * radius * radius) / 2
+  # Total area
+  total = rect_area + semicircle_area
+  Answer = round(total, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "218.265"
+  
+  - seed: 67890
+    expected:
+      answer: "141.33"

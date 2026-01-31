@@ -1,0 +1,59 @@
+metadata:
+  id: k6_easy_area_composite_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area_composite
+  family: area_composite
+  difficulty: easy
+  culture: en-US
+  steps: 3
+  tags: [area, composite, L-shape, rectangles]
+
+variables:
+  l1:
+    type: integer
+    min: 5
+    max: 12
+  
+  w1:
+    type: integer
+    min: 3
+    max: 8
+  
+  l2:
+    type: integer
+    min: 4
+    max: 10
+  
+  w2:
+    type: integer
+    min: 3
+    max: 7
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  Find the area of an L-shaped figure made of two rectangles.
+  
+  Rectangle 1: {{l1}} × {{w1}}
+  Rectangle 2: {{l2}} × {{w2}}
+
+solution: |
+  # Calculate area of each rectangle and add them
+  area1 = l1 * w1
+  area2 = l2 * w2
+  total_area = area1 + area2
+  Answer = total_area
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "95 square units"
+  
+  - seed: 67890
+    expected:
+      answer: "70 square units"

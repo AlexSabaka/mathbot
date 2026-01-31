@@ -1,0 +1,55 @@
+metadata:
+  id: k6_medium_area_composite_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area_composite
+  family: area_composite
+  difficulty: medium
+  culture: en-US
+  steps: 3
+  tags: [area, composite, subtraction, patio]
+
+variables:
+  yard_length:
+    type: integer
+    min: 25
+    max: 45
+  
+  yard_width:
+    type: integer
+    min: 20
+    max: 40
+  
+  patio_side:
+    type: integer
+    min: 8
+    max: 15
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A rectangular yard measures {{yard_length}} ft by {{yard_width}} ft. A square patio measuring {{patio_side}} ft by {{patio_side}} ft is built in one corner.
+  
+  What is the area of the yard NOT covered by the patio?
+
+solution: |
+  # Total yard area
+  yard_area = yard_length * yard_width
+  # Patio area
+  patio_area = patio_side * patio_side
+  # Remaining area
+  remaining = yard_area - patio_area
+  Answer = remaining
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "660 square ft"
+  
+  - seed: 67890
+    expected:
+      answer: "864 square ft"

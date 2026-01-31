@@ -1,0 +1,58 @@
+metadata:
+  id: k6_hard_area_composite_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area_composite
+  family: area_composite
+  difficulty: hard
+  culture: en-US
+  steps: 5
+  tags: [area, composite, circle, subtraction]
+
+variables:
+  name:
+    type: person
+  
+  outer_length:
+    type: integer
+    min: 16
+    max: 24
+  
+  outer_width:
+    type: integer
+    min: 12
+    max: 18
+  
+  circle_diameter:
+    type: integer
+    min: 6
+    max: 10
+  
+  Answer:
+    type: decimal
+
+template: |
+  {{name}} has a rectangular piece of wood measuring {{outer_length}} inches by {{outer_width}} inches. {{name}} cuts out a circular hole with a diameter of {{circle_diameter}} inches.
+  
+  What is the remaining area of the wood? (Use π ≈ 3.14)
+
+solution: |
+  # Rectangle area
+  rect_area = outer_length * outer_width
+  # Circle area: π × r²
+  radius = circle_diameter / 2
+  circle_area = 3.14 * radius * radius
+  # Remaining area
+  remaining = rect_area - circle_area
+  Answer = round(remaining, 2)
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "307.74"
+  
+  - seed: 22222
+    expected:
+      answer: "366.185"

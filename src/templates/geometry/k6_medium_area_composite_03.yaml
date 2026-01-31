@@ -1,0 +1,57 @@
+metadata:
+  id: k6_medium_area_composite_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: geometry.area_composite
+  family: area_composite
+  difficulty: medium
+  culture: en-US
+  steps: 4
+  tags: [area, composite, subtraction, floor]
+
+variables:
+  room_length:
+    type: integer
+    min: 28
+    max: 42
+  
+  room_width:
+    type: integer
+    min: 24
+    max: 36
+  
+  rug_length:
+    type: integer
+    min: 12
+    max: 18
+  
+  rug_width:
+    type: integer
+    min: 10
+    max: 15
+  
+  Answer:
+    type: integer
+    format: area
+
+template: |
+  A room is {{room_length}} feet by {{room_width}} feet. A rectangular rug measuring {{rug_length}} feet by {{rug_width}} feet covers part of the floor.
+  
+  How much floor area is NOT covered by the rug?
+
+solution: |
+  room_area = room_length * room_width
+  rug_area = rug_length * rug_width
+  uncovered = room_area - rug_area
+  Answer = uncovered
+
+tests:
+  - seed: 33333
+    expected:
+      answer: "784 square feet"
+  
+  - seed: 44444
+    expected:
+      answer: "798 square feet"

@@ -1,0 +1,104 @@
+metadata:metadata:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "Sarah can buy at most 13 games. Solution: x ≤ 13"    expected:  - seed: 67890        answer: "Sarah can buy at most 11 tickets. Solution: x ≤ 11"    expected:  - seed: 12345tests:  Answer = f"{name} can buy at most {max_items} {item}. Solution: x ≤ {max_items}"  max_items = (total - b) // a  # x ≤ (total - b) / a  # a*x ≤ total - b  # a*x + b ≤ total  # Let x = number of itemssolution: |  {{name}} wants to buy {{item}}. Each {{item[:-1]}} costs ${{a}}, and {{name}} also needs to pay a ${{b}} shipping fee. If {{name}} has ${{total}}, write and solve an inequality to find the maximum number of {{item}} {{name}} can buy.template: |    type: string  Answer:    max: 100    min: 40    type: integer  total:    max: 15    min: 5    type: integer  b:    max: 8    min: 3    type: integer  a:    choices: ["tickets", "books", "toys", "games"]    type: string  item:    type: person  name:variables:  tags: [inequalities, word_problems, two_step]  steps: 3  difficulty: hard  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_hard_inequalities_02  id: k6_hard_inequalities_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.inequalities
+  family: inequalities
+  difficulty: hard
+  steps: 3
+  tags: [inequalities, word_problems, two_step]
+
+variables:
+  name:
+    type: person
+  item:
+    type: string
+    choices: ["tickets", "books", "toys", "games"]
+  a:
+    type: integer
+    min: 3
+    max: 8
+  b:
+    type: integer
+    min: 5
+    max: 15
+  total:
+    type: integer
+    min: 40
+    max: 100
+  Answer:
+    type: string
+
+template: |
+  {{name}} wants to buy {{item}}. Each {{item[:-1]}} costs ${{a}}, and {{name}} also needs to pay a ${{b}} shipping fee. If {{name}} has ${{total}}, write and solve an inequality to find the maximum number of {{item}} {{name}} can buy.
+
+solution: |
+  # Let x = number of items
+  # a*x + b ≤ total
+  # a*x ≤ total - b
+  # x ≤ (total - b) / a
+  max_items = (total - b) // a
+  Answer = f"{name} can buy at most {max_items} {item}. Solution: x ≤ {max_items}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Sarah can buy at most 11 tickets. Solution: x ≤ 11"
+  
+  - seed: 67890
+    expected:
+      answer: "Sarah can buy at most 13 games. Solution: x ≤ 13"

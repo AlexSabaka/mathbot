@@ -1,0 +1,88 @@
+metadata:metadata:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "Sarah needs at least 31 more points. Solution: x ≥ 31, graphed as all numbers greater than or equal to 31"    expected:  - seed: 67890        answer: "Sarah needs at least 26 more points. Solution: x ≥ 26, graphed as all numbers greater than or equal to 26"    expected:  - seed: 12345tests:  Answer = f"{name} needs at least {needed} more points. Solution: x ≥ {needed}, graphed as all numbers greater than or equal to {needed}"  needed = a - b  # x ≥ a - b  # b + x ≥ a  # Let x = additional points neededsolution: |  {{name}} needs to score at least {{a}} points to win a prize. {{name}} currently has {{b}} points. Write and solve an inequality to find how many more points {{name}} needs. Graph the solution.template: |    type: string  Answer:    max: 45    min: 20    type: integer  b:    max: 100    min: 50    type: integer  a:    type: person  name:variables:  tags: [inequalities, word_problems, solving]  steps: 3  difficulty: hard  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_hard_inequalities_01  id: k6_hard_inequalities_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.inequalities
+  family: inequalities
+  difficulty: hard
+  steps: 3
+  tags: [inequalities, word_problems, solving]
+
+variables:
+  name:
+    type: person
+  a:
+    type: integer
+    min: 50
+    max: 100
+  b:
+    type: integer
+    min: 20
+    max: 45
+  Answer:
+    type: string
+
+template: |
+  {{name}} needs to score at least {{a}} points to win a prize. {{name}} currently has {{b}} points. Write and solve an inequality to find how many more points {{name}} needs. Graph the solution.
+
+solution: |
+  # Let x = additional points needed
+  # b + x ≥ a
+  # x ≥ a - b
+  needed = a - b
+  Answer = f"{name} needs at least {needed} more points. Solution: x ≥ {needed}, graphed as all numbers greater than or equal to {needed}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Sarah needs at least 26 more points. Solution: x ≥ 26, graphed as all numbers greater than or equal to 26"
+  
+  - seed: 67890
+    expected:
+      answer: "Sarah needs at least 31 more points. Solution: x ≥ 31, graphed as all numbers greater than or equal to 31"

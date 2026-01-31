@@ -1,0 +1,80 @@
+metadata:metadata:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "All numbers less than 5"    expected:  - seed: 67890        answer: "All numbers less than 7"    expected:  - seed: 12345tests:  Answer = f"All numbers less than {a}"  # Solution is all numbers less than asolution: |  Describe the solution in words.    Graph on a number line: {{var}} < {{a}}template: |    type: string  Answer:    max: 10    min: -5    type: integer  a:    choices: [x, n]    type: string  var:variables:  tags: [inequalities, number_line, graphing]  steps: 1  difficulty: easy  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_easy_inequalities_02  id: k6_easy_inequalities_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.inequalities
+  family: inequalities
+  difficulty: easy
+  steps: 1
+  tags: [inequalities, number_line, graphing]
+
+variables:
+  var:
+    type: string
+    choices: [x, n]
+  a:
+    type: integer
+    min: -5
+    max: 10
+  Answer:
+    type: string
+
+template: |
+  Graph on a number line: {{var}} < {{a}}
+  
+  Describe the solution in words.
+
+solution: |
+  # Solution is all numbers less than a
+  Answer = f"All numbers less than {a}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "All numbers less than 7"
+  
+  - seed: 67890
+    expected:
+      answer: "All numbers less than 5"

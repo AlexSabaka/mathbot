@@ -1,0 +1,80 @@
+metadata:metadata:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      answer: "All numbers greater than or equal to 7"    expected:  - seed: 67890        answer: "All numbers greater than or equal to 9"    expected:  - seed: 12345tests:  Answer = f"All numbers greater than or equal to {a}"  # Solution is all numbers greater than or equal to asolution: |  Describe the solution in words.    Graph on a number line: {{var}} ≥ {{a}}template: |    type: string  Answer:    max: 12    min: 0    type: integer  a:    choices: [x, n]    type: string  var:variables:  tags: [inequalities, number_line, graphing, inclusive]  steps: 1  difficulty: easy  family: inequalities  topic: algebra.inequalities  grade: 6  created: 2026-01-31  author: Mathbot  version: "1.0.0"  id: k6_easy_inequalities_03  id: k6_easy_inequalities_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-31
+  grade: 6
+  topic: algebra.inequalities
+  family: inequalities
+  difficulty: easy
+  steps: 1
+  tags: [inequalities, number_line, graphing, inclusive]
+
+variables:
+  var:
+    type: string
+    choices: [x, n]
+  a:
+    type: integer
+    min: 0
+    max: 12
+  Answer:
+    type: string
+
+template: |
+  Graph on a number line: {{var}} ≥ {{a}}
+  
+  Describe the solution in words.
+
+solution: |
+  # Solution is all numbers greater than or equal to a
+  Answer = f"All numbers greater than or equal to {a}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "All numbers greater than or equal to 9"
+  
+  - seed: 67890
+    expected:
+      answer: "All numbers greater than or equal to 7"

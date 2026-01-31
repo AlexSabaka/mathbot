@@ -1,0 +1,52 @@
+metadata:
+  id: k5_easy_volume_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [volume, box, simple]
+
+variables:
+  name:
+    type: person
+  
+  length:
+    type: integer
+    min: 6
+    max: 12
+  
+  width:
+    type: integer
+    min: 5
+    max: 10
+  
+  height:
+    type: integer
+    min: 4
+    max: 8
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  {{name}} has a box that is {{length}} inches long, {{width}} inches wide, and {{height}} inches tall.
+  What is the volume of the box?
+
+solution: |
+  volume = length * width * height
+  Answer = volume
+
+tests:
+  - seed: 11111
+    expected:
+      answer: "456 cubic inches"
+  
+  - seed: 22222
+    expected:
+      answer: "312 cubic inches"

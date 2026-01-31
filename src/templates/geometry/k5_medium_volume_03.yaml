@@ -1,0 +1,71 @@
+metadata:
+  id: k5_medium_volume_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [volume, comparison]
+
+variables:
+  name:
+    type: person
+  
+  l1:
+    type: integer
+    min: 15
+    max: 22
+  
+  w1:
+    type: integer
+    min: 10
+    max: 15
+  
+  h1:
+    type: integer
+    min: 8
+    max: 12
+  
+  l2:
+    type: integer
+    min: 12
+    max: 18
+  
+  w2:
+    type: integer
+    min: 8
+    max: 12
+  
+  h2:
+    type: integer
+    min: 6
+    max: 10
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  {{name}} has two boxes.
+  Box A is {{l1}} cm × {{w1}} cm × {{h1}} cm.
+  Box B is {{l2}} cm × {{w2}} cm × {{h2}} cm.
+  How much more volume does the larger box have?
+
+solution: |
+  volume_a = l1 * w1 * h1
+  volume_b = l2 * w2 * h2
+  difference = abs(volume_a - volume_b)
+  Answer = difference
+
+tests:
+  - seed: 77777
+    expected:
+      answer: "1120 cubic cm"
+  
+  - seed: 88888
+    expected:
+      answer: "1092 cubic cm"

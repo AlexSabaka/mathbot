@@ -1,0 +1,56 @@
+metadata:
+  id: k5_medium_volume_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [volume, word problem, real-world]
+
+variables:
+  name:
+    type: person
+  
+  object:
+    type: string
+    choices: ["storage unit", "shipping container", "freezer", "aquarium"]
+  
+  length:
+    type: integer
+    min: 20
+    max: 30
+  
+  width:
+    type: integer
+    min: 12
+    max: 18
+  
+  height:
+    type: integer
+    min: 10
+    max: 16
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  {{name}} has a {{object}} that measures {{length}} feet long, {{width}} feet wide, and {{height}} feet high.
+  How much space is inside?
+
+solution: |
+  volume = length * width * height
+  Answer = volume
+
+tests:
+  - seed: 55555
+    expected:
+      answer: "4050 cubic feet"
+  
+  - seed: 66666
+    expected:
+      answer: "3600 cubic feet"

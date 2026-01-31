@@ -1,0 +1,82 @@
+metadata:
+  id: k5_hard_volume_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: hard
+  culture: en-US
+  steps: 4
+  tags: [volume, rate, time, weight]
+
+variables:
+  name:
+    type: person
+  
+  container_type:
+    type: string
+    choices: ["box", "container", "bin"]
+  
+  length:
+    type: integer
+    min: 40
+    max: 55
+  
+  width:
+    type: integer
+    min: 25
+    max: 35
+  
+  height:
+    type: integer
+    min: 30
+    max: 45
+  
+  rate:
+    type: integer
+    min: 400
+    max: 600
+    step: 50
+  
+  weight:
+    type: decimal
+    min: 2.0
+    max: 3.0
+    step: 0.5
+  
+  Answer1:
+    type: integer
+  
+  Answer2:
+    type: decimal
+    format: weight
+
+template: |
+  {{name}} is filling a {{container_type}} that is {{length}} cm × {{width}} cm × {{height}} cm with sand.
+  {{name}} can pour {{rate}} cubic cm per minute.
+  How long will it take to fill the {{container_type}}?
+  If each cubic cm of sand weighs {{weight}} grams, what is the total weight when full?
+
+solution: |
+  # Calculate volume
+  volume = length * width * height
+  
+  # Calculate time in minutes
+  time_minutes = volume // rate
+  
+  # Calculate total weight in grams
+  total_weight = volume * weight
+  
+  Answer1 = time_minutes
+  Answer2 = round(total_weight, 2)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "105 minutes | 131250.00 grams"
+  
+  - seed: 67890
+    expected:
+      answer: "90 minutes | 112500.00 grams"

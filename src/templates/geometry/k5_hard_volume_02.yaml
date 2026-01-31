@@ -1,0 +1,78 @@
+metadata:
+  id: k5_hard_volume_02
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [volume, comparison, multi-step]
+
+variables:
+  name1:
+    type: person
+  
+  name2:
+    type: person
+  
+  l1:
+    type: integer
+    min: 20
+    max: 28
+  
+  w1:
+    type: integer
+    min: 15
+    max: 22
+  
+  h1:
+    type: integer
+    min: 12
+    max: 18
+  
+  l2:
+    type: integer
+    min: 18
+    max: 25
+  
+  w2:
+    type: integer
+    min: 12
+    max: 18
+  
+  h2:
+    type: integer
+    min: 10
+    max: 15
+  
+  Answer1:
+    type: integer
+    format: volume
+  
+  Answer2:
+    type: integer
+    format: volume
+
+template: |
+  {{name1}} built a storage shed that is {{l1}} feet × {{w1}} feet × {{h1}} feet.
+  {{name2}} built a storage shed that is {{l2}} feet × {{w2}} feet × {{h2}} feet.
+  Calculate the volume of each shed, and find which one is larger.
+
+solution: |
+  volume1 = l1 * w1 * h1
+  volume2 = l2 * w2 * h2
+  
+  Answer1 = volume1
+  Answer2 = volume2
+
+tests:
+  - seed: 99999
+    expected:
+      answer: "7056 cubic feet | 4536 cubic feet"
+  
+  - seed: 11223
+    expected:
+      answer: "6864 cubic feet | 4320 cubic feet"

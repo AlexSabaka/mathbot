@@ -1,0 +1,69 @@
+metadata:
+  id: k5_hard_volume_03
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: hard
+  culture: en-US
+  steps: 3
+  tags: [volume, cost, capacity]
+
+variables:
+  name:
+    type: person
+  
+  length:
+    type: integer
+    min: 24
+    max: 32
+  
+  width:
+    type: integer
+    min: 18
+    max: 26
+  
+  height:
+    type: integer
+    min: 14
+    max: 20
+  
+  cost_per_cubic:
+    type: decimal
+    min: 0.50
+    max: 1.50
+    step: 0.25
+  
+  Answer1:
+    type: integer
+    format: volume
+  
+  Answer2:
+    type: decimal
+    format: money
+
+template: |
+  {{name}} needs to fill a rectangular pool that is {{length}} feet × {{width}} feet × {{height}} feet with water.
+  Water costs ${{cost_per_cubic}} per cubic foot.
+  What is the volume of the pool, and what is the total cost to fill it?
+
+solution: |
+  # Calculate volume
+  volume = length * width * height
+  
+  # Calculate cost
+  total_cost = volume * cost_per_cubic
+  
+  Answer1 = volume
+  Answer2 = round(total_cost, 2)
+
+tests:
+  - seed: 33445
+    expected:
+      answer: "12288 cubic feet | $15360.00"
+  
+  - seed: 55667
+    expected:
+      answer: "10752 cubic feet | $10752.00"

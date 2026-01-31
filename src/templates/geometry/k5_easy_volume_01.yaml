@@ -1,0 +1,50 @@
+metadata:
+  id: k5_easy_volume_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: easy
+  culture: en-US
+  steps: 1
+  tags: [volume, rectangular prism, basic]
+
+variables:
+  length:
+    type: integer
+    min: 4
+    max: 10
+  
+  width:
+    type: integer
+    min: 3
+    max: 8
+  
+  height:
+    type: integer
+    min: 3
+    max: 7
+  
+  Answer:
+    type: integer
+    format: volume
+
+template: |
+  A rectangular prism has a length of {{length}} cm, width of {{width}} cm, and height of {{height}} cm.
+  What is its volume?
+
+solution: |
+  # Volume = length × width × height
+  volume = length * width * height
+  Answer = volume
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "210 cubic cm"
+  
+  - seed: 67890
+    expected:
+      answer: "120 cubic cm"

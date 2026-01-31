@@ -1,0 +1,56 @@
+metadata:
+  id: k5_medium_volume_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 5
+  topic: geometry.volume
+  family: volume
+  difficulty: medium
+  culture: en-US
+  steps: 2
+  tags: [volume, inverse, height]
+
+variables:
+  container_type:
+    type: string
+    choices: ["fish tank", "storage box", "cooler", "container"]
+  
+  volume:
+    type: integer
+    min: 1800
+    max: 3000
+    step: 100
+  
+  length:
+    type: integer
+    min: 18
+    max: 25
+  
+  width:
+    type: integer
+    min: 10
+    max: 15
+  
+  Answer:
+    type: integer
+    format: length
+
+template: |
+  A {{container_type}} can hold {{volume}} cubic centimeters.
+  If the {{container_type}} has a length of {{length}} cm and width of {{width}} cm, what is its height?
+
+solution: |
+  # Volume = length × width × height
+  # height = volume / (length × width)
+  height = volume // (length * width)
+  Answer = height
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "11 cm"
+  
+  - seed: 67890
+    expected:
+      answer: "12 cm"

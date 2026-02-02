@@ -49,7 +49,9 @@ def cli(ctx):
               help='Show answer in output (default: show)')
 @click.option('--input', 'input_template', type=click.Path(exists=True),
               help='Generate from specific template file')
-def generate(complexity, grade, topic, family, num_steps, seed, output, file, show_answer, input_template):
+@click.option('--template-dir', type=click.Path(exists=True),
+              help='Custom directory containing template files')
+def generate(complexity, grade, topic, family, num_steps, seed, output, file, show_answer, input_template, template_dir):
     """Generate a single math problem.
 
     Examples:
@@ -63,6 +65,8 @@ def generate(complexity, grade, topic, family, num_steps, seed, output, file, sh
       mathbot generate --complexity 3 --topic algebra --no-show-answer
       
       mathbot generate --input src/templates/geometry/k5_medium_geometry_01.yaml
+
+      mathbot generate --template-dir custom_templates/ -t arithmetic
     """
     try:
         if input_template:
@@ -82,11 +86,18 @@ def generate(complexity, grade, topic, family, num_steps, seed, output, file, sh
                         click.echo(click.style(f"  ERROR: {error}", fg='red'), err=True)
                 sys.exit(1)
             
-            template_gen = TemplateGenerator(seed=seed)
+            # Use custom template dir if provided
+            templates_dir = Path(template_dir) if template_dir else None
+            template_gen = TemplateGenerator(templates_dir=templates_dir, seed=seed)
             problem = template_gen._generate_from_template(template, seed=seed, template_path=template_path)
         else:
             # Regular generation with filters
-            problem = generate_problem(
+            from pathlib import Path
+            from .template_generator import TemplateGenerator
+            
+            templates_dir = Path(template_dir) if template_dir else None
+            template_gen = TemplateGenerator(templates_dir=templates_dir, seed=seed)
+            problem = template_gen.generate_problem(
                 complexity=complexity,
                 grade=grade,
                 math_topic=topic,
@@ -240,6 +251,181 @@ def info(name):
         options = get_available_options()
         output_text = format_info(name, options)
         click.echo(output_text)
+
+    except Exception as e:
+        click.echo(click.style(f"Error: {e}", fg='red'), err=True)
+        sys.exit(1)
+
+
+@cli.command()
+@click.argument('template_path', type=click.Path(exists=True))
+@click.option('--template-dir', type=click.Path(exists=True),
+              help='Custom directory containing template files')
+def verify(template_path, template_dir):
+    """Verify template variable constraints and structure.
+
+    TEMPLATE_PATH should be path to a YAML template file.
+
+    Examples:
+
+      mathbot verify src/templates/arithmetic/k3_easy_shopping_01.yaml
+
+      mathbot verify custom_templates/my_template.yaml --template-dir custom_templates/
+    """
+    try:
+        from pathlib import Path
+        from .yaml_loader import YAMLLoader
+        
+        template_file = Path(template_path)
+        loader = YAMLLoader()
+        template = loader.load_template(template_file)
+        
+        errors, warnings = loader.get_validation_results()
+        
+        if template and not errors:
+            click.echo(click.style(f"✓ Template '{template.id}' is valid", fg='green'))
+            click.echo(f"\n  Grade: {template.grade}")
+            click.echo(f"  Difficulty: {template.difficulty}")
+            click.echo(f"  Family: {template.family}")
+            click.echo(f"  Steps: {template.steps}")
+            click.echo(f"  Variables: {len(template.variables)}")
+            click.echo(f"  Tests: {len(template.tests)}")
+            
+            if warnings:
+                click.echo(click.style(f"\n⚠ Warnings:", fg='yellow'))
+                for warning in warnings:
+                    click.echo(click.style(f"  • {warning}", fg='yellow'))
+        else:
+            click.echo(click.style(f"✗ Template validation failed", fg='red'))
+            if errors:
+                click.echo(click.style(f"\nErrors:", fg='red'))
+                for error in errors:
+                    click.echo(click.style(f"  • {error}", fg='red'))
+            if warnings:
+                click.echo(click.style(f"\nWarnings:", fg='yellow'))
+                for warning in warnings:
+                    click.echo(click.style(f"  • {warning}", fg='yellow'))
+            sys.exit(1)
+
+    except Exception as e:
+        click.echo(click.style(f"Error: {e}", fg='red'), err=True)
+        sys.exit(1)
+
+
+@cli.command()
+@click.argument('template_path', type=click.Path(exists=True))
+@click.option('--template-dir', type=click.Path(exists=True),
+              help='Custom directory containing template files')
+@click.option('-v', '--verbose', is_flag=True,
+              help='Show detailed output for each test')
+def test(template_path, template_dir, verbose):
+    """Run template test cases and verify expected answers.
+
+    TEMPLATE_PATH should be path to a YAML template file with test cases.
+
+    Examples:
+
+      mathbot test src/templates/arithmetic/k3_easy_shopping_01.yaml
+
+      mathbot test custom_templates/my_template.yaml -v
+
+      mathbot test src/templates/geometry/k5_medium_area_01.yaml --verbose
+    """
+    try:
+        from pathlib import Path
+        from .yaml_loader import YAMLLoader
+        from .template_generator import TemplateGenerator
+        from .variable_generator import VariableGenerator
+        from .solution_evaluator import execute_solution, format_answer
+        from .jinja_renderer import JinjaRenderer
+        
+        template_file = Path(template_path)
+        loader = YAMLLoader()
+        template = loader.load_template(template_file)
+        
+        if not template:
+            errors, warnings = loader.get_validation_results()
+            click.echo(click.style(f"✗ Failed to load template", fg='red'))
+            for error in errors:
+                click.echo(click.style(f"  ERROR: {error}", fg='red'))
+            sys.exit(1)
+        
+        if not template.tests:
+            click.echo(click.style(f"⚠ No test cases defined in template", fg='yellow'))
+            sys.exit(0)
+        
+        click.echo(f"Running {len(template.tests)} test case(s) for template '{template.id}'...\n")
+        
+        renderer = JinjaRenderer()
+        passed = 0
+        failed = 0
+        
+        for i, test_case in enumerate(template.tests, 1):
+            test_seed = test_case.seed
+            expected = test_case.expected
+            
+            try:
+                # Generate variables with test seed
+                var_gen = VariableGenerator(seed=test_seed)
+                context = var_gen.generate_context(template.variables)
+                
+                # Execute solution
+                answer_value = execute_solution(template.solution, context)
+                
+                # Format answer(s)
+                if isinstance(answer_value, dict):
+                    # Multi-answer problem
+                    formatted_answers = []
+                    for j in sorted(answer_value.keys()):
+                        answer_spec = template.variables.get(f'Answer{j}')
+                        formatted = format_answer(answer_value[j], answer_spec)
+                        formatted_answers.append(formatted)
+                    actual_answer = " | ".join(formatted_answers)
+                else:
+                    # Single answer
+                    answer_spec = template.variables.get('Answer')
+                    actual_answer = format_answer(answer_value, answer_spec)
+                
+                # Get expected answer
+                expected_answer = expected.get('answer', '')
+                
+                # Compare
+                if actual_answer == expected_answer:
+                    passed += 1
+                    status = click.style("✓ PASS", fg='green')
+                    if verbose:
+                        click.echo(f"Test {i} (seed={test_seed}): {status}")
+                        click.echo(f"  Expected: {expected_answer}")
+                        click.echo(f"  Actual:   {actual_answer}")
+                        if test_case.notes:
+                            click.echo(f"  Notes: {test_case.notes}")
+                        click.echo()
+                else:
+                    failed += 1
+                    status = click.style("✗ FAIL", fg='red')
+                    click.echo(f"Test {i} (seed={test_seed}): {status}")
+                    click.echo(click.style(f"  Expected: {expected_answer}", fg='red'))
+                    click.echo(click.style(f"  Actual:   {actual_answer}", fg='red'))
+                    if test_case.notes:
+                        click.echo(f"  Notes: {test_case.notes}")
+                    if verbose:
+                        click.echo(f"  Context: {context}")
+                    click.echo()
+                    
+            except Exception as e:
+                failed += 1
+                click.echo(f"Test {i} (seed={test_seed}): {click.style('✗ ERROR', fg='red')}")
+                click.echo(click.style(f"  Error: {e}", fg='red'))
+                click.echo()
+        
+        # Summary
+        click.echo("=" * 60)
+        total = passed + failed
+        if failed == 0:
+            click.echo(click.style(f"✓ All {total} test(s) passed!", fg='green'))
+        else:
+            click.echo(click.style(f"✗ {failed} of {total} test(s) failed", fg='red'))
+            sys.exit(1)
 
     except Exception as e:
         click.echo(click.style(f"Error: {e}", fg='red'), err=True)

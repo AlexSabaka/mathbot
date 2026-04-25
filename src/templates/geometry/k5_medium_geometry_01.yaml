@@ -1,6 +1,6 @@
 metadata:
   id: k5_medium_geometry_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Alex Sabaka
   created: 2026-01-30
   grade: 5
@@ -8,8 +8,11 @@ metadata:
   family: geometry
   difficulty: medium
   steps: 2
-  tags: [shapes, measurement, area, perimeter]
-
+  tags:
+  - shapes
+  - measurement
+  - area
+  - perimeter
 variables:
   location:
     type: location
@@ -22,22 +25,24 @@ variables:
     min: 3
     max: 30
   Answer1:
-    type: integer
-    format: area
+    type: area
   Answer2:
-    type: integer
-    format: length
+    type: length
+template: 'A {{location}} features a rectangular garden measuring {{length}}m in length
+  and {{width}}m in width. The gardener needs to know both the area for planting and
+  the perimeter for installing a border. What are the area and perimeter of the garden?
 
-template: |
-  A {{location}} features a rectangular garden measuring {{length}}m in length and {{width}}m in width. The gardener needs to know both the area for planting and the perimeter for installing a border. What are the area and perimeter of the garden?
+  '
+solution: 'area = length * width
 
-solution: |
-  area = length * width
   perimeter = 2 * (length + width)
+
   Answer1 = area
+
   Answer2 = perimeter
 
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "350 square meters | 90 meters"
+- seed: 12345
+  expected:
+    answer: 350 square meters | 90 meters

@@ -1,6 +1,6 @@
 metadata:
   id: k4_medium_decimals_add_sub_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-30
   grade: 4
@@ -9,8 +9,12 @@ metadata:
   difficulty: medium
   steps: 3
   culture: en-US
-  tags: [decimals, money, real-world, shopping, subtraction]
-
+  tags:
+  - decimals
+  - money
+  - real-world
+  - shopping
+  - subtraction
 variables:
   name:
     type: person
@@ -19,19 +23,17 @@ variables:
     category: book
     plural: false
   price1:
-    type: decimal
-    format: money
-    min: 5.00
-    max: 20.00
+    type: money
+    min: 5.0
+    max: 20.0
     step: 0.25
   item2:
     type: item
     category: online
     plural: false
   price2:
-    type: decimal
-    format: money
-    min: 1.00
+    type: money
+    min: 1.0
     max: 9.99
     step: 0.25
   bill:
@@ -39,37 +41,25 @@ variables:
     min: 20
     max: 50
   Answer1:
-    type: decimal
-    format: money
+    type: money
   Answer2:
-    type: decimal
-    format: money
+    type: money
+template: '{{name}} bought a {{item1}} for {{price1}} and a {{item2}} for {{price2}}.
 
-template: |
-  {{name}} bought a {{item1}} for {{price1}} and a {{item2}} for {{price2}}.
 
   How much did {{name}} spend in total?
+
   How much change from ${{bill}}.00 will {{name}} receive?
 
-solution: |
-  # Calculate total spent
-  total_spent = price1 + price2
-
-  # Ensure bill is greater than total
-  bill_amount = float(bill)
-  while bill_amount < total_spent:
-      bill_amount += 10
-
-  # Calculate change
-  change = bill_amount - total_spent
-
-  Answer1 = round(total_spent, 2)
-  Answer2 = round(change, 2)
-
+  '
+solution: "# Calculate total spent\ntotal_spent = price1 + price2\n\n# Ensure bill\
+  \ is greater than total\nbill_amount = float(bill)\nwhile bill_amount < total_spent:\n\
+  \    bill_amount += 10\n\n# Calculate change\nchange = bill_amount - total_spent\n\
+  \nAnswer1 = round(total_spent, 2)\nAnswer2 = round(change, 2)\n"
 tests:
-  - seed: 12345
-    expected:
-      answer: "$23.49, $16.51"
-  - seed: 67890
-    expected:
-      answer: "$21.49, $8.51"
+- seed: 12345
+  expected:
+    answer: $23.49, $16.51
+- seed: 67890
+  expected:
+    answer: $21.49, $8.51

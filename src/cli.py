@@ -92,19 +92,28 @@ def generate(complexity, grade, topic, family, num_steps, seed, output, file, sh
             problem = template_gen._generate_from_template(template, seed=seed, template_path=template_path)
         else:
             # Regular generation with filters
-            from pathlib import Path
-            from .template_generator import TemplateGenerator
-            
-            templates_dir = Path(template_dir) if template_dir else None
-            template_gen = TemplateGenerator(templates_dir=templates_dir, seed=seed)
-            problem = template_gen.generate_problem(
-                complexity=complexity,
-                grade=grade,
-                math_topic=topic,
-                problem_family=family,
-                num_steps=num_steps,
-                seed=seed
-            )
+            if template_dir:
+                from pathlib import Path
+                from .template_generator import TemplateGenerator
+
+                template_gen = TemplateGenerator(templates_dir=Path(template_dir), seed=seed)
+                problem = template_gen.generate(
+                    complexity=complexity,
+                    grade=grade,
+                    math_topic=topic,
+                    problem_family=family,
+                    num_steps=num_steps,
+                    seed=seed,
+                )
+            else:
+                problem = generate_problem(
+                    complexity=complexity,
+                    grade=grade,
+                    math_topic=topic,
+                    problem_family=family,
+                    num_steps=num_steps,
+                    seed=seed,
+                )
 
         # Format output
         if output == 'json':
@@ -145,20 +154,24 @@ def generate(complexity, grade, topic, family, num_steps, seed, output, file, sh
               help='Problem family')
 @click.option('-n', '--num-steps', type=click.IntRange(1, 10),
               help='Number of solution steps (1-10)')
+@click.option('-s', '--seed', type=int,
+              help='Random seed for reproducibility')
 @click.option('--avoid-duplicates/--allow-duplicates', default=True,
               help='Avoid duplicate problems (default: avoid)')
 @click.option('-o', '--output',
               type=click.Choice(['json', 'jsonl']),
               default='json',
               help='Output format (default: json)')
-@click.option('--file', type=click.Path(), required=True,
-              help='Output file path (required)')
-def batch(count, complexity, grade, topic, family, num_steps, avoid_duplicates, output, file):
+@click.option('--file', type=click.Path(),
+              help='Output file path (default: stdout)')
+def batch(count, complexity, grade, topic, family, num_steps, seed, avoid_duplicates, output, file):
     """Generate multiple math problems.
 
     COUNT is the number of problems to generate.
 
     Examples:
+
+      mathbot batch 10
 
       mathbot batch 10 --file problems.json
 
@@ -167,28 +180,71 @@ def batch(count, complexity, grade, topic, family, num_steps, avoid_duplicates, 
       mathbot batch 100 --topic arithmetic -o jsonl --file problems.jsonl
     """
     try:
-        # Generate problems with progress bar
-        with click.progressbar(length=count, label='Generating problems') as bar:
-            problems = generate_problems(
-                n=count,
-                complexity=complexity,
-                grade=grade,
-                math_topic=topic,
-                problem_family=family,
-                num_steps=num_steps,
-                avoid_duplicates=avoid_duplicates
-            )
-            bar.update(count)
+        import random as _random
 
-        # Save to file
-        with open(file, 'w') as f:
-            if output == 'jsonl':
-                for problem in problems:
-                    f.write(json.dumps(problem) + '\n')
-            else:  # json
-                json.dump(problems, f, indent=2)
+        rng = _random.Random(seed) if seed is not None else _random.Random()
 
-        click.echo(click.style(f"✓ Generated {count} problems and saved to {file}", fg='green'))
+        problems = []
+        attempts = 0
+        max_attempts = count * 10
+        seen = set()
+
+        bar_ctx = (
+            click.progressbar(length=count, label='Generating problems', file=sys.stderr)
+            if file else None
+        )
+
+        try:
+            while len(problems) < count and attempts < max_attempts:
+                attempts += 1
+                item_seed = rng.randint(0, 2**31 - 1)
+                try:
+                    problem = generate_problem(
+                        complexity=complexity,
+                        grade=grade,
+                        math_topic=topic,
+                        problem_family=family,
+                        num_steps=num_steps,
+                        seed=item_seed,
+                    )
+                except ValueError:
+                    # No templates matched this random combination; retry with a new seed.
+                    continue
+
+                if avoid_duplicates:
+                    key = problem.get('problem')
+                    if key in seen:
+                        continue
+                    seen.add(key)
+
+                problems.append(problem)
+                if bar_ctx is not None:
+                    bar_ctx.update(1)
+        finally:
+            if bar_ctx is not None:
+                bar_ctx.render_finish()
+
+        if len(problems) < count:
+            click.echo(
+                click.style(
+                    f"Warning: only generated {len(problems)}/{count} problems after {attempts} attempts",
+                    fg='yellow'),
+                err=True)
+
+        # Serialize
+        if output == 'jsonl':
+            output_text = '\n'.join(json.dumps(p) for p in problems) + ('\n' if problems else '')
+        else:  # json
+            output_text = json.dumps(problems, indent=2)
+
+        if file:
+            with open(file, 'w') as f:
+                f.write(output_text)
+                if output == 'json':
+                    f.write('\n')
+            click.echo(click.style(f"✓ Generated {len(problems)} problems and saved to {file}", fg='green'), err=True)
+        else:
+            click.echo(output_text)
 
     except ValueError as e:
         click.echo(click.style(f"Error: {e}", fg='red'), err=True)

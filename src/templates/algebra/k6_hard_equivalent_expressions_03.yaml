@@ -36,18 +36,7 @@ solution: |
   # Distribute: ax + ab - cx = (a-c)x + ab
   x_coefficient = a - c
   constant = a * b
-
-
-
-
-
-
-
-
-
-
-
-      answer: "3y + 25"    expected:  - seed: 67890        answer: "2x + 30"    expected:  - seed: 12345tests:  Answer = f"{x_coefficient}{var} + {constant}"  Answer = f"{x_coefficient}{var} + {constant}"
+  Answer = f"{x_coefficient}{var} + {constant}"
 
 tests:
   - seed: 12345

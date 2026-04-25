@@ -161,11 +161,15 @@ class TestBatchCommand:
                 # Should have at least some unique templates (not all the same)
                 assert len(set(test_ids)) >= 2
 
-    def test_batch_missing_file(self):
-        """Test error when file parameter is missing."""
+    def test_batch_to_stdout(self):
+        """Batch without --file should print JSON to stdout."""
         runner = CliRunner()
-        result = runner.invoke(cli, ['batch', '5'])
-        assert result.exit_code != 0
+        result = runner.invoke(cli, ['batch', '3', '-c', '2', '-g', 'elementary', '-t', 'arithmetic'])
+        assert result.exit_code == 0
+        data = json.loads(result.output)
+        assert isinstance(data, list)
+        assert len(data) == 3
+        assert all('test_id' in p for p in data)
 
 
 class TestListCommand:

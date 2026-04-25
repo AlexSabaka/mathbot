@@ -1,6 +1,6 @@
 metadata:
   id: k8_medium_growth_03
-  version: "1.0.0"
+  version: 1.0.0
   author: Alex Sabaka
   created: 2026-01-30
   grade: 8
@@ -8,8 +8,11 @@ metadata:
   family: growth
   difficulty: medium
   steps: 4
-  tags: [compound-growth, percentages, population, migration]
-
+  tags:
+  - compound-growth
+  - percentages
+  - population
+  - migration
 variables:
   city:
     type: location
@@ -19,8 +22,7 @@ variables:
     max: 100000
     step: 1000
   rate:
-    type: integer
-    format: percentage
+    type: percentage
     min: 5
     max: 20
     step: 1
@@ -37,28 +39,30 @@ variables:
     step: 100
   Answer:
     type: integer
+template: 'The city of {{city}} has a population of {{initial_pop}} people.
 
-template: |
-  The city of {{city}} has a population of {{initial_pop}} people.
-  
-  Over the next {{years}} years, the city experiences steady growth at {{rate}}% per year.
-  
-  {% if has_migration %}{% if migration > 0 %}Additionally, {{migration}} people relocate to {{city}} from other areas. {% endif %}{% endif %}
-  
-  {% if has_migration %}{% if migration < 0 %}However, {{migration|abs}} residents move away to other cities. {% endif %}{% endif %}
-  
+
+  Over the next {{years}} years, the city experiences steady growth at {{rate}}% per
+  year.
+
+
+  {% if has_migration %}{% if migration > 0 %}Additionally, {{migration}} people relocate
+  to {{city}} from other areas. {% endif %}{% endif %}
+
+
+  {% if has_migration %}{% if migration < 0 %}However, {{migration|abs}} residents
+  move away to other cities. {% endif %}{% endif %}
+
+
   What is the current population of {{city}}?
 
-solution: |
-  final_pop = initial_pop * (1 + rate / 100) ** years
-  if has_migration:
-      final_pop = final_pop + migration
-  Answer = int(round(final_pop, 0))
-
+  '
+solution: "final_pop = initial_pop * (1 + rate / 100) ** years\nif has_migration:\n\
+  \    final_pop = final_pop + migration\nAnswer = int(round(final_pop, 0))\n"
 tests:
-  - seed: 789
-    expected:
-      answer: "91440"
-  - seed: 999
-    expected:
-      answer: "76890"
+- seed: 789
+  expected:
+    answer: '91440'
+- seed: 999
+  expected:
+    answer: '76890'

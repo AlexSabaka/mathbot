@@ -28,21 +28,7 @@ variables:
 template: |
   Simplify: {{a}}{{var}} - {{b}}{{var}}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "4n"    expected:  - seed: 67890        answer: "5x"    expected:  - seed: 12345tests:  Answer = f"{coefficient}{var}"  coefficient = a - b  # Combine like termssolution: |solution: |
+solution: |
   # Combine like terms
   coefficient = a - b
   Answer = f"{coefficient}{var}"

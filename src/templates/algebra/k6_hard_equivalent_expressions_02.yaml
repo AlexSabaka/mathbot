@@ -36,22 +36,7 @@ variables:
 template: |
   Write an equivalent expression for: {{a}}({{var}} + {{b}}) + {{c}}({{var}} + {{d}})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      answer: "9y + 35"    expected:  - seed: 67890        answer: "9x + 38"    expected:  - seed: 12345tests:  Answer = f"{x_coefficient}{var} + {constant}"  constant = a * b + c * d  x_coefficient = a + c  # Distribute: ax + ab + cx + cd = (a+c)x + (ab+cd)solution: |solution: |
+solution: |
   # Distribute: ax + ab + cx + cd = (a+c)x + (ab+cd)
   x_coefficient = a + c
   constant = a * b + c * d

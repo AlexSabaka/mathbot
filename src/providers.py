@@ -65,8 +65,44 @@ class MathProblemProvider(BaseProvider):
         ("cookbooks", "cookbook", 20.00, 40.00),
     ]
 
+    # School supplies
+    SCHOOL_ITEMS = [
+        ("pencils", "pencil", 0.25, 1.00),
+        ("erasers", "eraser", 0.50, 2.00),
+        ("notebooks", "notebook", 1.50, 5.00),
+        ("rulers", "ruler", 1.00, 3.00),
+        ("folders", "folder", 1.00, 4.00),
+        ("glue sticks", "glue stick", 1.00, 3.00),
+        ("markers", "marker", 1.00, 5.00),
+        ("crayons", "crayon", 0.25, 1.50),
+    ]
+
+    # Furniture
+    FURNITURE_ITEMS = [
+        ("chairs", "chair", 40.00, 150.00),
+        ("tables", "table", 80.00, 300.00),
+        ("desks", "desk", 100.00, 400.00),
+        ("bookshelves", "bookshelf", 60.00, 200.00),
+        ("lamps", "lamp", 20.00, 80.00),
+        ("sofas", "sofa", 300.00, 1000.00),
+    ]
+
+    # Generic/other items
+    OTHER_ITEMS = [
+        ("boxes", "box", 2.00, 10.00),
+        ("bags", "bag", 1.00, 8.00),
+        ("packages", "package", 3.00, 15.00),
+        ("pieces", "piece", 1.00, 5.00),
+        ("units", "unit", 1.00, 5.00),
+        ("parts", "part", 1.00, 10.00),
+    ]
+
     # Days of the week
-    WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    
+    # Months of the year
+    MONTHS = ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November", "December"]
     
     # Seasons
     SEASONS = ["spring", "summer", "fall", "winter"]

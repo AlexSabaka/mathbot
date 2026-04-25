@@ -1,5 +1,6 @@
 """YAML template loader and validator for mathbot v2.0."""
 
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
@@ -14,7 +15,6 @@ class VariableSpec:
     min: Optional[float] = None
     max: Optional[float] = None
     step: Optional[float] = None
-    format: Optional[str] = None
     category: Optional[str] = None
     singular: Optional[bool] = None
     probability: Optional[float] = None
@@ -55,7 +55,6 @@ class TemplateDefinition:
     # Source file path
     file_path: Optional[Path] = None
 
-
 class YAMLLoader:
     """Loads and validates YAML template files."""
     
@@ -65,20 +64,40 @@ class YAMLLoader:
     }
     
     VALID_TYPES = {
-        'integer', 'decimal', 'fraction', 'person', 'name',
-        'location', 'city', 'store', 'restaurant', 'company',
-        'weekday', 'season', 'time', 'item', 'boolean', 'string'
-    }
-    
-    VALID_FORMATS = {
-        'money', 'percentage', 'ordinal', 'length', 
-        'weight', 'temperature', 'area', 'volume', 'speed'
+        # numeric integer types
+        'integer','ordinal',
+        # fractions
+        'fraction',
+        # numeric decimal types
+        'decimal', 'volume', 'area', 'length', 'weight', 'temperature',
+        'speed', 'acceleration', 'money', 'price', 'percentage',
+        # entity types
+        'person', 'name', 'location', 'city',
+        'store', 'restaurant', 'company', 'item',
+        # date/time types
+        'weekday', 'month', 'season', 'time', 'duration',
+        # geometry types
+        'vector_2d', 'vector_3d', 'point_2d', 'point_3d',
+        'circle', 'ellipse',
+        'rectangle', 'square', 'rombus', 'parallelogram', 'trapezium',
+        'right_triangle', 'equilateral_triangle', 'isosceles_triangle', 'triangle',
+        'sphere', 'cube', 'cylinder', 'cone', 'rectangular_prism',
+        # statistics types
+        'data_set', 'distribution',
+        # algebra types
+        'equation', 'function', 'polynomial', 'expression',
+        'matrix', 'vector', 'set', 'sequence', 'series',
+        # calculus types
+        'limit', 'derivative', 'integral',
+        # other types
+        'boolean', 'string', 'choice'
     }
     
     VALID_DIFFICULTIES = {'easy', 'medium', 'hard'}
     
     VALID_ITEM_CATEGORIES = {
-        'grocery', 'electronics', 'clothing', 'book', 'online'
+        'grocery', 'electronics', 'clothing', 'book', 'online',
+        'school', 'furniture', 'other'
     }
     
     def __init__(self):
@@ -209,14 +228,6 @@ class YAMLLoader:
                 f"Must be one of: {self.VALID_TYPES}"
             )
         
-        # Validate format if present
-        fmt = spec.get('format')
-        if fmt and fmt not in self.VALID_FORMATS:
-            self.errors.append(
-                f"Invalid format '{fmt}' for variable '{name}'. "
-                f"Must be one of: {self.VALID_FORMATS}"
-            )
-        
         # Validate item category
         if var_type == 'item':
             category = spec.get('category')
@@ -232,9 +243,9 @@ class YAMLLoader:
         step = spec.get('step')
         
         if min_val is not None and max_val is not None:
-            if min_val >= max_val:
+            if min_val > max_val:
                 self.errors.append(
-                    f"Variable '{name}': min ({min_val}) must be less than max ({max_val})"
+                    f"Variable '{name}': min ({min_val}) must not exceed max ({max_val})"
                 )
             
             if step is not None:
@@ -251,7 +262,7 @@ class YAMLLoader:
             min=min_val,
             max=max_val,
             step=step,
-            format=fmt,
+            # format=fmt,
             category=spec.get('category'),
             singular=spec.get('singular'),
             probability=spec.get('probability'),
@@ -292,10 +303,10 @@ def load_all_templates(base_path: Path) -> Dict[str, TemplateDefinition]:
         if template:
             templates[template.id] = template
         else:
-            print(f"Failed to load {file_path}:")
+            print(f"Failed to load {file_path}:", file=sys.stderr)
             for error in loader.errors:
-                print(f"  ERROR: {error}")
+                print(f"  ERROR: {error}", file=sys.stderr)
             for warning in loader.warnings:
-                print(f"  WARNING: {warning}")
+                print(f"  WARNING: {warning}", file=sys.stderr)
     
     return templates

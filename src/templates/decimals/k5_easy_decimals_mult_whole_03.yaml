@@ -1,6 +1,6 @@
 metadata:
   id: k5_easy_decimals_mult_whole_03
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-30
   grade: 5
@@ -9,8 +9,10 @@ metadata:
   difficulty: easy
   steps: 2
   culture: en-US
-  tags: [decimals, multiplication, measurement]
-
+  tags:
+  - decimals
+  - multiplication
+  - measurement
 variables:
   name:
     type: person
@@ -27,19 +29,17 @@ variables:
     min: 3
     max: 8
   Answer:
-    type: decimal
-    format: money
+    type: money
+template: 'Each {{item}} costs ${{price}}. How much do {{qty}} {{item}} cost?
 
-template: |
-  Each {{item}} costs ${{price}}. How much do {{qty}} {{item}} cost?
+  '
+solution: 'Answer = round(price * qty, 2)
 
-solution: |
-  Answer = round(price * qty, 2)
-
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "$13.20"
-  - seed: 67890
-    expected:
-      answer: "$21.60"
+- seed: 12345
+  expected:
+    answer: $13.20
+- seed: 67890
+  expected:
+    answer: $21.60

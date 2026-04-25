@@ -1,16 +1,18 @@
 metadata:
   id: k3_easy_perimeter_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-30
   grade: 3
-  topic: geometry.measurement
+  topic: measurement.measurement
   family: measurement
   difficulty: easy
   steps: 2
   culture: en-US
-  tags: [perimeter, rectangle, measurement]
-
+  tags:
+  - perimeter
+  - rectangle
+  - measurement
 variables:
   length:
     type: integer
@@ -22,24 +24,29 @@ variables:
     max: 10
   unit:
     type: string
-    choices: ["cm", "m", "inches", "feet"]
+    choices:
+    - cm
+    - m
+    - inches
+    - feet
   Answer:
-    type: integer
-    format: length
+    type: length
+template: 'Find the perimeter of a rectangle with length {{length}} {{unit}} and width
+  {{width}} {{unit}}.
 
-template: |
-  Find the perimeter of a rectangle with length {{length}} {{unit}} and width {{width}} {{unit}}.
 
   Please solve this problem.
 
-solution: |
-  # Perimeter = 2 × (length + width)
+  '
+solution: '# Perimeter = 2 × (length + width)
+
   Answer = 2 * (length + width)
 
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "34 units"
-  - seed: 67890
-    expected:
-      answer: "20 units"
+- seed: 12345
+  expected:
+    answer: 34 units
+- seed: 67890
+  expected:
+    answer: 20 units

@@ -1,6 +1,6 @@
 metadata:
   id: k7_medium_geometry_04
-  version: "1.0.0"
+  version: 1.0.0
   author: Alex Sabaka
   created: 2026-01-30
   grade: 7
@@ -8,8 +8,12 @@ metadata:
   family: geometry
   difficulty: medium
   steps: 3
-  tags: [shapes, measurement, circles, area, circumference]
-
+  tags:
+  - shapes
+  - measurement
+  - circles
+  - area
+  - circumference
 variables:
   is_radius:
     type: boolean
@@ -22,57 +26,47 @@ variables:
   calculation_type:
     type: string
     choices:
-      - circumference_only
-      - both
-      - area_only
-      - cost
+    - circumference_only
+    - both
+    - area_only
+    - cost
   cost_per_sqm:
-    type: decimal
-    format: money
-    min: 20.00
-    max: 80.00
-    step: 10.00
+    type: money
+    min: 20.0
+    max: 80.0
+    step: 10.0
   Answer:
     type: decimal
   Answer1:
-    type: decimal
-    format: length
+    type: length
   Answer2:
-    type: decimal
-    format: area
+    type: area
+template: 'A {{ "circular garden|round fountain|circular patio|circular pool|round
+  pond" | choice }} has a {% if is_radius %}radius{% else %}diameter{% endif %} of
+  {{dimension_value}}m.
 
-template: |
-  A {{ "circular garden|round fountain|circular patio|circular pool|round pond" | choice }} has a {% if is_radius %}radius{% else %}diameter{% endif %} of {{dimension_value}}m.
-  
-  {% if calculation_type == 'circumference_only' %}Using π = 3.14, what is the circumference?{% elif calculation_type == 'both' %}The owner needs to know both the circumference for installing edging and the area for material coverage.
-  
-  Using π = 3.14, what are the circumference and area?{% elif calculation_type == 'area_only' %}Using π = 3.14, what is the area?{% elif calculation_type == 'cost' %}The project requires materials that cost {{cost_per_sqm}} per square meter.
-  
+
+  {% if calculation_type == ''circumference_only'' %}Using π = 3.14, what is the circumference?{%
+  elif calculation_type == ''both'' %}The owner needs to know both the circumference
+  for installing edging and the area for material coverage.
+
+
+  Using π = 3.14, what are the circumference and area?{% elif calculation_type ==
+  ''area_only'' %}Using π = 3.14, what is the area?{% elif calculation_type == ''cost''
+  %}The project requires materials that cost {{cost_per_sqm}} per square meter.
+
+
   Using π = 3.14, what is the total cost to cover the area?{% endif %}
 
-solution: |
-  pi = 3.14
-  
-  if is_radius:
-      radius = dimension_value
-  else:
-      radius = dimension_value / 2
-  
-  circumference = 2 * pi * radius
-  area = pi * radius * radius
-  
-  if calculation_type == 'circumference_only':
-      Answer = round(circumference, 2)
-  elif calculation_type == 'both':
-      Answer1 = round(circumference, 2)
-      Answer2 = round(area, 2)
-  elif calculation_type == 'area_only':
-      Answer = round(area, 2)
-  elif calculation_type == 'cost':
-      total_cost = area * cost_per_sqm
-      Answer = round(total_cost, 2)
-
+  '
+solution: "pi = 3.14\n\nif is_radius:\n    radius = dimension_value\nelse:\n    radius\
+  \ = dimension_value / 2\n\ncircumference = 2 * pi * radius\narea = pi * radius *\
+  \ radius\n\nif calculation_type == 'circumference_only':\n    Answer = round(circumference,\
+  \ 2)\nelif calculation_type == 'both':\n    Answer1 = round(circumference, 2)\n\
+  \    Answer2 = round(area, 2)\nelif calculation_type == 'area_only':\n    Answer\
+  \ = round(area, 2)\nelif calculation_type == 'cost':\n    total_cost = area * cost_per_sqm\n\
+  \    Answer = round(total_cost, 2)\n"
 tests:
-  - seed: 12345
-    expected:
-      answer: "69.08 meters"
+- seed: 12345
+  expected:
+    answer: 69.08 meters

@@ -1,6 +1,6 @@
 metadata:
   id: k5_easy_rhombus_area_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-30
   grade: 5
@@ -9,36 +9,36 @@ metadata:
   difficulty: easy
   culture: en-US
   steps: 1
-  tags: [rhombus, area, diagonals]
-
+  tags:
+  - rhombus
+  - area
+  - diagonals
 variables:
   diagonal1:
     type: integer
     min: 8
     max: 16
-  
   diagonal2:
     type: integer
     min: 10
     max: 18
-  
   Answer:
-    type: integer
-    format: area
+    type: area
+template: 'Find the area of a rhombus with diagonals {{diagonal1}} cm and {{diagonal2}}
+  cm.
 
-template: |
-  Find the area of a rhombus with diagonals {{diagonal1}} cm and {{diagonal2}} cm.
+  '
+solution: '# Area = (diagonal1 × diagonal2) / 2
 
-solution: |
-  # Area = (diagonal1 × diagonal2) / 2
   area = (diagonal1 * diagonal2) / 2
+
   Answer = int(area)
 
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "84 square cm"
-  
-  - seed: 67890
-    expected:
-      answer: "72 square cm"
+- seed: 12345
+  expected:
+    answer: 84 square cm
+- seed: 67890
+  expected:
+    answer: 72 square cm

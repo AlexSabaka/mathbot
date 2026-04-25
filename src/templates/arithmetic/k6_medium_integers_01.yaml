@@ -1,6 +1,6 @@
 metadata:
   id: k6_medium_integers_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-31
   grade: 6
@@ -8,8 +8,11 @@ metadata:
   family: integers
   difficulty: medium
   steps: 2
-  tags: [integers, temperature, real_world, subtraction]
-
+  tags:
+  - integers
+  - temperature
+  - real_world
+  - subtraction
 variables:
   temp_noon:
     type: integer
@@ -20,22 +23,22 @@ variables:
     min: 10
     max: 25
   Answer:
-    type: integer
-    format: temperature
+    type: temperature
+template: 'The temperature at noon was {{temp_noon}}°F. By midnight, it had dropped
+  {{temp_drop}} degrees. What was the temperature at midnight?
 
-template: |
-  The temperature at noon was {{temp_noon}}°F. By midnight, it had dropped {{temp_drop}} degrees. What was the temperature at midnight?
+  '
+solution: '# Calculate final temperature
 
-solution: |
-  # Calculate final temperature
   temp_midnight = temp_noon - temp_drop
+
   Answer = temp_midnight
 
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "-10°F"
-  
-  - seed: 67890
-    expected:
-      answer: "-8°F"
+- seed: 12345
+  expected:
+    answer: -10°F
+- seed: 67890
+  expected:
+    answer: -8°F

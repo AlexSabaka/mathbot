@@ -7,6 +7,7 @@ The solution must set an 'Answer' variable OR 'Answer1', 'Answer2', etc. for mul
 from typing import Dict, Any, Optional, Union
 from decimal import Decimal
 import math
+from math import gcd, lcm
 import inflect
 from .yaml_loader import VariableSpec
 
@@ -42,9 +43,6 @@ def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, 
     
     # Create safe evaluation namespace
     safe_globals = {
-        '__builtins__': {
-            '__import__': __import__,  # Allow from...import statements
-        },
         'abs': abs,
         'round': round,
         'str': str,
@@ -65,6 +63,8 @@ def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, 
         'any': any,
         'all': all,
         'math': math,
+        'gcd': gcd,
+        'lcm': lcm,
         'Decimal': Decimal,
         'number_to_words': _number_to_words,
     }
@@ -110,20 +110,20 @@ def format_answer(value: Any, answer_spec: Optional[VariableSpec] = None) -> str
             return str(value)
     
     # Format based on Answer variable type and format
-    if answer_spec.format == 'money':
+    if answer_spec.type == 'money':
         return f"${float(value):.2f}"
     
-    elif answer_spec.format == 'percentage':
+    elif answer_spec.type == 'percentage':
         return f"{int(value)}%"
     
-    elif answer_spec.format == 'ordinal':
+    elif answer_spec.type == 'ordinal':
         from .jinja_renderer import ordinal_filter
         return ordinal_filter(int(value))
     
-    elif answer_spec.format == 'speed':
+    elif answer_spec.type == 'speed':
         return f"{value:.2f} mph"
     
-    elif answer_spec.format == 'length':
+    elif answer_spec.type == 'length':
         # Length values with units (meters for perimeter, dimensions)
         if isinstance(value, (int, float)):
             if value == int(value):
@@ -131,13 +131,13 @@ def format_answer(value: Any, answer_spec: Optional[VariableSpec] = None) -> str
             return f"{float(value):.2f} meters"
         return str(value)
     
-    elif answer_spec.format == 'weight':
+    elif answer_spec.type == 'weight':
         return f"{value:.2f} kg"
     
-    elif answer_spec.format == 'temperature':
+    elif answer_spec.type == 'temperature':
         return f"{value:.1f}°F"
     
-    elif answer_spec.format == 'area':
+    elif answer_spec.type == 'area':
         # Area values with square units
         if isinstance(value, (int, float, Decimal)):
             if value == int(value):
@@ -145,7 +145,7 @@ def format_answer(value: Any, answer_spec: Optional[VariableSpec] = None) -> str
             return f"{float(value):.2f} square meters"
         return str(value)
     
-    elif answer_spec.format == 'volume':
+    elif answer_spec.type == 'volume':
         # Volume values with cubic units
         if isinstance(value, (int, float, Decimal)):
             if value == int(value):

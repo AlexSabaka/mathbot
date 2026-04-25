@@ -1,6 +1,6 @@
 metadata:
   id: k5_hard_expressions_terms_02
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-30
   grade: 5
@@ -8,8 +8,14 @@ metadata:
   family: expressions_terms
   difficulty: hard
   steps: 3
-  tags: [expressions, coefficient, variable, constant, terms, real-world, calculation]
-
+  tags:
+  - expressions
+  - coefficient
+  - variable
+  - constant
+  - terms
+  - real-world
+  - calculation
 variables:
   name:
     type: person
@@ -27,7 +33,9 @@ variables:
     max: 15
   variable:
     type: string
-    choices: ["w", "n"]
+    choices:
+    - w
+    - n
   specific_weeks:
     type: integer
     min: 4
@@ -39,24 +47,32 @@ variables:
   Answer3:
     type: string
   Answer4:
-    type: decimal
-    format: money
+    type: money
+template: '{{name}} has ${{initial_savings}} in savings. Each week, {% if name[-1]
+  == ''s'' %}{{name}}''{% else %}{{name}}''s{% endif %} parent gives {% if name[-1]
+  == ''s'' %}them{% else %}{{name | lower}}{% endif %} ${{weekly_amount}}, but {{name}}
+  spends ${{weekly_spending}} each week. Write an expression for the total amount
+  after {{variable}} weeks. Identify all terms, then calculate the amount after {{specific_weeks}}
+  weeks.
 
-template: |
-  {{name}} has ${{initial_savings}} in savings. Each week, {% if name[-1] == 's' %}{{name}}'{% else %}{{name}}'s{% endif %} parent gives {% if name[-1] == 's' %}them{% else %}{{name | lower}}{% endif %} ${{weekly_amount}}, but {{name}} spends ${{weekly_spending}} each week. Write an expression for the total amount after {{variable}} weeks. Identify all terms, then calculate the amount after {{specific_weeks}} weeks.
+  '
+solution: 'net_change = weekly_amount - weekly_spending
 
-solution: |
-  net_change = weekly_amount - weekly_spending
   Answer1 = f"{initial_savings} + {net_change}{variable}"
+
   Answer2 = str(net_change)
+
   Answer3 = str(initial_savings)
+
   total_amount = initial_savings + (net_change * specific_weeks)
+
   Answer4 = round(total_amount, 2)
 
+  '
 tests:
-  - seed: 11111
-    expected:
-      answer: "75 + 5w | 5 | 75 | $95.00"
-  - seed: 22222
-    expected:
-      answer: "125 + 10n | 10 | 125 | $165.00"
+- seed: 11111
+  expected:
+    answer: 75 + 5w | 5 | 75 | $95.00
+- seed: 22222
+  expected:
+    answer: 125 + 10n | 10 | 125 | $165.00

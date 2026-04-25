@@ -1,6 +1,6 @@
 metadata:
   id: k6_easy_percentage_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-31
   grade: 6
@@ -8,8 +8,10 @@ metadata:
   family: percentage
   difficulty: easy
   steps: 2
-  tags: [percentages, basic, calculation]
-
+  tags:
+  - percentages
+  - basic
+  - calculation
 variables:
   p:
     type: integer
@@ -22,22 +24,21 @@ variables:
     max: 200
     step: 10
   Answer:
-    type: decimal
-    format: money
+    type: money
     min: 0
     max: 1000
+template: 'What is {{p}}% of {{n}}?
 
-template: |
-  What is {{p}}% of {{n}}?
+  '
+solution: 'result = (p / 100) * n
 
-solution: |
-  result = (p / 100) * n
   Answer = round(result, 2)
 
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "$25.00"
-  - seed: 67890
-    expected:
-      answer: "$40.00"
+- seed: 12345
+  expected:
+    answer: $25.00
+- seed: 67890
+  expected:
+    answer: $40.00

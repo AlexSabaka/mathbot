@@ -1,6 +1,6 @@
 metadata:
   id: k8_hard_geometry_05
-  version: "1.0.0"
+  version: 1.0.0
   author: Alex Sabaka
   created: 2026-01-30
   grade: 8
@@ -9,60 +9,56 @@ metadata:
   difficulty: hard
   steps: 4
   culture: en-US
-  tags: [shapes, measurement, area, transformation]
-
+  tags:
+  - shapes
+  - measurement
+  - area
+  - transformation
 variables:
   length:
-    type: integer
-    format: length
+    type: length
     min: 5
     max: 50
   width:
-    type: integer
-    format: length
+    type: length
     min: 3
     max: 30
   calculation_type:
     type: string
     choices:
-      - area_only
-      - square_side
-      - square_both
+    - area_only
+    - square_side
+    - square_both
   Answer:
     type: decimal
   Answer1:
-    type: decimal
-    format: length
+    type: length
   Answer2:
-    type: decimal
-    format: length
+    type: length
+template: 'A {{ "soccer|baseball|sports|recreational|community" | choice }} field
+  has a rectangular shape measuring {{length}} by {{width}}.
 
-template: |
-  A {{ "soccer|baseball|sports|recreational|community" | choice }} field has a rectangular shape measuring {{length}} by {{width}}.
-  
-  {% if calculation_type == 'square_side' or calculation_type == 'square_both' %}The owner wants to redesign it as a square field with the same area.
-  
-  {% if calculation_type == 'square_both' %}They need to know both the side length of the new square and its perimeter for planning the boundary.
-  
-  What are the side length and perimeter of the square field?{% else %}What is the side length of the square field?{% endif %}{% else %}What is the area of the field?{% endif %}
 
-solution: |
-  area = length * width
-  
-  if calculation_type == 'square_side' or calculation_type == 'square_both':
-      side_length = math.sqrt(area)
-      if calculation_type == 'square_both':
-          perimeter = 4 * side_length
-          Answer1 = round(side_length, 2)
-          Answer2 = round(perimeter, 2)
-      else:
-          # Side length answer (no special formatting)
-          Answer = round(side_length, 2)
-  else:
-      # Area answer (integer, no decimal)
-      Answer = area
+  {% if calculation_type == ''square_side'' or calculation_type == ''square_both''
+  %}The owner wants to redesign it as a square field with the same area.
 
+
+  {% if calculation_type == ''square_both'' %}They need to know both the side length
+  of the new square and its perimeter for planning the boundary.
+
+
+  What are the side length and perimeter of the square field?{% else %}What is the
+  side length of the square field?{% endif %}{% else %}What is the area of the field?{%
+  endif %}
+
+  '
+solution: "area = length * width\n\nif calculation_type == 'square_side' or calculation_type\
+  \ == 'square_both':\n    side_length = math.sqrt(area)\n    if calculation_type\
+  \ == 'square_both':\n        perimeter = 4 * side_length\n        Answer1 = round(side_length,\
+  \ 2)\n        Answer2 = round(perimeter, 2)\n    else:\n        # Side length answer\
+  \ (no special formatting)\n        Answer = round(side_length, 2)\nelse:\n    #\
+  \ Area answer (integer, no decimal)\n    Answer = area\n"
 tests:
-  - seed: 12345
-    expected:
-      answer: "350 feet squared"
+- seed: 12345
+  expected:
+    answer: 350 feet squared

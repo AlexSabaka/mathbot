@@ -1,6 +1,6 @@
 metadata:
   id: k6_medium_percentage_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-31
   grade: 6
@@ -8,8 +8,11 @@ metadata:
   family: percentage
   difficulty: medium
   steps: 3
-  tags: [percentages, discount, shopping, money]
-
+  tags:
+  - percentages
+  - discount
+  - shopping
+  - money
 variables:
   item:
     type: item
@@ -25,23 +28,24 @@ variables:
     max: 50
     step: 5
   Answer:
-    type: decimal
-    format: money
+    type: money
     min: 0
     max: 200
+template: 'A {{item}} originally costs ${{a}}. It is on sale for {{p}}% off. What
+  is the sale price?
 
-template: |
-  A {{item}} originally costs ${{a}}. It is on sale for {{p}}% off. What is the sale price?
+  '
+solution: 'discount = (p / 100) * a
 
-solution: |
-  discount = (p / 100) * a
   sale_price = a - discount
+
   Answer = round(sale_price, 2)
 
+  '
 tests:
-  - seed: 55555
-    expected:
-      answer: "$36.00"
-  - seed: 66666
-    expected:
-      answer: "$45.00"
+- seed: 55555
+  expected:
+    answer: $36.00
+- seed: 66666
+  expected:
+    answer: $45.00

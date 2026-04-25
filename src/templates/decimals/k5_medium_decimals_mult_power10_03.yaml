@@ -1,6 +1,6 @@
 metadata:
   id: k5_medium_decimals_mult_power10_03
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-30
   grade: 5
@@ -9,8 +9,11 @@ metadata:
   difficulty: medium
   steps: 2
   culture: en-US
-  tags: [decimals, powers_of_10, multiplication, money]
-
+  tags:
+  - decimals
+  - powers_of_10
+  - multiplication
+  - money
 variables:
   name:
     type: person
@@ -21,21 +24,22 @@ variables:
     step: 0.1
   power:
     type: integer
-    choices: [10, 100]
+    choices:
+    - 10
+    - 100
   Answer:
-    type: decimal
-    format: money
+    type: money
+template: '{{name}} invests ${{amount}} and it grows {{power}} times larger. How much
+  money does {{name}} have now?
 
-template: |
-  {{name}} invests ${{amount}} and it grows {{power}} times larger. How much money does {{name}} have now?
+  '
+solution: 'Answer = round(amount * power, 2)
 
-solution: |
-  Answer = round(amount * power, 2)
-
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "$330.00"
-  - seed: 67890
-    expected:
-      answer: "$390.00"
+- seed: 12345
+  expected:
+    answer: $330.00
+- seed: 67890
+  expected:
+    answer: $390.00

@@ -1,6 +1,7 @@
 """YAML-based template problem generator for mathbot v2.0."""
 
 import random
+import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 from faker import Faker
@@ -82,9 +83,9 @@ class TemplateGenerator:
                 # Print validation errors
                 errors, warnings = self.loader.get_validation_results()
                 if errors:
-                    print(f"Failed to load {file_path}:")
+                    print(f"Failed to load {file_path}:", file=sys.stderr)
                     for error in errors:
-                        print(f"  ERROR: {error}")
+                        print(f"  ERROR: {error}", file=sys.stderr)
     
     def _index_template(self, template: TemplateDefinition):
         """Index template by various criteria for fast filtering."""

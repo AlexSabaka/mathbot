@@ -47,11 +47,11 @@ class VariableGenerator:
         """Generate a single value based on variable specification."""
         var_type = spec.type
         
-        # Numeric types
-        if var_type == 'integer':
+        # Numeric integer types
+        if var_type in ('integer', 'ordinal'):
             return self._generate_integer(spec)
         
-        elif var_type == 'decimal':
+        elif var_type in ('decimal', 'volume', 'area', 'length', 'weight', 'temperature', 'speed', 'acceleration', 'money', 'price', 'percentage'):
             return self._generate_decimal(spec)
         
         elif var_type == 'fraction':
@@ -77,6 +77,9 @@ class VariableGenerator:
         elif var_type == 'weekday':
             return random.choice(MathProblemProvider.WEEKDAYS)
         
+        elif var_type == 'month':
+            return random.choice(MathProblemProvider.MONTHS)
+        
         elif var_type == 'season':
             return random.choice(MathProblemProvider.SEASONS)
         
@@ -92,22 +95,25 @@ class VariableGenerator:
             probability = spec.probability if spec.probability is not None else 0.5
             return random.random() < probability
         
-        # String with choices
-        elif var_type == 'string':
+        # String with choices (and 'choice' alias)
+        elif var_type in ('string', 'choice'):
             if spec.choices:
                 return random.choice(spec.choices)
             else:
-                raise ValueError(f"String variable requires 'choices' list")
-        
+                raise ValueError(f"'{var_type}' variable requires 'choices' list")
+
         else:
             raise ValueError(f"Unknown variable type: {var_type}")
     
     def _generate_integer(self, spec: VariableSpec) -> int:
         """Generate an integer value."""
+        if spec.choices:
+            return int(random.choice(spec.choices))
+
         min_val = int(spec.min) if spec.min is not None else 1
         max_val = int(spec.max) if spec.max is not None else 10
         step = int(spec.step) if spec.step is not None else 1
-        
+
         # Generate values in steps
         values = list(range(min_val, max_val + 1, step))
         return random.choice(values)
@@ -118,12 +124,12 @@ class VariableGenerator:
         max_val = float(spec.max) if spec.max is not None else 10.0
         step = float(spec.step) if spec.step is not None else 0.01
         
-        # Use generate_price for money format
-        if spec.format == 'money':
+        # Use generate_price for money/price types
+        if spec.type in ('money', 'price'):
             return generate_price(min_val, max_val, step)
         
-        # Use generate_percentage for percentage format
-        elif spec.format == 'percentage':
+        # Use generate_percentage for percentage type
+        elif spec.type == 'percentage':
             return generate_percentage(int(min_val), int(max_val), int(step))
         
         # General decimal
@@ -168,6 +174,12 @@ class VariableGenerator:
             items = MathProblemProvider.BOOK_ITEMS
         elif category == 'online':
             items = MathProblemProvider.ONLINE_ITEMS
+        elif category == 'school':
+            items = MathProblemProvider.SCHOOL_ITEMS
+        elif category == 'furniture':
+            items = MathProblemProvider.FURNITURE_ITEMS
+        elif category == 'other':
+            items = MathProblemProvider.OTHER_ITEMS
         else:
             items = MathProblemProvider.GROCERY_ITEMS  # Default
         
@@ -184,17 +196,17 @@ class VariableGenerator:
         NOTE: For percentages, returns just the number (not with %)
         since templates typically write {{var}}% themselves.
         """
-        if spec.format == 'money':
+        if spec.type in ('money', 'price'):
             return f"${value:.2f}"
         
-        elif spec.format == 'percentage':
+        elif spec.type == 'percentage':
             return str(int(value))  # Don't add %, template will have {{var}}%
         
-        elif spec.format == 'ordinal':
+        elif spec.type == 'ordinal':
             from .jinja_renderer import ordinal_filter
             return ordinal_filter(int(value))
         
-        elif spec.format == 'length':
+        elif spec.type == 'length':
             # Length values with units (meters for input, miles for Answer)
             if isinstance(value, (int, float)):
                 if value == int(value):
@@ -202,7 +214,7 @@ class VariableGenerator:
                 return f"{float(value):.2f}m"
             return str(value)
         
-        elif spec.format == 'weight':
+        elif spec.type == 'weight':
             # Weight values with units
             if isinstance(value, (int, float)):
                 if value == int(value):
@@ -210,13 +222,13 @@ class VariableGenerator:
                 return f"{float(value):.2f}kg"
             return str(value)
         
-        elif spec.format == 'temperature':
+        elif spec.type == 'temperature':
             # Temperature values with units
             if isinstance(value, (int, float)):
                 return f"{float(value):.1f}°F"
             return str(value)
         
-        elif spec.format == 'area':
+        elif spec.type == 'area':
             # Area values (display without units in template, units added in Answer)
             if isinstance(value, (int, float)):
                 if value == int(value):
@@ -224,7 +236,7 @@ class VariableGenerator:
                 return float(value)
             return value
         
-        elif spec.format == 'volume':
+        elif spec.type == 'volume':
             # Volume values (display without units in template, units added in Answer)
             if isinstance(value, (int, float)):
                 if value == int(value):

@@ -1,16 +1,19 @@
 metadata:
   id: k3_medium_area_01
-  version: "1.0.0"
+  version: 1.0.0
   author: Mathbot
   created: 2026-01-30
   grade: 3
-  topic: geometry.measurement
+  topic: measurement.measurement
   family: measurement
   difficulty: medium
   steps: 1
   culture: en-US
-  tags: [area, garden, real-world, rectangle]
-
+  tags:
+  - area
+  - garden
+  - real-world
+  - rectangle
 variables:
   name:
     type: person
@@ -23,24 +26,26 @@ variables:
     min: 3
     max: 15
   Answer:
-    type: integer
-    format: area
+    type: area
+template: '{{name}}''s rectangular garden is {{length}} meters long and {{width}}
+  meters wide.
 
-template: |
-  {{name}}'s rectangular garden is {{length}} meters long and {{width}} meters wide.
 
   What is the area of the garden?
 
+
   Please solve this problem.
 
-solution: |
-  # Area = length × width
+  '
+solution: '# Area = length × width
+
   Answer = length * width
 
+  '
 tests:
-  - seed: 12345
-    expected:
-      answer: "84 square meters"
-  - seed: 67890
-    expected:
-      answer: "36 square meters"
+- seed: 12345
+  expected:
+    answer: 84 square meters
+- seed: 67890
+  expected:
+    answer: 36 square meters

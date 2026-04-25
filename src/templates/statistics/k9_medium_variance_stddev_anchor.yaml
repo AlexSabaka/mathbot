@@ -1,0 +1,78 @@
+metadata:
+  id: k9_medium_variance_stddev
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 9
+  topic: statistics.dispersion
+  family: variance
+  difficulty: medium
+  steps: 6
+  culture: en-US
+  tags: [statistics, variance, standard_deviation, dispersion]
+  notes: >
+    Proposal 2.3.9 from problem-proposals.md.
+    Population variance and standard deviation for a small dataset.
+    Tests sequential arithmetic with named intermediate quantities (sum,
+    mean, deviations, squared deviations, variance, SD). Datasets are
+    chosen so variance is exact in tenths and SD is rationalisable.
+
+variables:
+  unit_size:
+    type: integer
+    min: 2
+    max: 5
+  v1_offset:
+    type: integer
+    choices: [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+  v2_offset:
+    type: integer
+    choices: [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+  v3_offset:
+    type: integer
+    choices: [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+  v4_offset:
+    type: integer
+    choices: [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+  v5_offset:
+    type: integer
+    choices: [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+  base:
+    type: integer
+    choices: [70, 75, 80, 85, 90]
+  Answer:
+    type: string
+
+template: |
+  {% set v1 = base + v1_offset * unit_size %}
+  {% set v2 = base + v2_offset * unit_size %}
+  {% set v3 = base + v3_offset * unit_size %}
+  {% set v4 = base + v4_offset * unit_size %}
+  {% set v5 = base + v5_offset * unit_size %}
+  A class of 5 students received the following scores on a test: {{v1}}, {{v2}}, {{v3}}, {{v4}}, {{v5}}.
+  Compute the population mean, variance, and standard deviation (rounded to two decimal places).
+
+solution: |
+  v1 = base + v1_offset * unit_size
+  v2 = base + v2_offset * unit_size
+  v3 = base + v3_offset * unit_size
+  v4 = base + v4_offset * unit_size
+  v5 = base + v5_offset * unit_size
+  values = [v1, v2, v3, v4, v5]
+  n = len(values)
+  mean = sum(values) / n
+  squared_deviations = [(x - mean) ** 2 for x in values]
+  variance = sum(squared_deviations) / n
+  std_dev = math.sqrt(variance)
+  Answer = f"mean={mean:.2f}, variance={variance:.2f}, sd={std_dev:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "mean=86.00, variance=74.00, sd=8.60"
+  - seed: 42
+    expected:
+      answer: "mean=66.80, variance=7.36, sd=2.71"
+  - seed: 99
+    expected:
+      answer: "mean=72.00, variance=46.00, sd=6.78"

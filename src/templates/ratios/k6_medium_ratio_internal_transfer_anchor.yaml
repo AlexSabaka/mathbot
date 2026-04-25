@@ -1,0 +1,66 @@
+metadata:
+  id: k6_medium_ratio_internal_transfer
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 6
+  topic: ratios.proportions
+  family: multi_person_sharing
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [ratios, multi_person_sharing, invariant, bar_model, transfer]
+  notes: >
+    Proposal 2.2.1 (forward-direction variant): two people start with given
+    quantities. One gives a transfer amount to the other; the total stays
+    invariant. Find both the new amounts and simplified new ratio. Tests
+    invariant-recognition (total preserved across internal transfer) plus
+    GCD-based ratio simplification.
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  unit_size:
+    type: integer
+    min: 5
+    max: 20
+  p1:
+    type: integer
+    choices: [3, 4, 5, 7]
+  q1:
+    type: integer
+    choices: [2, 3, 5, 6]
+  transfer:
+    type: integer
+    min: 2
+    max: 15
+  Answer:
+    type: string
+
+template: |
+  {% set a_init = unit_size * p1 %}
+  {% set b_init = unit_size * q1 %}
+  {{name1}} has {{a_init}} stickers and {{name2}} has {{b_init}} stickers.
+  {{name1}} gives {{transfer}} stickers to {{name2}}.
+  After the trade, what are the new amounts and what is the simplified ratio of {{name1}}'s stickers to {{name2}}'s stickers?
+
+solution: |
+  a_init = unit_size * p1
+  b_init = unit_size * q1
+  a_new = a_init - transfer
+  b_new = b_init + transfer
+  g = gcd(a_new, b_new)
+  Answer = f"{name1}: {a_new}, {name2}: {b_new}, ratio {a_new // g}:{b_new // g}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Mae: 51, Isabelle: 70, ratio 51:70"
+  - seed: 42
+    expected:
+      answer: "James: 16, Brenda: 29, ratio 16:29"
+  - seed: 99
+    expected:
+      answer: "Judith: 14, Joseph: 58, ratio 7:29"

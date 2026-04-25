@@ -1,0 +1,84 @@
+metadata:
+  id: k7_medium_sequential_budget
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 7
+  topic: arithmetic.multi_step
+  family: sequential_purchase
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [sequential_purchase, budget, multi_step, running_total]
+  notes: >
+    Proposal 2.3.5 from problem-proposals.md.
+    Customer enters store with budget B, buys items in fixed order. Tracks
+    running total under affordability constraint. Tests state-tracking under
+    conditional logic. LLM failure mode: skipping the affordability guard
+    on the last item.
+
+variables:
+  name:
+    type: person
+  budget:
+    type: integer
+    choices: [40, 50, 60, 75, 100]
+  price1:
+    type: integer
+    min: 8
+    max: 18
+  price2:
+    type: integer
+    min: 6
+    max: 14
+  price3:
+    type: integer
+    min: 10
+    max: 22
+  price4:
+    type: integer
+    min: 5
+    max: 12
+  price5:
+    type: integer
+    min: 9
+    max: 20
+  Answer:
+    type: string
+
+template: |
+  {{name}} walks into a store with a budget of ${{budget}}.
+  They want to buy these items in order:
+  - a notebook for ${{price1}}
+  - a pen set for ${{price2}}
+  - a backpack for ${{price3}}
+  - a calculator for ${{price4}}
+  - a planner for ${{price5}}
+  {{name}} buys each item in order and stops as soon as the next item would put them over budget.
+  How many items does {{name}} buy, and how much does {{name}} have left?
+
+solution: |
+  prices = [price1, price2, price3, price4, price5]
+  remaining = budget
+  bought = 0
+  for p in prices:
+      if p <= remaining:
+          remaining -= p
+          bought += 1
+      else:
+          break
+  Answer = f"bought {bought} items, ${remaining} left"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "bought 5 items, $2 left"
+  - seed: 42
+    expected:
+      answer: "bought 5 items, $3 left"
+  - seed: 99
+    expected:
+      answer: "bought 5 items, $51 left"
+  - seed: 1
+    expected:
+      answer: "bought 3 items, $4 left"

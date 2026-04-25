@@ -1,0 +1,67 @@
+metadata:
+  id: k8_medium_compound_change_chain
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 8
+  topic: percentages.growth
+  family: compound_growth
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [compound_growth, percent_change, sequential, multiplicative]
+  notes: >
+    Proposal 2.3.1 from problem-proposals.md.
+    A quantity goes through three sequential percent changes (mixed signs).
+    Find the final value. Tests sequential state update over compounding
+    events. LLM failure mode: additively combining percentages instead of
+    applying multiplicatively in sequence.
+
+variables:
+  name:
+    type: location
+  initial_value:
+    type: integer
+    choices: [5000, 8000, 10000, 12000, 15000, 20000]
+  pct1:
+    type: integer
+    choices: [10, 15, 20, 25]
+  pct2:
+    type: integer
+    choices: [-15, -10, -5, 5, 10, 15]
+  pct3:
+    type: integer
+    choices: [-20, -10, 5, 10, 20]
+  Answer:
+    type: integer
+
+template: |
+  {% set verb1 = 'grew' if pct1 > 0 else 'shrank' %}
+  {% set abs1 = pct1 if pct1 > 0 else (-pct1) %}
+  {% set verb2 = 'grew' if pct2 > 0 else 'shrank' %}
+  {% set abs2 = pct2 if pct2 > 0 else (-pct2) %}
+  {% set verb3 = 'grew' if pct3 > 0 else 'shrank' %}
+  {% set abs3 = pct3 if pct3 > 0 else (-pct3) %}
+  The town of {{name}} had a population of {{initial_value}} at the start of 2020.
+  - In 2021, the population {{verb1}} by {{abs1}}%.
+  - In 2022, the population {{verb2}} by {{abs2}}%.
+  - In 2023, the population {{verb3}} by {{abs3}}%.
+  What is the population at the end of 2023, rounded to the nearest whole person?
+
+solution: |
+  v = initial_value
+  v = v * (100 + pct1) / 100
+  v = v * (100 + pct2) / 100
+  v = v * (100 + pct3) / 100
+  Answer = round(v)
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "13167"
+  - seed: 42
+    expected:
+      answer: "19635"
+  - seed: 99
+    expected:
+      answer: "16200"

@@ -1,0 +1,65 @@
+metadata:
+  id: k3_easy_equal_share_remainder
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 3
+  topic: arithmetic.division
+  family: multi_person_sharing
+  difficulty: easy
+  steps: 3
+  culture: en-US
+  tags: [division, remainder, sharing, multi_person_sharing]
+  notes: >
+    Proposal 2.1.1 from problem-proposals.md.
+    Tests division-with-remainder and the verbal interpretation of remainder
+    ("each gets X, with R left over"). LLM failure mode: rounding or
+    truncating the remainder rather than naming it.
+
+variables:
+  name:
+    type: person
+  num_friends:
+    type: integer
+    min: 3
+    max: 8
+  per_person:
+    type: integer
+    min: 2
+    max: 8
+  remainder:
+    type: integer
+    min: 1
+    max: 7
+  item:
+    type: item
+    category: grocery
+  Answer:
+    type: string
+
+template: |
+  {% set effective_remainder = (remainder % num_friends) if (remainder % num_friends) > 0 else 1 %}
+  {% set total = num_friends * per_person + effective_remainder %}
+  {{name}} has {{total}} {{item}} to share equally among {{num_friends}} friends.
+  How many {{item}} does each friend get, and how many are left over?
+
+solution: |
+  effective_remainder = (remainder % num_friends) if (remainder % num_friends) > 0 else 1
+  total = num_friends * per_person + effective_remainder
+  per = total // num_friends
+  rem = total % num_friends
+  Answer = f"each gets {per}, {rem} left over"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "each gets 8, 3 left over"
+    notes: random sample
+  - seed: 42
+    expected:
+      answer: "each gets 3, 2 left over"
+    notes: random sample
+  - seed: 9001
+    expected:
+      answer: "each gets 6, 1 left over"
+    notes: edge case (high remainder)

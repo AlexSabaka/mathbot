@@ -139,8 +139,7 @@ tests:
 ```yaml
 variables:
   price:
-    type: decimal
-    format: money
+    type: money
     min: 5.0
     max: 20.0
     step: 0.25
@@ -153,54 +152,77 @@ variables:
   city:
     type: location
   discount:
-    type: integer
-    format: percentage
+    type: percentage
     min: 10
     max: 30
     step: 5
 ```
 
 **Generated Values:**
-- `price` → `$12.50` (formatted in template as `{{price}}`)
+- `price` → `$12.50` (automatically formatted in template as `{{price}}`)
 - `qty` → `5` (raw integer)
 - `name` → `"James"` (random person name)
 - `city` → `"Springfield"` (random location)
-- `discount` → `15` (displayed as `{{discount}}%` in template)
-
-**Important**: Variables with `format` constraints get both raw value (for logic) and formatted value (for display with `_formatted` suffix)
+- `discount` → `15%` (automatically formatted in template as `{{discount}}`)
 
 ### Available Variable Types
 
+#### Core Numeric Types
 | Type | Constraints | Example Output |
 |------|-------------|----------------|
 | `integer` | `min`, `max`, `step` | `5`, `42` |
 | `decimal` | `min`, `max`, `step` | `12.50`, `3.75` |
 | `fraction` | `min`, `max` | `3/4`, `2/5` |
+| `ordinal` | `min`, `max` | `3rd`, `21st` |
+
+#### Money & Financial Types
+| Type | Constraints | Example Output |
+|------|-------------|----------------|
+| `money` | `min`, `max`, `step` | `$42.50`, `$125.00` |
+| `price` | `min`, `max`, `step` | `$15.99`, `$3.25` |
+| `percentage` | `min`, `max`, `step` | `15%`, `7.5%` |
+
+#### Measurement Types
+| Type | Constraints | Example Output |
+|------|-------------|----------------|
+| `length` | `min`, `max`, `step` | `15 meters`, `3.5 km` |
+| `area` | `min`, `max`, `step` | `45 square meters` |
+| `volume` | `min`, `max`, `step` | `150 cubic meters` |
+| `weight` | `min`, `max`, `step` | `75 kilograms` |
+| `temperature` | `min`, `max`, `step` | `72.5°F` |
+| `speed` | `min`, `max`, `step` | `65.00 mph` |
+| `time` | `min`, `max`, `step` | `2.5 hours` |
+
+#### Name & Location Types
+| Type | Constraints | Example Output |
+|------|-------------|----------------|
 | `person` | (none) | `James`, `Sarah` |
 | `location` | (none) | `Springfield`, `New York` |
 | `store` | (none) | `Johnson's Market` |
 | `restaurant` | (none) | `Mario's Bistro` |
 | `company` | (none) | `Tech Solutions Inc` |
+
+#### Other Types
+| Type | Constraints | Example Output |
+|------|-------------|----------------|
+| `item` | `category: grocery/electronics/etc.` | `apples`, `laptop` |
 | `weekday` | (none) | `Monday`, `Friday` |
 | `season` | (none) | `spring`, `winter` |
-| `time` | `min`, `max`, `step` | `2.5` (hours) |
-| `item` | `category: grocery/electronics/etc.` | `apples`, `laptop` |
-| `boolean` | (none) | `True`, `False` |
+| `boolean` | `probability: 0.0-1.0` | `True`, `False` |
 | `string` | `choices: [...]` | Custom options |
 
-### Available Format Constraints
+### Type-Based Formatting
 
-| Format | Adds | Example |
-|--------|------|----------|
-| `money` | `$` | `$12.50` |
-| `percentage` | (number only, template adds %) | `15` |
-| `ordinal` | ordinal suffix | `3rd`, `21st` |
-| `length` | meters | `45m` (input), `62 meters` (answer) |
-| `weight` | kilograms | `75kg` |
-| `temperature` | Fahrenheit | `72.5°F` |
-| `area` | square meters | `238 square meters` |
-| `volume` | cubic meters | `150 cubic meters` |
-| `speed` | mph | `65.00 mph` |
+**All formatting is now handled by the variable type itself. No separate `format` field is needed.**
+
+Each type automatically applies appropriate formatting:
+- `money`, `price` → Add `$` prefix
+- `percentage` → Add `%` suffix
+- `ordinal` → Add ordinal suffix (1st, 2nd, 3rd)
+- `length`, `area`, `volume`, `weight` → Add units (meters, square meters, etc.)
+- `temperature` → Add `°F`
+- `speed` → Add `mph`
+- `time` → Format as hours/minutes
 
 ### Jinja2 Filters
 
@@ -233,11 +255,11 @@ variables:
 3. Single answer: `Answer = expression`
 4. Multiple answers: `Answer1 = expr1`, `Answer2 = expr2`, `Answer3 = expr3`
 5. Available functions: `abs()`, `round()`, `str()`, `int()`, `float()`, `min()`, `max()`, `sum()`, `pow()`, `len()`, `list()`, `range()`, `sorted()`, `enumerate()`, `zip()`, `map()`, `filter()`, `any()`, `all()`, `math.*`
-6. Answer formatting determined by Answer variable's `format` specification
+6. Answer formatting determined by Answer variable's `type` specification
 7. Example:
 ```python
 total = qty * price
-Answer = round(total, 2)  # Format applied based on Answer's format: money
+Answer = round(total, 2)  # Format applied based on Answer's type: money
 ```
 
 ### Multi-Answer Problems
@@ -247,11 +269,9 @@ For problems requiring multiple outputs (e.g., area AND perimeter):
 ```yaml
 variables:
   Answer1:
-    type: integer
-    format: area
+    type: area
   Answer2:
-    type: integer
-    format: length
+    type: length
 
 solution: |
   area = length * width
@@ -286,7 +306,7 @@ Output format: `"Answer1 | Answer2 | Answer3"` with proper formatting applied to
 - [ ] Filename follows `{grade}_{complexity}_{family}_{variant}.yaml`
 - [ ] All YAML sections present: metadata, variables, template, solution, tests
 - [ ] Variables have proper type and constraints
-- [ ] Answer variable(s) have appropriate format specification
+- [ ] Answer variable(s) have appropriate type specification
 - [ ] Solution uses raw variable names and produces correct Answer
 - [ ] Test cases provided with seeds and expected answers
 - [ ] Realistic value ranges for grade level
@@ -323,8 +343,7 @@ variables:
     type: item
     category: grocery
   price1:
-    type: decimal
-    format: money
+    type: money
     min: 1.0
     max: 5.0
     step: 0.25
@@ -336,14 +355,12 @@ variables:
     type: item
     category: grocery
   price2:
-    type: decimal
-    format: money
+    type: money
     min: 2.0
     max: 6.0
     step: 0.25
   Answer:
-    type: decimal
-    format: money
+    type: money
 
 template: |
   {{name}} goes shopping at {{store}} in {{city}}.
@@ -493,7 +510,7 @@ fake.percentage(min=5, max=50, step=5)
 2. **DON'T use floating-point for money** - Use `round()` in solution, format handles display
 3. **DON'T forget Answer variable** - Must be defined in variables section
 4. **DON'T use f-strings for multi-answer** - Use Answer1, Answer2, Answer3 instead
-5. **DON'T forget format constraints** - Answer variables should specify format (money, percentage, etc.)
+5. **DON'T forget type specification** - Answer variables should specify appropriate type (money, percentage, area, etc.)
 6. **DO include "Please solve this problem"** - Tests expect this text
 7. **DO use deterministic seeds** - Same seed → identical output
 8. **DO test new templates** - Run `mathbot generate --input {file}` first

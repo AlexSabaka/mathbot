@@ -45,6 +45,9 @@ uv.lock
 # Misc
 .DS_Store
 
-.claude/
+.claude/settings.local.json
 .pytest_cache/
 .venv/
+
+# Migration artifacts
+migration.log

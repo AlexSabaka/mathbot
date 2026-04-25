@@ -1,0 +1,61 @@
+metadata:
+  id: k6_medium_age_ratio
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 6
+  topic: ratios.proportions
+  family: multi_person_sharing
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [multi_person_sharing, age_problem, constant_difference, ratio]
+  notes: >
+    Proposal 2.2.2 from problem-proposals.md.
+    Constant-difference age problem: in K years the ratio of two ages
+    becomes a:b. Find K. We parameterise so the future ratio is exact and
+    K is a positive integer. (Pick a:b coprime via simple choices, scale,
+    and K, then derive current ages.)
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  a:
+    type: integer
+    choices: [1, 2, 3]
+  b_offset:
+    type: integer
+    choices: [1, 2, 3]
+  scale:
+    type: integer
+    choices: [8, 10, 12, 15]
+  K:
+    type: integer
+    choices: [2, 3, 5]
+  Answer:
+    type: integer
+
+template: |
+  {% set b = a + b_offset %}
+  {% set future_x = a * scale %}
+  {% set future_y = b * scale %}
+  {% set x = future_x - K %}
+  {% set y = future_y - K %}
+  {{name1}} is {{x}} years old. Her sibling {{name2}} is {{y}} years old.
+  In how many years will the ratio of {{name1}}'s age to {{name2}}'s age be {{a}}:{{b}}?
+
+solution: |
+  Answer = K
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "2"
+  - seed: 42
+    expected:
+      answer: "5"
+  - seed: 99
+    expected:
+      answer: "5"

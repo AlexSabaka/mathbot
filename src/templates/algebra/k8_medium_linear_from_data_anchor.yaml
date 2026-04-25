@@ -1,0 +1,68 @@
+metadata:
+  id: k8_medium_linear_from_data
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 8
+  topic: algebra.equations
+  family: equations
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [algebra, linear_function, slope_intercept, two_data_points]
+  notes: >
+    Proposal 2.3.8 from problem-proposals.md.
+    Cost is linear in quantity; given two data points, find slope and
+    intercept (per-unit and fixed fee), then predict for a new quantity.
+    Parameterised so per-unit, fixed fee, and predictions are integers.
+
+variables:
+  name:
+    type: person
+  per_unit:
+    type: integer
+    choices: [3, 4, 5, 6, 8]
+  fixed_fee:
+    type: integer
+    choices: [3, 5, 8, 10, 15]
+  x1:
+    type: integer
+    choices: [4, 5, 6]
+  x2_offset:
+    type: integer
+    choices: [3, 5, 7, 9]
+  x_target:
+    type: integer
+    choices: [10, 12, 15, 20, 25]
+  Answer:
+    type: string
+
+template: |
+  {% set x2 = x1 + x2_offset %}
+  {% set y1 = per_unit * x1 + fixed_fee %}
+  {% set y2 = per_unit * x2 + fixed_fee %}
+  {{name}}'s catering company charges a fixed setup fee plus a fixed price per guest.
+  - For {{x1}} guests, the total cost is ${{y1}}.
+  - For {{x2}} guests, the total cost is ${{y2}}.
+  What is the per-guest price, what is the setup fee, and what would {{x_target}} guests cost?
+
+solution: |
+  x2 = x1 + x2_offset
+  y1 = per_unit * x1 + fixed_fee
+  y2 = per_unit * x2 + fixed_fee
+  # Slope (per-unit) = (y2 - y1) / (x2 - x1)
+  slope = (y2 - y1) // (x2 - x1)
+  intercept = y1 - slope * x1
+  prediction = slope * x_target + intercept
+  Answer = f"per-guest: ${slope}, setup: ${intercept}, {x_target} guests: ${prediction}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "per-guest: $5, setup: $8, 25 guests: $133"
+  - seed: 42
+    expected:
+      answer: "per-guest: $5, setup: $5, 10 guests: $55"
+  - seed: 99
+    expected:
+      answer: "per-guest: $8, setup: $5, 12 guests: $101"

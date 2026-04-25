@@ -1,0 +1,63 @@
+metadata:
+  id: k7_medium_two_rate_work
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 7
+  topic: measurement.time
+  family: rate_time
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [rate_time, work_problem, fractions, multi_step]
+  notes: >
+    Proposal 2.3.3 from problem-proposals.md.
+    Two workers with different rates work together for x hours, then one
+    leaves. Find time for the other to finish. Variables constrained so
+    LCM of t_A and t_B is clean and the answer is an exact rational that
+    rounds to a tidy decimal.
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  t_A:
+    type: integer
+    choices: [6, 8, 10, 12]
+  t_B_offset:
+    type: integer
+    choices: [3, 4, 6]
+  hours_together:
+    type: integer
+    choices: [1, 2]
+  Answer:
+    type: string
+
+template: |
+  {% set t_B = t_A + t_B_offset %}
+  Working alone, {{name1}} can paint a fence in {{t_A}} hours.
+  Working alone, {{name2}} can paint the same fence in {{t_B}} hours.
+  They start the job together and work for {{hours_together}} hours, then {{name1}} has to leave.
+  How many more hours does {{name2}} need to finish the fence alone? Round to two decimals.
+
+solution: |
+  t_B = t_A + t_B_offset
+  # Combined rate per hour = 1/t_A + 1/t_B = (t_A + t_B) / (t_A * t_B)
+  # Work done together = (t_A + t_B) * hours_together / (t_A * t_B)
+  # Remaining = 1 - done = (t_A*t_B - (t_A+t_B)*hours_together) / (t_A*t_B)
+  # Time for B alone = remaining / (1/t_B) = remaining * t_B
+  numerator = t_A * t_B - (t_A + t_B) * hours_together
+  time_b_hours = numerator / t_A
+  Answer = f"{time_b_hours:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "7.00"
+  - seed: 42
+    expected:
+      answer: "11.25"
+  - seed: 99
+    expected:
+      answer: "6.25"

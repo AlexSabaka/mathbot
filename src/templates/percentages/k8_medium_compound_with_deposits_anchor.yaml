@@ -1,0 +1,58 @@
+metadata:
+  id: k8_medium_compound_with_deposits
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 8
+  topic: percentages.growth
+  family: compound_growth
+  difficulty: medium
+  steps: 6
+  culture: en-US
+  tags: [compound_growth, periodic_deposits, iterative, financial]
+  notes: >
+    Proposal 2.3.2 from problem-proposals.md.
+    Account starts at P, earns r% annually, plus fixed deposit D at end of
+    each year. Iterative simulation over N=3 years for K8 (closed-form
+    annuity reserved for K11+ variant). Tests sequential state-tracking.
+
+variables:
+  name:
+    type: person
+  P:
+    type: integer
+    choices: [1000, 1500, 2000, 2500, 5000]
+  r:
+    type: integer
+    choices: [3, 4, 5, 6, 8]
+  D:
+    type: integer
+    choices: [200, 300, 500, 1000]
+  N:
+    type: integer
+    choices: [3]
+  Answer:
+    type: string
+
+template: |
+  {{name}} opens a savings account with ${{P}}.
+  The account earns {{r}}% interest per year.
+  At the end of each year, after interest is credited, {{name}} also deposits an additional ${{D}}.
+  What is the balance at the end of year {{N}}, rounded to the nearest cent?
+
+solution: |
+  balance = P
+  for _ in range(N):
+      balance = balance * (100 + r) / 100 + D
+  Answer = f"${balance:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$3261.00"
+  - seed: 42
+    expected:
+      answer: "$3186.21"
+  - seed: 99
+    expected:
+      answer: "$6560.80"

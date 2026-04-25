@@ -1,0 +1,57 @@
+metadata:
+  id: k7_medium_sequential_discount
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 7
+  topic: percentages.calculation
+  family: sequential_purchase
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [sequential_purchase, percentages, multiplicative_composition]
+  notes: >
+    Proposal 2.2.3 from problem-proposals.md.
+    Item is marked up by p%, then discounted by q%, then has tax t% added.
+    Tests multiplicative composition (LLM failure mode: additive). All
+    parameters constrained so the final price has exactly two decimals.
+
+variables:
+  base_price:
+    type: integer
+    choices: [40, 60, 80, 100, 120, 200]
+  markup:
+    type: integer
+    choices: [10, 20, 25]
+  discount:
+    type: integer
+    choices: [10, 20, 25, 50]
+  tax:
+    type: integer
+    choices: [5, 8, 10]
+  Answer:
+    type: string
+
+template: |
+  A retailer buys an item for ${{base_price}}.
+  - The retailer marks it up by {{markup}}%.
+  - The customer applies a {{discount}}% off coupon at checkout.
+  - Sales tax of {{tax}}% is then added to the discounted price.
+  What is the final price the customer pays, rounded to the nearest cent?
+
+solution: |
+  marked_up = base_price * (100 + markup) / 100
+  after_discount = marked_up * (100 - discount) / 100
+  final = after_discount * (100 + tax) / 100
+  Answer = f"${final:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$121.50"
+  - seed: 42
+    expected:
+      answer: "$217.80"
+  - seed: 99
+    expected:
+      answer: "$105.60"

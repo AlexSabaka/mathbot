@@ -1,0 +1,61 @@
+metadata:
+  id: k7_medium_plan_comparison
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 7
+  topic: algebra.equations
+  family: equations
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [algebra, linear_equation, plan_comparison, word_problem]
+  notes: >
+    Proposal 2.2.4 from problem-proposals.md.
+    Two phone plans with fixed fee + per-minute rate; find break-even
+    minutes. Tests setting up `ax + b = cx + d`. Constrained so the
+    crossover point is a positive integer.
+
+variables:
+  name:
+    type: person
+  fee_a:
+    type: integer
+    choices: [10, 15, 20]
+  rate_a:
+    type: integer
+    choices: [8, 10, 12, 15]
+  unit:
+    type: integer
+    choices: [50, 60, 75, 100]
+  delta_rate:
+    type: integer
+    choices: [2, 3, 5]
+  Answer:
+    type: integer
+
+template: |
+  {% set fee_b = fee_a + unit * delta_rate %}
+  {% set rate_b = rate_a - delta_rate %}
+  {{name}} is choosing between two phone plans charged in cents per minute.
+  - Plan A: a flat fee of ${{fee_a}} plus {{rate_a}}¢ per minute.
+  - Plan B: a flat fee of ${{fee_b}} plus {{rate_b}}¢ per minute.
+  How many minutes of usage make the two plans cost the same?
+
+solution: |
+  fee_b = fee_a + unit * delta_rate
+  rate_b = rate_a - delta_rate
+  # Equation: fee_a*100 + rate_a*x = fee_b*100 + rate_b*x  (cents on both sides)
+  # x = (fee_b - fee_a) * 100 / (rate_a - rate_b) = unit * delta_rate * 100 / delta_rate = unit * 100
+  Answer = unit * 100
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "6000"
+  - seed: 42
+    expected:
+      answer: "6000"
+  - seed: 99
+    expected:
+      answer: "6000"

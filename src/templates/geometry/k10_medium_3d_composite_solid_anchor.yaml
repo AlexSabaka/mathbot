@@ -1,0 +1,54 @@
+metadata:
+  id: k10_medium_3d_composite_solid
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 10
+  topic: geometry.volume
+  family: area_perimeter_chain
+  difficulty: medium
+  steps: 6
+  culture: en-US
+  tags: [area_perimeter_chain, composite_solid, cylinder, hemisphere, volume]
+  notes: >
+    Proposal 2.4.4 from problem-proposals.md.
+    Composite solid: water tank shaped as a cylinder with a hemispherical
+    top, both of equal radius r. Compute the total volume (cylinder +
+    hemisphere) in cubic metres, then convert to litres (1 m³ = 1000 L).
+    Tests volume formula composition and a final unit chain.
+
+variables:
+  name:
+    type: person
+  radius:
+    type: integer
+    choices: [2, 3, 4, 5]
+  cylinder_height:
+    type: integer
+    choices: [4, 5, 6, 8]
+  Answer:
+    type: string
+
+template: |
+  {{name}} is designing a water tank shaped like a cylinder with a hemispherical cap on top, both with the same radius.
+  The cylindrical body has a radius of {{radius}} m and a height of {{cylinder_height}} m; the hemisphere on top has the same radius.
+  Compute the total volume of the tank in cubic metres (use π ≈ 3.14159, round to 2 decimals), and the total capacity in litres (1 m³ = 1000 L, round to nearest litre).
+
+solution: |
+  pi = 3.14159
+  cylinder_volume = pi * radius**2 * cylinder_height
+  hemisphere_volume = (2.0 / 3.0) * pi * radius**3
+  total_m3 = cylinder_volume + hemisphere_volume
+  total_litres = round(total_m3 * 1000)
+  Answer = f"{total_m3:.2f} m³, {total_litres} L"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "435.63 m³, 435634 L"
+  - seed: 42
+    expected:
+      answer: "385.37 m³, 385368 L"
+  - seed: 99
+    expected:
+      answer: "197.92 m³, 197920 L"

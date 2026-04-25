@@ -1,0 +1,63 @@
+metadata:
+  id: k7_medium_meet_overtake
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 7
+  topic: measurement.time
+  family: rate_time
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [rate_time, speed_distance, overtaking, multi_step]
+  notes: >
+    Proposal 2.3.4 from problem-proposals.md.
+    Same-direction overtake: car A leaves at t=0; car B leaves at t=delay
+    going faster. When does B catch A, and where? Constrained for clean
+    integer answers via t = (s_B * delay) / (s_B - s_A) requiring divisibility.
+
+variables:
+  name_a:
+    type: person
+  name_b:
+    type: person
+  s_A:
+    type: integer
+    choices: [40, 45, 50, 60]
+  delta_s:
+    type: integer
+    choices: [10, 15, 20]
+  delay_hours:
+    type: integer
+    choices: [1, 2]
+  Answer:
+    type: string
+
+template: |
+  {% set s_B = s_A + delta_s %}
+  {{name_a}} leaves their house driving at {{s_A}} mph along a straight highway.
+  {{delay_hours}} hour(s) later, {{name_b}} leaves the same house driving along the same highway at {{s_B}} mph.
+  How many hours after {{name_a}}'s departure does {{name_b}} catch up, and how many miles from the house does the catch-up happen?
+
+solution: |
+  s_B = s_A + delta_s
+  # Set positions equal: s_A * t = s_B * (t - delay)
+  # t = s_B * delay / (s_B - s_A) = (s_A + delta_s) * delay / delta_s
+  numer = s_B * delay_hours
+  t_hours = numer / delta_s
+  distance = s_A * t_hours
+  if t_hours == int(t_hours):
+      Answer = f"{int(t_hours)} hours, {int(distance)} miles"
+  else:
+      Answer = f"{t_hours:.2f} hours, {distance:.2f} miles"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "8 hours, 360 miles"
+  - seed: 42
+    expected:
+      answer: "3.25 hours, 146.25 miles"
+  - seed: 99
+    expected:
+      answer: "11 hours, 495 miles"

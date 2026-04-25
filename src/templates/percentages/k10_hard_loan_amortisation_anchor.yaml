@@ -1,0 +1,61 @@
+metadata:
+  id: k10_hard_loan_amortisation
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 10
+  topic: percentages.growth
+  family: compound_growth
+  difficulty: hard
+  steps: 7
+  culture: en-US
+  tags: [compound_growth, loan, amortisation, monthly_payment, iterative]
+  notes: >
+    Proposal 2.4.2 from problem-proposals.md.
+    Loan of L at r% annual rate; fixed monthly payment M; find balance
+    after k months and total interest paid in that period. Iterative
+    simulation. Constrained to small k (3-6) to keep the chain readable.
+
+variables:
+  name:
+    type: person
+  L:
+    type: integer
+    choices: [10000, 15000, 20000, 25000]
+  r:
+    type: integer
+    choices: [3, 4, 6, 8]
+  M:
+    type: integer
+    choices: [400, 500, 600, 800]
+  k:
+    type: integer
+    choices: [3, 4, 5, 6]
+  Answer:
+    type: string
+
+template: |
+  {{name}} takes out a loan of ${{L}} at {{r}}% annual interest rate, compounded monthly.
+  {{name}} pays ${{M}} at the end of each month.
+  After {{k}} monthly payments, what is the remaining balance, and how much total interest has accrued (rounded to the nearest cent)?
+
+solution: |
+  monthly_rate = r / 1200
+  balance = L
+  total_interest = 0.0
+  for _ in range(k):
+      interest = balance * monthly_rate
+      total_interest += interest
+      balance = balance + interest - M
+  Answer = f"balance: ${balance:.2f}, interest: ${total_interest:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "balance: $17979.90, interest: $479.90"
+  - seed: 42
+    expected:
+      answer: "balance: $18257.98, interest: $257.98"
+  - seed: 99
+    expected:
+      answer: "balance: $13190.98, interest: $190.98"

@@ -1,0 +1,63 @@
+metadata:
+  id: k10_medium_annual_vs_monthly
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 10
+  topic: percentages.growth
+  family: compound_growth
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [compound_growth, monthly_compounding, comparison, financial]
+  notes: >
+    Proposal 2.4.1 from problem-proposals.md.
+    Two savings products: one r1% compounded annually, one r2% compounded
+    monthly. After N years, which is greater and by how much? Tests
+    application of both compound formulas and a numeric comparison.
+
+variables:
+  name:
+    type: person
+  P:
+    type: integer
+    choices: [5000, 10000, 20000, 50000]
+  r_annual:
+    type: integer
+    choices: [4, 5, 6]
+  r_monthly:
+    type: integer
+    choices: [4, 5, 6]
+  N:
+    type: integer
+    choices: [3, 5, 8, 10]
+  Answer:
+    type: string
+
+template: |
+  {{name}} can deposit ${{P}} into one of two savings products for {{N}} years.
+  - Plan A pays {{r_annual}}% interest compounded once per year.
+  - Plan B pays {{r_monthly}}% (annual rate) compounded monthly.
+  Compute the value of each plan after {{N}} years (rounded to the nearest cent), then state which plan ends up larger and by how much.
+
+solution: |
+  plan_a = P * ((100 + r_annual) / 100) ** N
+  plan_b = P * (1 + r_monthly / 1200) ** (12 * N)
+  diff = plan_b - plan_a
+  if diff > 0:
+      Answer = f"Plan A: ${plan_a:.2f}, Plan B: ${plan_b:.2f}, Plan B larger by ${diff:.2f}"
+  elif diff < 0:
+      Answer = f"Plan A: ${plan_a:.2f}, Plan B: ${plan_b:.2f}, Plan A larger by ${-diff:.2f}"
+  else:
+      Answer = f"Plan A: ${plan_a:.2f}, Plan B: ${plan_b:.2f}, equal"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Plan A: $29549.11, Plan B: $27527.90, Plan A larger by $2021.21"
+  - seed: 42
+    expected:
+      answer: "Plan A: $24333.06, Plan B: $24419.93, Plan B larger by $86.87"
+  - seed: 99
+    expected:
+      answer: "Plan A: $12166.53, Plan B: $12209.97, Plan B larger by $43.44"

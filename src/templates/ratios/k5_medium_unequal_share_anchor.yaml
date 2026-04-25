@@ -1,0 +1,63 @@
+metadata:
+  id: k5_medium_unequal_share
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 5
+  topic: ratios.proportions
+  family: multi_person_sharing
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [multi_person_sharing, linear_constraints, three_person]
+  notes: >
+    Proposal 2.1.2 from problem-proposals.md.
+    Three+ people share by stated rules: A gets multiplier_a × B, C gets
+    B + offset_c. Tests translation of natural-language constraints into
+    consistent allocation via unit-tracking.
+
+variables:
+  name1:
+    type: person
+  name2:
+    type: person
+  name3:
+    type: person
+  unit:
+    type: integer
+    choices: [6, 8, 10, 12, 15]
+  mult_a:
+    type: integer
+    choices: [2, 3]
+  offset_c:
+    type: integer
+    choices: [3, 5, 7]
+  Answer:
+    type: string
+
+template: |
+  {% set b = unit %}
+  {% set a = mult_a * b %}
+  {% set c = b + offset_c %}
+  {% set total = a + b + c %}
+  {{name1}}, {{name2}}, and {{name3}} share {{total}} marbles.
+  {{name1}} gets {{mult_a}} times as many marbles as {{name2}}.
+  {{name3}} gets {{offset_c}} more marbles than {{name2}}.
+  How many marbles does each of them get?
+
+solution: |
+  b = unit
+  a = mult_a * b
+  c = b + offset_c
+  Answer = f"{name1}: {a}, {name2}: {b}, {name3}: {c}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "Mae: 24, Isabelle: 12, Daniel: 17"
+  - seed: 42
+    expected:
+      answer: "James: 30, Brenda: 15, Alexander: 22"
+  - seed: 99
+    expected:
+      answer: "Judith: 30, Joseph: 10, Bill: 17"

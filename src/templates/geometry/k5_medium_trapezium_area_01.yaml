@@ -10,18 +10,18 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - trapezium
-  - trapezoid
-  - area
-  - inverse
+    - trapezium
+    - trapezoid
+    - area
+    - inverse
 variables:
   object:
     type: string
     choices:
-    - table top
-    - window
-    - sign
-    - deck
+      - table top
+      - window
+      - sign
+      - deck
   base1:
     type: integer
     min: 50
@@ -37,8 +37,7 @@ variables:
     step: 100
   Answer:
     type: length
-template: 'A trapezoidal {{object}} has parallel sides of {{base1}} cm and {{base2}}
-  cm.
+template: 'A trapezoidal {{object}} has parallel sides of {{base1}} cm and {{base2}} cm.
 
   If the area is {{area}} square cm, what is the height?
 
@@ -53,9 +52,9 @@ solution: '# Area = ((base1 + base2) × height) / 2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 51 cm
-- seed: 67890
-  expected:
-    answer: 48 cm
+  - seed: 12345
+    expected:
+      answer: 58 meters
+  - seed: 67890
+    expected:
+      answer: 62 meters

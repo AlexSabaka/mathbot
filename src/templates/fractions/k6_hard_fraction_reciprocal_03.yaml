@@ -33,13 +33,13 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Dividing by a fraction is the same as multiplying by its reciprocal
   # a ÷ (b/c) = a × (c/b) = (a*c)/b
-  
+
   numerator = a * c
   denominator = b
-  
+
   # Simplify
   common = gcd(numerator, denominator)
   Answer = (numerator // common, denominator // common)
@@ -47,8 +47,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "20/3"
-  
+      answer: "(5, 1)"
   - seed: 67890
     expected:
-      answer: "21/2"
+      answer: "(9, 2)"

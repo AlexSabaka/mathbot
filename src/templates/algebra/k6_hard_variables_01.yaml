@@ -30,7 +30,7 @@ solution: |
   # Perimeter: 2(L + W) where W = L - a
   # P = 2(var + (var - a)) = 2(2*var - a) = 4*var - 2*a
   Answer1 = f"4{var} - {2*a}"
-  
+
   # Area: L * W where W = L - a
   # A = var * (var - a) = var^2 - a*var
   Answer2 = f"{var}^2 - {a}{var}"
@@ -38,8 +38,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "4L - 14 | L^2 - 7L"
-  
+      answer: "4x - 14 | x^2 - 7x"
   - seed: 67890
     expected:
-      answer: "4x - 10 | x^2 - 5x"
+      answer: "4L - 16 | L^2 - 8L"

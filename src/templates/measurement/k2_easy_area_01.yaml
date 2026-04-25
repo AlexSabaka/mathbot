@@ -25,7 +25,7 @@ variables:
 
 template: |
   Count the square units to find the area of a rectangle that has {{rows}} rows and {{cols}} columns of squares.
-  
+
   Please solve this problem.
 
 solution: |
@@ -35,7 +35,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "12 square units"
+      answer: "10"
   - seed: 67890
     expected:
-      answer: "6 square units"
+      answer: "9"

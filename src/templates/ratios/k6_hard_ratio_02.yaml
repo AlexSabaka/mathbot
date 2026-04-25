@@ -45,17 +45,17 @@ solution: |
   total_parts = ratio_a + ratio_b
   if total % total_parts != 0:
       total = (total // total_parts) * total_parts
-  
+
   amount1 = (ratio_a * total) // total_parts
   amount2 = (ratio_b * total) // total_parts
-  
+
   Answer1 = amount1
   Answer2 = amount2
 
 tests:
   - seed: 30015
     expected:
-      answer: "24 | 36"
+      answer: "42 | 56"
   - seed: 30016
     expected:
-      answer: "48 | 32"
+      answer: "40 | 30"

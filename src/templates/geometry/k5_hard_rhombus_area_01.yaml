@@ -10,10 +10,10 @@ metadata:
   culture: en-US
   steps: 3
   tags:
-  - rhombus
-  - area
-  - perimeter
-  - combined
+    - rhombus
+    - area
+    - perimeter
+    - combined
 variables:
   diagonal1:
     type: integer
@@ -52,9 +52,9 @@ solution: '# Area = (diagonal1 × diagonal2) / 2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 96 square cm | 44 cm
-- seed: 67890
-  expected:
-    answer: 80 square cm | 40 cm
+  - seed: 12345
+    expected:
+      answer: 127 square meters | 36 meters
+  - seed: 67890
+    expected:
+      answer: 120 square meters | 40 meters

@@ -24,9 +24,9 @@ variables:
 
 template: |
   Complete the pattern by skip counting:
-  
+
   {{skip_value}}, {{skip_value * 2}}, ___, ___, {{skip_value * 5}}, ___
-  
+
   What number comes next? Is this skip counting by {{skip_value}}s?
 
 solution: |
@@ -37,7 +37,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "6 | 8 | 12"
+      answer: "30 | 40 | 60"
   - seed: 100
     expected:
-      answer: "30 | 40 | 60"
+      answer: "6 | 8 | 12"

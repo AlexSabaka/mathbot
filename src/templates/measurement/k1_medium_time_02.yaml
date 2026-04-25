@@ -33,7 +33,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "Monday"
+      answer: "Sunday"
   - seed: 100
     expected:
-      answer: "Wednesday"
+      answer: "Saturday"

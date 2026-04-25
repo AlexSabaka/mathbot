@@ -50,8 +50,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Regroup as 53 + (37 + 35). First add 37 + 35 = 72, then add 53 + 72 = 125."
+      answer: "Regroup as (44 + 36) + 31. First add 44 + 36 = 80, then add 80 + 31 = 111."
 
   - seed: 67890
     expected:
-      answer: "Regroup as 58 + (42 + 30). First add 42 + 30 = 72, then add 58 + 72 = 130."
+      answer: "One way to regroup: 51 + (41 + 33). First add 41 + 33 = 74, then add 51 + 74 = 125."

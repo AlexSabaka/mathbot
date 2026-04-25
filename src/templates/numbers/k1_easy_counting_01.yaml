@@ -24,7 +24,7 @@ variables:
 
 template: |
   Count the {{object}}. There are {{count}} {{object}}.
-  
+
   How many {{object}} are there?
 
 solution: |
@@ -33,7 +33,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "7"
+      answer: "2"
   - seed: 100
     expected:
-      answer: "4"
+      answer: "3"

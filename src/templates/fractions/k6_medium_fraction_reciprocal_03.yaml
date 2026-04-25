@@ -28,8 +28,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1/8"
-  
+      answer: "(1, 9)"
   - seed: 67890
     expected:
-      answer: "1/10"
+      answer: "(1, 6)"

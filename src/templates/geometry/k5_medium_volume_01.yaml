@@ -10,17 +10,17 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - volume
-  - inverse
-  - height
+    - volume
+    - inverse
+    - height
 variables:
   container_type:
     type: string
     choices:
-    - fish tank
-    - storage box
-    - cooler
-    - container
+      - fish tank
+      - storage box
+      - cooler
+      - container
   volume:
     type: integer
     min: 1800
@@ -38,8 +38,7 @@ variables:
     type: length
 template: 'A {{container_type}} can hold {{volume}} cubic centimeters.
 
-  If the {{container_type}} has a length of {{length}} cm and width of {{width}} cm,
-  what is its height?
+  If the {{container_type}} has a length of {{length}} cm and width of {{width}} cm, what is its height?
 
   '
 solution: '# Volume = length × width × height
@@ -52,9 +51,9 @@ solution: '# Volume = length × width × height
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 11 cm
-- seed: 67890
-  expected:
-    answer: 12 cm
+  - seed: 12345
+    expected:
+      answer: 13 meters
+  - seed: 67890
+    expected:
+      answer: 11 meters

@@ -37,7 +37,7 @@ variables:
 
 template: |
   {{name}} puts {{num_a}} {{object}} in a {{location}}. Then {{name}} adds {{num_b}} more {{object}}. Finally, {{name}} adds {{num_c}} more {{object}}.
-  
+
   How many {{object}} are in the {{location}} now?
 
 solution: |
@@ -46,7 +46,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "14"
+      answer: "10"
   - seed: 100
     expected:
       answer: "15"

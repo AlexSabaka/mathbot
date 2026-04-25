@@ -41,8 +41,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "2x + 30"
-  
+      answer: "-1y + 12"
   - seed: 67890
     expected:
-      answer: "3y + 25"
+      answer: "0x + 20"

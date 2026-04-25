@@ -30,9 +30,9 @@ variables:
 
 template: |
   {{name}} has {{num_a}} {{item}}. {{ "He|She" | choice }} eats {{num_b}}.
-  
+
   How many {{item}} are left?
-  
+
   Please solve this problem.
 
 solution: |
@@ -41,7 +41,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "8"
+      answer: "6"
   - seed: 22222
     expected:
-      answer: "8"
+      answer: "9"

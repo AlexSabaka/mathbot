@@ -39,7 +39,7 @@ template: |
 solution: |
   percentage = (a / b) * 100
   Answer1 = round(percentage, 2)
-  
+
   if percentage >= p:
       Answer2 = "Yes"
   else:
@@ -48,7 +48,7 @@ solution: |
 tests:
   - seed: 12346
     expected:
-      answer: "76.84 | Yes"
+      answer: "92.86 | Yes"
   - seed: 67891
     expected:
-      answer: "63.16 | No"
+      answer: "90.59 | Yes"

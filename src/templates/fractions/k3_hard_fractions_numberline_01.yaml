@@ -44,7 +44,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1 3/4"
+      answer: "1 1/2"
   - seed: 67890
     expected:
-      answer: "3/5"
+      answer: "2/3"

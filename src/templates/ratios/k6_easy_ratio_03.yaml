@@ -29,17 +29,17 @@ template: |
 
 solution: |
   import math
-  
+
   gcd = math.gcd(apples, oranges)
   simplified_apples = apples // gcd
   simplified_oranges = oranges // gcd
-  
+
   Answer = f"{simplified_apples}:{simplified_oranges}"
 
 tests:
   - seed: 30005
     expected:
-      answer: "1:1"
+      answer: "9:7"
   - seed: 30006
     expected:
-      answer: "5:3"
+      answer: "5:1"

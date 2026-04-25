@@ -30,7 +30,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "5 × n"
+      answer: "4 × n"
   - seed: 22222
     expected:
-      answer: "7 × x"
+      answer: "4 × y"

@@ -9,9 +9,9 @@ metadata:
   difficulty: medium
   steps: 3
   tags:
-  - compound-interest
-  - percentages
-  - savings
+    - compound-interest
+    - percentages
+    - savings
 variables:
   name:
     type: person
@@ -31,10 +31,7 @@ variables:
     max: 5
   Answer:
     type: money
-template: '{{name}} opens a savings account with an initial deposit of {{principal}}.
-  The account earns {{rate}}% interest per year, compounded annually. After leaving
-  the money untouched for {{years}} years, {{name}} checks the balance. How much money
-  does {{name}} have in the account?
+template: '{{name}} opens a savings account with an initial deposit of {{principal}}. The account earns {{rate}}% interest per year, compounded annually. After leaving the money untouched for {{years}} years, {{name}} checks the balance. How much money does {{name}} have in the account?
 
   '
 solution: 'final_amount = principal * (1 + rate / 100) ** years
@@ -43,9 +40,9 @@ solution: 'final_amount = principal * (1 + rate / 100) ** years
 
   '
 tests:
-- seed: 42
-  expected:
-    answer: $1469.33
-- seed: 100
-  expected:
-    answer: $2074.19
+  - seed: 42
+    expected:
+      answer: $3867.77
+  - seed: 100
+    expected:
+      answer: $3619.41

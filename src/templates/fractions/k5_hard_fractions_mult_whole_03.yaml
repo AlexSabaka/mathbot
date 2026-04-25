@@ -48,30 +48,30 @@ template: |
 solution: |
   # Calculate total hours for first period (7 days per week)
   period1_numerator = numerator1 * weeks1 * 7
-  
+
   # Calculate total hours for second period
   period2_numerator = numerator2 * weeks2 * 7
-  
+
   # Find LCD and add
   lcd = math.lcm(denominator1, denominator2)
   new_num1 = period1_numerator * (lcd // denominator1)
   new_num2 = period2_numerator * (lcd // denominator2)
   result_numerator = new_num1 + new_num2
-  
+
   # Simplify
   common = math.gcd(result_numerator, lcd)
   final_num = result_numerator // common
   final_den = lcd // common
-  
+
   Answer = (final_num, final_den)
 
 tests:
   - seed: 12345
     expected:
-      answer: "77/8"
+      answer: "(91, 6)"
   - seed: 67890
     expected:
-      answer: "11/1"
+      answer: "(21, 2)"
   - seed: 99999
     expected:
-      answer: "21/2"
+      answer: "(168, 5)"

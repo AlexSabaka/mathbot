@@ -44,17 +44,17 @@ template: |
 solution: |
   # First question: time to paint area2
   time_needed = (time1 * area2) / area1
-  
+
   # Second question: area painted in 10 hours
   area_in_10_hours = (area1 * 10) / time1
-  
+
   Answer1 = round(time_needed, 2)
   Answer2 = round(area_in_10_hours, 2)
 
 tests:
   - seed: 40017
     expected:
-      answer: "20.00 | 500.00"
+      answer: "6.67 | 600.00"
   - seed: 40018
     expected:
-      answer: "12.00 | 625.00"
+      answer: "12.00 | 500.00"

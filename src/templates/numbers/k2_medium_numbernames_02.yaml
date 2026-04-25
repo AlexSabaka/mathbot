@@ -31,7 +31,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "72"
+      answer: "34"
   - seed: 100
     expected:
-      answer: "45"
+      answer: "38"

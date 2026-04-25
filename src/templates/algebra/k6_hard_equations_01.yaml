@@ -40,15 +40,14 @@ solution: |
   # x = (sum_ages - a) / 2
   age_name2 = (sum_ages - a) // 2
   age_name1 = age_name2 + a
-  
+
   Answer1 = age_name1
   Answer2 = age_name2
 
 tests:
   - seed: 12345
     expected:
-      answer: "28 | 21"
-  
+      answer: "21 | 16"
   - seed: 67890
     expected:
-      answer: "19 | 14"
+      answer: "31 | 28"

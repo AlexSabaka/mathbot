@@ -50,9 +50,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "2 3/4"
-      answer2: "11/4"
+      answer: 3 3/4 | (15, 4)
   - seed: 67890
     expected:
-      answer1: "3 2/5"
-      answer2: "17/5"
+      answer: 4 3/4 | (19, 4)

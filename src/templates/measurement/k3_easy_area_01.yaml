@@ -10,9 +10,9 @@ metadata:
   steps: 1
   culture: en-US
   tags:
-  - area
-  - rectangle
-  - measurement
+    - area
+    - rectangle
+    - measurement
 variables:
   length:
     type: integer
@@ -25,14 +25,13 @@ variables:
   unit:
     type: string
     choices:
-    - cm
-    - m
-    - inches
-    - feet
+      - cm
+      - m
+      - inches
+      - feet
   Answer:
     type: area
-template: 'Find the area of a rectangle with length {{length}} {{unit}} and width
-  {{width}} {{unit}}.
+template: 'Find the area of a rectangle with length {{length}} {{unit}} and width {{width}} {{unit}}.
 
 
   Please solve this problem.
@@ -44,9 +43,9 @@ solution: '# Area = length × width
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 28 square units
-- seed: 67890
-  expected:
-    answer: 18 square units
+  - seed: 12345
+    expected:
+      answer: 16 square meters
+  - seed: 67890
+    expected:
+      answer: 20 square meters

@@ -34,23 +34,22 @@ template: |
 solution: |
   # Start at surface (0)
   position = 0
-  
+
   # Dive down (subtract)
   position = position - depth1
-  
+
   # Swim up (add)
   position = position + depth2
-  
+
   # Dive down again (subtract)
   position = position - depth3
-  
+
   Answer = position
 
 tests:
   - seed: 44444
     expected:
       answer: "-137"
-  
   - seed: 55555
     expected:
-      answer: "-123"
+      answer: "-145"

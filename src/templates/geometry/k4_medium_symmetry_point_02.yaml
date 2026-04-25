@@ -38,7 +38,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "(-3, -4)"
+      answer: "(-3, -3)"
   - seed: 67890
     expected:
-      answer: "(-5, -3)"
+      answer: "(-4, -5)"

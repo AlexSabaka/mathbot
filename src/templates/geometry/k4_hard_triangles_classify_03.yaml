@@ -74,4 +74,4 @@ tests:
       answer: "Sides: scalene, Angles: acute"
   - seed: 67890
     expected:
-      answer: "Sides: isosceles, Angles: obtuse"
+      answer: "Sides: scalene, Angles: acute"

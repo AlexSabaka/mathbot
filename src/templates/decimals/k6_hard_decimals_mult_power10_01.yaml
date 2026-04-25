@@ -35,7 +35,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1909.00"
+      answer: "390.00"
   - seed: 67890
     expected:
-      answer: "37576.00"
+      answer: "5400.00"

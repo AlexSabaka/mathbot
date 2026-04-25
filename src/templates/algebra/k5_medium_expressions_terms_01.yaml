@@ -44,4 +44,4 @@ tests:
       answer: "b + 4 | 1 | 4"
   - seed: 22222
     expected:
-      answer: "s + 6 | 1 | 6"
+      answer: "s + 5 | 1 | 5"

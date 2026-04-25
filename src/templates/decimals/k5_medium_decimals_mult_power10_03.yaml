@@ -10,10 +10,10 @@ metadata:
   steps: 2
   culture: en-US
   tags:
-  - decimals
-  - powers_of_10
-  - multiplication
-  - money
+    - decimals
+    - powers_of_10
+    - multiplication
+    - money
 variables:
   name:
     type: person
@@ -25,21 +25,20 @@ variables:
   power:
     type: integer
     choices:
-    - 10
-    - 100
+      - 10
+      - 100
   Answer:
     type: money
-template: '{{name}} invests ${{amount}} and it grows {{power}} times larger. How much
-  money does {{name}} have now?
+template: '{{name}} invests ${{amount}} and it grows {{power}} times larger. How much money does {{name}} have now?
 
   '
 solution: 'Answer = round(amount * power, 2)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $330.00
-- seed: 67890
-  expected:
-    answer: $390.00
+  - seed: 12345
+    expected:
+      answer: $390.00
+  - seed: 67890
+    expected:
+      answer: $540.00

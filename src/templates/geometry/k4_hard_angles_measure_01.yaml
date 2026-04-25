@@ -44,9 +44,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "90"
-      answer2: "right"
+      answer: 45 | acute
   - seed: 67890
     expected:
-      answer1: "72"
-      answer2: "acute"
+      answer: 90 | right

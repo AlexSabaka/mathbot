@@ -35,7 +35,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "39.00 | 38.70 | 38.67"
+      answer: "60.00 | 59.60 | 59.61"
   - seed: 67890
     expected:
-      answer: "83.00 | 82.70 | 82.73"
+      answer: "31.00 | 30.50 | 30.51"

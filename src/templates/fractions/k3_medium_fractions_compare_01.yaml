@@ -57,7 +57,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "James"
+      answer: "Isabelle"
   - seed: 67890
     expected:
-      answer: "Sarah"
+      answer: "Alvin"

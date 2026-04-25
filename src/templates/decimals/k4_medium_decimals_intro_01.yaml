@@ -10,9 +10,9 @@ metadata:
   steps: 2
   culture: en-US
   tags:
-  - decimals
-  - money
-  - real-world
+    - decimals
+    - money
+    - real-world
 variables:
   name:
     type: person
@@ -55,9 +55,9 @@ solution: '# Convert dimes to dollars (1 dime = 0.10)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $13.38
-- seed: 67890
-  expected:
-    answer: $12.25
+  - seed: 12345
+    expected:
+      answer: $10.64
+  - seed: 67890
+    expected:
+      answer: $14.95

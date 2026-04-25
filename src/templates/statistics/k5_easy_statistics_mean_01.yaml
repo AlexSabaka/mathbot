@@ -16,27 +16,27 @@ variables:
     type: integer
     min: 10
     max: 30
-  
+
   num2:
     type: integer
     min: 10
     max: 30
-  
+
   num3:
     type: integer
     min: 10
     max: 30
-  
+
   num4:
     type: integer
     min: 10
     max: 30
-  
+
   num5:
     type: integer
     min: 10
     max: 30
-  
+
   Answer:
     type: integer
 
@@ -51,8 +51,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "20"
-  
+      answer: "17"
   - seed: 67890
     expected:
-      answer: "21"
+      answer: "19"

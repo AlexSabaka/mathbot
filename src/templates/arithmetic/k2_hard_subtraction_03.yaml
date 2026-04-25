@@ -30,11 +30,11 @@ variables:
 
 template: |
   {{name}} started a collection with {{num_a}} {{item}}.
-  
+
   Over the year, {{ "he|she" | choice }} traded away {{num_b}} {{item}}.
-  
+
   How many {{item}} does {{name}} have now?
-  
+
   Please solve this problem.
 
 solution: |
@@ -43,7 +43,7 @@ solution: |
 tests:
   - seed: 55555
     expected:
-      answer: "189"
+      answer: "196"
   - seed: 66666
     expected:
-      answer: "200"
+      answer: "218"

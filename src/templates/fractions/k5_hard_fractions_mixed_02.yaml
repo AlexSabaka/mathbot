@@ -52,32 +52,32 @@ solution: |
       numerator1 = denominator1 - 1
   if numerator2 >= denominator2:
       numerator2 = denominator2 - 1
-  
+
   # Ensure we can subtract
   if whole1 < whole2 or (whole1 == whole2 and numerator1 * denominator2 < numerator2 * denominator1):
       whole1, whole2 = whole2 + 2, whole2
-  
+
   # Convert mixed numbers to improper fractions
   improper1 = whole1 * denominator1 + numerator1
   improper2 = whole2 * denominator2 + numerator2
-  
+
   # Find LCD
   lcd = math.lcm(denominator1, denominator2)
-  
+
   # Convert to common denominator and subtract
   new_num1 = improper1 * (lcd // denominator1)
   new_num2 = improper2 * (lcd // denominator2)
   result_numerator = new_num1 - new_num2
-  
+
   # Simplify
   common = math.gcd(result_numerator, lcd)
   final_num = result_numerator // common
   final_den = lcd // common
-  
+
   # Convert to mixed number
   whole_part = final_num // final_den
   remainder = final_num % final_den
-  
+
   if remainder == 0:
       Answer = str(whole_part)
   else:
@@ -86,10 +86,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "4 3/10"
+      answer: "3 7/8"
   - seed: 67890
     expected:
-      answer: "2 7/10"
+      answer: "4 43/70"
   - seed: 88888
     expected:
-      answer: "3 1/2"
+      answer: "4 5/42"

@@ -81,10 +81,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "23/24"
+      answer: "(128, 105)"
   - seed: 67890
     expected:
-      answer: "29/30"
+      answer: "(23, 24)"
   - seed: 11111
     expected:
-      answer: "5/6"
+      answer: "(349, 385)"

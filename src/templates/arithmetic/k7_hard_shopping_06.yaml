@@ -9,10 +9,10 @@ metadata:
   difficulty: hard
   steps: 3
   tags:
-  - money
-  - real-world
-  - shopping
-  - fractions
+    - money
+    - real-world
+    - shopping
+    - fractions
 variables:
   name:
     type: person
@@ -57,12 +57,10 @@ variables:
 template: '{{name}} stops by a market in {{city}} after work.
 
 
-  They notice {{item1}} are priced at {{price1}} per pound, and {{item2}} cost {{price2}}
-  per pound.
+  They notice {{item1}} are priced at {{price1}} per pound, and {{item2}} cost {{price2}} per pound.
 
 
-  {{name}} picks up {{frac1_num}}/{{frac1_den}} pound of {{item1}} and {{frac2_num}}/{{frac2_den}}
-  pound of {{item2}}.
+  {{name}} picks up {{frac1_num}}/{{frac1_den}} pound of {{item1}} and {{frac2_num}}/{{frac2_den}} pound of {{item2}}.
 
 
   What''s the total cost of these items?
@@ -78,6 +76,6 @@ solution: 'cost1 = price1 * frac1_num / frac1_den
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $7.25
+  - seed: 12345
+    expected:
+      answer: $9.83

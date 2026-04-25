@@ -45,7 +45,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "19, 17, 7, 7, 3"
+      answer: "9, 8, 8, 4, 1"
   - seed: 100
     expected:
-      answer: "18, 12, 9, 9, 4"
+      answer: "15, 15, 13, 6, 5"

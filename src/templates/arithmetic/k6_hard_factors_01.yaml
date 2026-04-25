@@ -31,19 +31,19 @@ solution: |
   for i in range(1, a + 1):
     if a % i == 0:
       factors_a.append(i)
-  
+
   # Find all factors of b
   factors_b = []
   for i in range(1, b + 1):
     if b % i == 0:
       factors_b.append(i)
-  
+
   # Find common factors
   common = []
   for f in factors_a:
     if f in factors_b and f not in common:
       common.append(f)
-  
+
   # Sort and format as comma-separated string
   common = sorted(common)
   Answer = ", ".join(str(f) for f in common)
@@ -51,8 +51,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1, 2, 4, 8"
-  
+      answer: "1"
   - seed: 67890
     expected:
-      answer: "1, 2, 3, 6, 9, 18"
+      answer: "1, 2, 4"

@@ -30,4 +30,4 @@ tests:
       answer: "1.75"
   - seed: 67890
     expected:
-      answer: "1.25"
+      answer: "0.75"

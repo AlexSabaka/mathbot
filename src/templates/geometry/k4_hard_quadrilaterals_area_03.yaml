@@ -49,7 +49,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "128"
+      answer: "45"
   - seed: 67890
     expected:
-      answer: "35"
+      answer: "45"

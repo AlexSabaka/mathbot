@@ -10,10 +10,10 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - trapezium
-  - trapezoid
-  - area
-  - basic
+    - trapezium
+    - trapezoid
+    - area
+    - basic
 variables:
   base1:
     type: integer
@@ -29,8 +29,7 @@ variables:
     max: 8
   Answer:
     type: area
-template: 'Find the area of a trapezium with parallel sides {{base1}} cm and {{base2}}
-  cm, and height {{height}} cm.
+template: 'Find the area of a trapezium with parallel sides {{base1}} cm and {{base2}} cm, and height {{height}} cm.
 
   '
 solution: '# Area = ((base1 + base2) × height) / 2
@@ -41,9 +40,9 @@ solution: '# Area = ((base1 + base2) × height) / 2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 56 square cm
-- seed: 67890
-  expected:
-    answer: 48 square cm
+  - seed: 12345
+    expected:
+      answer: 48 square meters
+  - seed: 67890
+    expected:
+      answer: 57 square meters

@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - triangle
-  - perimeter
-  - addition
+    - triangle
+    - perimeter
+    - addition
 variables:
   side_a:
     type: integer
@@ -28,8 +28,7 @@ variables:
     max: 16
   Answer:
     type: length
-template: 'Find the perimeter of a triangle with sides {{side_a}} cm, {{side_b}} cm,
-  and {{side_c}} cm.
+template: 'Find the perimeter of a triangle with sides {{side_a}} cm, {{side_b}} cm, and {{side_c}} cm.
 
   '
 solution: 'perimeter = side_a + side_b + side_c
@@ -38,9 +37,9 @@ solution: 'perimeter = side_a + side_b + side_c
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 31 cm
-- seed: 67890
-  expected:
-    answer: 28 cm
+  - seed: 12345
+    expected:
+      answer: 28 meters
+  - seed: 67890
+    expected:
+      answer: 29 meters

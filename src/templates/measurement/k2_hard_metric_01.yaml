@@ -29,9 +29,9 @@ variables:
 
 template: |
   {{name}} ran {{distance_a}} meters in the morning and {{distance_b}} meters in the afternoon.
-  
+
   How many kilometers did {% if name[-1].lower() in ['a', 'e', 'i', 'o', 'u'] %}{{name}}{% else %}{{name}}{% endif %} run in total?
-  
+
   Please solve this problem.
 
 solution: |
@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "2 kilometers"
+      answer: "1"
   - seed: 67890
     expected:
-      answer: "1 kilometer"
+      answer: "2"

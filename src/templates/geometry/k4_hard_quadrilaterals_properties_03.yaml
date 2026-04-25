@@ -45,9 +45,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "32"
-      answer2: "isosceles trapezoid"
+      answer: 31 | isosceles trapezoid
   - seed: 67890
     expected:
-      answer1: "38"
-      answer2: "isosceles trapezoid"
+      answer: 33 | isosceles trapezoid

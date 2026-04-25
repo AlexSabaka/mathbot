@@ -25,11 +25,11 @@ variables:
 
 template: |
   Find the pattern and complete it:
-  
+
   {{start}} - {{subtract_val}} = ___
   {{start - 1}} - {{subtract_val}} = ___
   {{start - 2}} - {{subtract_val}} = ___
-  
+
   Please solve this problem.
 
 solution: |
@@ -41,7 +41,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "10, 9, 8"
+      answer: "12, 11, 10"
   - seed: 67890
     expected:
       answer: "9, 8, 7"

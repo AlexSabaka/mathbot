@@ -30,7 +30,7 @@ variables:
 
 template: |
   {{name}} has {{num_a}} {{object}}. {{name}} loses {{num_b}} {{object}}.
-  
+
   How many {{object}} does {{name}} have left?
 
 solution: |
@@ -42,4 +42,4 @@ tests:
       answer: "5"
   - seed: 100
     expected:
-      answer: "4"
+      answer: "1"

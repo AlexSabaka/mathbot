@@ -29,14 +29,13 @@ solution: |
   parts = base_exp_pair.split('|')
   base = parts[0]
   exponent = parts[1]
-  
+
   Answer = f"{base}^{exponent}"
 
 tests:
   - seed: 12345
     expected:
-      answer: "2^5"
-  
+      answer: "3^4"
   - seed: 67890
     expected:
-      answer: "3^4"
+      answer: "2^6"

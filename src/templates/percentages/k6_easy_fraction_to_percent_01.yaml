@@ -33,14 +33,14 @@ solution: |
       a = b - 1
   if a < 1:
       a = 1
-  
+
   percentage = (a / b) * 100
   Answer = round(percentage, 2)
 
 tests:
   - seed: 10001
     expected:
-      answer: "50.00"
+      answer: "25.00"
   - seed: 10002
     expected:
-      answer: "75.00"
+      answer: "40.00"

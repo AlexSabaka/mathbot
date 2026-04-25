@@ -10,17 +10,17 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - parallelogram
-  - area
-  - inverse
+    - parallelogram
+    - area
+    - inverse
 variables:
   object:
     type: string
     choices:
-    - sign
-    - tile
-    - banner
-    - kite
+      - sign
+      - tile
+      - banner
+      - kite
   area:
     type: integer
     min: 80
@@ -45,9 +45,9 @@ solution: '# Area = base × height, so height = area / base
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 9 inches
-- seed: 67890
-  expected:
-    answer: 8 inches
+  - seed: 12345
+    expected:
+      answer: 5 meters
+  - seed: 67890
+    expected:
+      answer: 7 meters

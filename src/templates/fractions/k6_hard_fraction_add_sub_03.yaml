@@ -49,35 +49,34 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Find LCD manually
   def lcm(a, b):
     return abs(a * b) // gcd(a, b)
-  
+
   # Find LCD of all three
   lcd = lcm(lcm(b, d), f)
-  
+
   # Convert all to common denominator
   new_a = a * (lcd // b)
   new_c = c * (lcd // d)
   new_e = e * (lcd // f)
-  
+
   # Determine who has the largest numerator
   fractions = [
     (new_a, "{{name_1}}"),
     (new_c, "{{name_2}}"),
     (new_e, "{{name_3}}")
   ]
-  
+
   max_frac = max(fractions, key=lambda x: x[0])
-  
+
   Answer = f"{max_frac[1]} completed the most"
 
 tests:
   - seed: 12345
     expected:
-      answer: "James completed the most"
-  
+      answer: "{{name_1}} completed the most"
   - seed: 67890
     expected:
-      answer: "Patricia completed the most"
+      answer: "{{name_1}} completed the most"

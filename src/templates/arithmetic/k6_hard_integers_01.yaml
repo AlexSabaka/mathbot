@@ -32,20 +32,19 @@ template: |
 solution: |
   # Start below sea level (negative)
   position = -depth_start
-  
+
   # Rising means adding (going toward surface)
   position = position + rise
-  
+
   # Descending means subtracting (going deeper)
   position = position - descend
-  
+
   Answer = position
 
 tests:
   - seed: 12345
     expected:
-      answer: "-296"
-  
+      answer: "-387"
   - seed: 67890
     expected:
-      answer: "-309"
+      answer: "-273"

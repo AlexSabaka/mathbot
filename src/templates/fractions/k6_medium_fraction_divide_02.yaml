@@ -37,11 +37,11 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Division: (a/b) ÷ (c/d) = (a*d)/(b*c)
   numerator = a * d
   denominator = b * c
-  
+
   # Simplify
   common = gcd(numerator, denominator)
   Answer = (numerator // common, denominator // common)
@@ -49,8 +49,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/6"
-  
+      answer: "(28, 25)"
   - seed: 67890
     expected:
-      answer: "7/6"
+      answer: "(25, 21)"

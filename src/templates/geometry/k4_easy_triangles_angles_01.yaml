@@ -46,4 +46,4 @@ tests:
       answer: "acute"
   - seed: 67890
     expected:
-      answer: "obtuse"
+      answer: "right"

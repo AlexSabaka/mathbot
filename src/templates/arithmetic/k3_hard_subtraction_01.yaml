@@ -10,11 +10,11 @@ metadata:
   steps: 3
   culture: en-US
   tags:
-  - subtraction
-  - 4-digit
-  - multi-step
-  - money
-  - real-world
+    - subtraction
+    - 4-digit
+    - multi-step
+    - money
+    - real-world
 variables:
   name:
     type: person
@@ -35,22 +35,16 @@ variables:
     step: 0.5
   Answer:
     type: money
-template: '{{name}} is saving for a bicycle that costs {{number1}}. {{name}} has already
-  saved {{number2}}.
+template: '{{name}} is saving for a bicycle that costs {{number1}}. {{name}} has already saved {{number2}}.
 
-  {{name}}''s grandmother gave {{name}} {{number3}}. How much more money does {{name}}
-  need?
+  {{name}}''s grandmother gave {{name}} {{number3}}. How much more money does {{name}} need?
 
   '
-solution: "# Calculate how much has been saved\ntotal_saved = number2 + number3\n\n\
-  # Ensure the bicycle costs more than what has been saved\nif total_saved >= number1:\n\
-  \    # Adjust to ensure a positive result (need more money)\n    Answer = 1.00 \
-  \ # Minimum amount still needed\nelse:\n    Answer = round(number1 - total_saved,\
-  \ 2)\n"
+solution: "# Calculate how much has been saved\ntotal_saved = number2 + number3\n\n# Ensure the bicycle costs more than what has been saved\nif total_saved >= number1:\n    # Adjust to ensure a positive result (need more money)\n    Answer = 1.00  # Minimum amount still needed\nelse:\n    Answer = round(number1 - total_saved, 2)\n"
 tests:
-- seed: 12345
-  expected:
-    answer: $8.00
-- seed: 67890
-  expected:
-    answer: $13.00
+  - seed: 12345
+    expected:
+      answer: $3.00
+  - seed: 67890
+    expected:
+      answer: $17.50

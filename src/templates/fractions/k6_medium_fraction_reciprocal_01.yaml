@@ -33,15 +33,14 @@ solution: |
   # Convert mixed number to improper fraction: whole_number + a/b = (whole_number*b + a)/b
   numerator = whole_number * b + a
   denominator = b
-  
+
   # Reciprocal: flip it
   Answer = (denominator, numerator)
 
 tests:
   - seed: 12345
     expected:
-      answer: "8/21"
-  
+      answer: "(3, 21)"
   - seed: 67890
     expected:
-      answer: "10/37"
+      answer: "(4, 19)"

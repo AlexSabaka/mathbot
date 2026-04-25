@@ -27,7 +27,7 @@ variables:
 
 template: |
   Use {{unit}} to measure the {{item}}. The {{item}} is about {{actual_length}} {{unit}} long.
-  
+
   How many {{unit}} long is the {{item}}?
 
 solution: |
@@ -39,4 +39,4 @@ tests:
       answer: "7"
   - seed: 100
     expected:
-      answer: "4"
+      answer: "10"

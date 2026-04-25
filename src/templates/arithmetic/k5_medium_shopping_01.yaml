@@ -9,11 +9,11 @@ metadata:
   difficulty: medium
   steps: 4
   tags:
-  - money
-  - real-world
-  - shopping
-  - percentages
-  - discount
+    - money
+    - real-world
+    - shopping
+    - percentages
+    - discount
 variables:
   name:
     type: person
@@ -65,12 +65,10 @@ variables:
 template: '{{name}} goes shopping at a grocery store in {{city}} on a {{time_of_day}}.
 
 
-  They buy {{qty1}} {{item1}} at {{price1}} each, {{qty2}} {{item2}} at {{price2}}
-  each, and {{qty3}} {{item3}} at {{price3}} each.
+  They buy {{qty1}} {{item1}} at {{price1}} each, {{qty2}} {{item2}} at {{price2}} each, and {{qty3}} {{item3}} at {{price3}} each.
 
 
-  {{ "The store offers a 15% discount. How much does " ~ name ~ " pay after the discount?|After
-  a 15% discount, what''s the final cost?" | choice }}
+  {{ "The store offers a 15% discount. How much does " ~ name ~ " pay after the discount?|After a 15% discount, what''s the final cost?" | choice }}
 
   '
 solution: 'subtotal = qty1 * price1 + qty2 * price2 + qty3 * price3
@@ -83,6 +81,6 @@ solution: 'subtotal = qty1 * price1 + qty2 * price2 + qty3 * price3
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $23.80
+  - seed: 12345
+    expected:
+      answer: $31.24

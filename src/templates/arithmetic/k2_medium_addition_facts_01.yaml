@@ -43,11 +43,11 @@ variables:
 
 template: |
   Fill in the missing numbers in this addition table row:
-  
+
   | + | {{col_1}} | {{col_2}} | {{col_3}} | {{col_4}} |
   |---|---|---|---|---|
   | {{row_num}} |___|___|___|___|
-  
+
   Please solve this problem.
 
 solution: |
@@ -62,4 +62,4 @@ tests:
       answer: "16 | 17 | 16 | 16"
   - seed: 50505
     expected:
-      answer: "14 | 11 | 12 | 15"
+      answer: "10 | 10 | 18 | 13"

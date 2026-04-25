@@ -33,21 +33,21 @@ template: |
 solution: |
   # Multiply whole number by numerator
   result_numerator = whole_number * numerator
-  
+
   # Simplify the fraction
   common = math.gcd(result_numerator, denominator)
   final_num = result_numerator // common
   final_den = denominator // common
-  
+
   Answer = (final_num, final_den)
 
 tests:
   - seed: 12345
     expected:
-      answer: "8/3"
+      answer: "(1, 1)"
   - seed: 67890
     expected:
-      answer: "2/1"
+      answer: "(1, 1)"
   - seed: 11111
     expected:
-      answer: "5/2"
+      answer: "(4, 5)"

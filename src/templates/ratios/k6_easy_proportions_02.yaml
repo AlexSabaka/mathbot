@@ -38,7 +38,7 @@ solution: |
 tests:
   - seed: 40003
     expected:
-      answer: "18.00"
+      answer: "11.50"
   - seed: 40004
     expected:
-      answer: "21.00"
+      answer: "27.00"

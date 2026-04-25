@@ -50,8 +50,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "6x + 32"
-  
+      answer: "5y + 20"
   - seed: 67890
     expected:
-      answer: "6y + 20"
+      answer: "3x + 22"

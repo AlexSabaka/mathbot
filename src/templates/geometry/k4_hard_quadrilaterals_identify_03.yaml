@@ -71,10 +71,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "square"
+      answer: "rhombus"
   - seed: 67890
     expected:
-      answer: "parallelogram"
+      answer: "trapezoid"
   - seed: 11111
     expected:
-      answer: "trapezoid"
+      answer: "rectangle"

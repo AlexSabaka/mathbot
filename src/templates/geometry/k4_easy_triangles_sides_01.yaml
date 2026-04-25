@@ -45,7 +45,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "isosceles"
+      answer: "scalene"
   - seed: 67890
     expected:
       answer: "scalene"

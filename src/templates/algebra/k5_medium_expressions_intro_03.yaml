@@ -35,7 +35,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "24 ÷ p"
+      answer: "31 ÷ n"
   - seed: 22222
     expected:
-      answer: "42 ÷ s"
+      answer: "35 ÷ n"

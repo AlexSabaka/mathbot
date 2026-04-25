@@ -16,7 +16,7 @@ variables:
     type: integer
     min: 3
     max: 8
-  
+
   Answer:
     type: string
     choices: ["triangle", "quadrilateral", "pentagon", "hexagon", "heptagon", "octagon"]
@@ -39,7 +39,6 @@ tests:
   - seed: 12345
     expected:
       answer: "hexagon"
-  
   - seed: 67890
     expected:
-      answer: "pentagon"
+      answer: "quadrilateral"

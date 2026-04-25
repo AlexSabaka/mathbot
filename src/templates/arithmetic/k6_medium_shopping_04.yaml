@@ -9,11 +9,11 @@ metadata:
   difficulty: medium
   steps: 3
   tags:
-  - money
-  - real-world
-  - shopping
-  - tax
-  - shipping
+    - money
+    - real-world
+    - shopping
+    - tax
+    - shipping
 variables:
   day:
     type: weekday
@@ -59,16 +59,13 @@ variables:
     step: 1
   Answer:
     type: money
-template: 'It''s {{day}} evening, and {{name}} is browsing {{store}}''s website looking
-  for supplies.
+template: 'It''s {{day}} evening, and {{name}} is browsing {{store}}''s website looking for supplies.
 
 
-  They start by adding {{quantity1}} {{item1}} to their cart at {{price1}} each. They
-  also need {{quantity2}} {{item2}}, which are {{price2}} each.
+  They start by adding {{quantity1}} {{item1}} to their cart at {{price1}} each. They also need {{quantity2}} {{item2}}, which are {{price2}} each.
 
 
-  The subtotal is calculated, and shipping costs {{shipping}}. Sales tax of {{tax_pct}}%
-  is applied. What is the final total?
+  The subtotal is calculated, and shipping costs {{shipping}}. Sales tax of {{tax_pct}}% is applied. What is the final total?
 
   '
 solution: 'subtotal = price1 * quantity1 + price2 * quantity2
@@ -79,6 +76,6 @@ solution: 'subtotal = price1 * quantity1 + price2 * quantity2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $121.95
+  - seed: 12345
+    expected:
+      answer: $262.72

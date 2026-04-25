@@ -57,13 +57,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "48"
-      answer2: "60"
-      answer3: "120"
-      answer4: "60"
+      answer: 38 | 60 | 120 | 60
   - seed: 67890
     expected:
-      answer1: "52"
-      answer2: "75"
-      answer3: "105"
-      answer4: "75"
+      answer: 36 | 70 | 110 | 70

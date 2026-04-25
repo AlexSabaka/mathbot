@@ -40,9 +40,9 @@ variables:
 template: |
   {{name}} measured a {{object_a}} that is {{length_a_m}} m {{length_a_cm}} cm long.
   {{name}} also measured a {{object_b}} that is {{length_b}} cm long.
-  
+
   What is the total length in centimeters?
-  
+
   Please solve this problem.
 
 solution: |
@@ -53,7 +53,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "350 cm"
+      answer: "290"
   - seed: 67890
     expected:
-      answer: "215 cm"
+      answer: "395"

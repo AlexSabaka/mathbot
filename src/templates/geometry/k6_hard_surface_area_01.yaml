@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 4
   tags:
-  - surface area
-  - wrapping paper
-  - application
+    - surface area
+    - wrapping paper
+    - application
 variables:
   name:
     type: person
@@ -30,12 +30,10 @@ variables:
     max: 12
   Answer:
     type: area
-template: '{{name}} is wrapping a gift box that measures {{length}} inches by {{width}}
-  inches by {{height}} inches.
+template: '{{name}} is wrapping a gift box that measures {{length}} inches by {{width}} inches by {{height}} inches.
 
 
-  How many square inches of wrapping paper are needed to cover the entire box with
-  no overlap?
+  How many square inches of wrapping paper are needed to cover the entire box with no overlap?
 
   '
 solution: '# Surface area of rectangular prism
@@ -46,9 +44,9 @@ solution: '# Surface area of rectangular prism
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 412 square inches
-- seed: 67890
-  expected:
-    answer: 340 square inches
+  - seed: 12345
+    expected:
+      answer: 632 square meters
+  - seed: 67890
+    expected:
+      answer: 896 square meters

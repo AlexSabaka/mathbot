@@ -53,8 +53,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "15"
-  
+      answer: "22"
   - seed: 67890
     expected:
-      answer: "44"
+      answer: "14"

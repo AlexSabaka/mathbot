@@ -10,10 +10,10 @@ metadata:
   culture: en-US
   steps: 3
   tags:
-  - coordinates
-  - rectangle
-  - area
-  - perimeter
+    - coordinates
+    - rectangle
+    - area
+    - perimeter
 variables:
   x1:
     type: integer
@@ -35,8 +35,7 @@ variables:
     type: integer
   Answer2:
     type: area
-template: 'A rectangle has vertices at ({{x1}}, {{y1}}), ({{x1 + width}}, {{y1}}),
-  ({{x1 + width}}, {{y1 + height}}), and ({{x1}}, {{y1 + height}}).
+template: 'A rectangle has vertices at ({{x1}}, {{y1}}), ({{x1 + width}}, {{y1}}), ({{x1 + width}}, {{y1 + height}}), and ({{x1}}, {{y1 + height}}).
 
 
   What is the perimeter and area of the rectangle?
@@ -52,9 +51,9 @@ solution: 'perimeter = 2 * (width + height)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 22 | 30 square units
-- seed: 67890
-  expected:
-    answer: 18 | 20 square units
+  - seed: 12345
+    expected:
+      answer: 22 | 30 square meters
+  - seed: 67890
+    expected:
+      answer: 28 | 49 square meters

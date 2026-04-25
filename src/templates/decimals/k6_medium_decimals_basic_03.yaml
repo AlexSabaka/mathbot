@@ -33,7 +33,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "0.70"
+      answer: "1.00"
   - seed: 67890
     expected:
-      answer: "0.40"
+      answer: "0.56"

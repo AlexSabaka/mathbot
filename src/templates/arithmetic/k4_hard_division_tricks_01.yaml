@@ -107,8 +107,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Two possibilities are 324 and 432. Both are divisible by 3 (digit sums: 9 and 9) and by 4 (last two digits: 24 and 32)."
+      answer: "Two possibilities are 804 and 840. Both are divisible by 3 (digit sums: 12 and 12) and by 4 (last two digits: 4 and 40)."
 
   - seed: 67890
     expected:
-      answer: "Two possibilities are 312 and 612. Both are divisible by 3 (digit sums: 6 and 9) and by 4 (last two digits: 12 and 12)."
+      answer: "Two possibilities are 264 and 624. Both are divisible by 3 (digit sums: 12 and 12) and by 4 (last two digits: 64 and 24)."

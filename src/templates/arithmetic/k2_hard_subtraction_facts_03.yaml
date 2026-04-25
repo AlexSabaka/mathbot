@@ -37,17 +37,17 @@ variables:
 
 template: |
   {{name_1}} solved {{num_a}} - {{num_b}} and got {{num_a - num_b}}.
-  
+
   {{name_2}} solved {{num_c}} - {{num_d}} and got {{num_c - num_d}}.
-  
+
   Who got the larger answer? By how much?
-  
+
   Please solve this problem.
 
 solution: |
   result_1 = num_a - num_b
   result_2 = num_c - num_d
-  
+
   if result_1 > result_2:
       difference = result_1 - result_2
       Answer = f"{name_1} by {difference}"
@@ -60,7 +60,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Emma by 1"
+      answer: "Isabelle by 2"
   - seed: 67890
     expected:
-      answer: "Both got the same answer"
+      answer: "Alvin by 4"

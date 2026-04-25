@@ -29,6 +29,10 @@ variables:
     type: integer
 
 template: |
+  {% set dividend = number1 %}
+  {% set divisor = number2 %}
+  {% set quotient = number1 // number2 %}
+  {% set remainder = number1 % number2 %}
   In the division problem {{dividend}} ÷ {{divisor}} = {{quotient}} R {{remainder}}, identify:
   a) The dividend
   b) The divisor
@@ -53,14 +57,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "39"
-      answer2: "6"
-      answer3: "6"
-      answer4: "3"
-
+      answer: 73 | 3 | 24 | 1
   - seed: 67890
     expected:
-      answer1: "42"
-      answer2: "5"
-      answer3: "8"
-      answer4: "2"
+      answer: 44 | 5 | 8 | 4

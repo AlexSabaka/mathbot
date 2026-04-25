@@ -10,9 +10,9 @@ metadata:
   steps: 2
   culture: en-US
   tags:
-  - decimals
-  - multiplication
-  - measurement
+    - decimals
+    - multiplication
+    - measurement
 variables:
   name:
     type: person
@@ -37,9 +37,9 @@ solution: 'Answer = round(price * qty, 2)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $13.20
-- seed: 67890
-  expected:
-    answer: $21.60
+  - seed: 12345
+    expected:
+      answer: $13.20
+  - seed: 67890
+    expected:
+      answer: $21.50

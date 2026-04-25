@@ -51,8 +51,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Grouping 1: (214 + 267) + 178 = 481 + 178 = 659 items. Grouping 2: 214 + (267 + 178) = 214 + 445 = 659 items. Both groupings give 659 items total."
+      answer: "Grouping 1: (206 + 287) + 102 = 493 + 102 = 595 items. Grouping 2: 206 + (287 + 102) = 206 + 389 = 595 items. Both groupings give 595 items total."
 
   - seed: 67890
     expected:
-      answer: "Grouping 1: (234 + 156) + 211 = 390 + 211 = 601 items. Grouping 2: 234 + (156 + 211) = 234 + 367 = 601 items. Both groupings give 601 items total."
+      answer: "Grouping 1: (149 + 297) + 132 = 446 + 132 = 578 items. Grouping 2: 149 + (297 + 132) = 149 + 429 = 578 items. Both groupings give 578 items total."

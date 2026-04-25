@@ -25,7 +25,7 @@ variables:
 
 template: |
   Complete the addition fact: {{num_a}} + {{num_b}} = ___
-  
+
   Please solve this problem.
 
 solution: |
@@ -37,4 +37,4 @@ tests:
       answer: "8"
   - seed: 88888
     expected:
-      answer: "11"
+      answer: "12"

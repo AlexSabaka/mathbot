@@ -43,15 +43,15 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # First division: (a/b) ÷ (c/d) = (a*d)/(b*c)
   div_num = a * d
   div_den = b * c
-  
+
   # Then multiply by e/f: (div_num/div_den) × (e/f) = (div_num*e)/(div_den*f)
   final_num = div_num * e
   final_den = div_den * f
-  
+
   # Simplify
   common = gcd(final_num, final_den)
   Answer = (final_num // common, final_den // common)
@@ -59,8 +59,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/9"
-  
+      answer: "(4, 7)"
   - seed: 67890
     expected:
-      answer: "7/12"
+      answer: "(3, 5)"

@@ -26,7 +26,7 @@ variables:
 
 template: |
   Which object is taller: the {{object_a}} or the {{object_b}}?
-  
+
   The {{object_a}} is {{"taller" if is_taller else "shorter"}} than the {{object_b}}.
 
 solution: |
@@ -35,7 +35,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "flagpole"
+      answer: "bush"
   - seed: 100
     expected:
       answer: "building"

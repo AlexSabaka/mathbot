@@ -25,7 +25,7 @@ variables:
 
 template: |
   What is {{num_a}} + {{num_b}}?
-  
+
   Please solve this problem.
 
 solution: |
@@ -34,7 +34,7 @@ solution: |
 tests:
   - seed: 20202
     expected:
-      answer: "11"
+      answer: "13"
   - seed: 30303
     expected:
-      answer: "15"
+      answer: "16"

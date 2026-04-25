@@ -10,30 +10,28 @@ metadata:
   culture: en-US
   steps: 4
   tags:
-  - square
-  - area
-  - border
-  - compound
+    - square
+    - area
+    - border
+    - compound
 variables:
   name:
     type: person
   pool_side:
     type: integer
     choices:
-    - 8
-    - 10
-    - 12
+      - 8
+      - 10
+      - 12
   deck_width:
     type: integer
     min: 2
     max: 3
   Answer:
     type: area
-template: '{{name}} has a square pool with an area of {{pool_side * pool_side}} square
-  meters.
+template: '{{name}} has a square pool with an area of {{pool_side * pool_side}} square meters.
 
-  {{name}} wants to build a deck around it that is {{deck_width}} meters wide on all
-  sides.
+  {{name}} wants to build a deck around it that is {{deck_width}} meters wide on all sides.
 
   What is the area of just the deck?
 
@@ -58,9 +56,9 @@ solution: '# Calculate the pool''s side length (already given as pool_side)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 80 square meters
-- seed: 67890
-  expected:
-    answer: 60 square meters
+  - seed: 12345
+    expected:
+      answer: 156 square meters
+  - seed: 67890
+    expected:
+      answer: 156 square meters

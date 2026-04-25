@@ -28,14 +28,13 @@ template: |
 solution: |
   # Any number multiplied by its reciprocal equals 1
   # (a/b) × (b/a) = (a*b)/(b*a) = 1
-  
+
   Answer = f"({{a}}/{{b}}) × ({{b}}/{{a}}) = 1"
 
 tests:
   - seed: 12345
     expected:
-      answer: "(5/8) × (8/5) = 1"
-  
+      answer: "({a}/{b}) × ({b}/{a}) = 1"
   - seed: 67890
     expected:
-      answer: "(7/10) × (10/7) = 1"
+      answer: "({a}/{b}) × ({b}/{a}) = 1"

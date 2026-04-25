@@ -40,7 +40,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "12 | 5 | b"
+      answer: "18 | 2 | c"
   - seed: 22222
     expected:
-      answer: "20 | 7 | c"
+      answer: "16 | 7 | c"

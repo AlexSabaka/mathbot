@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - rhombus
-  - area
-  - diagonals
+    - rhombus
+    - area
+    - diagonals
 variables:
   diagonal1:
     type: integer
@@ -24,8 +24,7 @@ variables:
     max: 18
   Answer:
     type: area
-template: 'Find the area of a rhombus with diagonals {{diagonal1}} cm and {{diagonal2}}
-  cm.
+template: 'Find the area of a rhombus with diagonals {{diagonal1}} cm and {{diagonal2}} cm.
 
   '
 solution: '# Area = (diagonal1 × diagonal2) / 2
@@ -36,9 +35,9 @@ solution: '# Area = (diagonal1 × diagonal2) / 2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 84 square cm
-- seed: 67890
-  expected:
-    answer: 72 square cm
+  - seed: 12345
+    expected:
+      answer: 70 square meters
+  - seed: 67890
+    expected:
+      answer: 66 square meters

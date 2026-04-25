@@ -57,10 +57,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1/2"
+      answer: "(3, 11)"
   - seed: 67890
     expected:
-      answer: "5/12"
+      answer: "(1, 11)"
   - seed: 11111
     expected:
-      answer: "2/3"
+      answer: "(1, 12)"

@@ -9,10 +9,10 @@ metadata:
   difficulty: hard
   steps: 6
   tags:
-  - compound-interest
-  - percentages
-  - savings
-  - multi-step
+    - compound-interest
+    - percentages
+    - savings
+    - multi-step
 variables:
   name:
     type: person
@@ -66,33 +66,26 @@ template: '{{name}} opens a savings account with an initial deposit of {{princip
   During the first year, the account earns {{rate1}}% interest.
 
 
-  {% if year2 %}In the second year, the interest rate is {{rate2}}%, which is applied
-  to the balance. {% endif %}
+  {% if year2 %}In the second year, the interest rate is {{rate2}}%, which is applied to the balance. {% endif %}
 
 
-  {% if has_deposit %}After receiving the second year''s interest, {{name}} adds {{deposit_amount}}
-  to the account. {% endif %}
+  {% if has_deposit %}After receiving the second year''s interest, {{name}} adds {{deposit_amount}} to the account. {% endif %}
 
 
-  {% if has_withdrawal %}Following the second year''s interest payment, {{name}} makes
-  a withdrawal of {{withdrawal_amount}}. {% endif %}
+  {% if has_withdrawal %}Following the second year''s interest payment, {{name}} makes a withdrawal of {{withdrawal_amount}}. {% endif %}
 
 
-  {% if year3 %}The third year brings {{rate3}}% interest on the current balance.
-  {% endif %}
+  {% if year3 %}The third year brings {{rate3}}% interest on the current balance. {% endif %}
 
 
   What is the total amount in {{name}}''s account?
 
   '
-solution: "balance = principal * (1 + rate1 / 100)\nif year2:\n    balance = balance\
-  \ * (1 + rate2 / 100)\n    if has_deposit:\n        balance = balance + deposit_amount\n\
-  \    if has_withdrawal:\n        balance = balance - withdrawal_amount\nif year3:\n\
-  \    balance = balance * (1 + rate3 / 100)\nAnswer = round(balance, 2)\n"
+solution: "balance = principal * (1 + rate1 / 100)\nif year2:\n    balance = balance * (1 + rate2 / 100)\n    if has_deposit:\n        balance = balance + deposit_amount\n    if has_withdrawal:\n        balance = balance - withdrawal_amount\nif year3:\n    balance = balance * (1 + rate3 / 100)\nAnswer = round(balance, 2)\n"
 tests:
-- seed: 555
-  expected:
-    answer: $1155.75
-- seed: 666
-  expected:
-    answer: $4592.88
+  - seed: 555
+    expected:
+      answer: $2425.35
+  - seed: 666
+    expected:
+      answer: $4419.96

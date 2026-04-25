@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - volume
-  - rectangular prism
-  - dimensions
+    - volume
+    - rectangular prism
+    - dimensions
 variables:
   length:
     type: integer
@@ -28,8 +28,7 @@ variables:
     max: 8
   Answer:
     type: volume
-template: 'Find the volume of a rectangular prism with length {{length}} m, width
-  {{width}} m, and height {{height}} m.
+template: 'Find the volume of a rectangular prism with length {{length}} m, width {{width}} m, and height {{height}} m.
 
   '
 solution: '# Volume = length × width × height
@@ -40,9 +39,9 @@ solution: '# Volume = length × width × height
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 330 cubic m
-- seed: 67890
-  expected:
-    answer: 240 cubic m
+  - seed: 12345
+    expected:
+      answer: 240 cubic meters
+  - seed: 67890
+    expected:
+      answer: 175 cubic meters

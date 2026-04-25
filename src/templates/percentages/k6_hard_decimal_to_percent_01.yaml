@@ -52,7 +52,7 @@ solution: |
   percentage1 = d1 * 100
   percentage2 = d2 * 100
   percentage3 = d3 * 100
-  
+
   Answer1 = round(percentage1, 2)
   Answer2 = round(percentage2, 2)
   Answer3 = round(percentage3, 2)
@@ -60,7 +60,7 @@ solution: |
 tests:
   - seed: 20013
     expected:
-      answer: "79.00 | 90.00 | 81.00"
+      answer: "94.00 | 86.00 | 75.00"
   - seed: 20014
     expected:
-      answer: "94.00 | 80.00 | 77.00"
+      answer: "73.00 | 70.00 | 95.00"

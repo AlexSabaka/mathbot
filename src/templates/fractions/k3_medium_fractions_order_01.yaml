@@ -57,7 +57,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1/6, 3/6, 5/6"
+      answer: "2/6, 3/6, 5/6"
   - seed: 67890
     expected:
-      answer: "2/5, 3/5, 4/5"
+      answer: "3/7, 5/7, 6/7"

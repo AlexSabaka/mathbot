@@ -10,10 +10,10 @@ metadata:
   steps: 3
   culture: en-US
   tags:
-  - perimeter
-  - inverse
-  - problem-solving
-  - rectangle
+    - perimeter
+    - inverse
+    - problem-solving
+    - rectangle
 variables:
   perimeter:
     type: integer
@@ -45,9 +45,9 @@ solution: '# Perimeter = 2 × (length + width)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 8 inches
-- seed: 67890
-  expected:
-    answer: 4 inches
+  - seed: 12345
+    expected:
+      answer: 18 meters
+  - seed: 67890
+    expected:
+      answer: 7 meters

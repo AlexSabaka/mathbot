@@ -10,10 +10,10 @@ metadata:
   steps: 2
   culture: en-US
   tags:
-  - decimals
-  - addition
-  - subtraction
-  - shopping
+    - decimals
+    - addition
+    - subtraction
+    - shopping
 variables:
   name:
     type: person
@@ -35,17 +35,16 @@ variables:
     step: 0.25
   Answer:
     type: money
-template: '{{name}} purchased {{item1}} for {{a}} and {{item2}} for {{b}}. What is
-  the total cost?
+template: '{{name}} purchased {{item1}} for {{a}} and {{item2}} for {{b}}. What is the total cost?
 
   '
 solution: 'Answer = round(a + b, 2)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $15.25
-- seed: 67890
-  expected:
-    answer: $20.00
+  - seed: 12345
+    expected:
+      answer: $20.50
+  - seed: 67890
+    expected:
+      answer: $15.75

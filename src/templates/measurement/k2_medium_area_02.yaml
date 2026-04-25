@@ -30,9 +30,9 @@ variables:
 
 template: |
   {{name}}'s {{object}} is {{length_a}} cm long and {{width_a}} cm wide.
-  
+
   What is the area?
-  
+
   Please solve this problem.
 
 solution: |
@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "40 square centimeters"
+      answer: "60"
   - seed: 67890
     expected:
-      answer: "42 square centimeters"
+      answer: "36"

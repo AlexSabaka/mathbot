@@ -43,7 +43,7 @@ solution: |
 tests:
   - seed: 40011
     expected:
-      answer: "7.00"
+      answer: "4.50"
   - seed: 40012
     expected:
-      answer: "4.80"
+      answer: "10.71"

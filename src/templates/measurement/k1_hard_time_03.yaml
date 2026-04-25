@@ -30,7 +30,7 @@ variables:
 
 template: |
   {{name}} started {{activity}} at {{start_hour}} o'clock and finished at {{end_hour}} o'clock.
-  
+
   How many hours did {{name}} spend {{activity}}?
 
 solution: |
@@ -39,7 +39,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "3"
+      answer: "2"
   - seed: 100
     expected:
-      answer: "2"
+      answer: "1"

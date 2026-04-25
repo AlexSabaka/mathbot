@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - surface area
-  - cube
-  - 3D shapes
+    - surface area
+    - cube
+    - 3D shapes
 variables:
   side:
     type: integer
@@ -31,9 +31,9 @@ solution: '# Surface area of cube = 6 × s²
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 294 square units
-- seed: 67890
-  expected:
-    answer: 216 square units
+  - seed: 12345
+    expected:
+      answer: 486 square meters
+  - seed: 67890
+    expected:
+      answer: 216 square meters

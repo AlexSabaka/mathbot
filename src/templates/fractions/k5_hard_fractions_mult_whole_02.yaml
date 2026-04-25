@@ -40,27 +40,27 @@ template: |
 solution: |
   # Total people in the group
   total_people = friends + 1
-  
+
   # Distance per day for the group
   distance_per_day_numerator = total_people * numerator
-  
+
   # Total distance for all days
   total_numerator = distance_per_day_numerator * days
-  
+
   # Simplify the fraction
   common = math.gcd(total_numerator, denominator)
   final_num = total_numerator // common
   final_den = denominator // common
-  
+
   Answer = (final_num, final_den)
 
 tests:
   - seed: 12345
     expected:
-      answer: "5/1"
+      answer: "(42, 5)"
   - seed: 67890
     expected:
-      answer: "12/1"
+      answer: "(175, 8)"
   - seed: 88888
     expected:
-      answer: "15/2"
+      answer: "(50, 3)"

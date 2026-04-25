@@ -72,10 +72,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1/8"
+      answer: "(1, 4)"
   - seed: 67890
     expected:
-      answer: "1/10"
+      answer: "(3, 4)"
   - seed: 11111
     expected:
-      answer: "1/4"
+      answer: "(4, 33)"

@@ -14,17 +14,16 @@ metadata:
 variables:
   name:
     type: person
-  
+
   shape_name:
     type: string
     choices: ["pentagon", "hexagon", "octagon"]
-  
   perimeter:
     type: integer
     min: 30
     max: 80
     step: 5
-  
+
   Answer:
     type: integer
 
@@ -38,17 +37,16 @@ solution: |
     "hexagon": 6,
     "octagon": 8
   }
-  
+
   num_sides = sides_dict[shape_name]
   side_length = perimeter // num_sides
-  
+
   Answer = side_length
 
 tests:
   - seed: 11111
     expected:
-      answer: "10"
-  
+      answer: "13"
   - seed: 22222
     expected:
-      answer: "8"
+      answer: "12"

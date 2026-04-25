@@ -38,7 +38,7 @@ variables:
 
 template: |
   {{name_a}} has {{num_a}} {{object}}. {{name_b}} has {{num_b}} {{object}}. {{name_c}} has {{num_c}} {{object}}.
-  
+
   How many {{object}} do they have altogether?
 
 solution: |
@@ -47,7 +47,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "13"
+      answer: "10"
   - seed: 100
     expected:
-      answer: "15"
+      answer: "6"

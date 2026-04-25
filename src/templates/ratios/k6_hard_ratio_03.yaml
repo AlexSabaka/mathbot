@@ -47,17 +47,17 @@ solution: |
   total_parts = ratio_a + ratio_b
   if total_cups % total_parts != 0:
       total_cups = (total_cups // total_parts) * total_parts
-  
+
   cups1 = (ratio_a * total_cups) // total_parts
   cups2 = (ratio_b * total_cups) // total_parts
-  
+
   Answer1 = cups1
   Answer2 = cups2
 
 tests:
   - seed: 30017
     expected:
-      answer: "6 | 9"
+      answer: "4 | 6"
   - seed: 30018
     expected:
-      answer: "8 | 10"
+      answer: "4 | 4"

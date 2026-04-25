@@ -31,7 +31,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "backpack"
+      answer: "book"
   - seed: 100
     expected:
-      answer: "book"
+      answer: "shoe"

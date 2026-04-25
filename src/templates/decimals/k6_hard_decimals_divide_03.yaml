@@ -10,10 +10,10 @@ metadata:
   steps: 3
   culture: en-US
   tags:
-  - decimals
-  - division
-  - context
-  - real_world
+    - decimals
+    - division
+    - context
+    - real_world
 variables:
   name:
     type: person
@@ -32,17 +32,16 @@ variables:
     step: 0.5
   Answer:
     type: money
-template: '{{name}} bought {{b}} pounds of {{item}} for a total of {{a}}. What was
-  the cost per pound? Round to the nearest cent.
+template: '{{name}} bought {{b}} pounds of {{item}} for a total of {{a}}. What was the cost per pound? Round to the nearest cent.
 
   '
 solution: 'Answer = round(a / b, 2)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $5.36
-- seed: 67890
-  expected:
-    answer: $4.11
+  - seed: 12345
+    expected:
+      answer: $6.30
+  - seed: 67890
+    expected:
+      answer: $6.08

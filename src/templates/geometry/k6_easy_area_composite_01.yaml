@@ -10,10 +10,10 @@ metadata:
   culture: en-US
   steps: 3
   tags:
-  - area
-  - composite
-  - L-shape
-  - rectangles
+    - area
+    - composite
+    - L-shape
+    - rectangles
 variables:
   l1:
     type: integer
@@ -53,9 +53,9 @@ solution: '# Calculate area of each rectangle and add them
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 95 square units
-- seed: 67890
-  expected:
-    answer: 70 square units
+  - seed: 12345
+    expected:
+      answer: 108 square meters
+  - seed: 67890
+    expected:
+      answer: 81 square meters

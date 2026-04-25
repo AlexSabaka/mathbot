@@ -43,23 +43,23 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Find LCD manually
   def lcm(a, b):
     return abs(a * b) // gcd(a, b)
-  
+
   # Find LCD of all three denominators
   lcd = lcm(lcm(b, d), f)
-  
+
   # Convert all to common denominator
   new_a = a * (lcd // b)
   new_c = c * (lcd // d)
   new_e = e * (lcd // f)
-  
+
   # Perform operations
   numerator = new_a + new_c - new_e
   denominator = lcd
-  
+
   # Simplify
   common = gcd(abs(numerator), denominator)
   Answer = (numerator // common, denominator // common)
@@ -67,8 +67,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1/2"
-  
+      answer: "(17, 24)"
   - seed: 67890
     expected:
-      answer: "29/60"
+      answer: "(1, 30)"

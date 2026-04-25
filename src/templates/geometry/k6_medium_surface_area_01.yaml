@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 3
   tags:
-  - surface area
-  - rectangular prism
-  - 3D
+    - surface area
+    - rectangular prism
+    - 3D
 variables:
   length:
     type: integer
@@ -28,8 +28,7 @@ variables:
     max: 9
   Answer:
     type: area
-template: 'Find the surface area of a rectangular prism with length {{length}}, width
-  {{width}}, and height {{height}}.
+template: 'Find the surface area of a rectangular prism with length {{length}}, width {{width}}, and height {{height}}.
 
   '
 solution: '# Surface area = 2(lw + lh + wh)
@@ -40,9 +39,9 @@ solution: '# Surface area = 2(lw + lh + wh)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 262 square units
-- seed: 67890
-  expected:
-    answer: 188 square units
+  - seed: 12345
+    expected:
+      answer: 318 square meters
+  - seed: 67890
+    expected:
+      answer: 304 square meters

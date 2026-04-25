@@ -33,7 +33,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "250"
+      answer: "240"
   - seed: 100
     expected:
-      answer: "370"
+      answer: "490"

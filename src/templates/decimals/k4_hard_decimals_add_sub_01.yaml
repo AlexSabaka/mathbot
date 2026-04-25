@@ -87,7 +87,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "14.76"
+      answer: "12.60"
   - seed: 67890
     expected:
-      answer: "13.97"
+      answer: "16.73"

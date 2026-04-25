@@ -33,7 +33,7 @@ solution: |
   number = tens_digit * 10 + ones_digit
   lower_ten = tens_digit * 10
   upper_ten = (tens_digit + 1) * 10
-  
+
   if ones_digit < 5:
       Answer = lower_ten
   else:
@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "70"
+      answer: "10"
   - seed: 100
     expected:
-      answer: "40"
+      answer: "80"

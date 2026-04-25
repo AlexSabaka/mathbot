@@ -9,9 +9,9 @@ metadata:
   difficulty: hard
   steps: 3
   tags:
-  - money
-  - real-world
-  - shopping
+    - money
+    - real-world
+    - shopping
 variables:
   city:
     type: location
@@ -54,12 +54,10 @@ variables:
 template: 'At a grocery store in {{city}}, {{name}} is planning a shopping trip.
 
 
-  They want to buy {{item1}} and {{item2}}. Each {{item1_singular}} costs {{price1}},
-  and each {{item2_singular}} costs {{price2}}.
+  They want to buy {{item1}} and {{item2}}. Each {{item1_singular}} costs {{price1}}, and each {{item2_singular}} costs {{price2}}.
 
 
-  If {{name}} buys {{qty1}} {{item1}} and {{qty2}} {{item2}}, how much will they spend
-  in total?
+  If {{name}} buys {{qty1}} {{item1}} and {{qty2}} {{item2}}, how much will they spend in total?
 
   '
 solution: 'cost1 = qty1 * price1
@@ -72,6 +70,6 @@ solution: 'cost1 = qty1 * price1
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $28.50
+  - seed: 12345
+    expected:
+      answer: $40.50

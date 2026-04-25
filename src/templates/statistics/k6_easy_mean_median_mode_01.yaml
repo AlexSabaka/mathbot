@@ -36,7 +36,7 @@ variables:
 
 template: |
   Find the mean of this data set: {{val1}}, {{val2}}, {{val3}}, {{val4}}, {{val5}}.
-  
+
   Please solve this problem.
 
 solution: |
@@ -46,7 +46,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "25"
+      answer: "23"
   - seed: 67890
     expected:
-      answer: "27"
+      answer: "24"

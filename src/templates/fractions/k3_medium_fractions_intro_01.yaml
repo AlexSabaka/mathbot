@@ -46,9 +46,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "4/6"
-      answer2: "2/6"
+      answer: (5, 10) | (5, 10)
   - seed: 67890
     expected:
-      answer1: "3/5"
-      answer2: "2/5"
+      answer: (6, 7) | (1, 7)

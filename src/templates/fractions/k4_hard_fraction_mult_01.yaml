@@ -62,10 +62,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3/4"
+      answer: "(6, 5)"
   - seed: 67890
     expected:
-      answer: "1 1/6"
+      answer: "(5, 8)"
   - seed: 11111
     expected:
-      answer: "5/8"
+      answer: "(17, 28)"

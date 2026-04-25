@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - volume
-  - cube
-  - 3D
+    - volume
+    - cube
+    - 3D
 variables:
   side:
     type: integer
@@ -31,9 +31,9 @@ solution: '# Volume of cube = s³
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 343 cubic cm
-- seed: 67890
-  expected:
-    answer: 216 cubic cm
+  - seed: 12345
+    expected:
+      answer: 729 cubic meters
+  - seed: 67890
+    expected:
+      answer: 216 cubic meters

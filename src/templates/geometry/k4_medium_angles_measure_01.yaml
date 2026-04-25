@@ -49,9 +49,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "115"
-      answer2: "obtuse"
+      answer: 66 | acute
   - seed: 67890
     expected:
-      answer1: "75"
-      answer2: "acute"
+      answer: 59 | acute

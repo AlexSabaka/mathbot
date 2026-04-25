@@ -48,8 +48,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "13x + 2"
-  
+      answer: "15y - 13"
   - seed: 67890
     expected:
-      answer: "11n - 2"
+      answer: "13x - 6"

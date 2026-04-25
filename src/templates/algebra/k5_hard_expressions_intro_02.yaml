@@ -44,7 +44,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "72 - 20d | 12"
+      answer: "91 - 27d | -98"
   - seed: 22222
     expected:
-      answer: "105 - 30n | 15"
+      answer: "107 - 34n | -29"

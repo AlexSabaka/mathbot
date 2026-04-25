@@ -9,10 +9,10 @@ metadata:
   difficulty: medium
   steps: 4
   tags:
-  - compound-growth
-  - percentages
-  - population
-  - migration
+    - compound-growth
+    - percentages
+    - population
+    - migration
 variables:
   city:
     type: location
@@ -42,27 +42,23 @@ variables:
 template: 'The city of {{city}} has a population of {{initial_pop}} people.
 
 
-  Over the next {{years}} years, the city experiences steady growth at {{rate}}% per
-  year.
+  Over the next {{years}} years, the city experiences steady growth at {{rate}}% per year.
 
 
-  {% if has_migration %}{% if migration > 0 %}Additionally, {{migration}} people relocate
-  to {{city}} from other areas. {% endif %}{% endif %}
+  {% if has_migration %}{% if migration > 0 %}Additionally, {{migration}} people relocate to {{city}} from other areas. {% endif %}{% endif %}
 
 
-  {% if has_migration %}{% if migration < 0 %}However, {{migration|abs}} residents
-  move away to other cities. {% endif %}{% endif %}
+  {% if has_migration %}{% if migration < 0 %}However, {{migration|abs}} residents move away to other cities. {% endif %}{% endif %}
 
 
   What is the current population of {{city}}?
 
   '
-solution: "final_pop = initial_pop * (1 + rate / 100) ** years\nif has_migration:\n\
-  \    final_pop = final_pop + migration\nAnswer = int(round(final_pop, 0))\n"
+solution: "final_pop = initial_pop * (1 + rate / 100) ** years\nif has_migration:\n    final_pop = final_pop + migration\nAnswer = int(round(final_pop, 0))\n"
 tests:
-- seed: 789
-  expected:
-    answer: '91440'
-- seed: 999
-  expected:
-    answer: '76890'
+  - seed: 789
+    expected:
+      answer: '96814'
+  - seed: 999
+    expected:
+      answer: '137845'

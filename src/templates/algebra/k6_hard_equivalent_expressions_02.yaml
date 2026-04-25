@@ -45,8 +45,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "9x + 38"
-  
+      answer: "6y + 16"
   - seed: 67890
     expected:
-      answer: "9y + 35"
+      answer: "7x + 19"

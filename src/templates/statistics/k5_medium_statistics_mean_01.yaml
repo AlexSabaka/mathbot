@@ -14,42 +14,41 @@ metadata:
 variables:
   name:
     type: person
-  
+
   sport:
     type: string
     choices: ["basketball", "soccer", "baseball", "hockey"]
-  
   score1:
     type: integer
     min: 15
     max: 30
-  
+
   score2:
     type: integer
     min: 15
     max: 30
-  
+
   score3:
     type: integer
     min: 15
     max: 30
-  
+
   score4:
     type: integer
     min: 15
     max: 30
-  
+
   num_games:
     type: integer
     min: 4
     max: 5
-  
+
   Answer:
     type: integer
 
 template: |
   {{name}} scored {{score1}}, {{score2}}, {{score3}}, and {{score4}} points in {{num_games}} {{sport}} games.
-  
+
   What is {{name}}'s average score per game?
 
 solution: |
@@ -60,8 +59,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "22"
-  
+      answer: "24"
   - seed: 67890
     expected:
-      answer: "24"
+      answer: "18"

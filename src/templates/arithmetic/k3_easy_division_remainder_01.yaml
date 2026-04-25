@@ -45,10 +45,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "5"
-      answer2: "3"
-
+      answer: 3 | 2
   - seed: 67890
     expected:
-      answer1: "4"
-      answer2: "2"
+      answer: 5 | 1

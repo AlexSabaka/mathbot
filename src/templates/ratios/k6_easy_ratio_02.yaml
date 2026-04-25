@@ -29,17 +29,17 @@ template: |
 
 solution: |
   import math
-  
+
   gcd = math.gcd(red, blue)
   simplified_red = red // gcd
   simplified_blue = blue // gcd
-  
+
   Answer = f"{simplified_red}:{simplified_blue}"
 
 tests:
   - seed: 30003
     expected:
-      answer: "3:2"
+      answer: "5:6"
   - seed: 30004
     expected:
-      answer: "1:2"
+      answer: "4:5"

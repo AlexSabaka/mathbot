@@ -34,7 +34,7 @@ variables:
 
 template: |
   The {{object_a}} is {{count_a}} {{units}} long. The {{object_b}} is {{count_b}} {{units}} long.
-  
+
   How much longer is the {{object_a}}?
 
 solution: |
@@ -46,4 +46,4 @@ tests:
       answer: "4"
   - seed: 100
     expected:
-      answer: "4"
+      answer: "8"

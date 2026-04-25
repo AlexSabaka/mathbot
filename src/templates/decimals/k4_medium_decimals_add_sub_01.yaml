@@ -10,11 +10,11 @@ metadata:
   steps: 3
   culture: en-US
   tags:
-  - decimals
-  - money
-  - real-world
-  - shopping
-  - subtraction
+    - decimals
+    - money
+    - real-world
+    - shopping
+    - subtraction
 variables:
   name:
     type: person
@@ -52,14 +52,11 @@ template: '{{name}} bought a {{item1}} for {{price1}} and a {{item2}} for {{pric
   How much change from ${{bill}}.00 will {{name}} receive?
 
   '
-solution: "# Calculate total spent\ntotal_spent = price1 + price2\n\n# Ensure bill\
-  \ is greater than total\nbill_amount = float(bill)\nwhile bill_amount < total_spent:\n\
-  \    bill_amount += 10\n\n# Calculate change\nchange = bill_amount - total_spent\n\
-  \nAnswer1 = round(total_spent, 2)\nAnswer2 = round(change, 2)\n"
+solution: "# Calculate total spent\ntotal_spent = price1 + price2\n\n# Ensure bill is greater than total\nbill_amount = float(bill)\nwhile bill_amount < total_spent:\n    bill_amount += 10\n\n# Calculate change\nchange = bill_amount - total_spent\n\nAnswer1 = round(total_spent, 2)\nAnswer2 = round(change, 2)\n"
 tests:
-- seed: 12345
-  expected:
-    answer: $23.49, $16.51
-- seed: 67890
-  expected:
-    answer: $21.49, $8.51
+  - seed: 12345
+    expected:
+      answer: $22.50 | $5.50
+  - seed: 67890
+    expected:
+      answer: $16.00 | $28.00

@@ -23,7 +23,7 @@ variables:
 
 template: |
   Write two different addition facts that equal {{target}}.
-  
+
   Please solve this problem.
 
 solution: |
@@ -39,4 +39,4 @@ tests:
       answer: "8 | 9"
   - seed: 70707
     expected:
-      answer: "6 | 7"
+      answer: "7 | 7"

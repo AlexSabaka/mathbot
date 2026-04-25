@@ -9,11 +9,11 @@ metadata:
   difficulty: hard
   steps: 5
   tags:
-  - ratios
-  - proportions
-  - investment
-  - operating_costs
-  - multi_step
+    - ratios
+    - proportions
+    - investment
+    - operating_costs
+    - multi_step
 variables:
   num_people:
     type: integer
@@ -70,13 +70,11 @@ template: 'A group of {{num_people}} entrepreneurs form a partnership to launch 
 
   {% elif num_people == 3 %}
 
-  {{name1}} invests {{invest1_formatted}}, {{name2}} invests {{invest2_formatted}},
-  and {{name3}} invests {{invest3_formatted}}.
+  {{name1}} invests {{invest1_formatted}}, {{name2}} invests {{invest2_formatted}}, and {{name3}} invests {{invest3_formatted}}.
 
   {% else %}
 
-  {{name1}} invests {{invest1_formatted}}, {{name2}} invests {{invest2_formatted}},
-  and {{name3}} invests {{invest3_formatted}}.
+  {{name1}} invests {{invest1_formatted}}, {{name2}} invests {{invest2_formatted}}, and {{name3}} invests {{invest3_formatted}}.
 
   {% endif %}
 
@@ -87,29 +85,14 @@ template: 'A group of {{num_people}} entrepreneurs form a partnership to launch 
   The partners agree to split the profit proportionally based on their initial investments.
 
 
-  {% if has_operating_cost %}However, they first need to pay {{operating_cost_formatted}}
-  in operating costs before distributing the remaining profit. {% endif %}
+  {% if has_operating_cost %}However, they first need to pay {{operating_cost_formatted}} in operating costs before distributing the remaining profit. {% endif %}
 
 
-  How much {% if has_operating_cost %}does each partner receive?{% else %}profit does
-  each partner receive?{% endif %}
+  How much {% if has_operating_cost %}does each partner receive?{% else %}profit does each partner receive?{% endif %}
 
   '
-solution: "# Calculate distributable profit\nif has_operating_cost:\n    distributable\
-  \ = total_profit - operating_cost\nelse:\n    distributable = total_profit\n\n#\
-  \ Calculate total investment\nif num_people == 2:\n    total_invest = invest1 +\
-  \ invest2\n    amount1 = distributable * (invest1 / total_invest)\n    amount2 =\
-  \ distributable * (invest2 / total_invest)\n    Answer1 = round(amount1, 2)\n  \
-  \  Answer2 = round(amount2, 2)\n    Answer3 = 0.0\nelif num_people == 3:\n    total_invest\
-  \ = invest1 + invest2 + invest3\n    amount1 = distributable * (invest1 / total_invest)\n\
-  \    amount2 = distributable * (invest2 / total_invest)\n    amount3 = distributable\
-  \ * (invest3 / total_invest)\n    Answer1 = round(amount1, 2)\n    Answer2 = round(amount2,\
-  \ 2)\n    Answer3 = round(amount3, 2)\nelse:\n    total_invest = invest1 + invest2\
-  \ + invest3\n    amount1 = distributable * (invest1 / total_invest)\n    amount2\
-  \ = distributable * (invest2 / total_invest)\n    amount3 = distributable * (invest3\
-  \ / total_invest)\n    Answer1 = round(amount1, 2)\n    Answer2 = round(amount2,\
-  \ 2)\n    Answer3 = round(amount3, 2)\n"
+solution: "# Calculate distributable profit\nif has_operating_cost:\n    distributable = total_profit - operating_cost\nelse:\n    distributable = total_profit\n\n# Calculate total investment\nif num_people == 2:\n    total_invest = invest1 + invest2\n    amount1 = distributable * (invest1 / total_invest)\n    amount2 = distributable * (invest2 / total_invest)\n    Answer1 = round(amount1, 2)\n    Answer2 = round(amount2, 2)\n    Answer3 = 0.0\nelif num_people == 3:\n    total_invest = invest1 + invest2 + invest3\n    amount1 = distributable * (invest1 / total_invest)\n    amount2 = distributable * (invest2 / total_invest)\n    amount3 = distributable * (invest3 / total_invest)\n    Answer1 = round(amount1, 2)\n    Answer2 = round(amount2, 2)\n    Answer3 = round(amount3, 2)\nelse:\n    total_invest = invest1 + invest2 + invest3\n    amount1 = distributable * (invest1 / total_invest)\n    amount2 = distributable * (invest2 / total_invest)\n    amount3 = distributable * (invest3 / total_invest)\n    Answer1 = round(amount1, 2)\n    Answer2 = round(amount2, 2)\n    Answer3 = round(amount3, 2)\n"
 tests:
-- seed: 12345
-  expected:
-    answer: $18269.23 | $6730.77 | $0.00
+  - seed: 12345
+    expected:
+      answer: $14736.84 | $7368.42 | $12894.74

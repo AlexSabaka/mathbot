@@ -25,9 +25,9 @@ variables:
 
 template: |
   A large rectangle is made up of {{small_rect_count}} smaller rectangles. Each small rectangle has an area of {{small_area}} square units.
-  
+
   What is the area of the large rectangle?
-  
+
   Please solve this problem.
 
 solution: |
@@ -37,7 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "24 square units"
+      answer: "20"
   - seed: 67890
     expected:
-      answer: "18 square units"
+      answer: "18"

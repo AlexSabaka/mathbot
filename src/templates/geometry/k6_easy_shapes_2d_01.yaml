@@ -16,13 +16,13 @@ variables:
     type: integer
     min: 3
     max: 8
-  
+
   Answer:
     type: string
 
 template: |
   A shape has {{num_sides}} sides.
-  
+
   What is the name of this shape?
 
 solution: |
@@ -40,8 +40,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "pentagon"
-  
+      answer: "hexagon"
   - seed: 67890
     expected:
-      answer: "hexagon"
+      answer: "quadrilateral"

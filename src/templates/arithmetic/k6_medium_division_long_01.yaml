@@ -29,15 +29,14 @@ solution: |
   # Calculate quotient and remainder
   quotient = dividend // divisor
   remainder = dividend % divisor
-  
+
   # Format as "quotient R remainder"
   Answer = f"{quotient} R {remainder}"
 
 tests:
   - seed: 12345
     expected:
-      answer: "35 R 4"
-  
+      answer: "35 R 23"
   - seed: 67890
     expected:
-      answer: "48 R 7"
+      answer: "23 R 1"

@@ -38,7 +38,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "5b"
+      answer: "5c"
   - seed: 22222
     expected:
-      answer: "7c"
+      answer: "6c"

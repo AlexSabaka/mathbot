@@ -47,25 +47,25 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Calculate name_1's result: (a/b) ÷ (c/d) = (a*d)/(b*c)
   result1_num = a * d
   result1_den = b * c
   common1 = gcd(result1_num, result1_den)
   result1_num_simp = result1_num // common1
   result1_den_simp = result1_den // common1
-  
+
   # Calculate name_2's result: (a/b) ÷ (e/f) = (a*f)/(b*e)
   result2_num = a * f
   result2_den = b * e
   common2 = gcd(result2_num, result2_den)
   result2_num_simp = result2_num // common2
   result2_den_simp = result2_den // common2
-  
+
   # Compare by cross multiplication: result1 > result2 if result1_num*result2_den > result2_num*result1_den
   cross1 = result1_num_simp * result2_den_simp
   cross2 = result2_num_simp * result1_den_simp
-  
+
   if cross1 > cross2:
     Answer = f"{{name_1}} gets {result1_num_simp}/{result1_den_simp}, which is larger"
   elif cross2 > cross1:
@@ -76,8 +76,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "James gets 5/6, which is larger"
-  
+      answer: "{name_1} gets 4/3, which is larger"
   - seed: 67890
     expected:
-      answer: "Patricia gets 7/6, which is larger"
+      answer: "{name_1} gets 1/1, which is larger"

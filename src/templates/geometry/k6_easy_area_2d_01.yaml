@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - area
-  - triangle
-  - formula
+    - area
+    - triangle
+    - formula
 variables:
   base:
     type: integer
@@ -24,8 +24,7 @@ variables:
     max: 18
   Answer:
     type: area
-template: 'Find the area of a triangle with base {{base}} units and height {{height}}
-  units.
+template: 'Find the area of a triangle with base {{base}} units and height {{height}} units.
 
   '
 solution: '# Area of triangle = (base × height) / 2
@@ -36,9 +35,9 @@ solution: '# Area of triangle = (base × height) / 2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 60 square units
-- seed: 67890
-  expected:
-    answer: 40 square units
+  - seed: 12345
+    expected:
+      answer: 90 square meters
+  - seed: 67890
+    expected:
+      answer: 72 square meters

@@ -33,10 +33,10 @@ solution: |
       "3/4": 0.75,
       "2/3": 0.67
   }
-  
+
   frac_val = frac_to_dec[fraction]
   dec_val = float(decimal_val)
-  
+
   if frac_val > dec_val:
       Answer = f"First test ({fraction} = {frac_val})"
   elif dec_val > frac_val:
@@ -47,7 +47,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Second test (0.85)"
+      answer: "Second test (0.78)"
   - seed: 67890
     expected:
-      answer: "Second test (0.78)"
+      answer: "First test (3/4 = 0.75)"

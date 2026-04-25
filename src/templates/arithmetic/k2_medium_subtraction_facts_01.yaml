@@ -25,7 +25,7 @@ variables:
 
 template: |
   Write a subtraction fact that is related to {{num_a}} + {{num_b}} = {{num_a + num_b}}.
-  
+
   Please solve this problem.
 
 solution: |
@@ -38,7 +38,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "15 - 7 = 8 or 15 - 8 = 7"
+      answer: "12 - 7 = 5 or 12 - 5 = 7"
   - seed: 67890
     expected:
-      answer: "13 - 5 = 8 or 13 - 8 = 5"
+      answer: "11 - 5 = 6 or 11 - 6 = 5"

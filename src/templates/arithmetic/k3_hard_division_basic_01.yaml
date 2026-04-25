@@ -28,6 +28,7 @@ variables:
     type: integer
 
 template: |
+  {% set dividend = (number1 // number2) * number2 %}
   {{name}} has {{dividend}} {{object_plural}}. {{name}} wants to put them in boxes with {{number2}} {{object_plural}} each.
   How many boxes does {{name}} need?
 
@@ -45,4 +46,4 @@ tests:
 
   - seed: 67890
     expected:
-      answer: "8"
+      answer: "6"

@@ -37,8 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "s^2 + 24s"
-  
+      answer: "x^2 + 10x"
   - seed: 67890
     expected:
-      answer: "x^2 + 18x"
+      answer: "s^2 + 18s"

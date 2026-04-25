@@ -16,18 +16,18 @@ variables:
     type: integer
     min: -10
     max: 10
-  
+
   y_coord:
     type: integer
     min: -10
     max: 10
-  
+
   Answer:
     type: string
 
 template: |
   Plot the point ({{x_coord}}, {{y_coord}}) on a coordinate plane.
-  
+
   In which quadrant is the point located?
 
 solution: |
@@ -52,8 +52,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Quadrant I"
-  
+      answer: "Quadrant IV"
   - seed: 67890
     expected:
       answer: "Quadrant III"

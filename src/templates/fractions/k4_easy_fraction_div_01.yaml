@@ -51,10 +51,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1/6"
+      answer: "(2, 9)"
   - seed: 67890
     expected:
-      answer: "1/6"
+      answer: "(5, 33)"
   - seed: 11111
     expected:
-      answer: "1/9"
+      answer: "(1, 9)"

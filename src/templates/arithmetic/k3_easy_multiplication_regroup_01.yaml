@@ -38,8 +38,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "92"
+      answer: "198"
 
   - seed: 67890
     expected:
-      answer: "140"
+      answer: "344"

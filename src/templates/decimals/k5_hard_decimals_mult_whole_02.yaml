@@ -10,10 +10,10 @@ metadata:
   steps: 3
   culture: en-US
   tags:
-  - decimals
-  - multiplication
-  - money
-  - multi-step
+    - decimals
+    - multiplication
+    - money
+    - multi-step
 variables:
   name:
     type: person
@@ -43,8 +43,7 @@ variables:
     max: 12
   Answer:
     type: money
-template: '{{name}} buys {{qty1}} {{item1}} at ${{price1}} each and {{qty2}} {{item2}}
-  at ${{price2}} each. What is the total cost?
+template: '{{name}} buys {{qty1}} {{item1}} at ${{price1}} each and {{qty2}} {{item2}} at ${{price2}} each. What is the total cost?
 
   '
 solution: 'cost1 = price1 * qty1
@@ -55,9 +54,9 @@ solution: 'cost1 = price1 * qty1
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $43.75
-- seed: 67890
-  expected:
-    answer: $58.50
+  - seed: 12345
+    expected:
+      answer: $58.50
+  - seed: 67890
+    expected:
+      answer: $73.50

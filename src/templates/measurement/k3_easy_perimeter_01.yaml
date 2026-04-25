@@ -10,9 +10,9 @@ metadata:
   steps: 2
   culture: en-US
   tags:
-  - perimeter
-  - rectangle
-  - measurement
+    - perimeter
+    - rectangle
+    - measurement
 variables:
   length:
     type: integer
@@ -25,14 +25,13 @@ variables:
   unit:
     type: string
     choices:
-    - cm
-    - m
-    - inches
-    - feet
+      - cm
+      - m
+      - inches
+      - feet
   Answer:
     type: length
-template: 'Find the perimeter of a rectangle with length {{length}} {{unit}} and width
-  {{width}} {{unit}}.
+template: 'Find the perimeter of a rectangle with length {{length}} {{unit}} and width {{width}} {{unit}}.
 
 
   Please solve this problem.
@@ -44,9 +43,9 @@ solution: '# Perimeter = 2 × (length + width)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 34 units
-- seed: 67890
-  expected:
-    answer: 20 units
+  - seed: 12345
+    expected:
+      answer: 22 meters
+  - seed: 67890
+    expected:
+      answer: 20 meters

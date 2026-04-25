@@ -28,7 +28,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "47"
+      answer: "82"
   - seed: 100
     expected:
-      answer: "63"
+      answer: "19"

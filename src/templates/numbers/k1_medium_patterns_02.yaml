@@ -27,7 +27,7 @@ variables:
 
 template: |
   Complete the pattern:
-  
+
   {{elem_1}}, {{elem_2}}, {{elem_2}}, ___, ___, ___
 
 solution: |
@@ -39,7 +39,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "triangle | hexagon | hexagon"
+      answer: "circle | heart | heart"
   - seed: 100
     expected:
-      answer: "square | diamond | diamond"
+      answer: "square | pentagon | pentagon"

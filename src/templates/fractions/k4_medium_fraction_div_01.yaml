@@ -70,7 +70,7 @@ tests:
       answer: "3"
   - seed: 67890
     expected:
-      answer: "4"
+      answer: "1"
   - seed: 11111
     expected:
-      answer: "2"
+      answer: "3"

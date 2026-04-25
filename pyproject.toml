@@ -34,4 +34,5 @@ packages = ["src"]
 dev-dependencies = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
+    "ruamel.yaml>=0.18.0",
 ]

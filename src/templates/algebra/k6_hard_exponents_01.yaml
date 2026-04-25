@@ -28,17 +28,16 @@ template: |
 solution: |
   # Expression: initial * 2^hours
   expression = f"{initial_bacteria} × 2^{hours}"
-  
+
   # Calculate result
   result = initial_bacteria * (2 ** hours)
-  
+
   Answer = f"{expression} | {result}"
 
 tests:
   - seed: 12345
     expected:
-      answer: "44 × 2^4 | 704"
-  
+      answer: "63 × 2^3 | 504"
   - seed: 67890
     expected:
-      answer: "63 × 2^5 | 2016"
+      answer: "34 × 2^4 | 544"

@@ -9,13 +9,13 @@ metadata:
   difficulty: hard
   steps: 3
   tags:
-  - expressions
-  - coefficient
-  - variable
-  - constant
-  - terms
-  - real-world
-  - calculation
+    - expressions
+    - coefficient
+    - variable
+    - constant
+    - terms
+    - real-world
+    - calculation
 variables:
   name:
     type: person
@@ -34,8 +34,8 @@ variables:
   variable:
     type: string
     choices:
-    - w
-    - n
+      - w
+      - n
   specific_weeks:
     type: integer
     min: 4
@@ -48,12 +48,7 @@ variables:
     type: string
   Answer4:
     type: money
-template: '{{name}} has ${{initial_savings}} in savings. Each week, {% if name[-1]
-  == ''s'' %}{{name}}''{% else %}{{name}}''s{% endif %} parent gives {% if name[-1]
-  == ''s'' %}them{% else %}{{name | lower}}{% endif %} ${{weekly_amount}}, but {{name}}
-  spends ${{weekly_spending}} each week. Write an expression for the total amount
-  after {{variable}} weeks. Identify all terms, then calculate the amount after {{specific_weeks}}
-  weeks.
+template: '{{name}} has ${{initial_savings}} in savings. Each week, {% if name[-1] == ''s'' %}{{name}}''{% else %}{{name}}''s{% endif %} parent gives {% if name[-1] == ''s'' %}them{% else %}{{name | lower}}{% endif %} ${{weekly_amount}}, but {{name}} spends ${{weekly_spending}} each week. Write an expression for the total amount after {{variable}} weeks. Identify all terms, then calculate the amount after {{specific_weeks}} weeks.
 
   '
 solution: 'net_change = weekly_amount - weekly_spending
@@ -70,9 +65,9 @@ solution: 'net_change = weekly_amount - weekly_spending
 
   '
 tests:
-- seed: 11111
-  expected:
-    answer: 75 + 5w | 5 | 75 | $95.00
-- seed: 22222
-  expected:
-    answer: 125 + 10n | 10 | 125 | $165.00
+  - seed: 11111
+    expected:
+      answer: 96 + 16w | 16 | 96 | $176.00
+  - seed: 22222
+    expected:
+      answer: 112 + 15n | 15 | 112 | $187.00

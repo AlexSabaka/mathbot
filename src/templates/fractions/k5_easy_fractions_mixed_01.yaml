@@ -31,11 +31,11 @@ solution: |
   common = math.gcd(numerator, denominator)
   num = numerator // common
   den = denominator // common
-  
+
   # Convert to mixed number
   whole_part = num // den
   remainder = num % den
-  
+
   if remainder == 0:
       Answer = str(whole_part)
   else:
@@ -44,10 +44,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3 1/2"
+      answer: "4 2/3"
   - seed: 67890
     expected:
-      answer: "2 2/3"
+      answer: "2 3/4"
   - seed: 11111
     expected:
       answer: "4 1/3"

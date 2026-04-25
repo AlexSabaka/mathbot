@@ -23,7 +23,7 @@ variables:
 
 template: |
   Which shape is different?
-  
+
   {{shape_a}}, {{shape_a}}, {{shape_a}}, {{shape_b}}
 
 solution: |
@@ -32,7 +32,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "hexagon"
+      answer: "heart"
   - seed: 100
     expected:
-      answer: "heart"
+      answer: "hexagon"

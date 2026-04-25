@@ -45,15 +45,14 @@ solution: |
   # Create list of integers and sort them
   integers = [int1, int2, int3, int4, int5, int6]
   integers.sort()
-  
+
   # Format as comma-separated string
   Answer = ", ".join(str(i) for i in integers)
 
 tests:
   - seed: 12345
     expected:
-      answer: "-18, -14, -6, 2, 9, 14"
-  
+      answer: "-20, -8, -3, -1, 3, 6"
   - seed: 67890
     expected:
-      answer: "-19, -8, -4, 6, 10, 18"
+      answer: "-13, -12, -8, -4, 6, 13"

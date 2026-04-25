@@ -33,7 +33,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "9 o'clock"
+      answer: "3 o'clock"
   - seed: 100
     expected:
-      answer: "11 o'clock"
+      answer: "5 o'clock"

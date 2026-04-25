@@ -39,9 +39,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "72"
-      answer2: "5"
+      answer: 72 | 5
   - seed: 67890
     expected:
-      answer1: "60"
-      answer2: "6"
+      answer: 60 | 6

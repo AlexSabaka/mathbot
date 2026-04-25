@@ -26,7 +26,7 @@ variables:
 
 template: |
   {{name}} puts {{num_a}} {{object}} on one side of a balance scale.
-  
+
   What could {{name}} put on the other side to make it balance?
   a) {{num_a}} {{object}}
   b) {{num_a + 2}} {{object}}
@@ -37,7 +37,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "a) 3 marbles"
+      answer: "a) 4 cubes"
   - seed: 100
     expected:
-      answer: "a) 4 blocks"
+      answer: "a) 3 coins"

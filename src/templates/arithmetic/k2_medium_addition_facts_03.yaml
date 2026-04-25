@@ -30,7 +30,7 @@ template: |
   {{start}} + {{increment}} = {{start + increment}}
   {{start + 1}} + {{increment}} = ___
   {{start + 2}} + {{increment}} = ___
-  
+
   Please solve this problem.
 
 solution: |
@@ -43,4 +43,4 @@ tests:
       answer: "10 | 11"
   - seed: 90909
     expected:
-      answer: "12 | 13"
+      answer: "11 | 12"

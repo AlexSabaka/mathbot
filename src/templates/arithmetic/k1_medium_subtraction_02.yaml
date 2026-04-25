@@ -33,7 +33,7 @@ variables:
 
 template: |
   {{name}} has {{num_a}} {{object}}. {{name}} {{action}} {{num_b}} of them.
-  
+
   How many {{object}} are left?
 
 solution: |
@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "6"
+      answer: "7"
   - seed: 100
     expected:
-      answer: "4"
+      answer: "1"

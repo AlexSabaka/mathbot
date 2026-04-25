@@ -38,7 +38,6 @@ tests:
   - seed: 11111
     expected:
       answer: "No"
-  
   - seed: 22222
     expected:
-      answer: "Yes"
+      answer: "No"

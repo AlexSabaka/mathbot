@@ -30,11 +30,11 @@ variables:
 
 template: |
   {{name}} collected {{num_a}} {{item}}.
-  
+
   {{ "He|She" | choice }} used {{num_b}} for a project.
-  
+
   How many {{item}} does {{name}} have now?
-  
+
   Please solve this problem.
 
 solution: |
@@ -43,7 +43,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "26"
+      answer: "23"
   - seed: 22222
     expected:
-      answer: "27"
+      answer: "28"

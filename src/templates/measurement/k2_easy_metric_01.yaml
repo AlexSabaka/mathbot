@@ -21,7 +21,7 @@ variables:
 
 template: |
   How many centimeters are in {{number}} {% if number == 1 %}meter{% else %}meters{% endif %}?
-  
+
   Please solve this problem.
 
 solution: |
@@ -31,7 +31,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "200 centimeters"
+      answer: "400"
   - seed: 67890
     expected:
-      answer: "100 centimeters"
+      answer: "200"

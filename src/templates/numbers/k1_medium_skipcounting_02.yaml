@@ -32,7 +32,7 @@ variables:
 
 template: |
   {{name}} is counting {{object}} by {{skip_value}}s.
-  
+
   {{name}} starts at {{start_at * skip_value if start_at == 0 else skip_value}}. What are the next {{num_terms}} numbers?
 
 solution: |
@@ -45,7 +45,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "4, 6, 8, 10"
+      answer: "5, 10, 15"
   - seed: 100
     expected:
-      answer: "10, 20, 30"
+      answer: "4, 6, 8, 10"

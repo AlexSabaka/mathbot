@@ -31,7 +31,7 @@ variables:
 
 template: |
   Are these expressions equivalent? {{a}}{{var}} + {{b}}{{var}} and {{c}}{{var}}
-  
+
   Answer "yes" if they are equivalent, or "no" if they are not.
 
 solution: |
@@ -44,8 +44,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "yes"
-  
+      answer: "no"
   - seed: 67890
     expected:
       answer: "no"

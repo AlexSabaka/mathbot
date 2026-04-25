@@ -65,7 +65,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "isosceles acute"
+      answer: "scalene acute"
   - seed: 67890
     expected:
-      answer: "scalene obtuse"
+      answer: "isosceles acute"

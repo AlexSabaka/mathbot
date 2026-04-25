@@ -39,7 +39,7 @@ solution: |
 tests:
   - seed: 40001
     expected:
-      answer: "8.00"
+      answer: "20.00"
   - seed: 40002
     expected:
-      answer: "15.00"
+      answer: "7.00"

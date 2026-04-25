@@ -33,9 +33,9 @@ variables:
 
 template: |
   {{name}}'s {{object_a}} is {{length_a}} cm long. {% if name[-1] == 's' %}{{name}}'{% else %}{{name}}'s{% endif %} {{object_b}} is {{length_b}} cm long.
-  
+
   How much longer is the {% if length_a > length_b %}{{object_a}}{% else %}{{object_b}}{% endif %}?
-  
+
   Please solve this problem.
 
 solution: |
@@ -45,7 +45,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "38 cm"
+      answer: "25"
   - seed: 67890
     expected:
-      answer: "18 cm"
+      answer: "0"

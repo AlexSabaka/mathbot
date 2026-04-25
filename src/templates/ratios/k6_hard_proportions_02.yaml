@@ -46,17 +46,17 @@ template: |
 solution: |
   # First question: time to lay bricks2
   time_needed = (time1 * bricks2) / bricks1
-  
+
   # Second question: bricks laid in hours_available
   bricks_laid = (bricks1 * hours_available) / time1
-  
+
   Answer1 = round(time_needed, 2)
   Answer2 = round(bricks_laid, 2)
 
 tests:
   - seed: 40015
     expected:
-      answer: "16.00 | 800.00"
+      answer: "14.00 | 1000.00"
   - seed: 40016
     expected:
-      answer: "15.00 | 1125.00"
+      answer: "18.00 | 1300.00"

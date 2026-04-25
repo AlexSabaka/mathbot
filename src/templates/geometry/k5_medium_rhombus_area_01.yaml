@@ -10,17 +10,17 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - rhombus
-  - area
-  - inverse
+    - rhombus
+    - area
+    - inverse
 variables:
   object:
     type: string
     choices:
-    - kite
-    - sign
-    - decoration
-    - tile
+      - kite
+      - sign
+      - decoration
+      - tile
   area:
     type: integer
     min: 60
@@ -47,9 +47,9 @@ solution: '# Area = (diagonal1 × diagonal2) / 2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 13 inches
-- seed: 67890
-  expected:
-    answer: 12 inches
+  - seed: 12345
+    expected:
+      answer: 7 meters
+  - seed: 67890
+    expected:
+      answer: 11 meters

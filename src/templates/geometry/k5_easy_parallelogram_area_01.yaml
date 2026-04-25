@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - parallelogram
-  - area
-  - basic
+    - parallelogram
+    - area
+    - basic
 variables:
   base:
     type: integer
@@ -24,8 +24,7 @@ variables:
     max: 12
   Answer:
     type: area
-template: 'Find the area of a parallelogram with base {{base}} cm and height {{height}}
-  cm.
+template: 'Find the area of a parallelogram with base {{base}} cm and height {{height}} cm.
 
   '
 solution: '# Area = base × height
@@ -36,9 +35,9 @@ solution: '# Area = base × height
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 156 square cm
-- seed: 67890
-  expected:
-    answer: 108 square cm
+  - seed: 12345
+    expected:
+      answer: 176 square meters
+  - seed: 67890
+    expected:
+      answer: 156 square meters

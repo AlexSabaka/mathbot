@@ -29,18 +29,18 @@ template: |
 
 solution: |
   import math
-  
+
   total = cats + dogs
   gcd = math.gcd(cats, total)
   simplified_cats = cats // gcd
   simplified_total = total // gcd
-  
+
   Answer = f"{simplified_cats}:{simplified_total}"
 
 tests:
   - seed: 30011
     expected:
-      answer: "6:11"
+      answer: "9:23"
   - seed: 30012
     expected:
-      answer: "2:3"
+      answer: "8:15"

@@ -31,15 +31,15 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Calculate the fraction
   numerator = multiple * base_num
   denominator = multiple * base_den
-  
+
   # Reciprocal: flip it
   recip_num = denominator
   recip_den = numerator
-  
+
   # Simplify
   common = gcd(recip_num, recip_den)
   Answer = (recip_num // common, recip_den // common)
@@ -47,8 +47,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "8/5"
-  
+      answer: "(5, 2)"
   - seed: 67890
     expected:
-      answer: "10/7"
+      answer: "(2, 1)"

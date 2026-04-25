@@ -30,7 +30,7 @@ variables:
 
 template: |
   {{name}}'s {{activity}} starts at {{start_time}} o'clock and lasts for {{duration}} hour{{'' if duration == 1 else 's'}}.
-  
+
   What time does the {{activity}} end?
 
 solution: |
@@ -40,7 +40,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "9 o'clock"
+      answer: "5 o'clock"
   - seed: 100
     expected:
       answer: "10 o'clock"

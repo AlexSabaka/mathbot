@@ -9,19 +9,19 @@ metadata:
   difficulty: hard
   steps: 3
   tags:
-  - expressions
-  - variables
-  - calculation
-  - real-world
-  - money
+    - expressions
+    - variables
+    - calculation
+    - real-world
+    - money
 variables:
   business:
     type: string
     choices:
-    - parking lot
-    - bike rental shop
-    - tool rental store
-    - storage facility
+      - parking lot
+      - bike rental shop
+      - tool rental store
+      - storage facility
   base_fee:
     type: integer
     min: 3
@@ -33,16 +33,16 @@ variables:
   unit:
     type: string
     choices:
-    - hour
-    - day
-    - week
+      - hour
+      - day
+      - week
   variable:
     type: string
     choices:
-    - h
-    - d
-    - w
-    - t
+      - h
+      - d
+      - w
+      - t
   specific_value:
     type: integer
     min: 4
@@ -51,9 +51,7 @@ variables:
     type: string
   Answer2:
     type: money
-template: 'A {{business}} charges ${{base_fee}} plus ${{rate}} per {{unit}}. Write
-  an expression for the total cost of {{variable}} {{unit}}s, then calculate the cost
-  for {{specific_value}} {{unit}}s.
+template: 'A {{business}} charges ${{base_fee}} plus ${{rate}} per {{unit}}. Write an expression for the total cost of {{variable}} {{unit}}s, then calculate the cost for {{specific_value}} {{unit}}s.
 
   '
 solution: 'Answer1 = f"{base_fee} + {rate}{variable}"
@@ -64,9 +62,9 @@ solution: 'Answer1 = f"{base_fee} + {rate}{variable}"
 
   '
 tests:
-- seed: 11111
-  expected:
-    answer: 5 + 3h | $20.00
-- seed: 22222
-  expected:
-    answer: 8 + 6d | $56.00
+  - seed: 11111
+    expected:
+      answer: 3 + 4t | $19.00
+  - seed: 22222
+    expected:
+      answer: 7 + 5t | $32.00

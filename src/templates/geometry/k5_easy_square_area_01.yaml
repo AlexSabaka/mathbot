@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - square
-  - perimeter
-  - basic
+    - square
+    - perimeter
+    - basic
 variables:
   side:
     type: integer
@@ -31,9 +31,9 @@ solution: '# Perimeter of square = 4 × side
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 52 inches
-- seed: 67890
-  expected:
-    answer: 44 inches
+  - seed: 12345
+    expected:
+      answer: 48 meters
+  - seed: 67890
+    expected:
+      answer: 36 meters

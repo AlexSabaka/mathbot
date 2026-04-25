@@ -35,21 +35,21 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Find LCD manually
   def lcm(a, b):
     return abs(a * b) // gcd(a, b)
-  
+
   lcd = lcm(b, d)
-  
+
   # Convert to common denominator
   new_a = a * (lcd // b)
   new_c = c * (lcd // d)
-  
+
   # Add numerators
   numerator = new_a + new_c
   denominator = lcd
-  
+
   # Simplify
   common = gcd(numerator, denominator)
   Answer = (numerator // common, denominator // common)
@@ -57,8 +57,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "7/8"
-  
+      answer: "(29, 30)"
   - seed: 67890
     expected:
-      answer: "23/30"
+      answer: "(13, 21)"

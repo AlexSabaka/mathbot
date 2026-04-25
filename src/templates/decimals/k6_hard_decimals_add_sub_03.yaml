@@ -10,11 +10,11 @@ metadata:
   steps: 3
   culture: en-US
   tags:
-  - decimals
-  - addition
-  - subtraction
-  - money
-  - context
+    - decimals
+    - addition
+    - subtraction
+    - money
+    - context
 variables:
   name:
     type: person
@@ -37,17 +37,16 @@ variables:
     step: 0.25
   Answer:
     type: money
-template: '{{name}} went shopping at {{store}}. {{name}} bought items costing {{a}},
-  {{b}}, and {{c}}. What is the total amount {{name}} spent?
+template: '{{name}} went shopping at {{store}}. {{name}} bought items costing {{a}}, {{b}}, and {{c}}. What is the total amount {{name}} spent?
 
   '
 solution: 'Answer = round(a + b + c, 2)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $33.75
-- seed: 67890
-  expected:
-    answer: $33.75
+  - seed: 12345
+    expected:
+      answer: $42.50
+  - seed: 67890
+    expected:
+      answer: $34.75

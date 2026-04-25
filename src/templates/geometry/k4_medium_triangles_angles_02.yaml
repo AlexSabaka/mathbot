@@ -40,7 +40,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "No, because the other two angles must sum to 59 degrees, which means each must be less than 90 degrees."
+      answer: "No, because the other two angles must sum to 37 degrees, which means each must be less than 90 degrees."
   - seed: 67890
     expected:
-      answer: "No, because the other two angles must sum to 67 degrees, which means each must be less than 90 degrees."
+      answer: "No, because the other two angles must sum to 63 degrees, which means each must be less than 90 degrees."

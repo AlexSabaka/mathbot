@@ -25,7 +25,7 @@ variables:
 
 template: |
   Find the missing number: {{num_a}} + ___ = {{sum_val}}
-  
+
   Please solve this problem.
 
 solution: |
@@ -37,4 +37,4 @@ tests:
       answer: "12"
   - seed: 10101
     expected:
-      answer: "2"
+      answer: "10"

@@ -26,7 +26,7 @@ variables:
 
 template: |
   Continue the skip counting pattern by {{skip_value}}s:
-  
+
   {{skip_value * start_multiplier}}, ___, {{skip_value * (start_multiplier + 2)}}, ___
 
 solution: |
@@ -36,7 +36,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "6 | 10"
+      answer: "30 | 50"
   - seed: 100
     expected:
-      answer: "20 | 30"
+      answer: "8 | 12"

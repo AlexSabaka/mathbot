@@ -9,10 +9,10 @@ metadata:
   difficulty: medium
   steps: 2
   tags:
-  - shapes
-  - measurement
-  - area
-  - perimeter
+    - shapes
+    - measurement
+    - area
+    - perimeter
 variables:
   location:
     type: location
@@ -28,9 +28,7 @@ variables:
     type: area
   Answer2:
     type: length
-template: 'A {{location}} features a rectangular garden measuring {{length}}m in length
-  and {{width}}m in width. The gardener needs to know both the area for planting and
-  the perimeter for installing a border. What are the area and perimeter of the garden?
+template: 'A {{location}} features a rectangular garden measuring {{length}}m in length and {{width}}m in width. The gardener needs to know both the area for planting and the perimeter for installing a border. What are the area and perimeter of the garden?
 
   '
 solution: 'area = length * width
@@ -43,6 +41,6 @@ solution: 'area = length * width
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 350 square meters | 90 meters
+  - seed: 12345
+    expected:
+      answer: 806 square meters | 114 meters

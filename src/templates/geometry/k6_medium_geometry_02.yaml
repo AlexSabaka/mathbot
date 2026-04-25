@@ -38,11 +38,11 @@ variables:
 
 template: |
   A homeowner is renovating their {{ "kitchen|bathroom|living room|bedroom|hallway" | choice }}, which measures {{room_length}}m by {{room_width}}m.
-  
+
   They've chosen square tiles that are {{tile_size}}m × {{tile_size}}m.
-  
+
   {% if add_waste %}The contractor recommends ordering {{waste_percent}}% extra tiles to account for cuts and breakage.
-  
+
   How many tiles should be ordered in total?{% else %}How many tiles are needed to cover the floor?{% endif %}
 
 solution: |
@@ -58,4 +58,4 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "240"
+      answer: "94"

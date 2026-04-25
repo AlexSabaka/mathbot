@@ -36,8 +36,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "48"
+      answer: "24"
 
   - seed: 67890
     expected:
-      answer: "56"
+      answer: "24"

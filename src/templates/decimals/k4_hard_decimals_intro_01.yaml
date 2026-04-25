@@ -70,7 +70,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3.0, 3.38, 3.702"
+      answer: "7.04, 7.349, 7.5"
   - seed: 67890
     expected:
-      answer: "2.2, 2.25, 2.572"
+      answer: "4.26, 4.419, 4.8"

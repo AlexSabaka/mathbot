@@ -27,18 +27,18 @@ template: |
 
 solution: |
   rounded_value = rounded_tens * 10
-  
+
   # Numbers that round to rounded_value: from (rounded_value - 5) to (rounded_value + 4)
   start = max(1, rounded_value - 5)
   end = rounded_value + 4
-  
+
   possible = [str(n) for n in range(start, end + 1)]
   Answer = ', '.join(possible)
 
 tests:
   - seed: 42
     expected:
-      answer: "45, 46, 47, 48, 49, 50, 51, 52, 53, 54"
+      answer: "55, 56, 57, 58, 59, 60, 61, 62, 63, 64"
   - seed: 100
     expected:
-      answer: "75, 76, 77, 78, 79, 80, 81, 82, 83, 84"
+      answer: "35, 36, 37, 38, 39, 40, 41, 42, 43, 44"

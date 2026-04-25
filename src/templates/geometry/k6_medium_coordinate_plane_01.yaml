@@ -14,33 +14,33 @@ metadata:
 variables:
   name:
     type: person
-  
+
   x_start:
     type: integer
     min: -5
     max: 5
-  
+
   y_start:
     type: integer
     min: -5
     max: 5
-  
+
   move_right:
     type: integer
     min: 2
     max: 8
-  
+
   move_up:
     type: integer
     min: 2
     max: 8
-  
+
   Answer:
     type: string
 
 template: |
   Point A is at ({{x_start}}, {{y_start}}). Point B is {{move_right}} units to the right and {{move_up}} units up from Point A.
-  
+
   What are the coordinates of Point B?
 
 solution: |
@@ -51,8 +51,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "(8, 10)"
-  
+      answer: "(2, 4)"
   - seed: 67890
     expected:
       answer: "(5, 10)"

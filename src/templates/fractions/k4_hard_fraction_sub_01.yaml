@@ -83,10 +83,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1 1/4"
+      answer: "(19, 10)"
   - seed: 67890
     expected:
-      answer: "1 7/12"
+      answer: "(23, 10)"
   - seed: 11111
     expected:
-      answer: "1 1/2"
+      answer: "(61, 28)"

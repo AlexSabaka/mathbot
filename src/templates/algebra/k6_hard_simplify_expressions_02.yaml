@@ -53,8 +53,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "2x + 49"
-  
+      answer: "-1y + 19"
   - seed: 67890
     expected:
-      answer: "2y + 37"
+      answer: "-1x + 29"

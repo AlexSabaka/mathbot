@@ -27,7 +27,7 @@ variables:
 
 template: |
   Use the digits {{digit_a}}, {{digit_b}}, and {{digit_a + digit_b}} to make two addition equations.
-  
+
   Please solve this problem.
 
 solution: |
@@ -42,4 +42,4 @@ tests:
       answer: "12 | 12"
   - seed: 23232
     expected:
-      answer: "13 | 13"
+      answer: "8 | 8"

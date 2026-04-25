@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "12 + 3w"
+      answer: "13 + 5d"
   - seed: 22222
     expected:
-      answer: "17 + 4d"
+      answer: "15 + 5t"

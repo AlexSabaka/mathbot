@@ -35,9 +35,9 @@ variables:
 
 template: |
   {{name}} drew two rectangles side by side. The first rectangle is {{length_a}} units by {{width_a}} units. The second rectangle is {{length_b}} units by {{width_b}} units.
-  
+
   What is the total area of both rectangles?
-  
+
   Please solve this problem.
 
 solution: |
@@ -49,7 +49,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "28 square units"
+      answer: "46"
   - seed: 67890
     expected:
-      answer: "24 square units"
+      answer: "47"

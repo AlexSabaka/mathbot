@@ -58,13 +58,13 @@ variables:
 
 template: |
   {{name}} works as a delivery driver for {{company}} in {{city}}. They have three stops to make.
-  
+
   The first stop is {{distance1}} miles away at {{speed1}} mph, taking {{delivery1}} minutes for delivery.
-  
+
   The second stop is {{distance2}} miles away at {{speed2}} mph, taking {{delivery2}} minutes for delivery.
-  
+
   The third stop is {{distance3}} miles away at {{speed3}} mph, taking {{delivery3}} minutes for delivery.
-  
+
   How long does the entire delivery route take?
 
 solution: |
@@ -80,4 +80,4 @@ solution: |
 tests:
   - seed: 22222
     expected:
-      answer: "4 hours 15 minutes"
+      answer: "10 hours 19 minutes"

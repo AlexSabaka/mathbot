@@ -44,17 +44,17 @@ template: |
 solution: |
   # First question: c inches on map = ? miles actual
   actual_distance = (c * b) / a
-  
+
   # Second question: d miles actual = ? inches on map
   map_distance = (d * a) / b
-  
+
   Answer1 = round(actual_distance, 2)
   Answer2 = round(map_distance, 2)
 
 tests:
   - seed: 40013
     expected:
-      answer: "120.00 | 8.00"
+      answer: "80.00 | 10.00"
   - seed: 40014
     expected:
-      answer: "150.00 | 10.00"
+      answer: "250.00 | 4.00"

@@ -36,7 +36,7 @@ variables:
 
 template: |
   {{name}} has {{count_a}} {{object}} {{location_a}} and {{count_b}} {{object}} {{location_b}}.
-  
+
   How many {{object}} does {{name}} have altogether?
 
 solution: |
@@ -45,7 +45,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "8"
+      answer: "5"
   - seed: 100
     expected:
       answer: "6"

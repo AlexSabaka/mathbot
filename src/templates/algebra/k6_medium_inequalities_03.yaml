@@ -27,7 +27,7 @@ variables:
 
 template: |
   Solve and graph: {{a}}{{var}} < {{b}}
-  
+
   Describe the solution.
 
 solution: |
@@ -38,8 +38,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "x < 8, meaning all numbers less than 8"
-  
+      answer: "n < 15, meaning all numbers less than 15"
   - seed: 67890
     expected:
-      answer: "n < 9, meaning all numbers less than 9"
+      answer: "x < 12, meaning all numbers less than 12"

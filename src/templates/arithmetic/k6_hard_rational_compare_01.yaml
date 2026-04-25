@@ -49,28 +49,27 @@ solution: |
   dist1 = num1 / denom1
   dist2 = dec
   dist3 = num2 / denom2
-  
+
   # Create list of (distance, name) tuples
   distances = [
     (dist1, name1),
     (dist2, name2),
     (dist3, name3)
   ]
-  
+
   # Sort by distance
   distances.sort(key=lambda x: x[0])
-  
+
   # Shortest is first, farthest is last
   shortest = distances[0][1]
   farthest = distances[2][1]
-  
+
   Answer = f"{farthest} ran the farthest | {shortest} ran the shortest distance"
 
 tests:
   - seed: 12345
     expected:
-      answer: "Jennifer ran the farthest | Kimberly ran the shortest distance"
-  
+      answer: "Kevin ran the farthest | Daniel ran the shortest distance"
   - seed: 67890
     expected:
-      answer: "James ran the farthest | Joshua ran the shortest distance"
+      answer: "Alvin ran the farthest | Sydney ran the shortest distance"

@@ -31,15 +31,15 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Convert to improper fraction
   numerator = whole * b + a
   denominator = b
-  
+
   # Reciprocal
   recip_num = denominator
   recip_den = numerator
-  
+
   # Simplify
   common = gcd(recip_num, recip_den)
   Answer = (recip_num // common, recip_den // common)
@@ -47,8 +47,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "8/21"
-  
+      answer: "(3, 10)"
   - seed: 67890
     expected:
-      answer: "10/37"
+      answer: "(7, 17)"

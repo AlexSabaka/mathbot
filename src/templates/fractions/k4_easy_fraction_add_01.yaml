@@ -50,10 +50,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/8"
+      answer: "(5, 12)"
   - seed: 67890
     expected:
-      answer: "7/10"
+      answer: "(4, 10)"
   - seed: 11111
     expected:
-      answer: "3/6"
+      answer: "(5, 11)"

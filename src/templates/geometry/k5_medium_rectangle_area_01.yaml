@@ -10,18 +10,18 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - rectangle
-  - area
-  - perimeter
-  - inverse
+    - rectangle
+    - area
+    - perimeter
+    - inverse
 variables:
   room_type:
     type: string
     choices:
-    - bedroom
-    - living room
-    - classroom
-    - office
+      - bedroom
+      - living room
+      - classroom
+      - office
   area:
     type: integer
     min: 120
@@ -35,8 +35,7 @@ variables:
     type: length
   Answer2:
     type: length
-template: 'A rectangular {{room_type}} has an area of {{area}} square feet and a length
-  of {{length}} feet.
+template: 'A rectangular {{room_type}} has an area of {{area}} square feet and a length of {{length}} feet.
 
   What is the width and perimeter?
 
@@ -57,9 +56,9 @@ solution: '# Area = length × width, so width = area / length
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 10 feet | 56 feet
-- seed: 67890
-  expected:
-    answer: 10 feet | 48 feet
+  - seed: 12345
+    expected:
+      answer: 7 meters | 46 meters
+  - seed: 67890
+    expected:
+      answer: 7 meters | 50 meters

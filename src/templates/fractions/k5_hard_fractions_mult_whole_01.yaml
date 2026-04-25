@@ -50,7 +50,7 @@ solution: |
   final_flour_num = flour_numerator // common1
   final_flour_den = denominator1 // common1
   Answer1 = (final_flour_num, final_flour_den)
-  
+
   # Calculate sugar needed
   sugar_numerator = batches * numerator2
   common2 = math.gcd(sugar_numerator, denominator2)
@@ -61,13 +61,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer1: "8/3"
-      answer2: "2/1"
+      answer: (32, 5) | (16, 5)
   - seed: 67890
     expected:
-      answer1: "3/1"
-      answer2: "4/3"
+      answer: (20, 7) | (3, 2)
   - seed: 77777
     expected:
-      answer1: "10/3"
-      answer2: "7/2"
+      answer: (20, 3) | (2, 1)

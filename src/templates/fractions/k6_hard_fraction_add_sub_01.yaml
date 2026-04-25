@@ -41,29 +41,29 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Find LCD manually
   def lcm(a, b):
     return abs(a * b) // gcd(a, b)
-  
+
   lcd = lcm(b, d)
-  
+
   # Convert to common denominator
   new_a = a * (lcd // b)
   new_c = c * (lcd // d)
-  
+
   # Add numerators for total eaten
   eaten_numerator = new_a + new_c
   eaten_denominator = lcd
-  
+
   # Simplify eaten
   common1 = gcd(eaten_numerator, eaten_denominator)
   Answer1 = (eaten_numerator // common1, eaten_denominator // common1)
-  
+
   # Calculate left (1 - eaten)
   left_numerator = lcd - eaten_numerator
   left_denominator = lcd
-  
+
   # Simplify left
   common2 = gcd(left_numerator, left_denominator)
   Answer2 = (left_numerator // common2, left_denominator // common2)
@@ -71,8 +71,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "7/12 | 5/12"
-  
+      answer: "(13, 30) | (17, 30)"
   - seed: 67890
     expected:
-      answer: "13/30 | 17/30"
+      answer: "(27, 40) | (13, 40)"

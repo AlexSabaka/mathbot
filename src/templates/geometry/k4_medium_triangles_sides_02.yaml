@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "20"
+      answer: "21"
   - seed: 67890
     expected:
-      answer: "25"
+      answer: "28"

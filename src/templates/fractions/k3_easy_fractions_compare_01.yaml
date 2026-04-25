@@ -52,7 +52,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3/8 < 5/8"
+      answer: "1/9 < 5/9"
   - seed: 67890
     expected:
-      answer: "4/5 > 2/5"
+      answer: "3/6 < 5/6"

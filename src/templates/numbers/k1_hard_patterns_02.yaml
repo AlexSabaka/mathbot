@@ -27,7 +27,7 @@ variables:
 
 template: |
   Look at this growing pattern: {{start}}, {{start + increment}}, {{start + 2*increment}}, {{start + 3*increment}}
-  
+
   What number comes next? And after that?
 
 solution: |
@@ -37,7 +37,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "9 | 11"
+      answer: "7 | 8"
   - seed: 100
     expected:
-      answer: "9 | 12"
+      answer: "9 | 11"

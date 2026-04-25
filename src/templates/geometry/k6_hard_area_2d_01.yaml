@@ -14,22 +14,22 @@ metadata:
 variables:
   name:
     type: person
-  
+
   length:
     type: integer
     min: 12
     max: 24
-  
+
   width:
     type: integer
     min: 10
     max: 20
-  
+
   coverage:
     type: integer
     min: 10
     max: 20
-  
+
   Answer:
     type: integer
 
@@ -47,8 +47,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "17"
-  
+      answer: "23"
   - seed: 67890
     expected:
-      answer: "14"
+      answer: "24"

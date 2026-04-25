@@ -31,11 +31,11 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Calculate the actual fraction values
   numerator = multiple * base_num
   denominator = multiple * base_den
-  
+
   # Simplify
   common = gcd(numerator, denominator)
   Answer = (numerator // common, denominator // common)
@@ -43,8 +43,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/8"
-  
+      answer: "(7, 3)"
   - seed: 67890
     expected:
-      answer: "7/10"
+      answer: "(8, 5)"

@@ -9,12 +9,12 @@ metadata:
   difficulty: hard
   steps: 7
   tags:
-  - money
-  - real-world
-  - shopping
-  - percentages
-  - discount
-  - tax
+    - money
+    - real-world
+    - shopping
+    - percentages
+    - discount
+    - tax
 variables:
   name1:
     type: person
@@ -72,12 +72,7 @@ variables:
     step: 1
   Answer:
     type: money
-template: '{{name1}} and {{name2}} went shopping together. {{name1}} bought {{item1}}
-  for {{price1}}, {{item2}} for {{price2}}, and {{item3}} for {{price3}}. {{name2}}
-  bought {{item4}} for {{price4}} and {{item5}} for {{price5}}. They had a coupon
-  for {{coupon}}% off the total purchase and paid {{tax}}% sales tax after the discount.
-  {{ "What was their final total?|How much did they pay in total?|What was the final
-  amount they paid?" | choice }}
+template: '{{name1}} and {{name2}} went shopping together. {{name1}} bought {{item1}} for {{price1}}, {{item2}} for {{price2}}, and {{item3}} for {{price3}}. {{name2}} bought {{item4}} for {{price4}} and {{item5}} for {{price5}}. They had a coupon for {{coupon}}% off the total purchase and paid {{tax}}% sales tax after the discount. {{ "What was their final total?|How much did they pay in total?|What was the final amount they paid?" | choice }}
 
   '
 solution: 'person1_total = price1 + price2 + price3
@@ -96,6 +91,6 @@ solution: 'person1_total = price1 + price2 + price3
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $42.84
+  - seed: 12345
+    expected:
+      answer: $36.77

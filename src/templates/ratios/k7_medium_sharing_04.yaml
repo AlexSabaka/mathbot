@@ -9,18 +9,18 @@ metadata:
   difficulty: medium
   steps: 4
   tags:
-  - ratios
-  - proportions
-  - work_hours
-  - money
+    - ratios
+    - proportions
+    - work_hours
+    - money
 variables:
   project_type:
     type: string
     choices:
-    - a community project
-    - a hackathon
-    - a research project
-    - a startup
+      - a community project
+      - a hackathon
+      - a research project
+      - a startup
   total_prize:
     type: money
     min: 500.0
@@ -56,8 +56,7 @@ variables:
 template: 'A team working on {{project_type}} wins a prize of {{total_prize_formatted}}.
 
 
-  {{name1}} worked {{hours1}} hours, {{name2}} worked {{hours2}} hours, and {{name3}}
-  worked {{hours3}} hours.
+  {{name1}} worked {{hours1}} hours, {{name2}} worked {{hours2}} hours, and {{name3}} worked {{hours3}} hours.
 
 
   The team decides to split the prize proportionally based on hours worked.
@@ -83,6 +82,6 @@ solution: 'total_hours = hours1 + hours2 + hours3
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $1016.67 | $1016.67 | $483.33
+  - seed: 12345
+    expected:
+      answer: $66.67 | $266.67 | $166.67

@@ -10,10 +10,10 @@ metadata:
   culture: en-US
   steps: 3
   tags:
-  - area
-  - composite
-  - subtraction
-  - patio
+    - area
+    - composite
+    - subtraction
+    - patio
 variables:
   yard_length:
     type: integer
@@ -29,8 +29,7 @@ variables:
     max: 15
   Answer:
     type: area
-template: 'A rectangular yard measures {{yard_length}} ft by {{yard_width}} ft. A
-  square patio measuring {{patio_side}} ft by {{patio_side}} ft is built in one corner.
+template: 'A rectangular yard measures {{yard_length}} ft by {{yard_width}} ft. A square patio measuring {{patio_side}} ft by {{patio_side}} ft is built in one corner.
 
 
   What is the area of the yard NOT covered by the patio?
@@ -52,9 +51,9 @@ solution: '# Total yard area
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 660 square ft
-- seed: 67890
-  expected:
-    answer: 864 square ft
+  - seed: 12345
+    expected:
+      answer: 616 square meters
+  - seed: 67890
+    expected:
+      answer: 548 square meters

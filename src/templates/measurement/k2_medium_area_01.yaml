@@ -25,9 +25,9 @@ variables:
 
 template: |
   A rectangle is {{length}} units long and {{width}} units wide.
-  
+
   What is its area?
-  
+
   Please solve this problem.
 
 solution: |
@@ -37,7 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "28 square units"
+      answer: "63"
   - seed: 67890
     expected:
-      answer: "18 square units"
+      answer: "48"

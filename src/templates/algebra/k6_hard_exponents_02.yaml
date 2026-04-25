@@ -28,17 +28,16 @@ template: |
 solution: |
   # Expression: initial * 2^years
   expression = f"{initial_population} × 2^{years}"
-  
+
   # Calculate result
   result = initial_population * (2 ** years)
-  
+
   Answer = f"{expression} | {result}"
 
 tests:
   - seed: 22222
     expected:
-      answer: "72 × 2^4 | 1152"
-  
+      answer: "36 × 2^5 | 1152"
   - seed: 33333
     expected:
-      answer: "53 × 2^5 | 1696"
+      answer: "30 × 2^4 | 480"

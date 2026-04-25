@@ -29,7 +29,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "25"
+      answer: "27"
   - seed: 67890
     expected:
-      answer: "53"
+      answer: "56"

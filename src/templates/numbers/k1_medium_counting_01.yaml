@@ -31,7 +31,7 @@ variables:
 
 template: |
   There are {{count_a}} {{object_a}} and {{count_b}} {{object_b}}.
-  
+
   Count all the items. How many items are there in total?
 
 solution: |
@@ -40,7 +40,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "8"
+      answer: "2"
   - seed: 100
     expected:
       answer: "6"

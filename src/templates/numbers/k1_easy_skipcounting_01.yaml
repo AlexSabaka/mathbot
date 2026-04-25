@@ -22,7 +22,7 @@ variables:
 
 template: |
   Skip count by {{skip_value}}s. Fill in the blanks:
-  
+
   {{skip_value}}, ___, {{skip_value * 3}}, ___, {{skip_value * 5}}
 
 solution: |
@@ -32,7 +32,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "4 | 8"
+      answer: "20 | 40"
   - seed: 100
     expected:
-      answer: "10 | 20"
+      answer: "4 | 8"

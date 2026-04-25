@@ -9,9 +9,9 @@ metadata:
   difficulty: easy
   steps: 2
   tags:
-  - percentages
-  - basic
-  - calculation
+    - percentages
+    - basic
+    - calculation
 variables:
   p:
     type: integer
@@ -36,9 +36,9 @@ solution: 'result = (p / 100) * n
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $25.00
-- seed: 67890
-  expected:
-    answer: $40.00
+  - seed: 12345
+    expected:
+      answer: $8.00
+  - seed: 67890
+    expected:
+      answer: $15.00

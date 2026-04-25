@@ -15,7 +15,6 @@ variables:
   shape_name:
     type: string
     choices: ["triangle", "quadrilateral", "pentagon", "hexagon"]
-  
   Answer:
     type: integer
 
@@ -34,8 +33,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "4"
-  
+      answer: "5"
   - seed: 22222
     expected:
-      answer: "3"
+      answer: "5"

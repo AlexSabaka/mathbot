@@ -10,10 +10,10 @@ metadata:
   steps: 2
   culture: en-US
   tags:
-  - perimeter
-  - fencing
-  - real-world
-  - rectangle
+    - perimeter
+    - fencing
+    - real-world
+    - rectangle
 variables:
   name:
     type: person
@@ -27,8 +27,7 @@ variables:
     max: 20
   Answer:
     type: length
-template: '{{name}} wants to put a fence around a rectangular yard that is {{length}}
-  meters long and {{width}} meters wide.
+template: '{{name}} wants to put a fence around a rectangular yard that is {{length}} meters long and {{width}} meters wide.
 
 
   How many meters of fencing does {{name}} need?
@@ -43,9 +42,9 @@ solution: '# Perimeter = 2 × (length + width)
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 58 meters
-- seed: 67890
-  expected:
-    answer: 38 meters
+  - seed: 12345
+    expected:
+      answer: 70 meters
+  - seed: 67890
+    expected:
+      answer: 72 meters

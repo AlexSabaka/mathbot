@@ -9,10 +9,10 @@ metadata:
   difficulty: medium
   steps: 3
   tags:
-  - percentages
-  - discount
-  - shopping
-  - money
+    - percentages
+    - discount
+    - shopping
+    - money
 variables:
   item:
     type: item
@@ -31,8 +31,7 @@ variables:
     type: money
     min: 0
     max: 200
-template: 'A {{item}} originally costs ${{a}}. It is on sale for {{p}}% off. What
-  is the sale price?
+template: 'A {{item}} originally costs ${{a}}. It is on sale for {{p}}% off. What is the sale price?
 
   '
 solution: 'discount = (p / 100) * a
@@ -43,9 +42,9 @@ solution: 'discount = (p / 100) * a
 
   '
 tests:
-- seed: 55555
-  expected:
-    answer: $36.00
-- seed: 66666
-  expected:
-    answer: $45.00
+  - seed: 55555
+    expected:
+      answer: $31.50
+  - seed: 66666
+    expected:
+      answer: $39.00

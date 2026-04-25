@@ -29,18 +29,18 @@ template: |
 
 solution: |
   import math
-  
+
   # Calculate GCD and simplify
   gcd = math.gcd(a, b)
   simplified_a = a // gcd
   simplified_b = b // gcd
-  
+
   Answer = f"{simplified_a}:{simplified_b}"
 
 tests:
   - seed: 30001
     expected:
-      answer: "3:2"
+      answer: "20:11"
   - seed: 30002
     expected:
-      answer: "2:3"
+      answer: "1:10"

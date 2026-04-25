@@ -16,31 +16,31 @@ variables:
     type: integer
     min: 5
     max: 12
-  
+
   mode2:
     type: integer
     min: 5
     max: 12
-  
+
   num1:
     type: integer
     min: 5
     max: 12
-  
+
   num2:
     type: integer
     min: 5
     max: 12
-  
+
   Answer1:
     type: integer
-  
+
   Answer2:
     type: integer
 
 template: |
   The data set {{mode1}}, {{mode2}}, {{num1}}, {{mode1}}, {{num2}}, {{mode2}} has two modes.
-  
+
   Identify both modes.
 
 solution: |
@@ -56,8 +56,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "7 | 9"
-  
+      answer: "5 | 11"
   - seed: 67890
     expected:
-      answer: "8 | 10"
+      answer: "7 | 8"

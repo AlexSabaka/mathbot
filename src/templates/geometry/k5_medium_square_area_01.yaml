@@ -10,18 +10,18 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - square
-  - area
-  - perimeter
-  - inverse
+    - square
+    - area
+    - perimeter
+    - inverse
 variables:
   object:
     type: string
     choices:
-    - window
-    - picture frame
-    - tile
-    - mirror
+      - window
+      - picture frame
+      - tile
+      - mirror
   perimeter:
     type: integer
     min: 32
@@ -46,9 +46,9 @@ solution: '# Perimeter = 4 × side, so side = perimeter / 4
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 196 square inches
-- seed: 67890
-  expected:
-    answer: 144 square inches
+  - seed: 12345
+    expected:
+      answer: 64 square meters
+  - seed: 67890
+    expected:
+      answer: 100 square meters

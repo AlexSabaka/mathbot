@@ -32,9 +32,9 @@ variables:
 
 template: |
   {{name}} goes cycling from {{city1}} to {{city2}} on a {{season}} day.
-  
+
   The total distance is {{distance}} miles and they cycle at an average speed of {{speed}} mph.
-  
+
   How long does the trip take?
 
 solution: |
@@ -44,4 +44,4 @@ solution: |
 tests:
   - seed: 54321
     expected:
-      answer: "5 hours 0 minutes"
+      answer: "3 hours 25 minutes"

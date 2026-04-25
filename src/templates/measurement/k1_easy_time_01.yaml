@@ -21,7 +21,7 @@ variables:
 
 template: |
   The clock shows {{hour}} o'clock.
-  
+
   What time is it?
 
 solution: |
@@ -30,7 +30,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "7 o'clock"
+      answer: "11 o'clock"
   - seed: 100
     expected:
-      answer: "9 o'clock"
+      answer: "3 o'clock"

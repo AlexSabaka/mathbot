@@ -40,7 +40,7 @@ solution: |
   # Convert mixed number to decimal
   # Simply divide numerator by denominator
   needed_length = whole + (numerator / denominator)
-  
+
   if decimal_available >= needed_length:
       Answer = f"{round(needed_length, 3)} feet | Yes, {decimal_available} feet is long enough"
   else:
@@ -49,7 +49,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3.5 feet | Yes, 3.55 feet is long enough"
+      answer: "4.875 feet | No, 3.2 feet is too short"
   - seed: 67890
     expected:
-      answer: "2.25 feet | No, 2.15 feet is too short"
+      answer: "5.625 feet | No, 2.75 feet is too short"

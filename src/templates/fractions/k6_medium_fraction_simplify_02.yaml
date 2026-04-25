@@ -35,17 +35,17 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Simplify first fraction
   common1 = gcd(a1, b1)
   simp1_num = a1 // common1
   simp1_den = b1 // common1
-  
+
   # Simplify second fraction
   common2 = gcd(a2, b2)
   simp2_num = a2 // common2
   simp2_den = b2 // common2
-  
+
   # Check if equivalent
   if simp1_num == simp2_num and simp1_den == simp2_den:
     Answer = f"{simp1_num}/{simp1_den} and {simp2_num}/{simp2_den} | Yes, they are equivalent"
@@ -55,8 +55,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3/8 and 1/2 | No, they are not equivalent"
-  
+      answer: "1/1 and 4/5 | No, they are not equivalent"
   - seed: 42424
     expected:
-      answer: "1/2 and 1/2 | Yes, they are equivalent"
+      answer: "11/14 and 9/26 | No, they are not equivalent"

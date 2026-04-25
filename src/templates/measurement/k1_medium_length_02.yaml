@@ -29,7 +29,7 @@ variables:
 
 template: |
   {{name}} measured a {{item}} with {{unit}}. The {{item}} is {{length}} {{unit}} long.
-  
+
   How many {{unit}} long is the {{item}}?
 
 solution: |
@@ -38,7 +38,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "7"
+      answer: "5"
   - seed: 100
     expected:
-      answer: "8"
+      answer: "7"

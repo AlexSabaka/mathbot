@@ -9,10 +9,10 @@ metadata:
   difficulty: medium
   steps: 3
   tags:
-  - shapes
-  - measurement
-  - perimeter
-  - cost
+    - shapes
+    - measurement
+    - perimeter
+    - cost
 variables:
   is_square:
     type: boolean
@@ -43,26 +43,20 @@ variables:
     max: 4
   Answer:
     type: money
-template: '{% if is_square %}A homeowner plans to fence their square garden, which
-  has sides measuring {{side}}m each.{% else %}A homeowner wants to install fencing
-  around their rectangular garden measuring {{length}}m by {{width}}m.{% endif %}
+template: '{% if is_square %}A homeowner plans to fence their square garden, which has sides measuring {{side}}m each.{% else %}A homeowner wants to install fencing around their rectangular garden measuring {{length}}m by {{width}}m.{% endif %}
 
 
   The fencing material costs {{cost_per_meter}} per meter.
 
 
-  {% if has_gate %}However, there''s already a {{gate_width}}m-wide gate installed,
-  so no fencing is needed for that section. {% endif %}
+  {% if has_gate %}However, there''s already a {{gate_width}}m-wide gate installed, so no fencing is needed for that section. {% endif %}
 
 
   What is the total cost of the fencing project?
 
   '
-solution: "if is_square:\n    perimeter = 4 * side\nelse:\n    perimeter = 2 * (length\
-  \ + width)\n\nif has_gate:\n    fencing_needed = perimeter - gate_width\nelse:\n\
-  \    fencing_needed = perimeter\n\ntotal_cost = fencing_needed * cost_per_meter\n\
-  Answer = round(total_cost, 2)\n"
+solution: "if is_square:\n    perimeter = 4 * side\nelse:\n    perimeter = 2 * (length + width)\n\nif has_gate:\n    fencing_needed = perimeter - gate_width\nelse:\n    fencing_needed = perimeter\n\ntotal_cost = fencing_needed * cost_per_meter\nAnswer = round(total_cost, 2)\n"
 tests:
-- seed: 12345
-  expected:
-    answer: $680.00
+  - seed: 12345
+    expected:
+      answer: $1700.00

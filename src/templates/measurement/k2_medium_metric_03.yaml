@@ -30,9 +30,9 @@ variables:
 
 template: |
   {{name}} has two {{object}}s. One is {{length_a}} cm long and the other is {{length_b}} cm long.
-  
+
   If {{name}} puts them end to end, how long will they be together?
-  
+
   Please solve this problem.
 
 solution: |
@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "86 cm"
+      answer: "93"
   - seed: 67890
     expected:
-      answer: "80 cm"
+      answer: "79"

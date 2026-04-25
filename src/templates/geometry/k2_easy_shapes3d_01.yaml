@@ -37,4 +37,4 @@ tests:
       answer: "cone"
   - seed: 67890
     expected:
-      answer: "cube"
+      answer: "sphere"

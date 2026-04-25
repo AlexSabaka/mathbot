@@ -9,10 +9,10 @@ metadata:
   difficulty: medium
   steps: 3
   tags:
-  - proportions
-  - word-problem
-  - shopping
-  - unit-price
+    - proportions
+    - word-problem
+    - shopping
+    - unit-price
 variables:
   a:
     type: integer
@@ -44,9 +44,9 @@ solution: '# Set up proportion: a/b = c/x
 
   '
 tests:
-- seed: 40007
-  expected:
-    answer: $22.50
-- seed: 40008
-  expected:
-    answer: $21.25
+  - seed: 40007
+    expected:
+      answer: $28.00
+  - seed: 40008
+    expected:
+      answer: $6.56

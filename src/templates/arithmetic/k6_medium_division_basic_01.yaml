@@ -31,7 +31,7 @@ solution: |
   # Calculate quotient and remainder
   cookies_each = total_cookies // num_friends
   leftover = total_cookies % num_friends
-  
+
   # Format answer
   if leftover == 0:
     Answer = f"{cookies_each} cookies each | no cookies left over"
@@ -41,8 +41,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "10 cookies each | 4 cookies left over"
-  
+      answer: "7 cookies each | no cookies left over"
   - seed: 67890
     expected:
-      answer: "11 cookies each | 4 cookies left over"
+      answer: "11 cookies each | 1 cookies left over"

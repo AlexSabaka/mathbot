@@ -10,19 +10,19 @@ metadata:
   culture: en-US
   steps: 4
   tags:
-  - volume
-  - rate
-  - time
-  - weight
+    - volume
+    - rate
+    - time
+    - weight
 variables:
   name:
     type: person
   container_type:
     type: string
     choices:
-    - box
-    - container
-    - bin
+      - box
+      - container
+      - bin
   length:
     type: integer
     min: 40
@@ -49,15 +49,13 @@ variables:
     type: integer
   Answer2:
     type: weight
-template: '{{name}} is filling a {{container_type}} that is {{length}} cm × {{width}}
-  cm × {{height}} cm with sand.
+template: '{{name}} is filling a {{container_type}} that is {{length}} cm × {{width}} cm × {{height}} cm with sand.
 
   {{name}} can pour {{rate}} cubic cm per minute.
 
   How long will it take to fill the {{container_type}}?
 
-  If each cubic cm of sand weighs {{weight}} grams, what is the total weight when
-  full?
+  If each cubic cm of sand weighs {{weight}} grams, what is the total weight when full?
 
   '
 solution: '# Calculate volume
@@ -81,9 +79,9 @@ solution: '# Calculate volume
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 105 minutes | 131250.00 grams
-- seed: 67890
-  expected:
-    answer: 90 minutes | 112500.00 grams
+  - seed: 12345
+    expected:
+      answer: 90 | 135660.00 kg
+  - seed: 67890
+    expected:
+      answer: 86 | 118560.00 kg

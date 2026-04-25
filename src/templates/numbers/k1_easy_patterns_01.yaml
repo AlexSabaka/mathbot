@@ -23,7 +23,7 @@ variables:
 
 template: |
   What comes next in the pattern?
-  
+
   {{elem_1}}, {{elem_2}}, {{elem_1}}, {{elem_2}}, ___
 
 solution: |
@@ -33,7 +33,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "circle"
+      answer: "square"
   - seed: 100
     expected:
       answer: "blue"

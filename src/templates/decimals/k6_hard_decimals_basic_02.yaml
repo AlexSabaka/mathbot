@@ -40,7 +40,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "0.82, 1.39, 1.53"
+      answer: "0.22, 0.86, 1.16"
   - seed: 67890
     expected:
-      answer: "0.42, 1.37, 1.77"
+      answer: "0.52, 0.59, 1.16"

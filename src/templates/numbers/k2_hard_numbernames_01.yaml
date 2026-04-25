@@ -41,4 +41,4 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "three hundred fifty-two, four hundred eighty, five hundred twelve, five hundred twenty-one"
+      answer: "three hundred thirty-five, three hundred fifty-three, four hundred twenty-eight, five hundred ninety-four"

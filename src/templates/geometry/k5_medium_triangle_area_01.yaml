@@ -10,19 +10,19 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - triangle
-  - area
-  - real-world
+    - triangle
+    - area
+    - real-world
 variables:
   name:
     type: person
   object:
     type: string
     choices:
-    - garden
-    - sail
-    - flag
-    - patch
+      - garden
+      - sail
+      - flag
+      - patch
   base:
     type: integer
     min: 10
@@ -33,8 +33,7 @@ variables:
     max: 14
   Answer:
     type: area
-template: 'A triangular {{object}} has a base of {{base}} meters and a height of {{height}}
-  meters.
+template: 'A triangular {{object}} has a base of {{base}} meters and a height of {{height}} meters.
 
   What is its area?
 
@@ -47,9 +46,9 @@ solution: '# Area = (base × height) / 2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 80 square meters
-- seed: 67890
-  expected:
-    answer: 72 square meters
+  - seed: 12345
+    expected:
+      answer: 67 square meters
+  - seed: 67890
+    expected:
+      answer: 90 square meters

@@ -39,7 +39,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Two lines that meet at a 90-degree angle, marked with a right angle symbol (⊥)"
+      answer: "Two lines that never meet, marked with arrow symbols (>>)"
   - seed: 67890
     expected:
       answer: "Two lines that never meet, marked with arrow symbols (>>)"

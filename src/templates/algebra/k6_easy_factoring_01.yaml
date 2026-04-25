@@ -40,8 +40,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5(7x + 6)"
-  
+      answer: "2(8y + 8)"
   - seed: 67890
     expected:
-      answer: "4(6n + 5)"
+      answer: "3(5x + 6)"

@@ -44,8 +44,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3(4x^2 + 5x + 4)"
-  
+      answer: "4(2y^2 + 4y + 3)"
   - seed: 67890
     expected:
-      answer: "3(3y^2 + 5y + 3)"
+      answer: "2(5x^2 + 6x + 3)"

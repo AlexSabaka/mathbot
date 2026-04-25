@@ -30,9 +30,9 @@ variables:
 
 template: |
   {{name}} has ${{num_a}}. {{ "He|She" | choice }} spends ${{num_b}} on a {{item}}.
-  
+
   How much money does {{name}} have left?
-  
+
   Please solve this problem.
 
 solution: |
@@ -41,7 +41,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "$43"
+      answer: "43"
   - seed: 67890
     expected:
-      answer: "$45"
+      answer: "45"

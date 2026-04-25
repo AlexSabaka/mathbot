@@ -28,6 +28,7 @@ variables:
     type: integer
 
 template: |
+  {% set dividend = (number1 // number2) * number2 %}
   {{name}} has {{dividend}} {{object_plural}} to share equally among {{number2}} friends.
   How many {{object_plural}} will each friend get?
 
@@ -42,8 +43,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5"
+      answer: "4"
 
   - seed: 67890
     expected:
-      answer: "4"
+      answer: "3"

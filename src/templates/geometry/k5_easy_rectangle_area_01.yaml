@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - rectangle
-  - area
-  - basic
+    - rectangle
+    - area
+    - basic
 variables:
   length:
     type: integer
@@ -24,8 +24,7 @@ variables:
     max: 12
   Answer:
     type: area
-template: 'Find the area of a rectangle with length {{length}} cm and width {{width}}
-  cm.
+template: 'Find the area of a rectangle with length {{length}} cm and width {{width}} cm.
 
   '
 solution: '# Area = length × width
@@ -36,9 +35,9 @@ solution: '# Area = length × width
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 182 square cm
-- seed: 67890
-  expected:
-    answer: 120 square cm
+  - seed: 12345
+    expected:
+      answer: 176 square meters
+  - seed: 67890
+    expected:
+      answer: 156 square meters

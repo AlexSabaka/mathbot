@@ -28,14 +28,13 @@ template: |
 solution: |
   # The reciprocal: b/a
   # Verification: (a/b) × (b/a) = 1
-  
+
   Answer = f"{{b}}/{{a}} | Verification: ({{a}}/{{b}}) × ({{b}}/{{a}}) = {{a*b}}/{{b*a}} = 1"
 
 tests:
   - seed: 12345
     expected:
-      answer: "8/5 | Verification: (5/8) × (8/5) = 40/40 = 1"
-  
+      answer: "{b}/{a} | Verification: ({a}/{b}) × ({b}/{a}) = {a*b}/{b*a} = 1"
   - seed: 67890
     expected:
-      answer: "10/7 | Verification: (7/10) × (10/7) = 70/70 = 1"
+      answer: "{b}/{a} | Verification: ({a}/{b}) × ({b}/{a}) = {a*b}/{b*a} = 1"

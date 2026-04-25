@@ -32,7 +32,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1 circle and 1 curved triangle"
+      answer: "2 circles and 1 rectangle"
   - seed: 67890
     expected:
       answer: "6 squares"

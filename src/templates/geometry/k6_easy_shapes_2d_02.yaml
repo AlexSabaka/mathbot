@@ -14,18 +14,18 @@ metadata:
 variables:
   name:
     type: person
-  
+
   sides:
     type: integer
     min: 5
     max: 8
-  
+
   Answer:
     type: string
 
 template: |
   {{name}} draws a polygon with {{sides}} equal sides.
-  
+
   What is the name of this regular polygon?
 
 solution: |
@@ -43,7 +43,6 @@ tests:
   - seed: 11111
     expected:
       answer: "heptagon"
-  
   - seed: 22222
     expected:
-      answer: "hexagon"
+      answer: "octagon"

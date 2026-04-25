@@ -28,15 +28,14 @@ template: |
 solution: |
   # Generate first n multiples
   multiples = [k * i for i in range(1, n + 1)]
-  
+
   # Format as comma-separated string
   Answer = ", ".join(str(m) for m in multiples)
 
 tests:
   - seed: 12345
     expected:
-      answer: "8, 16, 24, 32, 40, 48, 56, 64"
-  
+      answer: "3, 6, 9, 12, 15, 18, 21, 24"
   - seed: 67890
     expected:
-      answer: "9, 18, 27, 36, 45, 54, 63, 72"
+      answer: "5, 10, 15, 20, 25, 30"

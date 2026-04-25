@@ -32,8 +32,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "8/5"
-  
+      answer: "(13, 8)"
   - seed: 67890
     expected:
-      answer: "10/7"
+      answer: "(14, 5)"

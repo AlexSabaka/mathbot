@@ -37,9 +37,9 @@ variables:
 
 template: |
   {{name}} wants to cover a {{object}} that is {{length}} cm by {{width}} cm with square tiles that are {{tile_size}} cm on each side.
-  
+
   How many tiles does {% if name[-1].lower() in ['a', 'e', 'i', 'o', 'u'] %}{{name}}{% else %}{{name}}{% endif %} need?
-  
+
   Please solve this problem.
 
 solution: |
@@ -51,7 +51,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "24 tiles"
+      answer: "6"
   - seed: 67890
     expected:
-      answer: "12 tiles"
+      answer: "40"

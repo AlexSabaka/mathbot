@@ -49,10 +49,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3/2"
+      answer: "(9, 7)"
   - seed: 67890
     expected:
-      answer: "2/5"
+      answer: "(16, 9)"
   - seed: 11111
     expected:
-      answer: "8/5"
+      answer: "(3, 2)"

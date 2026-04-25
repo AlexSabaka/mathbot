@@ -29,18 +29,18 @@ template: |
 
 solution: |
   import math
-  
+
   total = boys + girls
   gcd = math.gcd(boys, total)
   simplified_boys = boys // gcd
   simplified_total = total // gcd
-  
+
   Answer = f"{simplified_boys}:{simplified_total}"
 
 tests:
   - seed: 30009
     expected:
-      answer: "4:9"
+      answer: "9:13"
   - seed: 30010
     expected:
-      answer: "5:9"
+      answer: "7:16"

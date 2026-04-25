@@ -25,7 +25,7 @@ variables:
 
 template: |
   Continue the pattern. Draw the next 2 shapes:
-  
+
   {{shape_a}}, {{shape_b}}, {{shape_a}}, {{shape_b}}, {{shape_a}}, {{shape_b}}, ___, ___
 
 solution: |
@@ -36,7 +36,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "circle | diamond"
+      answer: "circle | star"
   - seed: 100
     expected:
-      answer: "square | heart"
+      answer: "triangle | heart"

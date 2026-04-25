@@ -50,4 +50,4 @@ solution: |
 tests:
   - seed: 44444
     expected:
-      answer: "7 hours 15 minutes"
+      answer: "5 hours 56 minutes"

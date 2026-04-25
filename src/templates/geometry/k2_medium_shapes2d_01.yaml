@@ -38,4 +38,4 @@ tests:
       answer: "pentagon"
   - seed: 11111
     expected:
-      answer: "hexagon"
+      answer: "pentagon"

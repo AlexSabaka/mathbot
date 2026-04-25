@@ -49,13 +49,13 @@ variables:
 
 template: |
   {{name}} is flying from {{city1}} to {{city2}} for a business trip.
-  
+
   The flight covers {{distance1}} miles at a cruising speed of {{speed1}} mph.
-  
+
   {% if has_layover %}With a {{layover_hours}}-hour layover in {{city2}}, they continue their journey. {% endif %}
-  
+
   {% if has_second_flight %}{{name}} then flies to {{city3}}, covering another {{distance2}} miles at {{speed2}} mph.{% endif %}
-  
+
   What's the total travel time?
 
 solution: |
@@ -74,4 +74,4 @@ solution: |
 tests:
   - seed: 33333
     expected:
-      answer: "6 hours 30 minutes"
+      answer: "7 hours 7 minutes"

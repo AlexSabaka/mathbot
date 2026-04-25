@@ -105,8 +105,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "846 and 453 are divisible by 3. Rule: A number is divisible by 3 if the sum of its digits is divisible by 3."
+      answer: "None of these numbers are divisible by 6. Rule: A number is divisible by 6 if it is divisible by both 2 and 3."
 
   - seed: 67890
     expected:
-      answer: "144 is divisible by 4. Rule: A number is divisible by 4 if its last two digits form a number divisible by 4."
+      answer: "228 and 524 are divisible by 4. Rule: A number is divisible by 4 if its last two digits form a number divisible by 4."

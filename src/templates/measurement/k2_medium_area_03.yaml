@@ -38,9 +38,9 @@ variables:
 template: |
   {{name_a}} has a rectangle that is {{length_a}} units by {{width_a}} units.
   {{name_b}} has a rectangle that is {{length_b}} units by {{width_b}} units.
-  
+
   Whose rectangle has a larger area?
-  
+
   Please solve this problem.
 
 solution: |
@@ -57,7 +57,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "James"
+      answer: "Isabelle"
   - seed: 67890
     expected:
-      answer: "Sarah"
+      answer: "Sherry"

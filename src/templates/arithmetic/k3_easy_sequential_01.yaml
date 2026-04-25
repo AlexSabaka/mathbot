@@ -9,9 +9,9 @@ metadata:
   difficulty: easy
   steps: 2
   tags:
-  - money
-  - real-world
-  - shopping
+    - money
+    - real-world
+    - shopping
 variables:
   name:
     type: person
@@ -35,8 +35,7 @@ variables:
     step: 0.25
   Answer:
     type: money
-template: '{{name}} went to {{store}} and bought {{item1}} for {{price1}} and {{item2}}
-  for {{price2}}. What was the total cost?
+template: '{{name}} went to {{store}} and bought {{item1}} for {{price1}} and {{item2}} for {{price2}}. What was the total cost?
 
   '
 solution: 'total_cost = price1 + price2
@@ -45,6 +44,6 @@ solution: 'total_cost = price1 + price2
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $9.25
+  - seed: 12345
+    expected:
+      answer: $9.75

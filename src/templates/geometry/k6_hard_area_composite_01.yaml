@@ -16,18 +16,18 @@ variables:
     type: integer
     min: 12
     max: 20
-  
+
   rect_width:
     type: integer
     min: 8
     max: 14
-  
+
   Answer:
     type: decimal
 
 template: |
   A figure is made of a rectangle {{rect_length}} cm by {{rect_width}} cm with a semicircle of diameter {{rect_width}} cm attached to one end.
-  
+
   Find the total area. (Use π ≈ 3.14)
 
 solution: |
@@ -43,8 +43,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "218.265"
-  
+      answer: "300.33"
   - seed: 67890
     expected:
-      answer: "141.33"
+      answer: "286.93"

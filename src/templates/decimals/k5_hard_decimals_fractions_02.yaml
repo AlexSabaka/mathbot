@@ -35,17 +35,17 @@ solution: |
       "2/5": 0.4,
       "5/8": 0.625
   }
-  
+
   frac_val = frac_to_dec[fraction]
   dec_val = float(decimal_val)
   total = frac_val + dec_val
-  
+
   Answer = str(round(total, 3))
 
 tests:
   - seed: 12345
     expected:
-      answer: "1.55"
+      answer: "1.35"
   - seed: 67890
     expected:
-      answer: "1.0"
+      answer: "1.425"

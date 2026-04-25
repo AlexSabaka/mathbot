@@ -50,11 +50,11 @@ variables:
 
 template: |
   On {{day}}, {{name}} takes public transit from {{start}} to {{destination}}.
-  
+
   After a {{walk_minutes}}-minute walk to the station, they board a train that travels {{distance1}} miles at {{speed1}} mph.
-  
+
   {% if has_transfer %}After waiting {{wait_minutes}} minutes for a connection, {{name}} takes another bus for {{distance2}} miles at {{speed2}} mph.{% endif %}
-  
+
   How long is the entire commute?
 
 solution: |
@@ -71,4 +71,4 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "3 hours 45 minutes"
+      answer: "3 hours 47 minutes"

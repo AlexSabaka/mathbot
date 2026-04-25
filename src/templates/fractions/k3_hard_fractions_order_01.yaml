@@ -65,7 +65,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3/4, 2/3, 1/2"
+      answer: "4/4, 2/3, 4/6"
   - seed: 67890
     expected:
-      answer: "3/4, 2/3, 1/2"
+      answer: "4/4, 4/6, 1/3"

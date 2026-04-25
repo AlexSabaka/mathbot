@@ -29,18 +29,18 @@ template: |
 
 solution: |
   import math
-  
+
   total = a + b
   gcd = math.gcd(a, total)
   simplified_a = a // gcd
   simplified_total = total // gcd
-  
+
   Answer = f"{simplified_a}:{simplified_total}"
 
 tests:
   - seed: 30007
     expected:
-      answer: "1:2"
+      answer: "1:4"
   - seed: 30008
     expected:
-      answer: "4:7"
+      answer: "3:14"

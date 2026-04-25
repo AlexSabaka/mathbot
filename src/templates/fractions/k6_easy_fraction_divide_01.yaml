@@ -35,11 +35,11 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Flip and multiply: (a/b) ÷ (c/d) = (a/b) × (d/c) = (a*d)/(b*c)
   numerator = a * d
   denominator = b * c
-  
+
   # Simplify
   common = gcd(numerator, denominator)
   Answer = (numerator // common, denominator // common)
@@ -47,8 +47,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/6"
-  
+      answer: "(25, 16)"
   - seed: 67890
     expected:
-      answer: "7/6"
+      answer: "(21, 20)"

@@ -26,7 +26,7 @@ variables:
 
 template: |
   {{name}} created this number pattern: {{skip_value * start_multiplier}}, {{skip_value * (start_multiplier + 1)}}, {{skip_value * (start_multiplier + 2)}}, {{skip_value * (start_multiplier + 3)}}
-  
+
   What is the pattern rule? What are the next 2 numbers?
 
 solution: |
@@ -37,7 +37,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "12, 14"
+      answer: "35, 40"
   - seed: 100
     expected:
-      answer: "60, 70"
+      answer: "18, 20"

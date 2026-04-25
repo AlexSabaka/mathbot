@@ -55,10 +55,10 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "1/8"
+      answer: "(1, 12)"
   - seed: 67890
     expected:
-      answer: "1/10"
+      answer: "(1, 6)"
   - seed: 11111
     expected:
-      answer: "1/12"
+      answer: "(2, 21)"

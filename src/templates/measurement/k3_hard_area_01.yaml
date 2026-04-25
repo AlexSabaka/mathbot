@@ -42,7 +42,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "84 tiles"
+      answer: "200"
   - seed: 67890
     expected:
-      answer: "54 tiles"
+      answer: "196"

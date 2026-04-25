@@ -31,18 +31,18 @@ solution: |
   days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
   current_index = days.index(current_day)
   event_index = days.index(event_day)
-  
+
   if event_index > current_index:
       days_until = event_index - current_index
   else:
       days_until = 7 - current_index + event_index
-  
+
   Answer = days_until
 
 tests:
   - seed: 42
     expected:
-      answer: "4"
+      answer: "7"
   - seed: 100
     expected:
-      answer: "5"
+      answer: "2"

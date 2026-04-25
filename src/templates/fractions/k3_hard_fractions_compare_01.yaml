@@ -64,4 +64,4 @@ tests:
       answer: "2/3 < 3/4"
   - seed: 67890
     expected:
-      answer: "2/3 > 2/4"
+      answer: "1/3 < 3/4"

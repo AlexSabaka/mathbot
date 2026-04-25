@@ -23,6 +23,7 @@ variables:
     type: integer
 
 template: |
+  {% set dividend = (number1 // number2) * number2 %}
   Use long division to solve: {{dividend}} ÷ {{number2}}
 
 solution: |
@@ -35,8 +36,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "6"
+      answer: "36"
 
   - seed: 67890
     expected:
-      answer: "8"
+      answer: "11"

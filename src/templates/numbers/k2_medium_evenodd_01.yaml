@@ -36,7 +36,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "No, because 23 is an odd number."
+      answer: "No, because 27 is an odd number."
   - seed: 100
     expected:
-      answer: "Yes, because 36 is an even number."
+      answer: "No, because 21 is an odd number."

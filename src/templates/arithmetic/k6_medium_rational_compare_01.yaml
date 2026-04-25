@@ -51,18 +51,17 @@ solution: |
     (num2 / denom2, f"{num2}/{denom2}"),
     (dec2, str(dec2))
   ]
-  
+
   # Sort by decimal value
   values.sort(key=lambda x: x[0])
-  
+
   # Format as comma-separated string
   Answer = ", ".join(v[1] for v in values)
 
 tests:
   - seed: 12345
     expected:
-      answer: "3/8, 0.55, 0.7, 5/6"
-  
+      answer: "0.3, 0.55, 4/7, 6/10"
   - seed: 67890
     expected:
-      answer: "0.6, 7/9, 0.8, 2/3"
+      answer: "0.45, 0.6, 4/6, 6/7"

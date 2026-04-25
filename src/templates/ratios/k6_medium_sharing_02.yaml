@@ -9,18 +9,18 @@ metadata:
   difficulty: medium
   steps: 3
   tags:
-  - percentages
-  - inheritance
-  - division
-  - money
+    - percentages
+    - inheritance
+    - division
+    - money
 variables:
   relation:
     type: string
     choices:
-    - family estate
-    - trust fund
-    - will
-    - inheritance
+      - family estate
+      - trust fund
+      - will
+      - inheritance
   total:
     type: money
     min: 50000.0
@@ -43,16 +43,14 @@ variables:
     type: money
   Answer3:
     type: money
-template: 'A {{relation}} worth {{total_formatted}} is divided among 3 heirs according
-  to specific percentages.
+template: 'A {{relation}} worth {{total_formatted}} is divided among 3 heirs according to specific percentages.
 
 
   {% set pct2 = (100 - pct1) // 2 %}
 
   {% set pct3 = 100 - pct1 - pct2 %}
 
-  {{name1}} receives {{pct1}}%, {{name2}} receives {{pct2}}%, and {{name3}} receives
-  {{pct3}}%.
+  {{name1}} receives {{pct1}}%, {{name2}} receives {{pct2}}%, and {{name3}} receives {{pct3}}%.
 
 
   How much does each heir receive?
@@ -80,6 +78,6 @@ solution: '# Calculate pct2 and pct3 the same way as template
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $15000.00 | $20000.00 | $15000.00
+  - seed: 12345
+    expected:
+      answer: $66000.00 | $49500.00 | $49500.00

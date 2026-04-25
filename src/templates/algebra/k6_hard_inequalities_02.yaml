@@ -45,8 +45,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Sarah can buy at most 11 tickets. Solution: x ≤ 11"
-  
+      answer: "Mae can buy at most 9 toys. Solution: x ≤ 9"
   - seed: 67890
     expected:
-      answer: "Sarah can buy at most 13 games. Solution: x ≤ 13"
+      answer: "Alvin can buy at most 12 games. Solution: x ≤ 12"

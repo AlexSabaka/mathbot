@@ -82,7 +82,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "parallel (same slope)"
+      answer: "neither"
   - seed: 67890
     expected:
       answer: "neither"

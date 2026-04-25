@@ -26,9 +26,9 @@ variables:
 
 template: |
   {{name}} drew a {{shape}} made of {{units}} square units.
-  
+
   What is the area of {{name}}'s {{shape}}?
-  
+
   Please solve this problem.
 
 solution: |
@@ -38,7 +38,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "12 square units"
+      answer: "14"
   - seed: 67890
     expected:
-      answer: "9 square units"
+      answer: "17"

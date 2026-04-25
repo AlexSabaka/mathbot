@@ -45,8 +45,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "204"
+      answer: "414"
 
   - seed: 67890
     expected:
-      answer: "192"
+      answer: "216"

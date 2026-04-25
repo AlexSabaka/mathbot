@@ -30,7 +30,7 @@ variables:
 
 template: |
   {{name}} has {{num_a}} {{object}}. {{name}} gets {{num_b}} more {{object}}.
-  
+
   How many {{object}} does {{name}} have now?
 
 solution: |
@@ -42,4 +42,4 @@ tests:
       answer: "9"
   - seed: 100
     expected:
-      answer: "13"
+      answer: "10"

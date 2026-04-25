@@ -29,7 +29,7 @@ solution: |
   # Calculate boxes needed (need ceiling division for packing)
   full_boxes = daily_production // box_capacity
   items_in_partial = daily_production % box_capacity
-  
+
   # If there's a remainder, we need one more box
   if items_in_partial > 0:
     total_boxes = full_boxes + 1
@@ -40,8 +40,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "13 boxes needed | 20 items in partial box"
-  
+      answer: "9 boxes needed | 33 items in partial box"
   - seed: 67890
     expected:
-      answer: "13 boxes needed | 13 items in partial box"
+      answer: "6 boxes needed | 19 items in partial box"

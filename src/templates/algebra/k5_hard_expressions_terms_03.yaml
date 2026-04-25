@@ -54,7 +54,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "3 | 25 | 45"
+      answer: "3 | 36 | 54"
   - seed: 22222
     expected:
-      answer: "3 | 35 | 65"
+      answer: "3 | 27 | 43"

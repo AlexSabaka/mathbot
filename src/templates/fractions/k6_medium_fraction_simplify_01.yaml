@@ -29,7 +29,7 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Find GCD and simplify
   common = gcd(a, b)
   Answer = (a // common, b // common)
@@ -37,8 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3/8"
-  
+      answer: "(3, 5)"
   - seed: 67890
     expected:
-      answer: "7/10"
+      answer: "(5, 8)"

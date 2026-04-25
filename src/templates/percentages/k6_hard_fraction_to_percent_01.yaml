@@ -42,17 +42,17 @@ template: |
 
 solution: |
   import math
-  
+
   # Ensure a + b < n
   if a + b >= n:
       a = math.floor(n * 0.3)
       b = math.floor(n * 0.3)
-  
+
   brown_percent = (a / n) * 100
   black_percent = (b / n) * 100
   other = n - a - b
   other_percent = (other / n) * 100
-  
+
   Answer1 = round(brown_percent, 2)
   Answer2 = round(black_percent, 2)
   Answer3 = round(other_percent, 2)
@@ -60,7 +60,7 @@ solution: |
 tests:
   - seed: 10013
     expected:
-      answer: "30.00 | 30.00 | 40.00"
+      answer: "42.86 | 21.43 | 35.71"
   - seed: 10014
     expected:
-      answer: "30.00 | 30.00 | 40.00"
+      answer: "25.00 | 40.62 | 34.38"

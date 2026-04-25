@@ -34,7 +34,7 @@ solution: |
   gcf = math.gcd(a, b)
   coeff1 = a // gcf
   coeff2 = b // gcf
-  
+
   # Factor: gcf*var(coeff1*var - coeff2)
   if gcf == 1:
       Answer = f"{var}({a}{var} - {b})"
@@ -44,8 +44,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "2x(5x - 3)"
-  
+      answer: "y(6y - 17)"
   - seed: 67890
     expected:
-      answer: "3n(4n - 3)"
+      answer: "10x(1x - 1)"

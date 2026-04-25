@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 3
   tags:
-  - volume
-  - aquarium
-  - fraction
+    - volume
+    - aquarium
+    - fraction
 variables:
   length:
     type: integer
@@ -36,9 +36,7 @@ variables:
     max: 5
   Answer:
     type: volume
-template: 'An aquarium measures {{length}} inches long, {{width}} inches wide, and
-  {{height}} inches tall. If the aquarium is filled to {{fraction_num}}/{{fraction_den}}
-  of its height with water, how many cubic inches of water are in the tank?
+template: 'An aquarium measures {{length}} inches long, {{width}} inches wide, and {{height}} inches tall. If the aquarium is filled to {{fraction_num}}/{{fraction_den}} of its height with water, how many cubic inches of water are in the tank?
 
   '
 solution: '# Total volume
@@ -53,9 +51,9 @@ solution: '# Total volume
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 6480 cubic inches
-- seed: 67890
-  expected:
-    answer: 5400 cubic inches
+  - seed: 12345
+    expected:
+      answer: 8370 cubic meters
+  - seed: 67890
+    expected:
+      answer: 8208 cubic meters

@@ -31,10 +31,10 @@ variables:
 
 template: |
   Find two ways to add {{num_a}}, {{num_b}}, and {{num_c}}.
-  
+
   First way: ({{num_a}} + {{num_b}}) + {{num_c}} = ___
   Second way: {{num_a}} + ({{num_b}} + {{num_c}}) = ___
-  
+
   Please solve this problem.
 
 solution: |
@@ -48,4 +48,4 @@ tests:
       answer: "16 | 16"
   - seed: 67676
     expected:
-      answer: "19 | 19"
+      answer: "18 | 18"

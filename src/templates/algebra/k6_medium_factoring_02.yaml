@@ -36,8 +36,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "9(x - 7)"
-  
+      answer: "9(y - 2)"
   - seed: 67890
     expected:
-      answer: "7(n - 6)"
+      answer: "10(x - 3)"

@@ -28,17 +28,16 @@ template: |
 solution: |
   # Expression: initial * 2^days
   expression = f"{initial_cells} × 2^{time_periods}"
-  
+
   # Calculate result
   result = initial_cells * (2 ** time_periods)
-  
+
   Answer = f"{expression} | {result}"
 
 tests:
   - seed: 44444
     expected:
-      answer: "81 × 2^5 | 2592"
-  
+      answer: "18 × 2^4 | 288"
   - seed: 55555
     expected:
-      answer: "64 × 2^4 | 1024"
+      answer: "23 × 2^6 | 1472"

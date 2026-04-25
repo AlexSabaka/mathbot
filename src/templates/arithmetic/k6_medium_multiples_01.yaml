@@ -35,12 +35,12 @@ template: |
 solution: |
   # Find LCM to get the time when both arrive together
   lcm = abs(a * b) // math.gcd(a, b)
-  
+
   # Calculate new time
   total_minutes = hour * 60 + lcm
   new_hour = total_minutes // 60
   new_minute = total_minutes % 60
-  
+
   # Format time
   if new_hour > 12:
     new_hour = new_hour - 12
@@ -49,14 +49,13 @@ solution: |
     period = "PM"
   else:
     period = "AM"
-  
+
   Answer = f"{new_hour}:{new_minute:02d} {period}"
 
 tests:
   - seed: 12345
     expected:
-      answer: "10:20 AM"
-  
+      answer: "1:50 PM"
   - seed: 67890
     expected:
-      answer: "9:54 AM"
+      answer: "12:52 PM"

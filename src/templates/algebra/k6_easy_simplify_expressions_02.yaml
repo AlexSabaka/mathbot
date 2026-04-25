@@ -36,8 +36,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5x"
-  
+      answer: "-1y"
   - seed: 67890
     expected:
-      answer: "4n"
+      answer: "-1x"

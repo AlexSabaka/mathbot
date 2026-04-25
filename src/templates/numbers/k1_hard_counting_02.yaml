@@ -27,7 +27,7 @@ variables:
 
 template: |
   {{name}} is counting forward from {{start_num}}.
-  
+
   Write the next {{count_steps}} numbers that {{name}} will say: {{start_num}}, ___, ___, ___
 
 solution: |
@@ -39,7 +39,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "8, 9, 10, 11"
+      answer: "10, 11, 12"
   - seed: 100
     expected:
-      answer: "6, 7, 8, 9"
+      answer: "8, 9, 10, 11, 12"

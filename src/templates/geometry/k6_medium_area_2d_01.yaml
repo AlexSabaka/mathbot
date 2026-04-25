@@ -10,10 +10,10 @@ metadata:
   culture: en-US
   steps: 2
   tags:
-  - area
-  - parallelogram
-  - base
-  - height
+    - area
+    - parallelogram
+    - base
+    - height
 variables:
   base:
     type: integer
@@ -39,9 +39,9 @@ solution: '# Area of parallelogram = base × height
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 110 square cm
-- seed: 67890
-  expected:
-    answer: 70 square cm
+  - seed: 12345
+    expected:
+      answer: 180 square meters
+  - seed: 67890
+    expected:
+      answer: 54 square meters

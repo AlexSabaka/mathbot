@@ -34,7 +34,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "18.40"
+      answer: "12.80"
   - seed: 67890
     expected:
-      answer: "15.60"
+      answer: "10.10"

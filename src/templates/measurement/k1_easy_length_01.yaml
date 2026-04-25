@@ -26,7 +26,7 @@ variables:
 
 template: |
   Which object is longer: the {{object_a}} or the {{object_b}}?
-  
+
   The {{object_a}} is {{"longer" if is_longer else "shorter"}} than the {{object_b}}.
 
 solution: |
@@ -35,7 +35,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "rope"
+      answer: "crayon"
   - seed: 100
     expected:
-      answer: "ribbon"
+      answer: "stick"

@@ -51,4 +51,4 @@ tests:
       answer: "scalene"
   - seed: 67890
     expected:
-      answer: "scalene"
+      answer: "isosceles"

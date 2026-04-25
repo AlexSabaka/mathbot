@@ -10,10 +10,10 @@ metadata:
   steps: 1
   culture: en-US
   tags:
-  - area
-  - garden
-  - real-world
-  - rectangle
+    - area
+    - garden
+    - real-world
+    - rectangle
 variables:
   name:
     type: person
@@ -27,8 +27,7 @@ variables:
     max: 15
   Answer:
     type: area
-template: '{{name}}''s rectangular garden is {{length}} meters long and {{width}}
-  meters wide.
+template: '{{name}}''s rectangular garden is {{length}} meters long and {{width}} meters wide.
 
 
   What is the area of the garden?
@@ -43,9 +42,9 @@ solution: '# Area = length × width
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 84 square meters
-- seed: 67890
-  expected:
-    answer: 36 square meters
+  - seed: 12345
+    expected:
+      answer: 112 square meters
+  - seed: 67890
+    expected:
+      answer: 198 square meters

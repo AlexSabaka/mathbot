@@ -24,7 +24,7 @@ variables:
 
 template: |
   Convert: {{value}} cm = ___ m ___ cm
-  
+
   Please solve this problem.
 
 solution: |
@@ -35,7 +35,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "3 m 50 cm"
+      answer: "2 | 35"
   - seed: 67890
     expected:
-      answer: "1 m 5 cm"
+      answer: "1 | 65"

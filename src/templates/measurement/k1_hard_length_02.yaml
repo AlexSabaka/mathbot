@@ -32,7 +32,7 @@ variables:
 
 template: |
   {{name_a}}'s path is {{count_a}} {{units}} long. {{name_b}}'s path is {{count_b}} {{units}} long.
-  
+
   How much shorter is {{name_a}}'s path?
 
 solution: |
@@ -41,7 +41,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "5"
+      answer: "2"
   - seed: 100
     expected:
-      answer: "3"
+      answer: "4"

@@ -14,17 +14,16 @@ metadata:
 variables:
   name:
     type: person
-  
+
   polygon:
     type: string
     choices: ["square", "regular pentagon", "regular hexagon", "regular octagon"]
-  
   Answer:
     type: integer
 
 template: |
   {{name}} is studying symmetry in geometry class.
-  
+
   How many lines of symmetry does a {{polygon}} have?
 
 solution: |
@@ -39,8 +38,7 @@ solution: |
 tests:
   - seed: 11111
     expected:
-      answer: "8"
-  
+      answer: "6"
   - seed: 22222
     expected:
-      answer: "5"
+      answer: "8"

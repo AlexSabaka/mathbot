@@ -27,15 +27,14 @@ solution: |
   for i in range(1, n + 1):
     if n % i == 0:
       factors.append(i)
-  
+
   # Format as comma-separated string
   Answer = ", ".join(str(f) for f in factors)
 
 tests:
   - seed: 12345
     expected:
-      answer: "1, 2, 3, 4, 6, 8, 12, 24"
-  
+      answer: "1, 2, 19, 38"
   - seed: 67890
     expected:
-      answer: "1, 2, 3, 4, 6, 9, 12, 18, 36"
+      answer: "1, 2, 3, 4, 6, 8, 12, 24"

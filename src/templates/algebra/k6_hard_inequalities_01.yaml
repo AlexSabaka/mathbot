@@ -37,8 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Sarah needs at least 26 more points. Solution: x ≥ 26, graphed as all numbers greater than or equal to 26"
-  
+      answer: "Mae needs at least 38 more points. Solution: x ≥ 38, graphed as all numbers greater than or equal to 38"
   - seed: 67890
     expected:
-      answer: "Sarah needs at least 31 more points. Solution: x ≥ 31, graphed as all numbers greater than or equal to 31"
+      answer: "Alvin needs at least 40 more points. Solution: x ≥ 40, graphed as all numbers greater than or equal to 40"

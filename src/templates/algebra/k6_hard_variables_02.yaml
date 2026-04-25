@@ -41,8 +41,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "x - 4 * 5 + 11"
-  
+      answer: "n - 4 * 4 + 9"
   - seed: 67890
     expected:
-      answer: "n - 3 * 5 + 9"
+      answer: "n - 4 * 3 + 9"

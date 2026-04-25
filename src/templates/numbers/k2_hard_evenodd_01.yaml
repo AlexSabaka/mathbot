@@ -37,10 +37,10 @@ solution: |
   parity_a = 'odd' if num_a % 2 == 1 else 'even'
   parity_b = 'odd' if num_b % 2 == 1 else 'even'
   result_parity = 'even' if sum_result % 2 == 0 else 'odd'
-  
+
   Answer = "Yes, correct. " + parity_a.capitalize() + " + " + parity_b + " = " + result_parity + ". " + str(num_a) + " + " + str(num_b) + " = " + str(sum_result) + ", which is " + result_parity + "."
 
 tests:
   - seed: 42
     expected:
-      answer: "Yes, correct. Odd + odd = even. 15 + 9 = 24, which is even."
+      answer: "Yes, correct. Odd + even = odd. 13 + 12 = 25, which is odd."

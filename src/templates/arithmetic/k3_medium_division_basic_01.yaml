@@ -23,6 +23,7 @@ variables:
     type: integer
 
 template: |
+  {% set dividend = (number1 // number2) * number2 %}
   There are {{dividend}} students in a class. The teacher divides them into {{number2}} equal groups.
   How many students are in each group?
 
@@ -36,8 +37,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "6"
+      answer: "5"
 
   - seed: 67890
     expected:
-      answer: "8"
+      answer: "3"

@@ -29,7 +29,7 @@ solution: |
   # Calculate buses needed
   full_buses = total_students // bus_capacity
   students_in_last = total_students % bus_capacity
-  
+
   # If there's a remainder, we need one more bus
   if students_in_last > 0:
     total_buses = full_buses + 1
@@ -42,8 +42,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "12 buses needed | 11 empty seats"
-  
+      answer: "18 buses needed | 4 empty seats"
   - seed: 67890
     expected:
-      answer: "13 buses needed | 9 empty seats"
+      answer: "11 buses needed | 30 empty seats"

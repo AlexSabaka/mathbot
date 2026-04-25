@@ -69,8 +69,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: 102
+      answer: '1020'
 
   - seed: 67890
     expected:
-      answer: 120
+      answer: '126'

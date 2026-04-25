@@ -37,8 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "x - 13 - 8"
-  
+      answer: "m - 10 + 3"
   - seed: 67890
     expected:
-      answer: "m - 11 + 6"
+      answer: "m - 13 + 4"

@@ -43,7 +43,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "rectangle or rhombus"
+      answer: "equilateral triangle"
   - seed: 67890
     expected:
-      answer: "equilateral triangle"
+      answer: "square"

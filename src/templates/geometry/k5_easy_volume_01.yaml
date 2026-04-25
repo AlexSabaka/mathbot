@@ -10,9 +10,9 @@ metadata:
   culture: en-US
   steps: 1
   tags:
-  - volume
-  - rectangular prism
-  - basic
+    - volume
+    - rectangular prism
+    - basic
 variables:
   length:
     type: integer
@@ -28,8 +28,7 @@ variables:
     max: 7
   Answer:
     type: volume
-template: 'A rectangular prism has a length of {{length}} cm, width of {{width}} cm,
-  and height of {{height}} cm.
+template: 'A rectangular prism has a length of {{length}} cm, width of {{width}} cm, and height of {{height}} cm.
 
   What is its volume?
 
@@ -42,9 +41,9 @@ solution: '# Volume = length × width × height
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 210 cubic cm
-- seed: 67890
-  expected:
-    answer: 120 cubic cm
+  - seed: 12345
+    expected:
+      answer: 168 cubic meters
+  - seed: 67890
+    expected:
+      answer: 120 cubic meters

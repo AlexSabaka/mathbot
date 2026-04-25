@@ -37,10 +37,10 @@ template: |
 solution: |
   # Same denominator - add numerators
   from math import gcd
-  
+
   numerator = a + c
   denominator = b
-  
+
   # Simplify
   common = gcd(numerator, denominator)
   Answer = (numerator // common, denominator // common)
@@ -48,8 +48,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/8"
-  
+      answer: "(3, 5)"
   - seed: 67890
     expected:
-      answer: "7/10"
+      answer: "(5, 12)"

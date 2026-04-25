@@ -10,18 +10,18 @@ metadata:
   culture: en-US
   steps: 4
   tags:
-  - trapezium
-  - trapezoid
-  - area
-  - perimeter
-  - cost
+    - trapezium
+    - trapezoid
+    - area
+    - perimeter
+    - cost
 variables:
   area_type:
     type: string
     choices:
-    - field
-    - garden
-    - yard
+      - field
+      - garden
+      - yard
   base1:
     type: integer
     min: 25
@@ -50,12 +50,9 @@ variables:
     type: area
   Answer2:
     type: money
-template: 'A {{area_type}} is shaped like a trapezium with parallel sides {{base1}}
-  m and {{base2}} m, height {{height}} m, and non-parallel sides {{side1}} m and {{side2}}
-  m.
+template: 'A {{area_type}} is shaped like a trapezium with parallel sides {{base1}} m and {{base2}} m, height {{height}} m, and non-parallel sides {{side1}} m and {{side2}} m.
 
-  Calculate both the area and the total fencing cost if fencing costs ${{price}} per
-  meter.
+  Calculate both the area and the total fencing cost if fencing costs ${{price}} per meter.
 
   '
 solution: '# Calculate area
@@ -79,9 +76,9 @@ solution: '# Calculate area
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: 900 square m | $2088.00
-- seed: 67890
-  expected:
-    answer: 816 square m | $1840.00
+  - seed: 12345
+    expected:
+      answer: 925 square meters | $1968.00
+  - seed: 67890
+    expected:
+      answer: 1092 square meters | $1572.00

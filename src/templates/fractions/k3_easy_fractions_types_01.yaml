@@ -37,7 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Proper fraction"
+      answer: "Improper fraction"
   - seed: 67890
     expected:
       answer: "Improper fraction"

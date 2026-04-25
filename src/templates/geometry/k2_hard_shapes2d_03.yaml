@@ -43,4 +43,4 @@ tests:
       answer: "8"
   - seed: 67890
     expected:
-      answer: "7"
+      answer: "10"

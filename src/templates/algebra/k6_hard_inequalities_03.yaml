@@ -40,8 +40,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "The truck can carry at most 11 boxes. Solution: x ≤ 11, graphed as all whole numbers from 0 to 11"
-  
+      answer: "The truck can carry at most 11 crates. Solution: x ≤ 11, graphed as all whole numbers from 0 to 11"
   - seed: 67890
     expected:
-      answer: "The truck can carry at most 13 crates. Solution: x ≤ 13, graphed as all whole numbers from 0 to 13"
+      answer: "The truck can carry at most 10 packages. Solution: x ≤ 10, graphed as all whole numbers from 0 to 10"

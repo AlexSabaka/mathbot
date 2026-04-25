@@ -36,21 +36,21 @@ template: |
 solution: |
   # Multiply whole number by numerator
   result_numerator = weeks * numerator
-  
+
   # Simplify the fraction
   common = math.gcd(result_numerator, denominator)
   final_num = result_numerator // common
   final_den = denominator // common
-  
+
   Answer = (final_num, final_den)
 
 tests:
   - seed: 12345
     expected:
-      answer: "6/5"
+      answer: "(8, 5)"
   - seed: 67890
     expected:
-      answer: "3/1"
+      answer: "(5, 3)"
   - seed: 66666
     expected:
-      answer: "4/3"
+      answer: "(24, 7)"

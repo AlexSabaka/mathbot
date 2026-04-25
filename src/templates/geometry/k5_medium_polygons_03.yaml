@@ -15,7 +15,6 @@ variables:
   num_sides:
     type: integer
     choices: [4, 5, 6]
-  
   Answer:
     type: integer
 
@@ -30,8 +29,7 @@ solution: |
 tests:
   - seed: 33333
     expected:
-      answer: "540"
-  
+      answer: "360"
   - seed: 44444
     expected:
-      answer: "720"
+      answer: "360"

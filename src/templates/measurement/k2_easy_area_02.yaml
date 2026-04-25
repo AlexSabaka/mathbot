@@ -25,7 +25,7 @@ variables:
 
 template: |
   Which shape has more area, a rectangle with {{squares_a}} squares or a rectangle with {{squares_b}} squares?
-  
+
   Please solve this problem.
 
 solution: |
@@ -38,7 +38,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "15 squares"
+      answer: "14"
   - seed: 67890
     expected:
-      answer: "12 squares"
+      answer: "11"

@@ -14,14 +14,13 @@ metadata:
 variables:
   name:
     type: person
-  
+
   angle:
     type: integer
     choices: [60, 90, 108, 120]
-  
   Answer1:
     type: integer
-  
+
   Answer2:
     type: string
 
@@ -36,24 +35,23 @@ solution: |
   # 360 = 180n - n × angle
   # 360 = n(180 - angle)
   # n = 360 / (180 - angle)
-  
+
   num_sides = 360 // (180 - angle)
-  
+
   names = {
     3: "equilateral triangle",
     4: "square",
     5: "regular pentagon",
     6: "regular hexagon"
   }
-  
+
   Answer1 = num_sides
   Answer2 = names[num_sides]
 
 tests:
   - seed: 12345
     expected:
-      answer: "6 | regular hexagon"
-  
+      answer: "5 | regular pentagon"
   - seed: 67890
     expected:
-      answer: "3 | equilateral triangle"
+      answer: "6 | regular hexagon"

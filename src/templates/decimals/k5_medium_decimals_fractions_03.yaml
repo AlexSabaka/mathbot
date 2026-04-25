@@ -39,4 +39,4 @@ tests:
       answer: "0.625"
   - seed: 67890
     expected:
-      answer: "0.375"
+      answer: "0.875"

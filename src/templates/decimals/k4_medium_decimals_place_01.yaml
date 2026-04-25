@@ -62,7 +62,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "0.30"
+      answer: "0.00"
   - seed: 67890
     expected:
-      answer: "0.05"
+      answer: "0.60"

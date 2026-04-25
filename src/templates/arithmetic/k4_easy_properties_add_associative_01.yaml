@@ -46,8 +46,8 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "Left side: (15 + 18) + 12 = 33 + 12 = 45. Right side: 15 + (18 + 12) = 15 + 30 = 45. Both sides equal 45."
+      answer: "Left side: (18 + 5) + 14 = 23 + 14 = 37. Right side: 18 + (5 + 14) = 18 + 19 = 37. Both sides equal 37."
 
   - seed: 67890
     expected:
-      answer: "Left side: (19 + 7) + 11 = 26 + 11 = 37. Right side: 19 + (7 + 11) = 19 + 18 = 37. Both sides equal 37."
+      answer: "Left side: (11 + 9) + 18 = 20 + 18 = 38. Right side: 11 + (9 + 18) = 11 + 27 = 38. Both sides equal 38."

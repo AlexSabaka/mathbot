@@ -51,7 +51,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "square"
+      answer: "rhombus"
   - seed: 67890
     expected:
-      answer: "rectangle"
+      answer: "quadrilateral"

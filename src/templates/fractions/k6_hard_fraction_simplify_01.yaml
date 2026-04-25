@@ -33,11 +33,11 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Multiply: (a/b) * n = (a*n)/b
   numerator = a * n
   denominator = b
-  
+
   # Simplify
   common = gcd(numerator, denominator)
   Answer = (numerator // common, denominator // common)
@@ -45,8 +45,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/4"
-  
+      answer: "(2, 1)"
   - seed: 67890
     expected:
-      answer: "7/2"
+      answer: "(5, 2)"

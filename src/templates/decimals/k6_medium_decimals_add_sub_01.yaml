@@ -10,11 +10,11 @@ metadata:
   steps: 2
   culture: en-US
   tags:
-  - decimals
-  - addition
-  - subtraction
-  - money
-  - context
+    - decimals
+    - addition
+    - subtraction
+    - money
+    - context
 variables:
   name:
     type: person
@@ -31,11 +31,10 @@ variables:
   c:
     type: integer
     choices:
-    - 20
+      - 20
   Answer:
     type: money
-template: '{{name}} bought a notebook for {{a}} and a pen for {{b}}. {{name}} paid
-  with a ${{c}} bill. How much change did {{name}} receive?
+template: '{{name}} bought a notebook for {{a}} and a pen for {{b}}. {{name}} paid with a ${{c}} bill. How much change did {{name}} receive?
 
   '
 solution: 'total_spent = a + b
@@ -44,9 +43,9 @@ solution: 'total_spent = a + b
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $8.54
-- seed: 67890
-  expected:
-    answer: $11.34
+  - seed: 12345
+    expected:
+      answer: $8.09
+  - seed: 67890
+    expected:
+      answer: $11.11

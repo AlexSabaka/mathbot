@@ -10,20 +10,20 @@ metadata:
   culture: en-US
   steps: 4
   tags:
-  - triangle
-  - area
-  - perimeter
-  - cost
-  - multi-step
+    - triangle
+    - area
+    - perimeter
+    - cost
+    - multi-step
 variables:
   name:
     type: person
   area_type:
     type: string
     choices:
-    - yard
-    - garden
-    - field
+      - yard
+      - garden
+      - field
   side_a:
     type: integer
     min: 15
@@ -50,13 +50,11 @@ variables:
     max: 4
   Answer:
     type: money
-template: '{{name}} wants to fence a triangular {{area_type}} with sides {{side_a}}
-  m, {{side_b}} m, and {{side_c}} m.
+template: '{{name}} wants to fence a triangular {{area_type}} with sides {{side_a}} m, {{side_b}} m, and {{side_c}} m.
 
   Fencing costs ${{fence_price}} per meter.
 
-  The {{area_type}} will also be covered with grass seed costing ${{material_price}}
-  per square meter.
+  The {{area_type}} will also be covered with grass seed costing ${{material_price}} per square meter.
 
   If the height is {{height}} m, what is the total cost?
 
@@ -84,9 +82,9 @@ solution: '# Calculate perimeter
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $616.00
-- seed: 67890
-  expected:
-    answer: $496.00
+  - seed: 12345
+    expected:
+      answer: $812.00
+  - seed: 67890
+    expected:
+      answer: $1002.00

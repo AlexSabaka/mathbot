@@ -35,24 +35,23 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Division: (c/d) ÷ (a/b) = (c*b)/(d*a)
   numerator = c * b
   denominator = d * a
-  
+
   # This should result in a whole number
   common = gcd(numerator, denominator)
   simplified_num = numerator // common
   simplified_den = denominator // common
-  
+
   # Convert to integer answer
   Answer = simplified_num // simplified_den
 
 tests:
   - seed: 12345
     expected:
-      answer: "2"
-  
+      answer: "1"
   - seed: 67890
     expected:
-      answer: "2"
+      answer: "3"

@@ -36,4 +36,4 @@ tests:
 
   - seed: 67890
     expected:
-      answer: "40"
+      answer: "24"

@@ -9,10 +9,10 @@ metadata:
   difficulty: medium
   steps: 3
   tags:
-  - ratios
-  - proportions
-  - money
-  - division
+    - ratios
+    - proportions
+    - money
+    - division
 variables:
   name1:
     type: person
@@ -45,10 +45,7 @@ variables:
     type: money
   Answer3:
     type: money
-template: 'After a meal together in {{city}}, {{name1}}, {{name2}}, and {{name3}}
-  receive a bill totaling {{total_formatted}}. They agree to split the cost in the
-  ratio {{ratio1}}:{{ratio2}}:{{ratio3}} based on what each person ordered. How much
-  does each person pay?
+template: 'After a meal together in {{city}}, {{name1}}, {{name2}}, and {{name3}} receive a bill totaling {{total_formatted}}. They agree to split the cost in the ratio {{ratio1}}:{{ratio2}}:{{ratio3}} based on what each person ordered. How much does each person pay?
 
   '
 solution: 'total_parts = ratio1 + ratio2 + ratio3
@@ -68,6 +65,6 @@ solution: 'total_parts = ratio1 + ratio2 + ratio3
 
   '
 tests:
-- seed: 12345
-  expected:
-    answer: $36.36 | $18.18 | $30.45
+  - seed: 12345
+    expected:
+      answer: $31.67 | $47.50 | $15.83

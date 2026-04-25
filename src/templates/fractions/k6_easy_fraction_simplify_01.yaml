@@ -27,7 +27,7 @@ template: |
 
 solution: |
   from math import gcd
-  
+
   # Find GCD and divide both by it
   common = gcd(a, b)
   Answer = (a // common, b // common)
@@ -35,8 +35,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5/8"
-  
+      answer: "(17, 8)"
   - seed: 67890
     expected:
-      answer: "7/10"
+      answer: "(5, 8)"

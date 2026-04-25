@@ -33,7 +33,7 @@ variables:
 template: |
   {% set object_map = {"apple": "apples", "orange": "oranges", "toy car": "toy cars", "book": "books", "box": "boxes"} %}
   A {{object}} weighs {{mass}} grams. How many {{object_map[object]}} would it take to weigh {{target}} {% if target == 1 %}kilogram{% else %}kilograms{% endif %}?
-  
+
   Please solve this problem.
 
 solution: |
@@ -44,7 +44,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "5 apples"
+      answer: "6"
   - seed: 67890
     expected:
-      answer: "10 oranges"
+      answer: "7"

@@ -1,0 +1,61 @@
+metadata:
+  id: k11_medium_vector_geometry
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 11
+  topic: geometry.coordinate_plane
+  family: vectors
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [vectors, dot_product, magnitude, angle, 2d_geometry]
+  notes: >
+    Proposal 2.4.10 from problem-proposals.md.
+    Two 2D vectors u and v from given coordinates. Compute |u|, |v|, the
+    dot product u·v, and the angle θ (in degrees) between them. Variables
+    parameterised so |u|² and |v|² are perfect squares, yielding integer
+    magnitudes and a clean angle calculation.
+
+variables:
+  u_pair_idx:
+    type: integer
+    choices: [0, 1, 2, 3, 4, 5]
+  v_pair_idx:
+    type: integer
+    choices: [0, 1, 2, 3, 4, 5]
+  Answer:
+    type: string
+
+template: |
+  {% set pairs = [[3, 4], [4, 3], [5, 12], [12, 5], [6, 8], [8, 6]] %}
+  {% set u = pairs[u_pair_idx] %}
+  {% set v = pairs[v_pair_idx] %}
+  Two vectors are given: u = ({{u[0]}}, {{u[1]}}) and v = ({{v[0]}}, {{v[1]}}).
+  Compute (a) the magnitude |u|, (b) the magnitude |v|, (c) the dot product u·v, and (d) the angle between u and v in degrees, rounded to one decimal place.
+
+solution: |
+  pairs = [[3, 4], [4, 3], [5, 12], [12, 5], [6, 8], [8, 6]]
+  u = pairs[u_pair_idx]
+  v = pairs[v_pair_idx]
+  mag_u = (u[0] ** 2 + u[1] ** 2) ** 0.5
+  mag_v = (v[0] ** 2 + v[1] ** 2) ** 0.5
+  dot = u[0] * v[0] + u[1] * v[1]
+  cos_theta = dot / (mag_u * mag_v)
+  # Clamp to avoid floating-point errors outside [-1, 1]
+  if cos_theta > 1: cos_theta = 1.0
+  if cos_theta < -1: cos_theta = -1.0
+  theta_rad = math.acos(cos_theta)
+  theta_deg = theta_rad * 180 / math.pi
+  Answer = f"|u|={mag_u:.0f}, |v|={mag_v:.0f}, u·v={dot}, angle={theta_deg:.1f}°"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "|u|=13, |v|=10, u·v=126, angle=14.3°"
+  - seed: 42
+    expected:
+      answer: "|u|=10, |v|=5, u·v=48, angle=16.3°"
+  - seed: 99
+    expected:
+      answer: "|u|=13, |v|=13, u·v=169, angle=0.0°"

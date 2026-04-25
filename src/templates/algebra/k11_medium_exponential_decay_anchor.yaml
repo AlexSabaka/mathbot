@@ -1,0 +1,61 @@
+metadata:
+  id: k11_medium_exponential_decay
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 11
+  topic: algebra.equations
+  family: compound_growth
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [exponential_decay, half_life, logarithm, applied]
+  notes: >
+    Proposal 2.4.7 from problem-proposals.md.
+    Drug clearance / half-life problem. Given starting concentration C₀,
+    half-life H, find concentration after t hours and the time to reach
+    a target concentration. Variables constrained so half-life multiples
+    yield clean concentration values.
+
+variables:
+  name:
+    type: person
+  initial_mg:
+    type: integer
+    choices: [80, 120, 160, 200, 320]
+  half_life:
+    type: integer
+    choices: [3, 4, 6, 8]
+  half_lives_elapsed:
+    type: integer
+    choices: [2, 3, 4]
+  target_mg:
+    type: integer
+    choices: [10, 20, 40]
+  Answer:
+    type: string
+
+template: |
+  {% set t_elapsed = half_life * half_lives_elapsed %}
+  {{name}} takes a {{initial_mg}} mg dose of a medication. The drug has a half-life of {{half_life}} hours in the bloodstream.
+  Compute (a) the concentration in the bloodstream after {{t_elapsed}} hours, and (b) the number of hours after the initial dose at which the concentration drops below {{target_mg}} mg.
+  Round (a) to the nearest tenth of a mg and (b) to the nearest hour.
+
+solution: |
+  t_elapsed = half_life * half_lives_elapsed
+  conc_at_t = initial_mg * (0.5 ** half_lives_elapsed)
+  # Time to reach target: target = initial * (0.5)^(t/H) → t = H * log2(initial / target)
+  import math as _math
+  t_to_target = half_life * _math.log2(initial_mg / target_mg)
+  Answer = f"(a) {conc_at_t:.1f} mg, (b) {round(t_to_target)} hours"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "(a) 40.0 mg, (b) 18 hours"
+  - seed: 42
+    expected:
+      answer: "(a) 40.0 mg, (b) 16 hours"
+  - seed: 99
+    expected:
+      answer: "(a) 80.0 mg, (b) 20 hours"

@@ -1,0 +1,52 @@
+metadata:
+  id: k11_medium_calculus_optimization
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 11
+  topic: algebra.equations
+  family: equations
+  difficulty: medium
+  steps: 6
+  culture: en-US
+  tags: [calculus, optimization, derivative, max_volume, applied]
+  notes: >
+    Proposal 2.4.5 from problem-proposals.md.
+    Open-top box made by cutting equal squares from each corner of a square
+    sheet (side S) and folding the sides up. Find x maximising volume V(x)
+    = x(S - 2x)^2. Critical point at x = S/6 (rejecting x = S/2 which gives
+    zero height). Sheet side constrained to be a multiple of 6 so the
+    optimal x and resulting volume are clean integers.
+
+variables:
+  side_units:
+    type: integer
+    choices: [1, 2, 3, 4]
+  Answer:
+    type: string
+
+template: |
+  {% set sheet_side = 6 * side_units %}
+  An open-top box is made by cutting equal squares from each of the four corners of a {{sheet_side}} cm by {{sheet_side}} cm square sheet of cardboard, then folding up the sides.
+  Let x be the side length of the cut squares.
+  Use calculus to find the value of x that maximises the volume of the box, and compute the maximum volume.
+
+solution: |
+  sheet_side = 6 * side_units
+  # V(x) = x * (S - 2x)^2; V'(x) = (S - 2x)^2 - 4x(S - 2x) = (S - 2x)(S - 6x)
+  # Critical points: x = S/2 (zero volume) and x = S/6 (maximum)
+  optimal_x = sheet_side // 6
+  base_side = sheet_side - 2 * optimal_x
+  max_volume = optimal_x * base_side * base_side
+  Answer = f"x = {optimal_x} cm, max volume = {max_volume} cubic cm"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "x = 4 cm, max volume = 1024 cubic cm"
+  - seed: 42
+    expected:
+      answer: "x = 1 cm, max volume = 16 cubic cm"
+  - seed: 99
+    expected:
+      answer: "x = 4 cm, max volume = 1024 cubic cm"

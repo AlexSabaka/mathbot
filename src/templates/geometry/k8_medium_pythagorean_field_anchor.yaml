@@ -1,0 +1,62 @@
+metadata:
+  id: k8_medium_pythagorean_field
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 8
+  topic: geometry.triangles
+  family: area_perimeter_chain
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [pythagorean, area_perimeter_chain, real_world, multi_step]
+  notes: >
+    Proposal 2.3.7 from problem-proposals.md.
+    Rectangular field has a diagonal path. Compute the diagonal length
+    (Pythagorean theorem), the total fence length along three sides plus
+    the diagonal, and the area of each triangular half. Parameterised
+    over Pythagorean triples to keep the diagonal an integer.
+
+variables:
+  name:
+    type: person
+  triple_idx:
+    type: integer
+    choices: [0, 1, 2, 3, 4, 5]
+  scale:
+    type: integer
+    choices: [1, 2, 3]
+  Answer:
+    type: string
+
+template: |
+  {% set triples = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [9, 12, 15], [7, 24, 25]] %}
+  {% set t = triples[triple_idx] %}
+  {% set length = t[0] * scale %}
+  {% set width = t[1] * scale %}
+  {% set diagonal = t[2] * scale %}
+  {{name}} has a rectangular field that is {{length}} meters by {{width}} meters.
+  A straight diagonal path is built from one corner to the opposite corner.
+  A fence is to be installed along the {{length}}-meter side, the {{width}}-meter side, and along the diagonal path.
+  What is the total fence length, and what is the area of each triangular section formed by the diagonal?
+
+solution: |
+  triples = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [9, 12, 15], [7, 24, 25]]
+  t = triples[triple_idx]
+  length = t[0] * scale
+  width = t[1] * scale
+  diagonal = t[2] * scale
+  fence_length = length + width + diagonal
+  triangle_area = (length * width) // 2
+  Answer = f"fence: {fence_length} m, each triangle: {triangle_area} square m"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "fence: 48 m, each triangle: 96 square m"
+  - seed: 42
+    expected:
+      answer: "fence: 24 m, each triangle: 24 square m"
+  - seed: 99
+    expected:
+      answer: "fence: 36 m, each triangle: 54 square m"

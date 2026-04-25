@@ -1,0 +1,50 @@
+metadata:
+  id: k11_hard_induction_verify
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 11
+  topic: algebra.equations
+  family: induction
+  difficulty: hard
+  steps: 4
+  culture: en-US
+  tags: [induction, sum_formula, proof_step, algebra]
+  notes: >
+    Proposal 2.4.9 from problem-proposals.md (verification variant).
+    Mathematical induction proves the closed-form sum 1²+2²+...+n² =
+    n(n+1)(2n+1)/6. Test the inductive step at value k by computing both
+    the LHS (sum from 1 to k+1) and the RHS (closed form at k+1) directly,
+    and reporting both — confirming they agree.
+
+variables:
+  k:
+    type: integer
+    choices: [4, 5, 6, 7, 8, 9, 10]
+  Answer:
+    type: string
+
+template: |
+  Mathematical induction is used to prove that 1² + 2² + ... + n² = n(n + 1)(2n + 1)/6 for all positive integers n.
+  Verify the inductive step at k = {{k}} by computing both expressions for n = k + 1:
+  (a) the direct sum 1² + 2² + ... + (k + 1)²
+  (b) the closed form (k + 1)((k + 1) + 1)(2(k + 1) + 1)/6
+  Report both values; they should agree.
+
+solution: |
+  n = k + 1
+  direct_sum = sum(i * i for i in range(1, n + 1))
+  closed_form_num = n * (n + 1) * (2 * n + 1)
+  closed_form = closed_form_num // 6
+  Answer = f"direct sum: {direct_sum}, closed form: {closed_form}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "direct sum: 204, closed form: 204"
+  - seed: 42
+    expected:
+      answer: "direct sum: 385, closed form: 385"
+  - seed: 99
+    expected:
+      answer: "direct sum: 204, closed form: 204"

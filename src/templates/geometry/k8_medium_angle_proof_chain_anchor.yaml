@@ -1,0 +1,49 @@
+metadata:
+  id: k8_medium_angle_proof_chain
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 8
+  topic: geometry.angles
+  family: angles
+  difficulty: medium
+  steps: 4
+  culture: en-US
+  tags: [geometric_proof, angles, isosceles_triangle, exterior_angle, deductive]
+  notes: >
+    Proposal 2.3.11 from problem-proposals.md (numeric variant).
+    Isosceles triangle with apex angle X. Extend one of the equal sides
+    past the base; find the exterior angle at the base vertex. Chain:
+    triangle-sum (X + 2b = 180) → solve base angle b = (180-X)/2 →
+    supplementary at base vertex (exterior = 180 - b). Tests four
+    distinct angle relations in sequence.
+
+variables:
+  apex_angle:
+    type: integer
+    choices: [20, 40, 60, 80, 100, 120, 140]
+  Answer:
+    type: integer
+
+template: |
+  Triangle ABC is isosceles with AB = AC. The apex angle at vertex A measures {{apex_angle}}°.
+  Side AB is extended past B to a point D, so that B lies between A and D.
+  What is the measure of angle DBC (the exterior angle of the triangle at vertex B)?
+
+solution: |
+  # Triangle sum: apex + 2*base = 180, so base = (180 - apex) / 2
+  base_angle = (180 - apex_angle) // 2
+  # Exterior angle at B = 180 - interior angle at B (linear pair)
+  exterior = 180 - base_angle
+  Answer = exterior
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "130"
+  - seed: 42
+    expected:
+      answer: "150"
+  - seed: 99
+    expected:
+      answer: "130"

@@ -1,0 +1,61 @@
+metadata:
+  id: k11_medium_geometric_series
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 11
+  topic: algebra.equations
+  family: compound_growth
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [geometric_series, compound_growth, summation, application]
+  notes: >
+    Proposal 2.4.3 from problem-proposals.md.
+    Real-world geometric series: a savings stream where the deposit
+    increases by a factor each period. Compute the total accumulated over
+    N periods using S = a(r^n - 1)/(r - 1). Constrained for clean answers
+    via integer ratios where possible (and small-decimal ratios elsewhere).
+
+variables:
+  name:
+    type: person
+  first_term:
+    type: integer
+    choices: [50, 100, 150, 200, 500]
+  ratio_idx:
+    type: integer
+    choices: [0, 1, 2, 3]
+  n:
+    type: integer
+    choices: [4, 5, 6, 7, 8]
+  Answer:
+    type: string
+
+template: |
+  {% set ratios = [2, 3, 1.5, 1.25] %}
+  {% set r = ratios[ratio_idx] %}
+  {{name}} starts a savings program. In year 1, they save ${{first_term}}.
+  Each year after, they save {{r}} times what they saved the previous year.
+  After {{n}} years, what is the total amount {{name}} has saved across all years (rounded to the nearest cent)?
+
+solution: |
+  ratios = [2, 3, 1.5, 1.25]
+  r = ratios[ratio_idx]
+  if r == int(r):
+      # integer ratio
+      total = first_term * ((r ** n) - 1) // (r - 1) if isinstance(r, int) else first_term * ((r ** n) - 1) / (r - 1)
+  else:
+      total = first_term * ((r ** n) - 1) / (r - 1)
+  Answer = f"${total:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "$1978.12"
+  - seed: 42
+    expected:
+      answer: "$18150.00"
+  - seed: 99
+    expected:
+      answer: "$60500.00"

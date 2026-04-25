@@ -1,0 +1,65 @@
+metadata:
+  id: k8_medium_probability_tree
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 8
+  topic: statistics.probability
+  family: probability
+  difficulty: medium
+  steps: 5
+  culture: en-US
+  tags: [probability, conditional, two_stage, without_replacement]
+  notes: >
+    Proposal 2.3.10 from problem-proposals.md.
+    Bag with R red and B blue marbles. Two marbles drawn without
+    replacement. Compute P(both red) and P(2nd red | 1st red), expressed
+    as exact fractions in lowest terms.
+
+variables:
+  name:
+    type: person
+  red_count:
+    type: integer
+    min: 4
+    max: 9
+  blue_count:
+    type: integer
+    min: 3
+    max: 8
+  Answer:
+    type: string
+
+template: |
+  {% set total = red_count + blue_count %}
+  {{name}} has a bag with {{red_count}} red marbles and {{blue_count}} blue marbles.
+  {{name}} draws two marbles one after another, without putting the first one back.
+  Compute (a) the probability that both marbles are red, and (b) the probability that the second marble is red given that the first was red.
+  Express each answer as a fraction in lowest terms.
+
+solution: |
+  total = red_count + blue_count
+  # P(both red) = R/total * (R-1)/(total-1)
+  num_a = red_count * (red_count - 1)
+  den_a = total * (total - 1)
+  g_a = gcd(num_a, den_a)
+  joint_n = num_a // g_a
+  joint_d = den_a // g_a
+  # P(2nd red | 1st red) = (R-1)/(total-1)
+  num_b = red_count - 1
+  den_b = total - 1
+  g_b = gcd(num_b, den_b)
+  cond_n = num_b // g_b
+  cond_d = den_b // g_b
+  Answer = f"(a) {joint_n}/{joint_d}, (b) {cond_n}/{cond_d}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "(a) 3/11, (b) 1/2"
+  - seed: 42
+    expected:
+      answer: "(a) 1/3, (b) 5/9"
+  - seed: 99
+    expected:
+      answer: "(a) 14/33, (b) 7/11"

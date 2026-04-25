@@ -1,0 +1,60 @@
+metadata:
+  id: k11_hard_hypothesis_test
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 11
+  topic: statistics.inference
+  family: hypothesis_test
+  difficulty: hard
+  steps: 6
+  culture: en-US
+  tags: [hypothesis_testing, z_test, statistics, inference]
+  notes: >
+    Proposal 2.4.6 from problem-proposals.md.
+    One-sample two-sided z-test against a stated population mean. Given
+    population mean μ₀, population SD σ, sample size n, sample mean x̄;
+    compute the z-statistic and decide whether to reject H₀ at α = 0.05
+    (|z| > 1.96).
+
+variables:
+  pop_mean:
+    type: integer
+    choices: [50, 60, 70, 80, 100]
+  pop_sigma:
+    type: integer
+    choices: [4, 5, 8, 10, 12]
+  n:
+    type: integer
+    choices: [16, 25, 36, 49, 64, 100]
+  delta:
+    type: integer
+    choices: [-10, -5, -3, -2, 2, 3, 5, 10]
+  Answer:
+    type: string
+
+template: |
+  {% set sample_mean = pop_mean + delta %}
+  A researcher tests whether a population mean differs from {{pop_mean}}.
+  Population standard deviation σ = {{pop_sigma}} (assumed known).
+  A random sample of size n = {{n}} produces sample mean x̄ = {{sample_mean}}.
+  Test the hypotheses H₀: μ = {{pop_mean}} vs H₁: μ ≠ {{pop_mean}} at significance level α = 0.05.
+  Compute the z-statistic (rounded to two decimals) and state the conclusion (reject H₀ or fail to reject H₀).
+
+solution: |
+  sample_mean = pop_mean + delta
+  std_error = pop_sigma / (n ** 0.5)
+  z = (sample_mean - pop_mean) / std_error
+  decision = "reject H_0" if abs(z) > 1.96 else "fail to reject H_0"
+  Answer = f"z = {z:.2f}, {decision}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "z = 4.50, reject H_0"
+  - seed: 42
+    expected:
+      answer: "z = 5.00, reject H_0"
+  - seed: 99
+    expected:
+      answer: "z = -1.50, fail to reject H_0"

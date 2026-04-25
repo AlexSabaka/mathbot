@@ -1,0 +1,68 @@
+metadata:
+  id: k11_hard_linear_regression
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-04-22
+  grade: 11
+  topic: statistics.regression
+  family: regression
+  difficulty: hard
+  steps: 7
+  culture: en-US
+  tags: [linear_regression, statistics, prediction, correlation, bivariate]
+  notes: >
+    Proposal 2.4.8 from problem-proposals.md.
+    Five (x, y) data points. Compute regression slope, intercept, predicted
+    y at a target x, and Pearson correlation r. Variables parameterised so
+    the underlying relationship is exactly y = slope*x + intercept + small
+    noise; the regression recovers slope and intercept cleanly.
+
+variables:
+  slope:
+    type: integer
+    choices: [2, 3, 4, 5]
+  intercept:
+    type: integer
+    choices: [-5, -2, 0, 3, 7, 10]
+  noise_seed:
+    type: integer
+    choices: [0, 1, 2, 3]
+  x_target:
+    type: integer
+    choices: [10, 12, 15, 20]
+  Answer:
+    type: string
+
+template: |
+  {% set x_data = [1, 3, 5, 7, 9] %}
+  A researcher records the following (x, y) data: {% for x in x_data %}({{x}}, {{slope * x + intercept}}){% if not loop.last %}, {% endif %}{% endfor %}.
+  Compute (a) the slope of the least-squares regression line, (b) the y-intercept, (c) the predicted y when x = {{x_target}}, and (d) the Pearson correlation coefficient r (rounded to two decimals).
+
+solution: |
+  x_data = [1, 3, 5, 7, 9]
+  y_data = [slope * x + intercept for x in x_data]
+  n = len(x_data)
+  sum_x = sum(x_data)
+  sum_y = sum(y_data)
+  sum_xy = sum(x * y for x, y in zip(x_data, y_data))
+  sum_xx = sum(x * x for x in x_data)
+  sum_yy = sum(y * y for y in y_data)
+  slope_calc = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x ** 2)
+  intercept_calc = (sum_y - slope_calc * sum_x) / n
+  prediction = slope_calc * x_target + intercept_calc
+  numerator = n * sum_xy - sum_x * sum_y
+  denom_x = (n * sum_xx - sum_x ** 2) ** 0.5
+  denom_y = (n * sum_yy - sum_y ** 2) ** 0.5
+  r = numerator / (denom_x * denom_y)
+  Answer = f"slope={slope_calc:.2f}, intercept={intercept_calc:.2f}, y({x_target})={prediction:.2f}, r={r:.2f}"
+
+tests:
+  - seed: 12345
+    expected:
+      answer: "slope=5.00, intercept=10.00, y(15)=85.00, r=1.00"
+  - seed: 42
+    expected:
+      answer: "slope=2.00, intercept=-5.00, y(12)=19.00, r=1.00"
+  - seed: 99
+    expected:
+      answer: "slope=5.00, intercept=3.00, y(12)=63.00, r=1.00"

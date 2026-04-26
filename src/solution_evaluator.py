@@ -7,7 +7,15 @@ The solution must set an 'Answer' variable OR 'Answer1', 'Answer2', etc. for mul
 from typing import Dict, Any, Optional, Union
 from decimal import Decimal
 import math
-from math import gcd, lcm
+from math import (
+    gcd, lcm, pi, e, sqrt, exp,
+    sin, cos, tan, asin, acos, atan, atan2,
+    log, log2, log10,
+    floor, ceil, factorial, comb, perm,
+    radians, degrees,
+)
+import sympy
+from scipy import stats
 import inflect
 from .yaml_loader import VariableSpec
 
@@ -62,9 +70,21 @@ def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, 
         'filter': filter,
         'any': any,
         'all': all,
+        # math module + commonly-used math primitives surfaced top-level
         'math': math,
-        'gcd': gcd,
-        'lcm': lcm,
+        'pi': pi, 'e': e,
+        'sqrt': sqrt, 'exp': exp,
+        'sin': sin, 'cos': cos, 'tan': tan,
+        'asin': asin, 'acos': acos, 'atan': atan, 'atan2': atan2,
+        'log': log, 'log2': log2, 'log10': log10,
+        'floor': floor, 'ceil': ceil,
+        'factorial': factorial, 'comb': comb, 'perm': perm,
+        'radians': radians, 'degrees': degrees,
+        'gcd': gcd, 'lcm': lcm,
+        # symbolic algebra + statistical inference (use as namespaces)
+        'sympy': sympy,
+        'stats': stats,
+        # numeric utilities
         'Decimal': Decimal,
         'number_to_words': _number_to_words,
     }
@@ -72,8 +92,8 @@ def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, 
     try:
         # Execute solution code with context
         exec(solution_code, safe_globals, working_context)
-    except Exception as e:
-        raise ValueError(f"Error executing solution: {e}")
+    except Exception as exc:
+        raise ValueError(f"Error executing solution: {exc}")
     
     # Check for Answer or numbered answers
     if 'Answer' in working_context:

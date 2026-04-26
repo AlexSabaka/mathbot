@@ -183,14 +183,19 @@ class TemplateGenerator:
         Returns:
             Problem dictionary with standard structure
         """
-        # Set seed if provided
+        # Set seed if provided. Note: VariableGenerator re-seeds with the
+        # same seed in _generate_from_template so that variable values depend
+        # only on the seed, not on which template was selected (template
+        # selection below consumes entropy via random.choice). The two
+        # seedings are intentional — do not add Faker/random calls between
+        # them or fixture determinism breaks.
         if seed is not None:
             random.seed(seed)
             Faker.seed(seed)
         elif self.seed is not None:
             random.seed(self.seed)
             Faker.seed(self.seed)
-        
+
         # Filter templates
         candidates = self._filter_templates(
             complexity=complexity,

@@ -276,12 +276,24 @@ class YAMLLoader:
             self.errors.append(
                 "Solution must set the Answer variable"
             )
-        
+
         # Validate solution is valid Python
         try:
             compile(template_def.solution, '<solution>', 'exec')
         except SyntaxError as e:
             self.errors.append(f"Solution has syntax error: {e}")
+
+        # Enforce topic ↔ directory invariant: a template under
+        # src/templates/<X>/ must declare topic: X.<subtopic>.
+        if template_def.file_path is not None:
+            parent_dir = template_def.file_path.parent.name
+            top_topic = template_def.topic.split('.')[0]
+            if top_topic != parent_dir:
+                self.errors.append(
+                    f"Topic '{template_def.topic}' does not match parent "
+                    f"directory '{parent_dir}'. Top-level topic must equal "
+                    f"the directory name (or move the file)."
+                )
     
     def get_validation_results(self) -> Tuple[List[str], List[str]]:
         """Get validation errors and warnings."""

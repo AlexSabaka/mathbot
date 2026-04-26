@@ -200,74 +200,76 @@ class VariableGenerator:
         
         return singular_name if singular else plural_name
     
-    def format_value(self, value: Any, spec: VariableSpec) -> str:
-        """Format a value according to its specification.
-        
-        Used for displaying values in the rendered problem text.
-        NOTE: For percentages, returns just the number (not with %)
-        since templates typically write {{var}}% themselves.
+    def format_value(
+        self,
+        value: Any,
+        spec: VariableSpec,
+        template_unit_system: Optional[str] = None,
+    ) -> Any:
+        """Format a value for display in the rendered problem text.
+
+        Variables of `length`, `weight`, `temperature`, `money` types get
+        a system-aware unit suffix (or currency prefix) appended. `area`,
+        `volume`, `speed`, `percentage` return raw numbers — templates
+        write the unit text themselves around `{{var}}`.
+
+        `template_unit_system` is the metadata default; the spec's own
+        `unit_system` overrides it per-variable. `mixed_us` (default)
+        reproduces the pre-Phase-5.3 byte-identical output.
         """
+        from .units import (
+            resolve_system, get_short_suffix, is_compact, get_currency_symbol,
+        )
+
+        system = resolve_system(spec.unit_system, template_unit_system)
+
         if spec.type in ('money', 'price'):
-            return f"${value:.2f}"
-        
+            return f"{get_currency_symbol(system)}{value:.2f}"
+
         elif spec.type == 'percentage':
             return str(int(value))  # Don't add %, template will have {{var}}%
-        
+
         elif spec.type == 'ordinal':
             from .i18n import get_language_spec
             return get_language_spec('en').ordinal(int(value))
-        
-        elif spec.type == 'length':
-            # Length values with units (meters for input, miles for Answer)
+
+        elif spec.type in ('length', 'weight'):
+            suffix = get_short_suffix(spec.type, system)
             if isinstance(value, (int, float)):
                 if value == int(value):
-                    return f"{int(value)}m"
-                return f"{float(value):.2f}m"
+                    return f"{int(value)}{suffix}"
+                return f"{float(value):.2f}{suffix}"
             return str(value)
-        
-        elif spec.type == 'weight':
-            # Weight values with units
-            if isinstance(value, (int, float)):
-                if value == int(value):
-                    return f"{int(value)}kg"
-                return f"{float(value):.2f}kg"
-            return str(value)
-        
+
         elif spec.type == 'temperature':
-            # Temperature values with units
             if isinstance(value, (int, float)):
-                return f"{float(value):.1f}°F"
+                suffix = get_short_suffix('temperature', system)
+                sep = '' if is_compact('temperature', system) else ' '
+                return f"{float(value):.1f}{sep}{suffix}"
             return str(value)
-        
-        elif spec.type == 'area':
-            # Area values (display without units in template, units added in Answer)
+
+        elif spec.type in ('area', 'volume'):
+            # Area/volume display the bare number in problem text;
+            # templates add their own unit phrasing (e.g. "{{area}} square units").
             if isinstance(value, (int, float)):
                 if value == int(value):
                     return int(value)
                 return float(value)
             return value
-        
-        elif spec.type == 'volume':
-            # Volume values (display without units in template, units added in Answer)
-            if isinstance(value, (int, float)):
-                if value == int(value):
-                    return int(value)
-                return float(value)
-            return value
-        
+
         elif spec.type == 'time':
-            # Format time as hours/minutes
+            # Format time as hours/minutes (locale-agnostic for now)
             hours = int(value)
             minutes = int((value - hours) * 60)
-            
+
             if hours > 0 and minutes > 0:
                 return f"{hours} hour{'s' if hours != 1 else ''} {minutes} minutes"
             elif hours > 0:
                 return f"{hours} hour{'s' if hours != 1 else ''}"
             else:
                 return f"{minutes} minutes"
-        
+
         else:
             # For values without specific formatting, return raw value
-            # This allows them to be used in Jinja2 logic
+            # so it remains usable in Jinja2 logic / `{% set %}`.
             return value

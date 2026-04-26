@@ -9,7 +9,7 @@ verifiable answers for K1-K12.
 
 ```bash
 uv sync                                                 # install deps + .venv (Python 3.12)
-uv run pytest                                           # 79 tests
+uv run pytest                                           # 60 tests
 uv run mathbot generate -c 2 -g elementary -t arithmetic -s 42  # one problem
 uv run mathbot batch 10 -s 1 -o json                    # 10 problems → stdout
 uv run mathbot verify <path/to/template.yaml>           # validate one template
@@ -79,6 +79,7 @@ metadata:
   steps: 5                              # number of reasoning steps
   language: en                          # optional, BCP-47 base; drives locale-aware filters
   culture: en-US                        # optional, BCP-47 region; drives Faker locale (names/cities)
+  unit_system: mixed_us                 # optional, default mixed_us; metric|imperial|mixed_us
   tags: [list, of, tags]
 
 variables:
@@ -208,6 +209,43 @@ Adding a language:
 
 No renderer, generator, or template-schema changes needed. Filters fall
 back to `en` for unknown language codes.
+
+## Unit systems
+
+`metadata.unit_system` (default `mixed_us`) drives display-time unit and
+currency choices. Three valid values:
+
+| System     | Money | Length | Weight | Temperature | Speed | Area  | Volume |
+| ---------- | ----- | ------ | ------ | ----------- | ----- | ----- | ------ |
+| `mixed_us` | `$`   | m      | kg     | °F          | mph   | m²    | m³     |
+| `metric`   | `€`   | m      | kg     | °C          | km/h  | m²    | L      |
+| `imperial` | `$`   | ft     | lb     | °F          | mph   | ft²   | gal    |
+
+`mixed_us` reproduces pre-Phase-5.3 byte-identical output, so all 640
+existing templates continue to render unchanged. New templates set
+`unit_system: metric` (or `imperial`) for coherent display.
+
+A variable can override the template default per-spec:
+
+```yaml
+metadata:
+  unit_system: metric             # template default
+variables:
+  cost_us:
+    type: money
+    unit_system: imperial         # → "$" for this var only
+  cost_eu:
+    type: money                   # → "€" (template default)
+```
+
+The table itself lives in [src/units.py](src/units.py); add a new system
+or change a suffix by editing `UNIT_TABLE`. Currency-vs-system coupling
+is intentional today (one currency per system); split out later if a
+template wants £ on metric or ¥ on its own. **Solutions still compute in
+system-native units** — the table only handles display. For
+unit-conversion problems (P-M1 family from the K7-K12 proposal),
+templates do the conversion arithmetic explicitly in the solution code
+with hard-coded factors, then format the result.
 
 ## Jinja2 conventions
 

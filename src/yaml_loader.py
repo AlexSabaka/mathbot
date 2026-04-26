@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 import yaml
 
+from .units import VALID_UNIT_SYSTEMS, DEFAULT_UNIT_SYSTEM
+
 
 @dataclass
 class VariableSpec:
@@ -19,6 +21,9 @@ class VariableSpec:
     singular: Optional[bool] = None
     probability: Optional[float] = None
     choices: Optional[List[str]] = None
+    # Per-variable override of the template's unit system. None means
+    # "inherit from metadata.unit_system". See `src.units`.
+    unit_system: Optional[str] = None
 
 
 @dataclass
@@ -44,10 +49,15 @@ class TemplateDefinition:
     steps: int
     # `language` is the BCP-47 language tag used for locale-aware filters
     # (plural, ordinal, number-to-words) and translated entity pools.
-    # `culture` is a regional hint (BCP-47 region tag) reserved for future
-    # unit-system / currency defaults — it does not drive language behavior.
+    # `culture` is a regional hint (BCP-47 region tag) used to drive Faker
+    # locale (cities/companies). It does not drive language behavior.
     language: str = "en"
     culture: str = "en-US"
+    # Display-time unit system: "metric" | "imperial" | "mixed_us" (default).
+    # Solutions still compute in system-native units; this only controls
+    # what the formatter prints. Per-variable override available on
+    # VariableSpec. See `src.units`.
+    unit_system: str = "mixed_us"
     tags: List[str] = field(default_factory=list)
     notes: Optional[str] = None
     
@@ -149,6 +159,7 @@ class YAMLLoader:
             steps=metadata['steps'],
             language=metadata.get('language', 'en'),
             culture=metadata.get('culture', 'en-US'),
+            unit_system=metadata.get('unit_system', DEFAULT_UNIT_SYSTEM),
             tags=metadata.get('tags', []),
             notes=metadata.get('notes'),
             variables=variables,
@@ -194,6 +205,14 @@ class YAMLLoader:
             self.errors.append(
                 f"Invalid difficulty '{metadata['difficulty']}'. "
                 f"Must be one of: {self.VALID_DIFFICULTIES}"
+            )
+
+        # Validate unit_system if present (None/missing → DEFAULT_UNIT_SYSTEM)
+        meta_us = metadata.get('unit_system')
+        if meta_us is not None and meta_us not in VALID_UNIT_SYSTEMS:
+            self.errors.append(
+                f"Invalid metadata.unit_system '{meta_us}'. "
+                f"Must be one of: {sorted(VALID_UNIT_SYSTEMS)}"
             )
         
         # Check for Answer variable (or Answer1, Answer2, etc.)
@@ -252,17 +271,25 @@ class YAMLLoader:
                         f"range ({range_val}). May cause uneven distribution."
                     )
         
+        # Validate per-variable unit_system override (if present)
+        var_unit_system = spec.get('unit_system')
+        if var_unit_system is not None and var_unit_system not in VALID_UNIT_SYSTEMS:
+            self.errors.append(
+                f"Variable '{name}': invalid unit_system '{var_unit_system}'. "
+                f"Must be one of: {sorted(VALID_UNIT_SYSTEMS)}"
+            )
+
         return VariableSpec(
             name=name,
             type=var_type,
             min=min_val,
             max=max_val,
             step=step,
-            # format=fmt,
             category=spec.get('category'),
             singular=spec.get('singular'),
             probability=spec.get('probability'),
-            choices=spec.get('choices')
+            choices=spec.get('choices'),
+            unit_system=var_unit_system,
         )
     
     def _validate_template(self, template_def: TemplateDefinition) -> None:

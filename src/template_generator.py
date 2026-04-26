@@ -240,8 +240,12 @@ class TemplateGenerator:
         for var_name, value in context.items():
             if var_name in template.variables:
                 spec = template.variables[var_name]
-                # Format for display (adds $, %, etc.)
-                display_context[var_name] = var_gen.format_value(value, spec)
+                # Format for display (adds $, %, units…) using the
+                # template's unit_system as the default; per-variable
+                # unit_system overrides per-spec.
+                display_context[var_name] = var_gen.format_value(
+                    value, spec, template_unit_system=template.unit_system,
+                )
             else:
                 display_context[var_name] = value
         
@@ -273,19 +277,26 @@ class TemplateGenerator:
         except Exception as e:
             raise ValueError(f"Failed to execute solution for {template.id}: {e}")
         
-        # Format answer(s) based on Answer variable spec(s)
+        # Format answer(s) based on Answer variable spec(s); thread the
+        # template's unit_system so suffixes/symbols respect metric/imperial/mixed_us.
         if isinstance(answer_value, dict):
             # Multi-answer problem
             formatted_answers = []
             for i in sorted(answer_value.keys()):
                 answer_spec = template.variables.get(f'Answer{i}')
-                formatted = format_answer(answer_value[i], answer_spec)
+                formatted = format_answer(
+                    answer_value[i], answer_spec,
+                    template_unit_system=template.unit_system,
+                )
                 formatted_answers.append(formatted)
             expected_answer = " | ".join(formatted_answers)
         else:
             # Single answer
             answer_spec = template.variables.get('Answer')
-            expected_answer = format_answer(answer_value, answer_spec)
+            expected_answer = format_answer(
+                answer_value, answer_spec,
+                template_unit_system=template.unit_system,
+            )
         
         # Extract math topic (use first part before dot)
         math_topic = template.topic.split('.')[0] if '.' in template.topic else template.topic

@@ -13,25 +13,6 @@ is still worth carrying.
 
 ## 1. Active blockers — something downstream wants this fixed
 
-### TD-1.1 — Mixed-system formatter (USD + mph + meters + kg + °F)
-
-`solution_evaluator.format_answer` and `variable_generator.format_value`
-hard-code unit suffixes that don't share a system: money is **USD** (`$`),
-speed is **mph** (US), length is **meters** (metric), weight is **kg**
-(metric), temperature is **°F** (US), time/units in **English-only**
-(`hours`, `minutes`, `square meters`). New templates that try to express
-metric prices (€ per m²) or imperial dimensions can't do it cleanly —
-they bypass the formatter entirely and emit literal strings in the
-solution.
-
-**Resolution**: Phase 5.3 — `unit_system` field on `metadata` and per
-variable (`metric` | `imperial` | `mixed_us`); conversion table in a new
-`src/units.py`; formatters thread the system through. Migration: every
-existing template gets `unit_system: mixed_us` to preserve fixtures, then
-`scripts/refresh_test_answers.py` regenerates after the cutover.
-
-Surfaces affected: [src/solution_evaluator.py:113-154](src/solution_evaluator.py#L113-L154), [src/variable_generator.py:192-262](src/variable_generator.py#L192-L262), every template's `expected.answer`.
-
 ### TD-1.2 — `names` library is en-only and ignores Faker locale
 
 [src/variable_generator.py:62](src/variable_generator.py#L62) calls
@@ -334,6 +315,17 @@ a coverage gap.
 (Move entries here with a brief disposition before archiving to git
 history.)
 
+- ~~Mixed-system formatter (USD + mph + meters + kg + °F)~~ — Phase 5.3
+  introduced `metadata.unit_system` (`metric`|`imperial`|`mixed_us`,
+  default `mixed_us`) plus per-variable override on `VariableSpec`.
+  New [src/units.py](src/units.py) holds the `UNIT_TABLE`. Formatters
+  in [src/variable_generator.py](src/variable_generator.py) and
+  [src/solution_evaluator.py](src/solution_evaluator.py) now consume
+  the system through the threading from `template_generator`.
+  `mixed_us` reproduces pre-5.3 byte-identical output, verified by
+  dry-run `scripts/refresh_test_answers.py` (0 of 1307 fixtures
+  changed). 25 new tests in `tests/test_units.py` lock metric/imperial
+  divergence and the per-variable override path.
 - ~~Sandbox missing `sin/cos/log/factorial/comb/pi/e/sqrt`~~ — landed in
   Phase 5.1; surfaced top-level. See CHANGELOG.
 - ~~Topic↔directory invariant documented but not enforced~~ — Phase 5.1

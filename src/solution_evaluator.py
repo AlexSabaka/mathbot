@@ -111,93 +111,108 @@ def execute_solution(
     raise ValueError("Solution did not set 'Answer' or 'Answer1', 'Answer2', etc.")
 
 
-def format_answer(value: Any, answer_spec: Optional[VariableSpec] = None) -> str:
+def format_answer(
+    value: Any,
+    answer_spec: Optional[VariableSpec] = None,
+    template_unit_system: Optional[str] = None,
+) -> str:
     """Format answer value according to Answer variable specification.
-    
+
     Args:
         value: Computed answer value
-        answer_spec: Answer variable specification from YAML
-    
+        answer_spec: Answer variable specification from YAML (None → best-effort)
+        template_unit_system: metadata.unit_system default (overridden by
+            answer_spec.unit_system if set). Defaults to `mixed_us` to
+            preserve pre-Phase-5.3 byte-identical output.
+
     Returns:
-        Formatted answer string
+        Formatted answer string with units/currency baked in.
     """
+    from .units import (
+        resolve_system, get_long_suffix, is_compact, get_currency_symbol,
+    )
+
     if answer_spec is None:
         # No spec, try to format intelligently
         if isinstance(value, float):
             return f"{value:.2f}"
         else:
             return str(value)
-    
-    # Format based on Answer variable type and format
+
+    system = resolve_system(answer_spec.unit_system, template_unit_system)
+
+    # Format based on Answer variable type and unit system
     if answer_spec.type == 'money':
-        return f"${float(value):.2f}"
-    
+        return f"{get_currency_symbol(system)}{float(value):.2f}"
+
     elif answer_spec.type == 'percentage':
         return f"{int(value)}%"
-    
+
     elif answer_spec.type == 'ordinal':
         return get_language_spec('en').ordinal(int(value))
-    
+
     elif answer_spec.type == 'speed':
-        return f"{value:.2f} mph"
-    
+        return f"{value:.2f} {get_long_suffix('speed', system)}"
+
     elif answer_spec.type == 'length':
-        # Length values with units (meters for perimeter, dimensions)
+        suffix = get_long_suffix('length', system)
         if isinstance(value, (int, float)):
             if value == int(value):
-                return f"{int(value)} meters"
-            return f"{float(value):.2f} meters"
+                return f"{int(value)} {suffix}"
+            return f"{float(value):.2f} {suffix}"
         return str(value)
-    
+
     elif answer_spec.type == 'weight':
-        return f"{value:.2f} kg"
-    
+        # Pre-5.3 mixed_us was always 2-decimal regardless of int-ness.
+        return f"{value:.2f} {get_long_suffix('weight', system)}"
+
     elif answer_spec.type == 'temperature':
-        return f"{value:.1f}°F"
-    
+        suffix = get_long_suffix('temperature', system)
+        sep = '' if is_compact('temperature', system) else ' '
+        return f"{value:.1f}{sep}{suffix}"
+
     elif answer_spec.type == 'area':
-        # Area values with square units
+        suffix = get_long_suffix('area', system)
         if isinstance(value, (int, float, Decimal)):
             if value == int(value):
-                return f"{int(value)} square meters"
-            return f"{float(value):.2f} square meters"
+                return f"{int(value)} {suffix}"
+            return f"{float(value):.2f} {suffix}"
         return str(value)
-    
+
     elif answer_spec.type == 'volume':
-        # Volume values with cubic units
+        suffix = get_long_suffix('volume', system)
         if isinstance(value, (int, float, Decimal)):
             if value == int(value):
-                return f"{int(value)} cubic meters"
-            return f"{float(value):.2f} cubic meters"
+                return f"{int(value)} {suffix}"
+            return f"{float(value):.2f} {suffix}"
         return str(value)
-    
+
     elif answer_spec.type == 'time':
-        # Format time as hours/minutes
+        # Format time as hours/minutes (locale-agnostic for now)
         hours = int(value)
         minutes = int((value - hours) * 60)
-        
+
         if hours > 0 and minutes > 0:
             return f"{hours} hour{'s' if hours != 1 else ''} {minutes} minutes"
         elif hours > 0:
             return f"{hours} hour{'s' if hours != 1 else ''}"
         else:
             return f"{minutes} minutes"
-    
+
     elif answer_spec.type == 'fraction':
         return str(value)
-    
+
     elif answer_spec.type == 'integer':
         return str(int(value))
-    
+
     elif answer_spec.type == 'decimal':
         return f"{float(value):.2f}"
-    
+
     elif answer_spec.type == 'string':
         return str(value)
-    
+
     # Default formatting
     elif isinstance(value, float):
-        # Round to 2 decimal places for other floats
         return f"{value:.2f}"
     elif isinstance(value, int):
         return str(value)

@@ -4,6 +4,77 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.2.2] - 2026-04-26 - Phase 5.3: unit_system (metric / imperial / mixed_us)
+
+Display-time unit and currency choices are now coherent. Templates declare
+`metadata.unit_system` (default `mixed_us`); a variable can override the
+template default per-spec for unit-conversion problems that mix systems
+intentionally. New tech-debt log [TECHDEBT.md](TECHDEBT.md) closes TD-1.1
+(mixed-system formatter) with this release.
+
+Solutions still compute in **system-native units** — the table only handles
+display. Templates that need explicit unit conversion (e.g. the
+dimensional-analysis P-M1 family from
+[MATHBOT_PROBLEMS_PROPOSAL.md](MATHBOT_PROBLEMS_PROPOSAL.md)) do the math
+themselves with hard-coded factors, then format the result.
+
+### What landed
+
+- **[src/units.py](src/units.py)** (new) — `UNIT_TABLE` keyed by
+  `(type, system)` with `value_short` / `value_long` / `value_compact` /
+  `symbol` fields. Helpers: `resolve_system`, `get_short_suffix`,
+  `get_long_suffix`, `is_compact`, `get_currency_symbol`.
+  `VALID_UNIT_SYSTEMS = {metric, imperial, mixed_us}`,
+  `DEFAULT_UNIT_SYSTEM = "mixed_us"`.
+- **Schema** ([src/yaml_loader.py](src/yaml_loader.py)) — added
+  `metadata.unit_system` (default `mixed_us`) and per-`VariableSpec.unit_system`
+  override (None → inherit). Both validated against the allow-list at
+  load time; invalid values rejected with a clear error.
+- **Formatters refactored** — [src/variable_generator.py](src/variable_generator.py)
+  `format_value` and [src/solution_evaluator.py](src/solution_evaluator.py)
+  `format_answer` both take `template_unit_system` and resolve via
+  `(spec.unit_system or template_unit_system)`. Currency, length, weight,
+  temperature, area, volume, speed all consume the table.
+- **Plumbed** ([src/template_generator.py](src/template_generator.py)) —
+  `template.unit_system` flows into both formatters.
+- **Tests** ([tests/test_units.py](tests/test_units.py), 25 cases) lock
+  mixed_us byte-compat, metric/imperial divergence, per-variable override,
+  and schema validation.
+
+### Display divergence
+
+| Type | mixed_us | metric | imperial |
+|---|---|---|---|
+| length | `m` / `meters` | `m` / `meters` | `ft` / `feet` |
+| weight | `kg` / `kg` | `kg` / `kg` | `lb` / `pounds` |
+| temperature | `°F` | `°C` | `°F` |
+| speed | `mph` | `km/h` | `mph` |
+| area | `m²` / `square meters` | `m²` / `square meters` | `ft²` / `square feet` |
+| volume | `m³` / `cubic meters` | `L` / `liters` | `gal` / `gallons` |
+| money | `$` | `€` | `$` |
+
+### Backward compatibility
+
+- `pytest` — 35 original tests still pass byte-identical (60 total now,
+  +25 new in `test_units.py`).
+- `scripts/refresh_test_answers.py --dry-run` — **0 of 1307** template
+  fixtures changed under default `mixed_us`. Existing corpus continues
+  to render exactly as before; opting into `metric` / `imperial` is a
+  per-template, per-variable choice.
+
+### Known follow-ups
+
+- Currency is currency-vs-system-coupled today (one currency per system).
+  If a template wants £ on metric or ¥ on its own system, currency will
+  need to split out as a separate metadata field. Not pressing.
+- `mixed_us` `weight` answer always renders 2-decimal (`5.50 kg`, never
+  `5 kg`) — preserves a pre-5.3 inconsistency that other types check int
+  vs float for.
+- Time formatting (`hours / minutes`) is locale-agnostic and not in the
+  unit table — F3 Stage 2 will revisit.
+
+---
+
 ## [0.2.1] - 2026-04-26 - Eval surface: gol_eval plugin + corpus self-similarity tooling
 
 Two work threads landed this release:

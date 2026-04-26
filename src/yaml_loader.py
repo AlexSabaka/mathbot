@@ -34,6 +34,29 @@ class TestCase:
     notes: Optional[str] = None
 
 
+# Phase 5.5 visual layer. The YAML stores **source** (Jinja2-rendered SVG
+# string today; Python builder scripts later) — never raster output. A
+# separate `mathbot rasterize` step produces PNG from this source at a
+# configurable DPI. Source must always be preserved so the dataset can be
+# re-rasterized at a different resolution without re-generating problems.
+VALID_VISUAL_FORMATS = {"svg"}  # 'python' added when builder sandbox lands
+
+
+@dataclass
+class VisualSpec:
+    """Per-template canonical visual source.
+
+    `format` selects how `source` is interpreted. Today only `svg` ships:
+    `source` is a Jinja2 template that renders to an `<svg>…</svg>` string
+    using the same variable context as the problem `template:` block.
+    `alt_text` is also Jinja2-rendered and surfaces in the output JSON for
+    screen-reader / multimodal-eval consumption.
+    """
+    format: str
+    source: str
+    alt_text: Optional[str] = None
+
+
 @dataclass
 class TemplateDefinition:
     """Complete YAML template definition."""
@@ -66,7 +89,12 @@ class TemplateDefinition:
     template: str = ""
     solution: str = ""
     tests: List[TestCase] = field(default_factory=list)
-    
+    # Optional canonical visual source (Phase 5.5). When present, the
+    # generator renders `visual.source` and `visual.alt_text` with the
+    # same Jinja context as the problem text and emits the result on
+    # the output JSON's `visual` field.
+    visual: Optional[VisualSpec] = None
+
     # Source file path
     file_path: Optional[Path] = None
 
@@ -145,6 +173,9 @@ class YAMLLoader:
                 expected=test_data['expected'],
                 notes=test_data.get('notes')
             ))
+
+        # Parse optional visual block
+        visual_spec = self._parse_visual(data.get('visual'))
         
         # Create template definition
         template_def = TemplateDefinition(
@@ -166,6 +197,7 @@ class YAMLLoader:
             template=data.get('template', ''),
             solution=data.get('solution', ''),
             tests=tests,
+            visual=visual_spec,
             file_path=file_path
         )
         
@@ -292,6 +324,34 @@ class YAMLLoader:
             unit_system=var_unit_system,
         )
     
+    def _parse_visual(self, raw: Any) -> Optional[VisualSpec]:
+        """Parse and validate the optional `visual:` block."""
+        if raw is None:
+            return None
+        if not isinstance(raw, dict):
+            self.errors.append("visual: must be a mapping with `format` and `source` keys")
+            return None
+
+        fmt = raw.get('format')
+        if fmt not in VALID_VISUAL_FORMATS:
+            self.errors.append(
+                f"visual.format '{fmt}' is invalid. "
+                f"Must be one of: {sorted(VALID_VISUAL_FORMATS)}"
+            )
+            return None
+
+        source = raw.get('source')
+        if not isinstance(source, str) or not source.strip():
+            self.errors.append("visual.source must be a non-empty string")
+            return None
+
+        alt_text = raw.get('alt_text')
+        if alt_text is not None and not isinstance(alt_text, str):
+            self.errors.append("visual.alt_text must be a string when present")
+            return None
+
+        return VisualSpec(format=fmt, source=source, alt_text=alt_text)
+
     def _validate_template(self, template_def: TemplateDefinition) -> None:
         """Validate template content and solution."""
         # Check solution sets Answer

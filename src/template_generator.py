@@ -332,7 +332,31 @@ class TemplateGenerator:
             except ValueError:
                 # Path is not relative to templates_dir, use absolute
                 output["template_path"] = str(template_path)
-        
+
+        # Render canonical visual source (Phase 5.5). Same Jinja context as
+        # the problem template so visual labels can reference the same vars.
+        # The PNG is produced by the separate `mathbot rasterize` step;
+        # this output ships only the source so the dataset is re-rasterizable.
+        if template.visual is not None:
+            try:
+                rendered_source = self.renderer.render(
+                    template.visual.source, combined_context,
+                )
+                rendered_alt = (
+                    self.renderer.render(template.visual.alt_text, combined_context)
+                    if template.visual.alt_text else None
+                )
+            except Exception as e:
+                raise ValueError(f"Failed to render visual for {template.id}: {e}")
+
+            visual_out = {
+                "format": template.visual.format,
+                "source": rendered_source.strip(),
+            }
+            if rendered_alt is not None:
+                visual_out["alt_text"] = rendered_alt.strip()
+            output["visual"] = visual_out
+
         return output
     
     def _extract_operations(self, solution_code: str) -> List[str]:

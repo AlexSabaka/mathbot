@@ -9,11 +9,13 @@ verifiable answers for K1-K12.
 
 ```bash
 uv sync                                                 # install deps + .venv (Python 3.12)
-uv run pytest                                           # 60 tests
+uv sync --extra png                                     # + cairosvg (for `mathbot rasterize`)
+uv run pytest                                           # 70 tests
 uv run mathbot generate -c 2 -g elementary -t arithmetic -s 42  # one problem
 uv run mathbot batch 10 -s 1 -o json                    # 10 problems → stdout
 uv run mathbot verify <path/to/template.yaml>           # validate one template
 uv run mathbot test    <path/to/template.yaml>          # run its embedded tests
+uv run mathbot rasterize <dataset.json> [--dpi 150]     # SVG → PNG sidecars
 ```
 
 `uv run` is the blessed entrypoint — the host shell's `VIRTUAL_ENV` may leak
@@ -98,6 +100,15 @@ tests:             # 3+ cases recommended; seed is the canonical RNG seed
   - seed: 12345
     expected:
       answer: "bought 5 items, $2 left"
+
+visual:            # OPTIONAL canonical visual source; see "Visual layer" below
+  format: svg      # only `svg` ships in Phase 5.5; `python` (sandbox builders) is roadmap
+  alt_text: "A square with each side labeled {{side}} units."
+  source: |
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <rect x="40" y="40" width="120" height="120" fill="none" stroke="#222"/>
+      <text x="100" y="32" text-anchor="middle">{{side}}</text>
+    </svg>
 ```
 
 ### `metadata.topic` ↔ directory invariant
@@ -246,6 +257,57 @@ system-native units** — the table only handles display. For
 unit-conversion problems (P-M1 family from the K7-K12 proposal),
 templates do the conversion arithmetic explicitly in the solution code
 with hard-coded factors, then format the result.
+
+## Visual layer
+
+Templates may include an optional `visual:` block. The YAML stores the
+**canonical source** (today: a Jinja2-rendered SVG string); a separate
+`mathbot rasterize` step produces PNGs at any DPI. Both ship in the
+dataset. Templates **must never write PNG-generation code** — losing
+the source means losing the ability to re-render at a different
+resolution.
+
+Schema:
+
+```yaml
+visual:
+  format: svg                                # only svg today; `python` is roadmap
+  alt_text: "Plain-language description with {{var}} substitution"
+  source: |
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <!-- Same Jinja2 context as `template:` — substitute variables here. -->
+      <rect width="{{w}}" height="{{h}}" fill="none" stroke="black"/>
+    </svg>
+```
+
+The renderer ([src/template_generator.py](src/template_generator.py))
+adds `output["visual"] = {format, source, alt_text}` to the output JSON.
+`output["visual"]["png_path"]` is appended later by `mathbot rasterize`.
+
+`mathbot rasterize <dataset.json|.jsonl>` reads rows with a
+`visual.source` SVG, writes one PNG per row to a sidecar directory
+(default `<dataset>.pngs/`), and augments each row with `visual.png_path`
+(relative path so the dataset stays portable). Re-runnable at any DPI
+(`--dpi 300`) or fixed pixel width (`--width 600`) from the same SVG
+source.
+
+System dep: requires `libcairo` (macOS: `brew install cairo`,
+Debian/Ubuntu: `apt install libcairo2`). The Python wheel `cairosvg`
+ships under the `png` optional extra (`uv sync --extra png`); the rest
+of mathbot has zero raster dependencies.
+
+Author guidance:
+- Keep the SVG schematic, not to scale — show shape, label conveys
+  value (e.g. always render a 120-pixel square regardless of `{{side}}`,
+  with `{{side}}` in the labels).
+- Use `viewBox` (not absolute `width`/`height`) so the rasterizer can
+  pick any output size.
+- Reference variables with the same `{{var}}` syntax as the problem
+  template — the same context dict is passed to both.
+
+Approach B (Python `SVG`/`TreeSVG`/`BarChartSVG` builder classes inside
+the solution sandbox, for derived-coordinate cases like probability
+trees and bar charts) is roadmap — see TECHDEBT.md TD-3.1b.
 
 ## Jinja2 conventions
 

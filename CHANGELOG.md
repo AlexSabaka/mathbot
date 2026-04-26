@@ -4,6 +4,95 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.2.3] - 2026-04-26 - Phase 5.5: visual layer (SVG-source-then-rasterize)
+
+Templates can now ship a canonical visual alongside the problem text. The
+YAML stores the SVG source; a separate `mathbot rasterize` step produces
+PNGs at any DPI. Both ship in the dataset. The constraint **templates
+never write PNG-generation code** is enforced by design: the schema only
+accepts source formats (`svg` today, `python` builder roadmap), and the
+rasterizer is a one-way SVG→PNG step, never the reverse.
+
+### What landed
+
+- **Schema** ([src/yaml_loader.py](src/yaml_loader.py)) — new optional
+  `visual:` block on `TemplateDefinition`. New `VisualSpec` dataclass
+  with `format` (validated against `VALID_VISUAL_FORMATS = {"svg"}`),
+  `source` (Jinja2 template, must be non-empty string), and optional
+  `alt_text` (Jinja2 template, must be string when present). Invalid
+  formats and missing/empty sources fail loading with a clear error.
+- **Rendering** ([src/template_generator.py](src/template_generator.py))
+  — `_generate_from_template` renders both `visual.source` and
+  `visual.alt_text` through the same `combined_context` used for
+  `template:`, so `{{side}}` in the SVG resolves to the same value as
+  `{{side}}` in the problem text. Output JSON gains an optional
+  `visual: {format, source, alt_text}` field; templates without a
+  `visual:` block emit no field.
+- **Rasterizer** ([src/cli.py](src/cli.py) — new `mathbot rasterize`
+  subcommand) — reads a JSON or JSONL dataset, finds rows with a
+  `visual.source` SVG, writes one PNG per row to a sidecar directory
+  (default `<dataset>.pngs/`), and augments each row's `visual` block
+  with a `png_path`. Flags: `--dpi N` (default 150), `--width PX`
+  (overrides DPI), `--in-place / --write-out` (default in-place). Lazy
+  imports `cairosvg` so only PNG-producing workflows incur the
+  dependency. Errors clearly when `cairosvg` is missing OR when the
+  system `libcairo` library isn't found, with the right install command
+  per OS. Preserves dataset shape (single dict in → single dict out).
+- **Optional dep** ([pyproject.toml](pyproject.toml)) — `cairosvg>=2.8`
+  added under the `png` extra. `uv sync --extra png` installs the wheel;
+  system `libcairo` is the user's responsibility (`brew install cairo`
+  / `apt install libcairo2`).
+- **Example anchor** ([src/templates/geometry/k5_easy_square_area_01_anchor.yaml](src/templates/geometry/k5_easy_square_area_01_anchor.yaml))
+  — first template with a `visual:` block: a 200×200 schematic SVG of a
+  labeled square, all four sides labeled with `{{side}}` (rendered).
+  Schematic-not-to-scale convention: square is fixed size, labels
+  convey the value.
+- **Tests** ([tests/test_visual.py](tests/test_visual.py), 10 cases) —
+  schema validation (4 cases: optional, valid SVG, invalid format,
+  missing source, alt_text type), rendering (4 cases: variable
+  substitution, alt_text substitution, absent visual, render-failure
+  error chain), live anchor (1 case: the seeded square_area template
+  emits a clean visual). Pytest total: 70/70.
+
+### Pipeline
+
+```bash
+$ mathbot generate --input geometry/k5_easy_square_area_01_anchor.yaml -s 12345 -o json --file out.json
+$ mathbot rasterize out.json
+Rasterized 1, skipped 0 (no visual), errored 0. PNGs in out.json.pngs/, dataset → out.json.
+
+$ jq '.visual' out.json
+{
+  "format": "svg",
+  "source": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">\n  <rect ...>...</svg>",
+  "alt_text": "A square with each of its four sides labeled 12 inches.",
+  "png_path": "out.json.pngs/math_k5_easy_square_area_01.png"
+}
+```
+
+Re-running `mathbot rasterize out.json --dpi 300` regenerates the PNG
+at higher resolution from the same SVG source.
+
+### Out of scope (roadmap)
+
+- **Approach B**: Python `SVG`/`TreeSVG`/`BarChartSVG` builder classes
+  in the solution sandbox for derived-coordinate visuals (probability
+  trees, bar charts, scatter plots). The schema slot for `format: python`
+  is reserved but not yet implemented. Tracked as TECHDEBT TD-3.1b.
+- **Matplotlib path**: another candidate `format` for plotting
+  workflows. Heaviest dep, not in Phase 5.5; revisit if grouped-stats
+  templates need histograms.
+- **Visual lint**: schema validation only checks that source is a
+  non-empty string; it does not parse the SVG or run the Jinja
+  template ahead of generation. A `mathbot lint` pass that smoke-renders
+  visuals at template-load time would catch broken `<svg>` syntax
+  earlier.
+- **Visual-aware unit tests**: `tests/test_visual.py` doesn't exercise
+  the rasterizer (which would require `libcairo` on the test runner).
+  End-to-end PNG production was verified manually.
+
+---
+
 ## [0.2.2] - 2026-04-26 - Phase 5.3: unit_system (metric / imperial / mixed_us)
 
 Display-time unit and currency choices are now coherent. Templates declare

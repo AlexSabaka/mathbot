@@ -129,16 +129,56 @@ phase.
 
 ## 3. Future-phase enablers
 
-### TD-3.1 — Visual layer (`visual:` block) not yet present
+### TD-3.1b — Visual Approach B: Python builder classes in sandbox
 
-~7 of the 22 [proposal](MATHBOT_PROBLEMS_PROPOSAL.md) families want
-diagrams (geometry, probability trees, composite figures). Output JSON
-has no slot for visuals; `mathbot generate` emits text only.
+Phase 5.5 shipped Approach A (Jinja-rendered SVG block in YAML), good
+for static geometric figures where coordinates are known up front. For
+**derived-coordinate visuals** — probability trees with branch counts
+chosen at generation time, bar charts whose heights come from a
+data_set, scatter plots — Jinja-SVG gets unwieldy fast (every
+coordinate is an inline arithmetic expression).
 
-**Resolution**: Phase 5.5. Approach A (Jinja-rendered SVG block in YAML)
-first; Approach B (`SVG`/`TreeSVG`/`BarChartSVG` builder classes in
-sandbox) follows. Output JSON gets an optional `visual: {format, content,
-alt_text}` field.
+Approach B: an `SVG` / `TreeSVG` / `BarChartSVG` builder family exposed
+in `safe_globals`, called from solution code:
+
+```python
+solution: |
+  tree = TreeSVG()
+  tree.branch("D", p=0.04).then("+", p=0.96).then("-", p=0.04)
+  tree.branch("~D", p=0.96).then("+", p=0.08).then("-", p=0.92)
+  Visual = tree.render()
+  Answer = ...
+```
+
+Schema reservation already in place: `VALID_VISUAL_FORMATS` is set up
+to accept `"python"` as a second format, and the parser would just
+need to dispatch on it (eval the source against `safe_globals`,
+capture the `Visual` binding, store as SVG in the output).
+
+**Resolution path**: probably ~300 lines of builder classes plus
+sandbox wiring. Wait until the first probability-tree (P-S2) or
+bar-chart (P-S1) template needs it, so the API is shaped by a real
+use case rather than speculation.
+
+### TD-3.1c — `mathbot lint` doesn't pre-render visuals
+
+Schema validation only checks that `visual.source` is a non-empty
+string; it doesn't try to render the Jinja template or parse the SVG
+ahead of generation. A broken `<svg>` tag or undefined Jinja variable
+in `visual.source` only surfaces when someone runs `mathbot generate`
+on that template. The Phase 5.7 `mathbot lint` subcommand should
+smoke-render every template's visual against a sentinel context to
+catch obvious breakage at lint time.
+
+### TD-3.1d — Rasterizer not exercised in CI
+
+`tests/test_visual.py` covers schema, rendering, and end-to-end output,
+but skips the rasterizer because it requires `libcairo` on the test
+runner. End-to-end PNG production was verified manually
+(`DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib uv run mathbot rasterize
+…`). If/when a CI environment with cairo arrives, add a single
+integration test that rasterizes one fixture and asserts the PNG is
+non-empty / has the expected dimensions.
 
 ### TD-3.2 — Multi-lang Stage 2 / Stage 3
 
@@ -315,6 +355,16 @@ a coverage gap.
 (Move entries here with a brief disposition before archiving to git
 history.)
 
+- ~~Visual layer (`visual:` block) not yet present~~ — Phase 5.5
+  shipped Approach A: optional `visual:` block in YAML with a Jinja-
+  rendered SVG `source` and `alt_text`. New `mathbot rasterize`
+  subcommand turns dataset SVGs into PNGs at any DPI (lazy `cairosvg`
+  via the `png` optional extra; system `libcairo` required at PNG
+  time). Output JSON gains `visual: {format, source, alt_text,
+  png_path}`. The first anchor with a visual ships in
+  `geometry/k5_easy_square_area_01_anchor.yaml`. Approach B (Python
+  builder classes for derived-coordinate visuals like prob trees)
+  rolls forward as TD-3.1b.
 - ~~Mixed-system formatter (USD + mph + meters + kg + °F)~~ — Phase 5.3
   introduced `metadata.unit_system` (`metric`|`imperial`|`mixed_us`,
   default `mixed_us`) plus per-variable override on `VariableSpec`.

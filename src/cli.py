@@ -488,6 +488,139 @@ def test(template_path, template_dir, verbose):
         sys.exit(1)
 
 
+@cli.command()
+@click.argument('dataset_path', type=click.Path(exists=True))
+@click.option('-o', '--output-dir', type=click.Path(), default=None,
+              help='PNG output directory (default: <dataset>.pngs/)')
+@click.option('--dpi', type=int, default=150,
+              help='Raster DPI (default: 150)')
+@click.option('--width', type=int, default=None,
+              help='Output PNG width in px. Overrides --dpi when set.')
+@click.option('--in-place/--write-out', default=True,
+              help='Update dataset in-place with png_path entries (default), '
+                   'or write a parallel <dataset>.rasterized.<ext> file.')
+def rasterize(dataset_path, output_dir, dpi, width, in_place):
+    """Rasterize the visual.source SVG of every row in a generated dataset.
+
+    Reads a JSON list or JSONL file produced by `mathbot batch -o json|jsonl`,
+    finds rows with a `visual.source` SVG, writes one PNG per row to the
+    output directory, and augments each row with `visual.png_path`.
+
+    The SVG source is the canonical artifact — it is not modified. Re-run
+    with a different --dpi/--width to regenerate at any resolution.
+
+    System dep: requires `libcairo` (macOS: `brew install cairo`;
+    Debian/Ubuntu: `apt install libcairo2`). The Python wheel `cairosvg`
+    is installed via `uv sync --extra png`.
+    """
+    from pathlib import Path
+
+    try:
+        import cairosvg  # noqa: F401  (lazy import — only needed for rasterization)
+    except OSError as exc:
+        click.echo(click.style(
+            f"cairosvg loaded but libcairo is missing: {exc}\n"
+            f"Install the system library:\n"
+            f"  macOS:        brew install cairo\n"
+            f"  Debian/Ubuntu: sudo apt install libcairo2\n"
+            f"  Fedora:       sudo dnf install cairo",
+            fg='red',
+        ), err=True)
+        sys.exit(1)
+    except ImportError:
+        click.echo(click.style(
+            "cairosvg is not installed. Run `uv sync --extra png` to install it.",
+            fg='red',
+        ), err=True)
+        sys.exit(1)
+
+    dataset_path = Path(dataset_path)
+    is_jsonl = dataset_path.suffix.lower() in {'.jsonl', '.ndjson'}
+
+    if output_dir is None:
+        output_dir = dataset_path.with_suffix(dataset_path.suffix + '.pngs')
+    else:
+        output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Load rows; remember whether the source was a single object so we
+    # can write the augmented dataset back in the same shape.
+    rows: list[dict] = []
+    single_object = False
+    raw = dataset_path.read_text(encoding='utf-8')
+    if is_jsonl:
+        for line in raw.splitlines():
+            line = line.strip()
+            if line:
+                rows.append(json.loads(line))
+    else:
+        loaded = json.loads(raw)
+        # NB: the `list` builtin is shadowed by the `mathbot list` Click
+        # subcommand defined in this module — check for dict, default to
+        # treating the rest as a list of rows.
+        if isinstance(loaded, dict):
+            rows = [loaded]
+            single_object = True
+        elif isinstance(loaded, (tuple,)) or type(loaded).__name__ == 'list':
+            rows = loaded
+        else:
+            click.echo(click.style(
+                f"Unsupported dataset shape: top-level {type(loaded).__name__}",
+                fg='red',
+            ), err=True)
+            sys.exit(1)
+
+    rendered = skipped = errored = 0
+    for row in rows:
+        visual = row.get('visual')
+        if not isinstance(visual, dict) or visual.get('format') != 'svg':
+            skipped += 1
+            continue
+        source = visual.get('source')
+        if not isinstance(source, str) or not source.strip():
+            skipped += 1
+            continue
+
+        # Use test_id (or hash of source) as filename stem
+        stem = row.get('test_id') or f"row_{rendered + skipped + errored:06d}"
+        png_path = output_dir / f"{stem}.png"
+        try:
+            kwargs = {'bytestring': source.encode('utf-8'), 'dpi': dpi}
+            if width is not None:
+                kwargs['output_width'] = width
+            cairosvg.svg2png(write_to=str(png_path), **kwargs)
+        except Exception as e:  # rasterize errors shouldn't kill the batch
+            errored += 1
+            click.echo(click.style(
+                f"  err  {stem}: {type(e).__name__}: {e}", fg='yellow',
+            ), err=True)
+            continue
+
+        # Store relative path so the dataset stays portable
+        try:
+            visual['png_path'] = str(png_path.relative_to(dataset_path.parent))
+        except ValueError:
+            visual['png_path'] = str(png_path)
+        rendered += 1
+
+    # Write augmented dataset
+    out_path = dataset_path if in_place else dataset_path.with_suffix(
+        '.rasterized' + dataset_path.suffix,
+    )
+    if is_jsonl:
+        with out_path.open('w', encoding='utf-8') as f:
+            for row in rows:
+                f.write(json.dumps(row, ensure_ascii=False) + '\n')
+    else:
+        payload = rows[0] if single_object else rows
+        out_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding='utf-8')
+
+    click.echo(
+        f"Rasterized {rendered}, skipped {skipped} (no visual), "
+        f"errored {errored}. PNGs in {output_dir}/, dataset → {out_path}.",
+    )
+
+
 def main():
     """Entry point for CLI."""
     cli()

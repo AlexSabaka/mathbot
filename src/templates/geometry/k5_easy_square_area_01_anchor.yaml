@@ -30,6 +30,18 @@ solution: '# Perimeter of square = 4 × side
   Answer = perimeter
 
   '
+visual:
+  format: svg
+  alt_text: A square with each of its four sides labeled {{side}} inches.
+  source: |
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+      <rect x="40" y="40" width="120" height="120"
+            fill="none" stroke="#222" stroke-width="2" />
+      <text x="100" y="32" text-anchor="middle" font-family="sans-serif" font-size="14">{{side}} in</text>
+      <text x="100" y="180" text-anchor="middle" font-family="sans-serif" font-size="14">{{side}} in</text>
+      <text x="32" y="106" text-anchor="end" font-family="sans-serif" font-size="14">{{side}} in</text>
+      <text x="168" y="106" text-anchor="start" font-family="sans-serif" font-size="14">{{side}} in</text>
+    </svg>
 tests:
   - seed: 12345
     expected:

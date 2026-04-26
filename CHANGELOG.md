@@ -4,6 +4,141 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.2.1] - 2026-04-26 - Eval surface: gol_eval plugin + corpus self-similarity tooling
+
+Two work threads landed this release:
+
+1. **Mathbot is now a first-class gol_eval plugin** via a symlinked
+   directory `mathbot/gol_plugin/`. The bespoke Ollama smoke harness
+   (`scripts/test_model.py`, `scripts/_ollama.py`, `scripts/_eval/`,
+   `tests/test_eval.py`, ~600 LOC + `httpx` dep) is retired. Mathbot now
+   piggybacks on gol_eval's prompt-style matrix, 6-language wrappers,
+   run orchestration, model fleet, web-UI config schema, and aggregated
+   reporting — no eval infrastructure to maintain locally.
+2. **Corpus self-similarity tooling** ([scripts/internal_contamination.py](scripts/internal_contamination.py))
+   surfaces near-duplicate templates for pruning, alongside the existing
+   gsm8k contamination report ([scripts/gsm8k_contamination.py](scripts/gsm8k_contamination.py))
+   and coverage matrix ([scripts/coverage_matrix.py](scripts/coverage_matrix.py)).
+
+### gol_eval plugin (`gol_plugin/`)
+
+Six files, ~520 LOC including README. User wires it in once with
+`ln -s /path/to/mathbot/gol_plugin /path/to/gol_eval/src/plugins/mathbot`;
+gol_eval's `PluginRegistry._auto_discover()` follows the symlink and
+registers `task_type="mathbot"`. No gol_eval-side changes required.
+
+- **`generator.py`** — shells out to `uv run --project <auto-detected
+  mathbot root> mathbot batch <count> -s <seed> -o jsonl` and parses
+  stdout into `TestCase` objects. Subprocess approach was chosen over
+  direct import to dodge the `src.*` namespace collision between
+  gol_eval's `src/` package and mathbot's (mathbot's pyproject
+  declares `packages = ["src"]`). The auto-detect walks up from
+  `Path(__file__).resolve()` looking for `pyproject.toml` with
+  `name = "mathbot"`, which works through the symlink because `resolve()`
+  follows it.
+- **`parser.py`** — 4-strategy end-first parser using
+  `parse_utils.re_search_last`: `latex_boxed` (0.95), `markdown_bold`
+  (0.90, header bolds ending `:` skipped), `answer_label` (0.85, with
+  sentence-end truncation to handle "Final answer: $6.94" without
+  losing the decimal), `last_line` (0.50, fallback).
+- **`evaluator.py`** — multiplicity-aware number-presence comparator
+  with substring fallback for string-only expected answers. Crucially
+  does **not** fall back to scanning the full model response when the
+  parser returned a non-empty span — this prevents crediting numbers
+  that only appeared in chain-of-thought reasoning and fixed a real
+  false-positive caught during smoke testing (model boxed `\boxed{6}`
+  but its reasoning enumerated `8, 2, 13`, the actual expected
+  values). Match types: `numeric_match`, `numeric_missing`,
+  `substring_match`, `wrong`, `parse_error`.
+  `aggregate_results` reports per-shape and per-grade accuracy on top
+  of the overall score.
+- **`i18n.yaml`** — body + `linguistic`-style override (the explicit
+  `\boxed{}` instruction the parser is tuned for). 6-language coverage
+  with EN-fallback. The shared `casual`/`minimal` wrappers from
+  gol_eval's `src/plugins/i18n/styles.yaml` provide conversational and
+  bare framings without per-plugin duplication.
+- **Config schema** — `grade` / `complexity` / `topic` (select),
+  `family` (text), `num_steps` (number), `mathbot_root` (text override).
+  Select fields use `"any"` as a non-empty sentinel for "no filter"
+  per gol_eval convention (cf. `measure_comparison`'s `default='all'`)
+  — Radix Select disallows empty-string item values, so the original
+  `default=""` triggered an `ErrorBoundary` on the gol_eval frontend.
+
+### Smoke verification
+
+End-to-end through the plugin interface (3 problems, seed=1, default
+config): generator → parser → evaluator → aggregator round-trip
+succeeds (3/3). An adversarial battery (wrong numeric, partial
+multipart box, empty response, CoT-leak attempt, word mismatch,
+currency-tolerant match) classifies all 6 cases correctly. Plugin
+discovery via `PluginRegistry.reload()` lists `mathbot` in
+`list_task_types()` with the README's first paragraph correctly
+loaded as `description`.
+
+### Corpus self-similarity tooling
+
+[scripts/internal_contamination.py](scripts/internal_contamination.py)
+finds near-duplicate templates by rendering each template `K` times
+(default 3), unioning the 5-gram shingles per template, and computing
+pairwise Jaccard. Same n-gram machinery as
+`gsm8k_contamination.py` but with template-vs-template axis. Output:
+JSON with summary stats, histogram, per-template max-neighbor view,
+and deduplicated top-pairs list.
+
+First sweep on the 642-template corpus (n=5, K=3) found:
+
+| Stat | Value |
+|---|---|
+| max similarity | 1.000 |
+| pairs ≥0.7 | 1 |
+| pairs ≥0.5 | 4 |
+| mean max-neighbor | 0.046 |
+
+Two clusters cleaned up: `k6_easy_inequalities_02` (sim 1.000 with
+`_01_anchor`) and `k5_medium_powers_of_10_03` (sim 0.556 with
+`_01_anchor`) deleted as redundant variants. Anchors preserved; each
+cell still has the canonical-plus-variant pattern. Post-deletion: max
+similarity 0.533, pairs ≥0.7 = 0, pairs ≥0.5 = 2.
+
+### Smoke-harness retirement
+
+| File | Disposition |
+|---|---|
+| `scripts/test_model.py` | deleted |
+| `scripts/_ollama.py` | deleted |
+| `scripts/_eval/{__init__,extract,shapes,compare}.py` | deleted |
+| `tests/test_eval.py` (44 tests) | deleted |
+| `httpx>=0.27.0` dep in `pyproject.toml` | removed |
+
+The custom parser/comparator logic itself was preserved — ported to
+`gol_plugin/parser.py` + `gol_plugin/evaluator.py` against gol_eval's
+interfaces. The string-only substring fallback also carries over.
+
+### Result
+
+| Metric | After 0.2.1 |
+|---|---|
+| Templates | 640 (was 642; 2 near-duplicates removed) |
+| pytest | 35/35 (was 79/79; the 44 eval tests moved out, no replacement needed because gol_eval has its own plugin test scaffolding) |
+| Plugin task_type | `mathbot` registered in gol_eval |
+| Eval infrastructure maintained locally | none (was `scripts/_eval/` + `_ollama.py`) |
+| New corpus tools | `internal_contamination.py` (was previously absent) |
+
+### Out of scope
+
+- A real model run via gol_eval's pipeline — the plugin delivers the
+  integration; running a campaign is the user's call.
+- Multilingual problem text — mathbot's templates render English only;
+  the plugin's i18n.yaml ships the same EN body for all 6 languages
+  with the `linguistic` override translated. Real multilingual support
+  follows Phase 5.6 Stage 2 work.
+- Multi-grade or multi-topic test sets in one run — the mathbot CLI
+  takes a single `-g`/`-t`/`-f` value per invocation, so the plugin's
+  generator forwards a single value. Multi-grade campaigns require
+  multiple test-set generations.
+
+---
+
 ## [0.2.0] - 2026-04-26 - Phase 5.1+5.6: sandbox toolkit & i18n foundation
 
 Strategic roadmap drafted (see `mathbot-phase5-roadmap` plan in claude-plans;

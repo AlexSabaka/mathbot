@@ -1,0 +1,27 @@
+# Mathbot plugin — K1-K12 procedurally generated word problems.
+#
+# Variables: {problem}
+#
+# `body` is the plain problem text; the shared `casual` and `linguistic` style
+# wrappers from src/plugins/i18n/styles.yaml prepend conversational/analytical
+# framings. The `linguistic` override adds the explicit "answer in \boxed{}"
+# instruction the parser is tuned for.
+#
+# Mathbot's templates render English only today; non-EN bodies fall back to EN.
+
+body:
+  en: "{problem}"
+  es: "{problem}"
+  fr: "{problem}"
+  de: "{problem}"
+  zh: "{problem}"
+  ua: "{problem}"
+
+overrides:
+  linguistic:
+    en: "Solve the math problem step by step. Put your final answer inside \\boxed{{}}.\n\n{problem}"
+    es: "Resuelve el problema matemático paso a paso. Pon tu respuesta final dentro de \\boxed{{}}.\n\n{problem}"
+    fr: "Résous le problème mathématique étape par étape. Mets ta réponse finale dans \\boxed{{}}.\n\n{problem}"
+    de: "Löse das Mathe-Problem Schritt für Schritt. Gib deine endgültige Antwort in \\boxed{{}} an.\n\n{problem}"
+    zh: "请逐步解答这道数学题。把最终答案放在 \\boxed{{}} 里。\n\n{problem}"
+    ua: "Розв'яжи математичну задачу крок за кроком. Помісти остаточну відповідь у \\boxed{{}}.\n\n{problem}"

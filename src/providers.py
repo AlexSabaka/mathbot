@@ -1,147 +1,87 @@
 """Custom Faker provider for math problem generation.
 
-This provider supplies context-appropriate items, prices, and values
-for procedural math problem generation.
+Locale-specific data (item lists, weekdays, context phrases) lives in
+`src/data/pools.<locale>.yaml`. This module loads the active locale's
+pool at import and exposes the lists as class attributes on
+`MathProblemProvider` so existing call sites (`MathProblemProvider.GROCERY_ITEMS`,
+`self.fake.grocery_item()`, etc.) keep working.
+
+Numeric helpers (price/quantity/percentage/ratio generators) stay here
+because they are locale-agnostic.
 """
 
-import random
+from __future__ import annotations
+
+from pathlib import Path
+from typing import Any, Dict, List, Tuple
+
+import yaml
 from faker.providers import BaseProvider
+
+
+_DATA_DIR = Path(__file__).parent / "data"
+ItemTuple = Tuple[str, str, float, float]
+
+
+def load_pools(locale: str = "en") -> Dict[str, Any]:
+    """Load entity pools from `src/data/pools.<locale>.yaml`.
+
+    Falls back to `en` if the locale file is missing.
+    """
+    path = _DATA_DIR / f"pools.{locale}.yaml"
+    if not path.exists():
+        path = _DATA_DIR / "pools.en.yaml"
+    with open(path, "r", encoding="utf-8") as fh:
+        return yaml.safe_load(fh)
+
+
+def _items_to_tuples(entries: List[Dict[str, Any]]) -> List[ItemTuple]:
+    """Convert YAML item dicts to (plural, singular, min_price, max_price) tuples."""
+    return [
+        (e["plural"], e["singular"], e["min_price"], e["max_price"])
+        for e in entries
+    ]
+
+
+_pools = load_pools("en")
 
 
 class MathProblemProvider(BaseProvider):
     """Faker provider for math problem-specific data."""
 
-    # Grocery items: (name_plural, name_singular, min_price, max_price)
-    GROCERY_ITEMS = [
-        ("apples", "apple", 0.50, 2.00),
-        ("oranges", "orange", 0.60, 2.50),
-        ("bananas", "banana", 0.30, 1.50),
-        ("milk cartons", "milk carton", 2.50, 5.00),
-        ("loaves of bread", "loaf of bread", 2.00, 4.00),
-        ("dozen eggs", "dozen eggs", 2.50, 6.00),
-        ("blocks of cheese", "block of cheese", 3.00, 8.00),
-        ("pounds of chicken", "pound of chicken", 5.00, 12.00),
-        ("tomatoes", "tomato", 0.75, 2.50),
-        ("heads of lettuce", "head of lettuce", 1.50, 3.50),
-    ]
+    # Item categories: (name_plural, name_singular, min_price, max_price)
+    GROCERY_ITEMS = _items_to_tuples(_pools["items"]["grocery"])
+    ONLINE_ITEMS = _items_to_tuples(_pools["items"]["online"])
+    ELECTRONICS_ITEMS = _items_to_tuples(_pools["items"]["electronics"])
+    CLOTHING_ITEMS = _items_to_tuples(_pools["items"]["clothing"])
+    BOOK_ITEMS = _items_to_tuples(_pools["items"]["book"])
+    SCHOOL_ITEMS = _items_to_tuples(_pools["items"]["school"])
+    FURNITURE_ITEMS = _items_to_tuples(_pools["items"]["furniture"])
+    OTHER_ITEMS = _items_to_tuples(_pools["items"]["other"])
 
-    # Online store items
-    ONLINE_ITEMS = [
-        ("books", "book", 8.00, 25.00),
-        ("notebooks", "notebook", 3.00, 8.00),
-        ("pens", "pen", 1.00, 5.00),
-        ("headphones", "pair of headphones", 15.00, 50.00),
-        ("phone cases", "phone case", 10.00, 30.00),
-        ("water bottles", "water bottle", 8.00, 20.00),
-        ("backpacks", "backpack", 20.00, 60.00),
-    ]
+    # Calendar / time-of-day pools
+    WEEKDAYS = list(_pools["calendar"]["weekdays"])
+    MONTHS = list(_pools["calendar"]["months"])
+    SEASONS = list(_pools["calendar"]["seasons"])
+    TIMES_OF_DAY = list(_pools["calendar"]["times_of_day"])
 
-    # Electronics items
-    ELECTRONICS_ITEMS = [
-        ("laptops", "laptop", 400.00, 1200.00),
-        ("tablets", "tablet", 200.00, 600.00),
-        ("mice", "mouse", 15.00, 50.00),
-        ("keyboards", "keyboard", 30.00, 100.00),
-        ("monitors", "monitor", 150.00, 400.00),
-        ("webcams", "webcam", 40.00, 120.00),
-    ]
+    # Naming suffixes
+    STORE_SUFFIXES = list(_pools["naming"]["store_suffixes"])
+    RESTAURANT_SUFFIXES = list(_pools["naming"]["restaurant_suffixes"])
 
-    # Clothing items
-    CLOTHING_ITEMS = [
-        ("shirts", "shirt", 15.00, 40.00),
-        ("pants", "pair of pants", 25.00, 60.00),
-        ("shoes", "pair of shoes", 40.00, 100.00),
-        ("socks", "pair of socks", 5.00, 15.00),
-        ("jackets", "jacket", 50.00, 150.00),
-        ("sweaters", "sweater", 30.00, 70.00),
-    ]
+    # Context pools
+    GARDEN_LOCATIONS = list(_pools["contexts"]["garden_locations"])
+    FIELD_TYPES = list(_pools["contexts"]["field_types"])
+    ROOM_TYPES = list(_pools["contexts"]["room_types"])
+    TRANSIT_TYPES = list(_pools["contexts"]["transit_types"])
+    TRAVEL_REASONS = list(_pools["contexts"]["travel_reasons"])
+    PROJECT_TYPES = list(_pools["contexts"]["project_types"])
+    INHERITANCE_TYPES = list(_pools["contexts"]["inheritance_types"])
 
-    # Book types
-    BOOK_ITEMS = [
-        ("novels", "novel", 12.00, 25.00),
-        ("textbooks", "textbook", 40.00, 100.00),
-        ("comic books", "comic book", 5.00, 15.00),
-        ("magazines", "magazine", 4.00, 10.00),
-        ("cookbooks", "cookbook", 20.00, 40.00),
-    ]
-
-    # School supplies
-    SCHOOL_ITEMS = [
-        ("pencils", "pencil", 0.25, 1.00),
-        ("erasers", "eraser", 0.50, 2.00),
-        ("notebooks", "notebook", 1.50, 5.00),
-        ("rulers", "ruler", 1.00, 3.00),
-        ("folders", "folder", 1.00, 4.00),
-        ("glue sticks", "glue stick", 1.00, 3.00),
-        ("markers", "marker", 1.00, 5.00),
-        ("crayons", "crayon", 0.25, 1.50),
-    ]
-
-    # Furniture
-    FURNITURE_ITEMS = [
-        ("chairs", "chair", 40.00, 150.00),
-        ("tables", "table", 80.00, 300.00),
-        ("desks", "desk", 100.00, 400.00),
-        ("bookshelves", "bookshelf", 60.00, 200.00),
-        ("lamps", "lamp", 20.00, 80.00),
-        ("sofas", "sofa", 300.00, 1000.00),
-    ]
-
-    # Generic/other items
-    OTHER_ITEMS = [
-        ("boxes", "box", 2.00, 10.00),
-        ("bags", "bag", 1.00, 8.00),
-        ("packages", "package", 3.00, 15.00),
-        ("pieces", "piece", 1.00, 5.00),
-        ("units", "unit", 1.00, 5.00),
-        ("parts", "part", 1.00, 10.00),
-    ]
-
-    # Days of the week
-    WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
-    # Months of the year
-    MONTHS = ["January", "February", "March", "April", "May", "June",
-              "July", "August", "September", "October", "November", "December"]
-    
-    # Seasons
-    SEASONS = ["spring", "summer", "fall", "winter"]
-    
-    # Time of day
-    TIMES_OF_DAY = ["morning", "afternoon", "evening"]
-
-    # Store types
-    STORE_SUFFIXES = [" Boutique", " Outlet", " Store", " Shop", " Emporium"]
-    
-    # Restaurant suffixes
-    RESTAURANT_SUFFIXES = [" Restaurant", " Cafe", " Bistro", " Grill", " Kitchen"]
-
-    # Locations for geometry problems
-    GARDEN_LOCATIONS = ["backyard", "community park", "rooftop", "neighborhood"]
-    
-    # Field types
-    FIELD_TYPES = ["athletic", "farming", "community", "recreational"]
-    
-    # Room types
-    ROOM_TYPES = ["living room", "kitchen", "bathroom", "bedroom", "office"]
-
-    # Transit types
-    TRANSIT_TYPES = ["bus", "train", "subway", "metro"]
-    
-    # Travel reasons
-    TRAVEL_REASONS = ["a business trip", "vacation", "visiting family", "a conference"]
-
-    # Project types for sharing problems
-    PROJECT_TYPES = ["a community project", "a hackathon", "a research project", "a startup"]
-    
-    # Relationship types for inheritance
-    INHERITANCE_TYPES = ["family estate", "trust fund", "will", "inheritance"]
-
-    # Investment item types: (name, min_price, max_price, depreciation_rates)
+    # Investment items: (name, min_price, max_price, depreciation_rates)
     DEPRECIATING_ITEMS = [
-        ("car", 25000, 35000, [10, 12, 15]),
-        ("laptop", 1200, 2000, [20, 25, 30]),
-        ("machinery", 50000, 80000, [10, 12, 15]),
+        (e["name"], e["min_price"], e["max_price"], list(e["rates"]))
+        for e in _pools["depreciating_items"]
     ]
 
     def grocery_item(self):

@@ -42,6 +42,11 @@ class TemplateDefinition:
     family: str
     difficulty: str
     steps: int
+    # `language` is the BCP-47 language tag used for locale-aware filters
+    # (plural, ordinal, number-to-words) and translated entity pools.
+    # `culture` is a regional hint (BCP-47 region tag) reserved for future
+    # unit-system / currency defaults — it does not drive language behavior.
+    language: str = "en"
     culture: str = "en-US"
     tags: List[str] = field(default_factory=list)
     notes: Optional[str] = None
@@ -63,9 +68,12 @@ class YAMLLoader:
         'topic', 'family', 'difficulty', 'steps'
     }
     
+    # Active types: every entry here has a generation branch in
+    # VariableGenerator._generate_value and at least one corresponding
+    # format rule in format_value / format_answer.
     VALID_TYPES = {
         # numeric integer types
-        'integer','ordinal',
+        'integer', 'ordinal',
         # fractions
         'fraction',
         # numeric decimal types
@@ -76,21 +84,8 @@ class YAMLLoader:
         'store', 'restaurant', 'company', 'item',
         # date/time types
         'weekday', 'month', 'season', 'time', 'duration',
-        # geometry types
-        'vector_2d', 'vector_3d', 'point_2d', 'point_3d',
-        'circle', 'ellipse',
-        'rectangle', 'square', 'rombus', 'parallelogram', 'trapezium',
-        'right_triangle', 'equilateral_triangle', 'isosceles_triangle', 'triangle',
-        'sphere', 'cube', 'cylinder', 'cone', 'rectangular_prism',
-        # statistics types
-        'data_set', 'distribution',
-        # algebra types
-        'equation', 'function', 'polynomial', 'expression',
-        'matrix', 'vector', 'set', 'sequence', 'series',
-        # calculus types
-        'limit', 'derivative', 'integral',
         # other types
-        'boolean', 'string', 'choice'
+        'boolean', 'string', 'choice',
     }
     
     VALID_DIFFICULTIES = {'easy', 'medium', 'hard'}
@@ -152,6 +147,7 @@ class YAMLLoader:
             family=metadata['family'],
             difficulty=metadata['difficulty'],
             steps=metadata['steps'],
+            language=metadata.get('language', 'en'),
             culture=metadata.get('culture', 'en-US'),
             tags=metadata.get('tags', []),
             notes=metadata.get('notes'),

@@ -12,14 +12,25 @@ from .utils import generate_price, generate_percentage
 
 class VariableGenerator:
     """Generates values for YAML template variables."""
-    
-    def __init__(self, seed: Optional[int] = None):
-        """Initialize generator with optional seed for reproducibility."""
+
+    def __init__(self, seed: Optional[int] = None, locale: str = 'en_US'):
+        """Initialize generator.
+
+        Args:
+            seed: Random seed for reproducibility.
+            locale: Faker locale (e.g., 'en_US', 'es_ES', 'de_DE'). Controls
+                the distribution of names, cities, and company names. The
+                `names` library used for first-name generation is en-only;
+                non-en locales fall back to it until per-locale name pools
+                land. Pass either underscore form ('en_US') or BCP-47 hyphen
+                form ('en-US') — both are accepted.
+        """
         if seed is not None:
             random.seed(seed)
             Faker.seed(seed)
-        
-        self.fake = Faker()
+
+        self.locale = locale.replace('-', '_') if locale else 'en_US'
+        self.fake = Faker(self.locale)
         self.fake.add_provider(MathProblemProvider)
     
     def generate_context(self, variables: Dict[str, VariableSpec]) -> Dict[str, Any]:
@@ -203,8 +214,8 @@ class VariableGenerator:
             return str(int(value))  # Don't add %, template will have {{var}}%
         
         elif spec.type == 'ordinal':
-            from .jinja_renderer import ordinal_filter
-            return ordinal_filter(int(value))
+            from .i18n import get_language_spec
+            return get_language_spec('en').ordinal(int(value))
         
         elif spec.type == 'length':
             # Length values with units (meters for input, miles for Answer)

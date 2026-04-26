@@ -9,7 +9,7 @@ verifiable answers for K1-K12.
 
 ```bash
 uv sync                                                 # install deps + .venv (Python 3.12)
-uv run pytest                                           # 35 tests
+uv run pytest                                           # 79 tests
 uv run mathbot generate -c 2 -g elementary -t arithmetic -s 42  # one problem
 uv run mathbot batch 10 -s 1 -o json                    # 10 problems → stdout
 uv run mathbot verify <path/to/template.yaml>           # validate one template
@@ -23,20 +23,23 @@ in and trigger a benign warning when invoking `mathbot` directly.
 
 ```text
 src/
-├── cli.py               Click commands: generate, batch, verify, test, list, info
-├── generator.py         Module API: generate_problem(), generate_problems()
-├── template_generator.py  Loads + indexes templates; per-template generation
-├── yaml_loader.py       YAMLLoader: schema validation + TemplateDefinition dataclass
-├── jinja_renderer.py    Jinja2 env with custom choice/plural/format filters
-├── variable_generator.py  Generates random values per VariableSpec.type
-├── solution_evaluator.py  Executes solution code in safe sandbox; formats answer
-├── providers.py         Faker provider: GROCERY_ITEMS, ELECTRONICS_ITEMS, …
-├── constants.py         MATH_TOPICS, PROBLEM_FAMILIES, GRADES enums
+├── cli.py                  Click commands: generate, batch, verify, test, list, info
+├── generator.py            Module API: generate_problem(), generate_problems()
+├── template_generator.py   Loads + indexes templates; per-template generation
+├── yaml_loader.py          YAMLLoader: schema validation + TemplateDefinition dataclass
+├── jinja_renderer.py       Jinja2 env; locale-aware filters dispatch via i18n registry
+├── variable_generator.py   Generates random values per VariableSpec.type; Faker locale-aware
+├── solution_evaluator.py   Executes solution code in safe sandbox; formats answer
+├── providers.py            Thin loader → MathProblemProvider class attributes from data/pools.*.yaml
+├── constants.py            MATH_TOPICS, PROBLEM_FAMILIES, GRADES enums
+├── data/pools.<lang>.yaml  Per-locale entity pools (items, calendar, contexts) — `en` ships
+├── i18n/languages.py       LanguageSpec registry; plural/ordinal/number_to_words per language
 └── templates/<topic>/*_anchor.yaml  + variants
 scripts/
 └── refresh_test_answers.py  Surgical test-answer regenerator (ruamel.yaml)
-tests/                   pytest suite for CLI + generator API
-mathbot-phase4-problem-proposals.md  Curriculum reference for K7-K12 expansion
+tests/                       pytest suite for CLI + generator API
+MATHBOT_PROBLEMS_PROPOSAL.md K7-K12 expansion research (22 proposed families)
+TECHDEBT.md                  Running log of known infrastructure debt and follow-ups
 ```
 
 ## Authoring a new template
@@ -70,10 +73,12 @@ metadata:
   author: Mathbot
   created: 2026-04-22
   grade: 7                              # int, K1-K12
-  topic: arithmetic.multi_step          # MUST start with parent dir name
+  topic: arithmetic.multi_step          # MUST start with parent dir name (enforced)
   family: sequential_purchase           # see PROBLEM_FAMILIES
   difficulty: easy | medium | hard
   steps: 5                              # number of reasoning steps
+  language: en                          # optional, BCP-47 base; drives locale-aware filters
+  culture: en-US                        # optional, BCP-47 region; drives Faker locale (names/cities)
   tags: [list, of, tags]
 
 variables:
@@ -99,8 +104,9 @@ tests:             # 3+ cases recommended; seed is the canonical RNG seed
 A template under `src/templates/<X>/` must declare `topic: X.<subtopic>`.
 Bare topics like `topic: arithmetic` are not allowed; cross-directory topics
 (`measurement/k3_easy_area_01.yaml` with `topic: geometry.measurement`) were
-harmonized away in v0.1.3. New top-level dirs require updating
-`MATH_TOPICS` in `src/constants.py`.
+harmonized away in v0.1.3. **Enforced** by `YAMLLoader._validate_template`
+since Phase 5.1 — a mismatched template fails to load with a clear error.
+New top-level dirs require updating `MATH_TOPICS` in `src/constants.py`.
 
 ### Variable types (excerpt)
 
@@ -126,8 +132,11 @@ Adding a new variable type requires three changes:
 `{ type: item, category: <X> }` requires `<X>` to be in
 `VALID_ITEM_CATEGORIES`. Currently: `grocery`, `electronics`, `clothing`,
 `book`, `online`, `school`, `furniture`, `other`. Pools live in
-`src/providers.py`. To add a new category: add the `*_ITEMS` constant to
-the provider, add to `VALID_ITEM_CATEGORIES`, and add a branch in
+`src/data/pools.<lang>.yaml` (only `pools.en.yaml` ships today; `providers.py`
+loads them at import and exposes them as class attributes for backward
+compat). To add a new category: add the entries under `items:` in
+`pools.en.yaml`, declare a class-attribute alias in `MathProblemProvider`,
+add to `VALID_ITEM_CATEGORIES`, and add a branch in
 `VariableGenerator._generate_item`.
 
 ## Solution sandbox reference
@@ -137,20 +146,68 @@ The `solution:` block executes via `exec()` against a restricted
 import:
 
 ```text
+# builtins
 abs round str int float min max sum pow len list range
 sorted enumerate zip map filter any all
-math gcd lcm Decimal number_to_words
+
+# math primitives (surfaced from stdlib `math` since Phase 5.1)
+math pi e
+sqrt exp
+sin cos tan asin acos atan atan2
+log log2 log10
+floor ceil
+factorial comb perm
+radians degrees
+gcd lcm
+
+# numeric / locale
+Decimal number_to_words
+
+# symbolic algebra and statistical inference (namespaces)
+sympy stats
 ```
 
-`gcd` and `lcm` are exposed directly as a deliberate choice — fraction and
-divisibility templates use them heavily and forcing per-template imports
-is friction. `from X import Y` syntax technically works at runtime but
-prefer the existing globals; if you need something not listed here, add
-it to `safe_globals` rather than importing per-template.
+Math primitives are surfaced as a deliberate choice so that templates
+write `sin(radians(30))` rather than `math.sin(math.radians(30))`. `sympy`
+and `stats` (= `scipy.stats`) are namespaces — call as `sympy.solve(...)`,
+`stats.norm.ppf(0.975)`, `stats.binom.pmf(k, n, p)`. **Two perf footguns**
+to keep in mind for sympy: (a) `simplify()` blows up on large expressions —
+call sparingly; (b) `sympy.Symbol` objects propagate through normal Python
+operators, so accidental symbolic/numeric mixing balloons expression trees.
+
+`number_to_words` dispatches via the locale registry — for an `en`
+template it produces "forty-two", for future languages it returns the
+matching word form. `from X import Y` syntax technically works at runtime
+but prefer the existing globals; if you need something not listed here,
+add it to `safe_globals` rather than importing per-template.
 
 The solution receives the rendered variable context and must assign
 `Answer` (single-answer) or `Answer1`/`Answer2`/… (multi-answer). The
 generator pipes-joins multi-answers as `"X | Y | Z"` for display.
+
+## Locale and i18n foundation
+
+`metadata.language` (default `en`) drives **language behaviour**:
+locale-aware Jinja filters (`plural`, `ordinal`, `number_to_words`) and
+the sandbox's `number_to_words`. `metadata.culture` (default `en-US`)
+drives **regional behaviour**: it's normalized (`-` → `_`) and passed to
+Faker as a locale, so cities/companies/store-names match the region.
+The `names` library used for first names is en-only and ignores the
+locale — this is a known limitation (see `TECHDEBT.md`).
+
+Adding a language:
+
+1. Copy `src/data/pools.en.yaml` to `pools.<lang>.yaml` and translate the
+   entity strings (item names, weekdays, contexts).
+2. In `src/i18n/languages.py`, register a `LanguageSpec` with `plural`,
+   `ordinal`, and `number_to_words` callables. (English uses `inflect`;
+   other languages can use `inflect` locale support, ICU, or hand-rolled
+   rules.)
+3. Set `language: <lang>` and `culture: <lang>-<REGION>` on the
+   templates that should render in the new language.
+
+No renderer, generator, or template-schema changes needed. Filters fall
+back to `en` for unknown language codes.
 
 ## Jinja2 conventions
 
@@ -217,9 +274,8 @@ were stripped in v0.1.3 by `scripts/refresh_test_answers.py`.
   or after generator changes that affect RNG/output.
 - `mathbot verify <path>` — schema validation only; does not run tests.
 - `mathbot test <path>` — runs the template's embedded `tests:` block.
-- **`migrate_templates.py` is broken** — its `--update-tests` is gated on a
-  no-longer-firing format→type migration check, and it rewrites with
-  `yaml.dump` (lossy). Don't use it; will be removed.
+- `migrate_templates.py` was deleted in Phase 5.1 (was broken, lossy);
+  use `scripts/refresh_test_answers.py` for any template rewriting.
 
 ## Spec-mandated families
 

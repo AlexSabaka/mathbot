@@ -228,8 +228,9 @@ class TemplateGenerator:
         template_path: Optional[Path] = None
     ) -> Dict:
         """Generate problem from a specific template."""
-        # Initialize variable generator with seed
-        var_gen = VariableGenerator(seed=seed)
+        # Initialize variable generator with seed and the template's locale
+        # (derived from `metadata.culture`, e.g. 'en-US' → Faker 'en_US').
+        var_gen = VariableGenerator(seed=seed, locale=template.culture)
         
         # Generate variable values
         context = var_gen.generate_context(template.variables)
@@ -254,16 +255,21 @@ class TemplateGenerator:
                 combined_context[f"{var_name}_formatted"] = formatted_value
             else:
                 combined_context[var_name] = formatted_value
-        
+
+        # Inject `language` so locale-aware Jinja filters can dispatch.
+        combined_context.setdefault('language', template.language)
+
         # Render template with Jinja2 (using combined context with both raw and formatted values)
         try:
             problem_text = self.renderer.render(template.template, combined_context)
         except Exception as e:
             raise ValueError(f"Failed to render template {template.id}: {e}")
-        
+
         # Execute solution to compute answer (using raw numeric context)
         try:
-            answer_value = execute_solution(template.solution, context)
+            answer_value = execute_solution(
+                template.solution, context, language=template.language,
+            )
         except Exception as e:
             raise ValueError(f"Failed to execute solution for {template.id}: {e}")
         

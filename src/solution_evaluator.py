@@ -16,28 +16,27 @@ from math import (
 )
 import sympy
 from scipy import stats
-import inflect
+from .i18n import get_language_spec
 from .yaml_loader import VariableSpec
 
-# Create inflect engine for number-to-words conversion
-_inflect_engine = inflect.engine()
 
-
-def _number_to_words(n: int) -> str:
-    """Convert number to words (American English style, no 'and')."""
-    return _inflect_engine.number_to_words(n, andword='')
-
-
-def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, Dict[str, Any]]:
+def execute_solution(
+    solution_code: str,
+    context: Dict[str, Any],
+    language: str = "en",
+) -> Union[Any, Dict[str, Any]]:
     """Execute solution Python code and extract Answer(s).
-    
+
     Args:
         solution_code: Python code from YAML solution section
         context: Dictionary of generated variable values
-    
+        language: Template language code; controls locale-sensitive
+            sandbox callables such as `number_to_words`. Defaults to 'en'.
+
     Returns:
         Single answer value OR dict of {1: answer1, 2: answer2, ...} for multi-answer
     """
+    language_spec = get_language_spec(language)
     if not solution_code:
         raise ValueError("Template has no solution code")
     
@@ -86,7 +85,7 @@ def execute_solution(solution_code: str, context: Dict[str, Any]) -> Union[Any, 
         'stats': stats,
         # numeric utilities
         'Decimal': Decimal,
-        'number_to_words': _number_to_words,
+        'number_to_words': language_spec.number_to_words,
     }
     
     try:
@@ -137,8 +136,7 @@ def format_answer(value: Any, answer_spec: Optional[VariableSpec] = None) -> str
         return f"{int(value)}%"
     
     elif answer_spec.type == 'ordinal':
-        from .jinja_renderer import ordinal_filter
-        return ordinal_filter(int(value))
+        return get_language_spec('en').ordinal(int(value))
     
     elif answer_spec.type == 'speed':
         return f"{value:.2f} mph"

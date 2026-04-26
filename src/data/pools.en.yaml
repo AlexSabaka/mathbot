@@ -1,0 +1,94 @@
+# Entity pools for the `en` locale. Loaded by src/providers.py at import.
+#
+# Item entries are mapped to (plural, singular, min_price, max_price) tuples
+# by the loader, preserving the order producers and consumers expect.
+# Adding a new locale: copy this file to pools.<lang>.yaml and translate.
+
+items:
+  grocery:
+    - {plural: apples, singular: apple, min_price: 0.50, max_price: 2.00}
+    - {plural: oranges, singular: orange, min_price: 0.60, max_price: 2.50}
+    - {plural: bananas, singular: banana, min_price: 0.30, max_price: 1.50}
+    - {plural: milk cartons, singular: milk carton, min_price: 2.50, max_price: 5.00}
+    - {plural: loaves of bread, singular: loaf of bread, min_price: 2.00, max_price: 4.00}
+    - {plural: dozen eggs, singular: dozen eggs, min_price: 2.50, max_price: 6.00}
+    - {plural: blocks of cheese, singular: block of cheese, min_price: 3.00, max_price: 8.00}
+    - {plural: pounds of chicken, singular: pound of chicken, min_price: 5.00, max_price: 12.00}
+    - {plural: tomatoes, singular: tomato, min_price: 0.75, max_price: 2.50}
+    - {plural: heads of lettuce, singular: head of lettuce, min_price: 1.50, max_price: 3.50}
+  online:
+    - {plural: books, singular: book, min_price: 8.00, max_price: 25.00}
+    - {plural: notebooks, singular: notebook, min_price: 3.00, max_price: 8.00}
+    - {plural: pens, singular: pen, min_price: 1.00, max_price: 5.00}
+    - {plural: headphones, singular: pair of headphones, min_price: 15.00, max_price: 50.00}
+    - {plural: phone cases, singular: phone case, min_price: 10.00, max_price: 30.00}
+    - {plural: water bottles, singular: water bottle, min_price: 8.00, max_price: 20.00}
+    - {plural: backpacks, singular: backpack, min_price: 20.00, max_price: 60.00}
+  electronics:
+    - {plural: laptops, singular: laptop, min_price: 400.00, max_price: 1200.00}
+    - {plural: tablets, singular: tablet, min_price: 200.00, max_price: 600.00}
+    - {plural: mice, singular: mouse, min_price: 15.00, max_price: 50.00}
+    - {plural: keyboards, singular: keyboard, min_price: 30.00, max_price: 100.00}
+    - {plural: monitors, singular: monitor, min_price: 150.00, max_price: 400.00}
+    - {plural: webcams, singular: webcam, min_price: 40.00, max_price: 120.00}
+  clothing:
+    - {plural: shirts, singular: shirt, min_price: 15.00, max_price: 40.00}
+    - {plural: pants, singular: pair of pants, min_price: 25.00, max_price: 60.00}
+    - {plural: shoes, singular: pair of shoes, min_price: 40.00, max_price: 100.00}
+    - {plural: socks, singular: pair of socks, min_price: 5.00, max_price: 15.00}
+    - {plural: jackets, singular: jacket, min_price: 50.00, max_price: 150.00}
+    - {plural: sweaters, singular: sweater, min_price: 30.00, max_price: 70.00}
+  book:
+    - {plural: novels, singular: novel, min_price: 12.00, max_price: 25.00}
+    - {plural: textbooks, singular: textbook, min_price: 40.00, max_price: 100.00}
+    - {plural: comic books, singular: comic book, min_price: 5.00, max_price: 15.00}
+    - {plural: magazines, singular: magazine, min_price: 4.00, max_price: 10.00}
+    - {plural: cookbooks, singular: cookbook, min_price: 20.00, max_price: 40.00}
+  school:
+    - {plural: pencils, singular: pencil, min_price: 0.25, max_price: 1.00}
+    - {plural: erasers, singular: eraser, min_price: 0.50, max_price: 2.00}
+    - {plural: notebooks, singular: notebook, min_price: 1.50, max_price: 5.00}
+    - {plural: rulers, singular: ruler, min_price: 1.00, max_price: 3.00}
+    - {plural: folders, singular: folder, min_price: 1.00, max_price: 4.00}
+    - {plural: glue sticks, singular: glue stick, min_price: 1.00, max_price: 3.00}
+    - {plural: markers, singular: marker, min_price: 1.00, max_price: 5.00}
+    - {plural: crayons, singular: crayon, min_price: 0.25, max_price: 1.50}
+  furniture:
+    - {plural: chairs, singular: chair, min_price: 40.00, max_price: 150.00}
+    - {plural: tables, singular: table, min_price: 80.00, max_price: 300.00}
+    - {plural: desks, singular: desk, min_price: 100.00, max_price: 400.00}
+    - {plural: bookshelves, singular: bookshelf, min_price: 60.00, max_price: 200.00}
+    - {plural: lamps, singular: lamp, min_price: 20.00, max_price: 80.00}
+    - {plural: sofas, singular: sofa, min_price: 300.00, max_price: 1000.00}
+  other:
+    - {plural: boxes, singular: box, min_price: 2.00, max_price: 10.00}
+    - {plural: bags, singular: bag, min_price: 1.00, max_price: 8.00}
+    - {plural: packages, singular: package, min_price: 3.00, max_price: 15.00}
+    - {plural: pieces, singular: piece, min_price: 1.00, max_price: 5.00}
+    - {plural: units, singular: unit, min_price: 1.00, max_price: 5.00}
+    - {plural: parts, singular: part, min_price: 1.00, max_price: 10.00}
+
+calendar:
+  weekdays: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
+  months: [January, February, March, April, May, June, July, August,
+           September, October, November, December]
+  seasons: [spring, summer, fall, winter]
+  times_of_day: [morning, afternoon, evening]
+
+naming:
+  store_suffixes: [' Boutique', ' Outlet', ' Store', ' Shop', ' Emporium']
+  restaurant_suffixes: [' Restaurant', ' Cafe', ' Bistro', ' Grill', ' Kitchen']
+
+contexts:
+  garden_locations: [backyard, community park, rooftop, neighborhood]
+  field_types: [athletic, farming, community, recreational]
+  room_types: [living room, kitchen, bathroom, bedroom, office]
+  transit_types: [bus, train, subway, metro]
+  travel_reasons: [a business trip, vacation, visiting family, a conference]
+  project_types: [a community project, a hackathon, a research project, a startup]
+  inheritance_types: [family estate, trust fund, will, inheritance]
+
+depreciating_items:
+  - {name: car, min_price: 25000, max_price: 35000, rates: [10, 12, 15]}
+  - {name: laptop, min_price: 1200, max_price: 2000, rates: [20, 25, 30]}
+  - {name: machinery, min_price: 50000, max_price: 80000, rates: [10, 12, 15]}

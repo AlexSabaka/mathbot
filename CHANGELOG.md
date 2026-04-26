@@ -4,6 +4,72 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.2.0] - 2026-04-26 - Phase 5.1+5.6: sandbox toolkit & i18n foundation
+
+Strategic roadmap drafted (see `mathbot-phase5-roadmap` plan in claude-plans;
+also re-summarised in [`MATHBOT_PROBLEMS_PROPOSAL.md`](MATHBOT_PROBLEMS_PROPOSAL.md)
+for the K7-K12 expansion). Two of the seven sub-phases land here: **5.1**
+(sandbox + invariants) and **5.6** (i18n foundation). The other sub-phases
+(format healing, visual layer, authoring sprints, doc/lint pass) remain on
+the roadmap. New running tech-debt log at [`TECHDEBT.md`](TECHDEBT.md).
+
+### Phase 5.1 — sandbox primitives & invariants
+
+The proposal's 22 new families need stdlib math, symbolic algebra, and
+statistical inference primitives in the solution sandbox. Added all three
+without forcing per-template imports.
+
+- **Solution sandbox** ([src/solution_evaluator.py](src/solution_evaluator.py)) — surfaced top-level: `pi e sqrt exp sin cos tan asin acos atan atan2 log log2 log10 floor ceil factorial comb perm radians degrees`. Added namespaces: `sympy` (full symbolic algebra) and `stats` (= `scipy.stats`; `norm`, `t`, `binom`, `chi2`, `poisson` distributions usable as `stats.norm.ppf(0.975)`).
+- **Sandbox bug fix** — the solution-execute `except Exception as e` shadowed the imported `math.e` constant via Python local-binding rules, breaking access to Euler's number anywhere in solution code. Renamed to `as exc`.
+- **Topic↔directory invariant enforced** ([src/yaml_loader.py](src/yaml_loader.py)) — `_validate_template` now asserts that a template's parent directory matches its `metadata.topic.split('.')[0]`. Documented in CLAUDE.md as an invariant since v0.1.3 but not previously enforced; current corpus has zero violations.
+- **`migrate_templates.py` deleted** — the broken `--update-tests` script flagged for removal in v0.1.3 is now gone. Use `scripts/refresh_test_answers.py`.
+- **RNG double-seed clarified** ([src/template_generator.py](src/template_generator.py)) — both `TemplateGenerator.generate()` and `VariableGenerator.__init__()` call `random.seed()` and `Faker.seed()` with the same seed. This is intentional (variable values must depend only on the seed, not on which template was selected) but easily mistaken for a bug; added a comment explaining the contract. Single-RNG-instance refactor deferred (would change every fixture; see `TECHDEBT.md`).
+
+New runtime deps: `scipy>=1.17` and `sympy>=1.14` (added via `uv add`).
+
+### Phase 5.6 — i18n foundation
+
+Wired up the previously-dormant `culture` field, added a sibling `language`
+field, and refactored the renderer + provider stack so that adding a new
+language is one YAML file plus one `register_language(...)` call. No
+behavioural change for the existing en corpus.
+
+- **VALID_TYPES cleanup** ([src/yaml_loader.py:66](src/yaml_loader.py#L66)) — removed 33 declared-but-never-implemented types (`vector_2d/3d`, `point_2d/3d`, `circle`, `ellipse`, all triangle/prism/sphere variants, `data_set`, `distribution`, `equation`, `function`, `polynomial`, `expression`, `matrix`, `vector`, `set`, `sequence`, `series`, `limit`, `derivative`, `integral`). The remaining 25 types each have a `_generate_value` branch and a `format_value` rule. Re-add as proposal families need them, with an implementation alongside.
+- **`language` metadata field** ([src/yaml_loader.py:45-50](src/yaml_loader.py#L45)) — new `language: en` (default) sits alongside `culture: en-US`. `language` drives locale-aware Jinja filters and sandbox `number_to_words`; `culture` drives Faker locale (cities/companies). Defaults preserve current behaviour.
+- **`LanguageSpec` registry** ([src/i18n/languages.py](src/i18n/languages.py), new) — bundles `plural`, `ordinal`, `number_to_words` callables per language. English spec built from `inflect`. Filters look up the spec at render time via the `language` context variable; unknown codes fall back to en.
+- **Locale-aware Jinja filters** ([src/jinja_renderer.py](src/jinja_renderer.py)) — `plural`, `ordinal`, `number_to_words` are now `@pass_context` and dispatch via `LanguageSpec`. The locale-agnostic filters (`choice`, `list_and`, `format_money`, `capitalize`) unchanged.
+- **Solution sandbox `number_to_words`** ([src/solution_evaluator.py](src/solution_evaluator.py)) — `execute_solution` now takes a `language` param (default `en`); `number_to_words` in `safe_globals` is the active spec's. `template_generator` plumbs `template.language` through.
+- **Entity pools as data** ([src/data/pools.en.yaml](src/data/pools.en.yaml), new; [src/providers.py](src/providers.py) refactored) — all locale-specific pools (8 item categories, weekdays/months/seasons/times-of-day, store/restaurant suffixes, 7 context lists, depreciating-items) extracted to YAML; `MathProblemProvider` is now a thin loader that exposes the data as class attributes for backward compat. Adding `pools.es.yaml` is one file.
+- **Configurable Faker locale** ([src/variable_generator.py:16-32](src/variable_generator.py#L16)) — `VariableGenerator.__init__()` accepts a `locale` param (default `en_US`), accepts both BCP-47 `en-US` and Faker `en_US` forms. `template_generator` passes `template.culture` through. Verified: `de-DE` → German cities, `es-ES` → Spanish cities. The `names` library remains en-only and ignores locale (see TECHDEBT.md).
+
+### Ergonomics
+
+- **Schema doc** ([.claude/CLAUDE.md](.claude/CLAUDE.md)) refreshed: stale test-count fixed (35 → 79), sandbox primitives table updated, providers description corrected, new Locale & i18n section, broken `migrate_templates.py` reference removed, repo-layout includes `data/`, `i18n/`, `MATHBOT_PROBLEMS_PROPOSAL.md`, `TECHDEBT.md`.
+
+### Result
+
+| Metric | After 5.1+5.6 |
+|---|---|
+| Sandbox primitives (top-level) | 27 (was 4) + 2 namespaces |
+| Symbolic algebra in sandbox | sympy (1.14) |
+| Stat-inference in sandbox | scipy.stats (1.17) |
+| Declared variable types | 25 (was 47; 22 of those actively used) |
+| Topic↔dir invariant | enforced (was documented-only) |
+| Locale dispatch surface | `language` field + `LanguageSpec` registry |
+| Faker locale | configurable (was hard-coded en_US) |
+| Pool data location | `src/data/pools.<lang>.yaml` (was Python tuples in providers.py) |
+| pytest | 79/79 |
+
+### Deferred to later Phase 5 sub-phases
+
+- **5.2 / 5.4** — authoring sprints for the 22 proposal families (~135 templates total). Better as an interactive cycle than autonomous bulk.
+- **5.3** — multi-unit `unit_system` schema + formatter refactor (F2). Will break every existing template's expected-answer string and require a `refresh_test_answers.py` regen + manual review pass.
+- **5.5** — visual layer (F1): `visual:` block in YAML, Jinja-SVG (Approach A) then `SVG`/`TreeSVG`/`BarChartSVG` builders in sandbox (Approach B).
+- **5.7** — `mathbot lint` subcommand and `src/templates/SPEC.md` schema doc refresh.
+- **F3 Stage 2/3** — first non-English language POC and multi-cultural pool extensions.
+
+---
+
 ## [0.1.3] - 2026-04-22 - Corpus cleanup, anchor convention, K7-K12 seeding
 
 ### Phase 1-3 — restore working state after the schema refactor

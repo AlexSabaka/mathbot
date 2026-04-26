@@ -10,7 +10,7 @@ verifiable answers for K1-K12.
 ```bash
 uv sync                                                 # install deps + .venv (Python 3.12)
 uv sync --extra png                                     # + cairosvg (for `mathbot rasterize`)
-uv run pytest                                           # 70 tests
+uv run pytest                                           # 93 tests
 uv run mathbot generate -c 2 -g elementary -t arithmetic -s 42  # one problem
 uv run mathbot batch 10 -s 1 -o json                    # 10 problems → stdout
 uv run mathbot verify <path/to/template.yaml>           # validate one template
@@ -249,14 +249,21 @@ variables:
     type: money                   # → "€" (template default)
 ```
 
-The table itself lives in [src/units.py](src/units.py); add a new system
-or change a suffix by editing `UNIT_TABLE`. Currency-vs-system coupling
-is intentional today (one currency per system); split out later if a
-template wants £ on metric or ¥ on its own. **Solutions still compute in
-system-native units** — the table only handles display. For
-unit-conversion problems (P-M1 family from the K7-K12 proposal),
-templates do the conversion arithmetic explicitly in the solution code
-with hard-coded factors, then format the result.
+The table itself lives in [src/units.py](src/units.py): edit `DISPLAY_UNITS`
+to add a system or change a suffix. Each entry is
+`(pint_unit_string, short_suffix_or_None, long_suffix)`; the pint unit
+string is **validated at module load** via the project's `pint.UnitRegistry`
+(typos like `"meeter"` fail loudly rather than silently rendering an
+empty suffix later). Currency stays out of pint — `CURRENCY_SYMBOL` is a
+small dict (`mixed_us` / `imperial` → `$`, `metric` → `€`). Currency
+isn't a dimensional quantity and FX conversion needs out-of-process
+rates. **Solutions still compute in system-native units** — pint is wired
+in but doesn't perform any runtime conversion in Stage 1. For
+unit-conversion problems (P-M1 family), templates do the conversion
+arithmetic explicitly in the solution code with hard-coded factors today
+(Stage 2 will expose `Q_` and `ureg` in the solution sandbox so
+templates can do `Q_(6.4, 'L/100km').to('mile/gallon')` directly — see
+TECHDEBT TD-3.5).
 
 ## Visual layer
 

@@ -1,83 +1,136 @@
-"""Unit-system table for mathbot's display formatters.
+"""Unit-system table for mathbot's display formatters, backed by `pint`.
 
-Each `(type, system)` entry specifies how values of that type should be
-displayed. `format_value` (in problem text via Jinja) and `format_answer`
-(in the final `expected_answer` string) consult this table to thread
-metric / imperial / mixed_us conventions through the generator.
+`pint` provides the canonical Quantity registry. In Stage 1 (this module
+today) the registry is consulted only at module-load time, where every
+unit string in `DISPLAY_UNITS` is validated against `ureg.parse_units()`
+— typos in unit names fail loudly rather than silently rendering an empty
+suffix later. The actual display behavior is `system-native-internal`:
+values stored on a `metric` template's `temperature` variable are already
+in °C, so no `.to()` conversion happens at format time. The legacy
+`mixed_us` system therefore renders byte-identically to pre-Phase-5.3R.
 
-The `mixed_us` system is the legacy default and reproduces pre-Phase-5.3
-output byte-identically: $ for money, mph for speed, °F for temperature,
-m/kg for length/weight, m²/m³ for area/volume. New templates opt into
-`metric` (€, km/h, °C, m, kg, m², L) or `imperial` (no conversion of
-length/weight/etc, just unit labels — ft, lb, °F, mph, ft², gal).
+Stage 2 (separate checkpoint, see TECHDEBT TD-3.5) will add compound-
+unit variable types (`density`, `energy`, `power`, `pressure`, `force`)
+and expose `Q_` / `ureg` in the solution sandbox so P-G3 / P-A2 / P-M1
+templates can do dimensional arithmetic. Stage 3 (TD-3.6) adds a
+free-form `unit:` field on `VariableSpec`. Both build on the registry
+and helpers wired up here.
 
-Solutions store and compute values in **system-native** units — this
-table only handles display. Templates that need explicit unit conversion
-(e.g. the dimensional-analysis P-M1 family) do the math themselves with
-hardcoded factors, then format the result in whichever system the
-template is written for.
-
-Per-variable override: a `VariableSpec` may set `unit_system` to escape
-the template default for that one variable (e.g. a unit-conversion
-problem with one length in m and another in ft).
+Currency stays out of pint — currencies aren't dimensional quantities,
+and FX conversion needs out-of-process exchange rates. `CURRENCY_SYMBOL`
+is its own dict.
 """
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Tuple
 
+import pint
+
+
+# ---------------------------------------------------------------------------
+# Pint registry singleton.
+#
+# A single registry is shared across the process. Stage 2 will expose
+# `ureg` and `Q_` in the solution sandbox via `safe_globals` — a single
+# instance keeps Quantity comparisons (`a == b`) sane (mixed registries
+# refuse to compare).
+# ---------------------------------------------------------------------------
+
+ureg = pint.UnitRegistry()
+Q_ = ureg.Quantity
+
+
+# ---------------------------------------------------------------------------
+# System / type → display unit mapping.
+# Tuple shape: (pint_unit_string, short_suffix_or_None, long_suffix).
+#   pint_unit_string — validated at module load via `ureg.parse_units()`.
+#   short_suffix     — appended to the value in PROBLEM TEXT (e.g. "5m").
+#                      `None` means the type renders unitless in problem
+#                      text and the template adds its own (today: speed,
+#                      volume).
+#   long_suffix      — appended in the ANSWER TEXT (e.g. "5 meters").
+# ---------------------------------------------------------------------------
 
 VALID_UNIT_SYSTEMS = {"metric", "imperial", "mixed_us"}
 
 DEFAULT_UNIT_SYSTEM = "mixed_us"
 
 
-# Per (type, system): how the unit displays in problem text and in the answer.
-# Each entry is a small dict with one or more of:
-#   value_short:   suffix appended to value in PROBLEM TEXT (e.g. "5m" with "m").
-#                  Omit for types where templates write the units themselves
-#                  (area, volume, speed all fall into this bucket today).
-#   value_long:    suffix appended to value in ANSWER TEXT (e.g. "5 meters" with "meters").
-#   value_compact: True if no space between value and suffix (temperature uses
-#                  this so it renders "100.0°F", not "100.0 °F").
-#   symbol:        prefix character (e.g. "$"). Used only for `money`.
-UNIT_TABLE: Dict[str, Dict[str, Dict[str, Any]]] = {
-    "length": {
-        "metric":   {"value_short": "m",  "value_long": "meters"},
-        "imperial": {"value_short": "ft", "value_long": "feet"},
-        "mixed_us": {"value_short": "m",  "value_long": "meters"},
+_DisplayEntry = Tuple[str, Optional[str], str]
+
+DISPLAY_UNITS: Dict[str, Dict[str, _DisplayEntry]] = {
+    "mixed_us": {
+        "length":      ("meter",       "m",   "meters"),
+        "weight":      ("kilogram",    "kg",  "kg"),
+        "temperature": ("degF",        "°F",  "°F"),
+        "speed":       ("mile / hour", None,  "mph"),
+        "area":        ("meter ** 2",  "m²",  "square meters"),
+        "volume":      ("meter ** 3",  None,  "cubic meters"),
     },
-    "weight": {
-        "metric":   {"value_short": "kg", "value_long": "kg"},
-        "imperial": {"value_short": "lb", "value_long": "pounds"},
-        "mixed_us": {"value_short": "kg", "value_long": "kg"},
+    "metric": {
+        "length":      ("meter",       "m",   "meters"),
+        "weight":      ("kilogram",    "kg",  "kg"),
+        "temperature": ("degC",        "°C",  "°C"),
+        "speed":       ("km / hour",   None,  "km/h"),
+        "area":        ("meter ** 2",  "m²",  "square meters"),
+        "volume":      ("liter",       None,  "liters"),
     },
-    "temperature": {
-        "metric":   {"value_short": "°C", "value_long": "°C", "value_compact": True},
-        "imperial": {"value_short": "°F", "value_long": "°F", "value_compact": True},
-        "mixed_us": {"value_short": "°F", "value_long": "°F", "value_compact": True},
-    },
-    "speed": {
-        "metric":   {"value_long": "km/h"},
-        "imperial": {"value_long": "mph"},
-        "mixed_us": {"value_long": "mph"},
-    },
-    "area": {
-        "metric":   {"value_long": "square meters"},
-        "imperial": {"value_long": "square feet"},
-        "mixed_us": {"value_long": "square meters"},
-    },
-    "volume": {
-        "metric":   {"value_long": "liters"},
-        "imperial": {"value_long": "gallons"},
-        "mixed_us": {"value_long": "cubic meters"},
-    },
-    "money": {
-        "metric":   {"symbol": "€"},
-        "imperial": {"symbol": "$"},
-        "mixed_us": {"symbol": "$"},
+    "imperial": {
+        "length":      ("foot",        "ft",  "feet"),
+        "weight":      ("pound",       "lb",  "pounds"),
+        "temperature": ("degF",        "°F",  "°F"),
+        "speed":       ("mile / hour", None,  "mph"),
+        "area":        ("foot ** 2",   "ft²", "square feet"),
+        "volume":      ("gallon",      None,  "gallons"),
     },
 }
+
+
+def _validate_display_units(units: Dict[str, Dict[str, _DisplayEntry]]) -> None:
+    """Assert every pint unit string in DISPLAY_UNITS parses cleanly.
+
+    Catches typos (`"meeter"`, `"kg/m^"`) at import time rather than at
+    the first template render. Raises pint's `UndefinedUnitError` (or
+    similar parse error) with the offending entry.
+    """
+    for system, type_map in units.items():
+        for type_, (pint_unit, _short, _long) in type_map.items():
+            try:
+                ureg.parse_units(pint_unit)
+            except Exception as exc:  # pint raises a tower of subclasses
+                raise ValueError(
+                    f"DISPLAY_UNITS[{system!r}][{type_!r}] has invalid "
+                    f"pint unit {pint_unit!r}: {exc}"
+                ) from exc
+
+
+_validate_display_units(DISPLAY_UNITS)
+
+
+# ---------------------------------------------------------------------------
+# Currency. Pint isn't a currency library; conversion needs FX rates which
+# are out of scope. One symbol per system, no Quantity wrapping.
+# ---------------------------------------------------------------------------
+
+CURRENCY_SYMBOL: Dict[str, str] = {
+    "mixed_us": "$",
+    "metric":   "€",
+    "imperial": "$",
+}
+
+
+# ---------------------------------------------------------------------------
+# Helpers consumed by `variable_generator.format_value` and
+# `solution_evaluator.format_answer`.
+# ---------------------------------------------------------------------------
+
+# Types that have a system-aware suffix in DISPLAY_UNITS.
+UNIT_AWARE_TYPES = frozenset(DISPLAY_UNITS["mixed_us"].keys())
+
+# Per-type rule for whether to drop the space between value and suffix.
+# Today only temperature ("100.0°F", not "100.0 °F").
+_COMPACT_TYPES = frozenset({"temperature"})
 
 
 def resolve_system(
@@ -86,32 +139,43 @@ def resolve_system(
 ) -> str:
     """Effective unit system: per-variable override beats template default.
 
-    Falls back to `mixed_us` when neither is set so existing templates
-    continue to render identically.
+    Falls back to `mixed_us` so existing templates render identically.
     """
     return var_system or template_system or DEFAULT_UNIT_SYSTEM
 
 
-def _entry(type_: str, system: str) -> Dict[str, Any]:
-    return UNIT_TABLE.get(type_, {}).get(system, {})
-
-
 def get_short_suffix(type_: str, system: str) -> Optional[str]:
-    """Suffix used when the value appears inside problem text. None means
-    the template is responsible for any units (e.g. `{{area}} square units`)."""
-    return _entry(type_, system).get("value_short")
+    """Suffix appended to the value in problem text (e.g. `"m"` → `"5m"`).
+
+    `None` means the template is responsible for any units (e.g.
+    `"{{area}} square units"`).
+    """
+    entry = DISPLAY_UNITS.get(system, {}).get(type_)
+    return entry[1] if entry else None
 
 
 def get_long_suffix(type_: str, system: str) -> Optional[str]:
-    """Suffix used when the value appears in the final answer string."""
-    return _entry(type_, system).get("value_long")
+    """Suffix appended in the final answer string (e.g. `"meters"` → `"5 meters"`)."""
+    entry = DISPLAY_UNITS.get(system, {}).get(type_)
+    return entry[2] if entry else None
 
 
 def is_compact(type_: str, system: str) -> bool:
     """No space between value and suffix when True (temperature uses this)."""
-    return bool(_entry(type_, system).get("value_compact", False))
+    return type_ in _COMPACT_TYPES
 
 
 def get_currency_symbol(system: str) -> str:
     """Currency prefix (`$`, `€`, …) for the given unit system."""
-    return _entry("money", system).get("symbol", "$")
+    return CURRENCY_SYMBOL.get(system, "$")
+
+
+def get_pint_unit(type_: str, system: str) -> Optional[str]:
+    """Return the pint unit string for (type, system), e.g. `"meter ** 2"`.
+
+    Used by Stage 2 callers that want to wrap a magnitude in a Quantity.
+    Stage 1 has no internal callers; provided so `safe_globals` can be
+    wired from a single source-of-truth in a follow-up.
+    """
+    entry = DISPLAY_UNITS.get(system, {}).get(type_)
+    return entry[0] if entry else None

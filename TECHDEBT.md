@@ -215,6 +215,55 @@ also catch missing schema fields, off-anchor naming, etc.
 
 **Resolution**: Phase 5.7.
 
+### TD-3.5 — Compound-unit variable types and sandbox `Q_` exposure (units Stage 2)
+
+Phase 5.3R wired up `pint.UnitRegistry` and `Q_` as singletons in
+[src/units.py](src/units.py) but doesn't yet use them at runtime —
+display still goes through the same f-string formatters from Phase 5.3.
+The proposal's physics families want compound units the current
+variable-type set can't express:
+
+- **P-G3** composite solids: `density: 750 kg/m³`, `volume: 30 cm³`,
+  `mass = volume × density`
+- **P-A2** formula manipulation: `kinetic_energy: J = kg⋅m²/s²`,
+  `lens equation: 1/f = 1/u + 1/v`
+- **P-M1** dimensional analysis: `consumption: 6.4 L/100km`,
+  conversion to `mile/gallon`
+
+Stage 2 plan:
+
+1. Add new variable types: `density`, `energy`, `power`, `pressure`,
+   `force` (each with a canonical pint unit per system in `DISPLAY_UNITS`).
+2. Expose `ureg`, `Q_`, and a curated `pint` namespace in `safe_globals`
+   so solutions can do `Q_(value, get_pint_unit('density', system))` and
+   `q.to(target_unit).magnitude`.
+3. Update `format_value` / `format_answer` to render Quantity objects
+   when a solution returns one (`Q_` magnitude + pint pretty-format
+   suffix, with `~P` compact pretty for the answer string).
+
+Tests should round-trip: a P-G3-style template using `density × volume`
+arithmetic in the solution, formatted via the new path, lands the same
+answer string a hand-formatted version would.
+
+### TD-3.6 — Free-form `unit:` field on `VariableSpec` (units Stage 3)
+
+The Stage 2 type set will be limited to commonly-named physics
+quantities. Authors who need a one-off compound unit (e.g.
+`acceleration: m/s²`, `flow_rate: L/min`, `dose: mg/kg`) shouldn't
+have to add a new variable type per quantity. Stage 3 adds an optional
+`unit:` field on `VariableSpec`:
+
+```yaml
+variables:
+  acceleration: { type: decimal, unit: 'meter / second ** 2', min: 0.5, max: 9.81 }
+```
+
+The string is parsed via `ureg.parse_units()` at load time (same
+validator path as `DISPLAY_UNITS`); the formatter wraps the magnitude
+with the declared unit and renders pint's pretty form. Pairs with
+Stage 2 sandbox exposure so solutions can do
+`Q_(acceleration, 'm/s^2').to('ft/s^2').magnitude` directly.
+
 ---
 
 ## 4. Doc / version / config drift

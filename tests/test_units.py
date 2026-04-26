@@ -1,9 +1,16 @@
-"""Unit-system formatter tests for Phase 5.3.
+"""Unit-system formatter tests for Phase 5.3 (and 5.3R pint backbone).
 
 `mixed_us` (default) must be byte-identical to pre-Phase-5.3 output.
 `metric` and `imperial` swap suffixes and currency where applicable.
 Per-variable `unit_system` overrides the template's metadata default.
+
+Phase 5.3R adds pint as the underlying registry. In Stage 1 (current)
+pint only validates unit names at module load; behavior is unchanged.
+The `TestPintBackbone` suite asserts the registry is wired and the
+validator catches typos.
 """
+
+import pytest
 
 from src.solution_evaluator import format_answer
 from src.variable_generator import VariableGenerator
@@ -187,3 +194,46 @@ class TestSchemaValidation:
         result = loader.load_template(path)
         assert result is None
         assert any("unit_system" in e for e in loader.errors)
+
+
+class TestPintBackbone:
+    """Phase 5.3R: pint registry is wired and DISPLAY_UNITS is validated.
+
+    Stage 1 doesn't use pint at runtime — these tests assert the registry
+    is reachable from a single source-of-truth and that typos in unit
+    names fail loudly at module load.
+    """
+
+    def test_pint_registry_singleton_is_reachable(self):
+        from src.units import ureg, Q_
+        import pint
+
+        assert isinstance(ureg, pint.UnitRegistry)
+        # Q_ should be the registry's Quantity class — same identity, not a fresh one.
+        assert Q_ is ureg.Quantity
+
+    def test_pint_parses_known_units_and_rejects_typos(self):
+        from src.units import ureg
+
+        # Real units round-trip through the registry
+        ureg.parse_units("meter ** 2")
+        ureg.parse_units("kilogram / meter ** 3")  # density (Stage 2 preview)
+        ureg.parse_units("mile / hour")
+        # Typos raise (some pint subclass of pint errors / undefined unit)
+        with pytest.raises(Exception):
+            ureg.parse_units("meeter")
+        with pytest.raises(Exception):
+            ureg.parse_units("blarghs")
+
+    def test_module_load_validator_rejects_a_bad_display_units_entry(self):
+        """Manually invoke the validator with a corrupt entry — it must
+        complain with the offending (system, type, unit) referenced."""
+        from src.units import _validate_display_units
+
+        bad = {
+            "mixed_us": {
+                "length": ("meeter", "m", "meters"),  # typo
+            },
+        }
+        with pytest.raises(ValueError, match=r"DISPLAY_UNITS\['mixed_us'\]\['length'\].*'meeter'"):
+            _validate_display_units(bad)

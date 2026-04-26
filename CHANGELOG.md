@@ -4,6 +4,98 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.2.4] - 2026-04-26 - Phase 5.3R: pint backbone for unit conversions
+
+External research-agent feedback called out the v0.2.2 custom `UNIT_TABLE`
+as the wrong abstraction for physics families:
+
+> Adopt **pint** for the Quantity class with prefixes, compound units, and
+> dimensional analysis. The math module can use a thin pint wrapper that's
+> effectively no-op for unitless quantities. Don't build two parallel unit
+> systems for math vs physics; build one with pint and have math mostly
+> ignore it.
+
+Three of the proposal families ([MATHBOT_PROBLEMS_PROPOSAL.md](MATHBOT_PROBLEMS_PROPOSAL.md))
+need quantities the v0.2.2 table cannot represent:
+
+- **P-G3 composite solids**: "grain density 750 kg/m³", "cm³ → litres → kg via density"
+- **P-M1 dimensional analysis** (entire family): "kg/L → g/mL → oz/fl-oz; km/h → m/s → ft/s; W·h/day → kW·h/year"
+- **P-A2 formula manipulation**: kinetic energy E = ½mv² (J = kg⋅m²/s²), lens equation 1/f = 1/u + 1/v, ideal gas
+
+This release wires up the pint registry as the foundation. **Stage 1 (this
+release) is API-compatible and behavior-preserving**: pint validates unit
+names at module load, but display still uses the same f-string formatters,
+so all 1307 fixtures stay byte-identical. Stage 2 (forthcoming) will add
+compound-unit variable types (`density`, `energy`, `power`, `pressure`,
+`force`) and expose `Q_` / `ureg` in the solution sandbox.
+
+### What landed
+
+- **`pint>=0.25` runtime dep**.
+- **[src/units.py](src/units.py)** rewrite: `ureg = pint.UnitRegistry()`
+  and `Q_ = ureg.Quantity` module-level singletons. The legacy
+  `UNIT_TABLE` (4-level dict) is replaced by `DISPLAY_UNITS` (3-level
+  dict) where each entry is `(pint_unit_string, short_suffix_or_None,
+  long_suffix)`. The pint unit string is **validated at module load**
+  via `_validate_display_units()` — typos like `"meeter"` raise
+  `ValueError` with the offending `(system, type)` cell named, instead
+  of silently rendering an empty suffix later.
+- **Helper signatures unchanged**: `get_short_suffix`, `get_long_suffix`,
+  `is_compact`, `get_currency_symbol`, `resolve_system`. This means
+  zero changes to `format_value` ([src/variable_generator.py](src/variable_generator.py))
+  and `format_answer` ([src/solution_evaluator.py](src/solution_evaluator.py)) —
+  the refactor is purely internal to `src/units.py`.
+- **New helper** `get_pint_unit(type, system)` returns the pint unit
+  string for callers (Stage 2 sandbox wiring will use it as a
+  source-of-truth for wrapping magnitudes in Quantity objects).
+- **`CURRENCY_SYMBOL`** kept as its own dict; currency is deliberately
+  outside pint (see "Decisions locked" in the plan).
+- **Tests** ([tests/test_units.py](tests/test_units.py)) — 3 new cases
+  in a new `TestPintBackbone` class:
+  - `ureg` is a real `pint.UnitRegistry`; `Q_` is `ureg.Quantity` (same
+    identity, not a fresh instance — important for Stage 2 cross-call
+    Quantity comparisons)
+  - `ureg.parse_units("meter ** 2")` and `kilogram / meter ** 3` (a
+    Stage 2 density preview) parse cleanly; `"meeter"` and `"blarghs"`
+    raise
+  - `_validate_display_units({...with typo...})` raises a `ValueError`
+    that names the offending cell
+
+  All 25 existing unit tests still pass byte-identical. Total pytest:
+  93/93.
+
+### Backward compatibility
+
+- `pytest`: 93/93 (90 before + 3 new pint-presence tests).
+- `scripts/refresh_test_answers.py --dry-run`: **0 of 1307** template
+  fixtures changed.
+- The byte-identical `mixed_us` invariant from Phase 5.3 is preserved —
+  `metric` and `imperial` templates continue to render exactly as they
+  did under the v0.2.2 hand-rolled table.
+
+### Decisions locked (per planning Q&A)
+
+- **Value semantics**: `system-native-internal`. A `metric` template's
+  `temperature: 100` stays "100 °C" through and through; pint does **not**
+  auto-convert at display time. Conversion arithmetic is only invoked
+  when a template explicitly calls `Q_(...).to(...)` (Stage 2).
+- **Scope**: backbone only. No new variable types, no sandbox exposure
+  in this release.
+- **Currency**: kept outside pint. Currencies aren't dimensional
+  quantities; FX conversion needs out-of-process rates.
+
+### Known follow-ups (TECHDEBT)
+
+- **TD-3.5 (Stage 2)**: Compound-unit variable types + sandbox `Q_` /
+  `ureg` exposure. Pairs the registry wired up here with new types
+  (`density`, `energy`, `power`, `pressure`, `force`) so P-G3 / P-A2 /
+  P-M1 templates can express their physics quantities.
+- **TD-3.6 (Stage 3)**: Free-form `unit:` field on `VariableSpec` —
+  `{type: decimal, unit: 'meter / second**2'}`. Lets authors declare
+  any pint-parseable unit without adding a new variable type.
+
+---
+
 ## [0.2.3] - 2026-04-26 - Phase 5.5: visual layer (SVG-source-then-rasterize)
 
 Templates can now ship a canonical visual alongside the problem text. The

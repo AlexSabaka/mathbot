@@ -135,6 +135,8 @@ class YAMLLoader:
         # numeric decimal types
         'decimal', 'volume', 'area', 'length', 'weight', 'temperature',
         'speed', 'acceleration', 'money', 'price', 'percentage',
+        # compound physics quantities (Stage 2 — see src.units DISPLAY_UNITS)
+        'density', 'energy', 'power', 'pressure', 'force',
         # entity types
         'person', 'name', 'location', 'city',
         'store', 'restaurant', 'company', 'item',

@@ -4,6 +4,91 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.2.5] - 2026-04-27 - Phase 5.3R Stage 2: compound types + sandbox `Q_`
+
+The Stage 1 backbone shipped in [0.2.4] wired up the pint registry as a
+module-load validator but didn't actually use it at runtime. Stage 2
+(this release) puts pint to work: six new compound-unit variable types
+go into `DISPLAY_UNITS` (with system-specific canonical units), and the
+solution sandbox now exposes `ureg`, `Q_`, and `get_pint_unit` so
+templates can build Quantity objects and let pint handle the
+dimensional arithmetic.
+
+### What landed
+
+- **6 new variable types**: `density`, `energy`, `power`, `pressure`,
+  `force`, `acceleration`. Each has a per-system canonical pint unit in
+  `DISPLAY_UNITS` (validated at module load like the rest):
+  - `mixed_us` and `metric` track SI for compound types — kg/m³, J, W,
+    Pa, N, m/s². The mixed-US "tilt" remains currency / mph / °F only.
+  - `imperial` uses physics-imperial canonical units: lb/ft³, ft·lbf,
+    hp, psi, lbf, ft/s².
+- **Sandbox additions** in [src/solution_evaluator.py](src/solution_evaluator.py):
+  - `ureg` — the shared `pint.UnitRegistry` singleton from `src/units.py`.
+  - `Q_` — `ureg.Quantity`. Build a Quantity directly from a generated
+    variable: `Q_(volume, get_pint_unit('volume', 'metric'))`.
+  - `get_pint_unit(type, system)` — returns the canonical pint unit
+    string for a `(type, system)` pair. Same source of truth used by
+    the formatter, so authors can never get out of sync.
+- **`format_answer` is now Quantity-aware**: a solution that returns a
+  `pint.Quantity` is unwrapped via the new
+  `quantity_to_canonical_magnitude(value, type, system)` helper before
+  the formatter prints it. The Quantity is converted into the canonical
+  unit for the answer's `(type, system)`, so a P-G3-shaped solution
+  computing `Q_(1000, 'kg/m**3') * Q_(2, 'liter')` (which carries
+  pint's compound `kilogram * liter / meter ** 3` unit) renders as
+  `"2.00 kg"` for a metric weight Answer. Solutions returning plain
+  floats follow the legacy path unchanged — the existing 1278 fixtures
+  stay byte-identical.
+- **Compound-type formatting convention**: space between value and
+  suffix (`"750 kg/m³"`), int-or-2-decimal precision matching the
+  existing `length`/`area`/`volume` rules. Different from the compact
+  `length`/`weight` problem-text convention (`"5kg"`) — feels right
+  for compound suffixes that contain `/` or `·`.
+
+### Tests
+
+- 19 new cases across two new classes in
+  [tests/test_units.py](tests/test_units.py):
+  - `TestCompoundTypes`: per-system display for each new type, plus
+    a per-variable `unit_system` override case.
+  - `TestPintSandbox`: `Q_` / `ureg` / `get_pint_unit` reachable in
+    the sandbox; Quantity Answer values unwrap into the correct
+    canonical unit (covers same-unit, different-compatible-unit, and
+    compound-arithmetic cases).
+- Total pytest: **124/124** (105 before + 19 new).
+- `scripts/refresh_test_answers.py --dry-run`: **0 of 1278** fixtures
+  changed.
+
+### Authoring
+
+A compound-type template can now mix unit-aware variables freely:
+
+```yaml
+metadata:
+  unit_system: metric
+variables:
+  density: { type: density, choices: [750, 920, 1000, 7850] }
+  volume:  { type: volume, min: 1, max: 5 }   # liters by default in metric
+  Answer:  { type: weight }                   # kg
+
+template: "A solid of density {{density}} fills {{volume}} liters..."
+
+solution: |
+  density_q = Q_(density, get_pint_unit('density', 'metric'))
+  volume_q  = Q_(volume,  get_pint_unit('volume',  'metric'))
+  Answer = density_q * volume_q   # pint handles L → m³ → kg
+```
+
+### Out of scope (TD-3.6 / Stage 3)
+
+Free-form `unit:` field on `VariableSpec` (e.g.
+`{type: decimal, unit: 'liter / 100 km'}`) for one-off compound units
+that don't merit a dedicated type. Pairs with this Stage 2 sandbox
+exposure to enable the P-M1 dimensional-analysis family.
+
+---
+
 ## [0.2.4] - 2026-04-26 - Phase 5.3R: pint backbone for unit conversions
 
 External research-agent feedback called out the v0.2.2 custom `UNIT_TABLE`

@@ -73,7 +73,11 @@ class VariableGenerator:
         if var_type in ('integer', 'ordinal'):
             return self._generate_integer(spec, difficulty=difficulty)
 
-        elif var_type in ('decimal', 'volume', 'area', 'length', 'weight', 'temperature', 'speed', 'acceleration', 'money', 'price', 'percentage'):
+        elif var_type in (
+            'decimal', 'volume', 'area', 'length', 'weight', 'temperature',
+            'speed', 'acceleration', 'money', 'price', 'percentage',
+            'density', 'energy', 'power', 'pressure', 'force',
+        ):
             return self._generate_decimal(spec, difficulty=difficulty)
 
         elif var_type == 'fraction':
@@ -316,6 +320,18 @@ class VariableGenerator:
                     return int(value)
                 return float(value)
             return value
+
+        elif spec.type in ('density', 'energy', 'power', 'pressure', 'force', 'acceleration'):
+            # Compound physics types render with a space between value and
+            # suffix ("750 kg/m³"), unlike length/weight which are compact
+            # ("5kg"). Int-or-2-decimal precision matches the existing
+            # length/area/volume convention.
+            suffix = get_short_suffix(spec.type, system)
+            if isinstance(value, (int, float)):
+                if value == int(value):
+                    return f"{int(value)} {suffix}"
+                return f"{float(value):.2f} {suffix}"
+            return str(value)
 
         elif spec.type == 'time':
             # Format time as hours/minutes (locale-agnostic for now)

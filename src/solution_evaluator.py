@@ -17,6 +17,7 @@ from math import (
 import sympy
 from scipy import stats
 from .i18n import get_language_spec
+from .units import ureg, Q_, get_pint_unit
 from .yaml_loader import VariableSpec
 
 
@@ -83,6 +84,14 @@ def execute_solution(
         # symbolic algebra + statistical inference (use as namespaces)
         'sympy': sympy,
         'stats': stats,
+        # pint backbone (Stage 2). Solutions can wrap magnitudes in
+        # Quantity objects for dimensional arithmetic and return them
+        # as `Answer`; format_answer unwraps to the canonical
+        # (type, system) unit. Use `Q_(value, get_pint_unit(type, system))`
+        # to build a Quantity from a generated variable.
+        'ureg': ureg,
+        'Q_': Q_,
+        'get_pint_unit': get_pint_unit,
         # numeric utilities
         'Decimal': Decimal,
         'number_to_words': language_spec.number_to_words,
@@ -130,6 +139,7 @@ def format_answer(
     """
     from .units import (
         resolve_system, get_long_suffix, is_compact, get_currency_symbol,
+        quantity_to_canonical_magnitude,
     )
 
     if answer_spec is None:
@@ -140,6 +150,10 @@ def format_answer(
             return str(value)
 
     system = resolve_system(answer_spec.unit_system, template_unit_system)
+
+    # Unwrap pint Quantity values into the canonical (type, system) magnitude.
+    # No-op when the solution returned a plain number (the legacy path).
+    value = quantity_to_canonical_magnitude(value, answer_spec.type, system)
 
     # Format based on Answer variable type and unit system
     if answer_spec.type == 'money':
@@ -181,6 +195,14 @@ def format_answer(
 
     elif answer_spec.type == 'volume':
         suffix = get_long_suffix('volume', system)
+        if isinstance(value, (int, float, Decimal)):
+            if value == int(value):
+                return f"{int(value)} {suffix}"
+            return f"{float(value):.2f} {suffix}"
+        return str(value)
+
+    elif answer_spec.type in ('density', 'energy', 'power', 'pressure', 'force', 'acceleration'):
+        suffix = get_long_suffix(answer_spec.type, system)
         if isinstance(value, (int, float, Decimal)):
             if value == int(value):
                 return f"{int(value)} {suffix}"

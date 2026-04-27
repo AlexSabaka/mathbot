@@ -205,6 +205,9 @@ The full set lives in `src/yaml_loader.py:VALID_TYPES`. Most-used:
 - numeric: `integer`, `decimal`, `fraction`, `ordinal`
 - formatted numeric: `money`, `price`, `percentage`, `length`, `weight`,
   `temperature`, `area`, `volume`, `speed`
+- compound physics (Stage 2): `density`, `energy`, `power`, `pressure`,
+  `force`, `acceleration` — each rendered with a space and the per-system
+  canonical suffix (`"750 kg/m³"`, `"1500 joules"`)
 - entities: `person`, `name`, `city`, `store`, `restaurant`, `company`, `item`
 - choice/string: `choice` (alias of `string`) — requires `choices: [...]`;
   also valid: `integer` with `choices: [...]` to constrain integer values
@@ -255,6 +258,9 @@ Decimal number_to_words
 
 # symbolic algebra and statistical inference (namespaces)
 sympy stats
+
+# pint backbone (Stage 2)
+ureg Q_ get_pint_unit
 ```
 
 Math primitives are surfaced as a deliberate choice so that templates
@@ -264,6 +270,18 @@ and `stats` (= `scipy.stats`) are namespaces — call as `sympy.solve(...)`,
 to keep in mind for sympy: (a) `simplify()` blows up on large expressions —
 call sparingly; (b) `sympy.Symbol` objects propagate through normal Python
 operators, so accidental symbolic/numeric mixing balloons expression trees.
+
+`Q_(value, unit)` builds a pint Quantity (`ureg.Quantity`); `ureg` is the
+shared registry. `get_pint_unit(type, system)` returns the canonical
+unit string from `DISPLAY_UNITS` (e.g. `"kilogram / meter ** 3"` for
+`('density', 'metric')`) — the same source of truth the formatter uses,
+so authors can never get out of sync. A solution that returns a Quantity
+as `Answer` is unwrapped automatically: `format_answer` calls
+`pint.Quantity.to(<canonical>)` for the answer's `(type, system)` and
+prints the magnitude. This means the solution can mix units freely —
+`Q_(1000, 'kg/m**3') * Q_(2, 'liter')` (which carries pint's compound
+`kg·L/m³` unit, dimensionally `kg`) renders as `"2.00 kg"` for a metric
+weight Answer, no manual `.to('kg')` needed.
 
 `number_to_words` dispatches via the locale registry — for an `en`
 template it produces "forty-two", for future languages it returns the
@@ -310,6 +328,15 @@ currency choices. Three valid values:
 | `metric`   | `€`   | m      | kg     | °C          | km/h  | m²    | L      |
 | `imperial` | `$`   | ft     | lb     | °F          | mph   | ft²   | gal    |
 
+Compound physics quantities (Stage 2) — `mixed_us` and `metric` use SI
+across the board; only `imperial` swaps in physics-imperial units:
+
+| System     | Density | Energy | Power | Pressure | Force | Acceleration |
+| ---------- | ------- | ------ | ----- | -------- | ----- | ------------ |
+| `mixed_us` | kg/m³   | J      | W     | Pa       | N     | m/s²         |
+| `metric`   | kg/m³   | J      | W     | Pa       | N     | m/s²         |
+| `imperial` | lb/ft³  | ft·lbf | hp    | psi      | lbf   | ft/s²        |
+
 `mixed_us` reproduces pre-Phase-5.3 byte-identical output, so all 640
 existing templates continue to render unchanged. New templates set
 `unit_system: metric` (or `imperial`) for coherent display.
@@ -335,13 +362,27 @@ string is **validated at module load** via the project's `pint.UnitRegistry`
 empty suffix later). Currency stays out of pint — `CURRENCY_SYMBOL` is a
 small dict (`mixed_us` / `imperial` → `$`, `metric` → `€`). Currency
 isn't a dimensional quantity and FX conversion needs out-of-process
-rates. **Solutions still compute in system-native units** — pint is wired
-in but doesn't perform any runtime conversion in Stage 1. For
-unit-conversion problems (P-M1 family), templates do the conversion
-arithmetic explicitly in the solution code with hard-coded factors today
-(Stage 2 will expose `Q_` and `ureg` in the solution sandbox so
-templates can do `Q_(6.4, 'L/100km').to('mile/gallon')` directly — see
-TECHDEBT TD-3.5).
+rates.
+
+**Stage 2 (since [0.2.5])**: solutions can return `pint.Quantity` values
+as `Answer`. The formatter unwraps them via
+`quantity_to_canonical_magnitude(value, type, system)` — pint converts
+to the canonical `(type, system)` unit and the magnitude is printed.
+This means a P-G3-shaped solution can do dimensional arithmetic
+freely:
+
+```python
+density_q = Q_(density, get_pint_unit('density', 'metric'))
+volume_q  = Q_(volume,  get_pint_unit('volume',  'metric'))
+Answer = density_q * volume_q   # carries kg·L/m³ ≡ kg; formatter prints "2.00 kg"
+```
+
+Solutions returning plain floats (the legacy path) still work
+unchanged — the conversion is a no-op for non-Quantity values. **For
+unit-conversion problems (P-M1 family)**, templates can now do
+`Q_(6.4, 'L/100km').to('mile/gallon').magnitude` directly. Stage 3
+(TD-3.6) will add a free-form `unit:` field on `VariableSpec` for
+one-off compound units that don't deserve a dedicated type.
 
 ## Visual layer
 

@@ -4,15 +4,18 @@
 `metric` and `imperial` swap suffixes and currency where applicable.
 Per-variable `unit_system` overrides the template's metadata default.
 
-Phase 5.3R adds pint as the underlying registry. In Stage 1 (current)
-pint only validates unit names at module load; behavior is unchanged.
-The `TestPintBackbone` suite asserts the registry is wired and the
-validator catches typos.
+Phase 5.3R wired the pint registry as a module-load validator. Stage 2
+(this checkpoint) adds compound-unit types — `density`, `energy`,
+`power`, `pressure`, `force`, `acceleration` — and exposes `Q_` /
+`ureg` / `get_pint_unit` in the solution sandbox. `TestCompoundTypes`
+locks down the per-system display; `TestPintSandbox` proves the
+sandbox accepts Quantity Answer values and converts them to the
+canonical unit before formatting.
 """
 
 import pytest
 
-from src.solution_evaluator import format_answer
+from src.solution_evaluator import execute_solution, format_answer
 from src.variable_generator import VariableGenerator
 from src.yaml_loader import VariableSpec
 
@@ -237,3 +240,145 @@ class TestPintBackbone:
         }
         with pytest.raises(ValueError, match=r"DISPLAY_UNITS\['mixed_us'\]\['length'\].*'meeter'"):
             _validate_display_units(bad)
+
+
+class TestCompoundTypes:
+    """Stage 2: density / energy / power / pressure / force / acceleration.
+
+    Compound types render with a space between value and suffix
+    ("750 kg/m³"), unlike length / weight ("5kg"). Imperial uses the
+    physics-imperial canonical units (lb/ft³, ft·lbf, hp, psi, lbf,
+    ft/s²); mixed_us tracks SI for compound types — its US tilt is
+    only currency / mph / °F.
+    """
+
+    def setup_method(self):
+        self.g = VariableGenerator(seed=1)
+
+    # --- problem-text formatting (short suffix) ---
+
+    def test_density_value_metric(self):
+        spec = VariableSpec(name="rho", type="density")
+        assert self.g.format_value(750, spec, template_unit_system="metric") == "750 kg/m³"
+
+    def test_density_value_imperial(self):
+        spec = VariableSpec(name="rho", type="density")
+        assert self.g.format_value(46, spec, template_unit_system="imperial") == "46 lb/ft³"
+
+    def test_energy_value_mixed_us(self):
+        spec = VariableSpec(name="E", type="energy")
+        assert self.g.format_value(1500, spec, template_unit_system="mixed_us") == "1500 J"
+
+    def test_acceleration_value_metric_float(self):
+        spec = VariableSpec(name="a", type="acceleration")
+        assert self.g.format_value(9.81, spec, template_unit_system="metric") == "9.81 m/s²"
+
+    # --- answer formatting (long suffix) ---
+
+    def test_density_answer_metric(self):
+        spec = VariableSpec(name="Answer", type="density")
+        assert format_answer(7850, spec, template_unit_system="metric") == "7850 kg/m³"
+
+    def test_energy_answer_metric(self):
+        spec = VariableSpec(name="Answer", type="energy")
+        assert format_answer(1500, spec, template_unit_system="metric") == "1500 joules"
+
+    def test_energy_answer_imperial(self):
+        spec = VariableSpec(name="Answer", type="energy")
+        assert format_answer(1500, spec, template_unit_system="imperial") == "1500 foot-pounds"
+
+    def test_power_answer_imperial(self):
+        spec = VariableSpec(name="Answer", type="power")
+        assert format_answer(150, spec, template_unit_system="imperial") == "150 horsepower"
+
+    def test_pressure_answer_metric(self):
+        spec = VariableSpec(name="Answer", type="pressure")
+        assert format_answer(101325, spec, template_unit_system="metric") == "101325 pascals"
+
+    def test_pressure_answer_imperial(self):
+        spec = VariableSpec(name="Answer", type="pressure")
+        assert format_answer(14.7, spec, template_unit_system="imperial") == "14.70 psi"
+
+    def test_force_answer_metric(self):
+        spec = VariableSpec(name="Answer", type="force")
+        assert format_answer(9.81, spec, template_unit_system="metric") == "9.81 newtons"
+
+    def test_force_answer_imperial(self):
+        spec = VariableSpec(name="Answer", type="force")
+        assert format_answer(2.2, spec, template_unit_system="imperial") == "2.20 pound-force"
+
+    def test_acceleration_answer_imperial(self):
+        spec = VariableSpec(name="Answer", type="acceleration")
+        assert format_answer(32.2, spec, template_unit_system="imperial") == "32.20 ft/s²"
+
+    def test_compound_var_unit_system_override(self):
+        # Template default metric; force this density variable to imperial.
+        spec = VariableSpec(name="Answer", type="density", unit_system="imperial")
+        assert format_answer(46, spec, template_unit_system="metric") == "46 lb/ft³"
+
+
+class TestPintSandbox:
+    """Stage 2: solutions can use `Q_` / `ureg` / `get_pint_unit`.
+
+    A solution that returns a pint Quantity must be unwrapped to the
+    canonical (type, system) magnitude before display. Conversion runs
+    via `pint.Quantity.to()` so a Quantity in any compatible unit
+    formats identically.
+    """
+
+    def test_q_and_ureg_available_in_sandbox(self):
+        ctx = execute_solution(
+            "Answer = float(Q_(5, 'kilogram').to('gram').magnitude)",
+            context={},
+            language="en",
+        )
+        # 5 kg → 5000 g
+        assert ctx == 5000.0
+
+    def test_get_pint_unit_helper_available(self):
+        ctx = execute_solution(
+            "Answer = get_pint_unit('density', 'metric')",
+            context={},
+            language="en",
+        )
+        assert ctx == "kilogram / meter ** 3"
+
+    def test_quantity_answer_unwraps_to_canonical_unit(self):
+        # Solution returns a mass Quantity in pounds; Answer is a metric
+        # weight, so the formatter must convert to kg before printing.
+        spec = VariableSpec(name="Answer", type="weight")
+        from src.units import Q_  # noqa: F401 — used in exec'd solution
+        ctx = execute_solution(
+            "Answer = Q_(2.20462, 'pound')",
+            context={},
+            language="en",
+        )
+        assert format_answer(ctx, spec, template_unit_system="metric") == "1.00 kg"
+
+    def test_density_volume_quantity_arithmetic(self):
+        # P-G3-shaped: density (kg/m³) × volume (L) = mass (kg). Pint
+        # handles the L → m³ conversion implicitly during multiplication.
+        ctx = execute_solution(
+            "density_q = Q_(1000, 'kilogram / meter ** 3')\n"
+            "volume_q = Q_(2, 'liter')\n"
+            "Answer = density_q * volume_q",
+            context={},
+            language="en",
+        )
+        spec = VariableSpec(name="Answer", type="weight")
+        # 1000 kg/m³ × 2 L = 2 kg (water).
+        assert format_answer(ctx, spec, template_unit_system="metric") == "2.00 kg"
+
+    def test_quantity_answer_for_compound_type(self):
+        # Energy in joules, requested as imperial (foot-pounds). 1 J ≈ 0.7376 ft·lbf.
+        ctx = execute_solution(
+            "Answer = Q_(1356, 'joule')",
+            context={},
+            language="en",
+        )
+        spec = VariableSpec(name="Answer", type="energy")
+        # 1356 J × 0.737562… ≈ 1000 ft·lbf
+        out = format_answer(ctx, spec, template_unit_system="imperial")
+        assert out.endswith(" foot-pounds")
+        magnitude = float(out.split()[0])
+        assert abs(magnitude - 1000.0) < 0.5

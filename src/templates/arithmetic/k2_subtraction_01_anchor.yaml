@@ -1,0 +1,51 @@
+metadata:
+  id: k2_subtraction_01
+  version: "1.0.0"
+  author: Mathbot
+  created: 2026-01-30
+  grade: 2
+  topic: arithmetic.subtraction
+  family: subtraction
+  difficulty: easy
+  difficulty_tiers: [easy, medium, hard]
+  steps: 1
+  culture: en-US
+  tags: [subtraction, regrouping]
+
+variables:
+  num_a:
+    type: integer
+    ranges:
+      easy: {min: 30, max: 50}
+      medium: {min: 150, max: 300}
+      hard: {min: 250, max: 500}
+  num_b:
+    type: integer
+    ranges:
+      easy: {min: 12, max: 20}
+      medium: {min: 75, max: 150}
+      hard: {min: 120, max: 200}
+  Answer:
+    type: integer
+
+template: |
+  {{num_a}} - {{num_b}} = ___
+
+  Please solve this problem.
+
+solution: |
+  Answer = num_a - num_b
+
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected:
+      answer: "31"
+  - seed: 12345
+    difficulty: medium
+    expected:
+      answer: "180"
+  - seed: 12345
+    difficulty: hard
+    expected:
+      answer: "235"

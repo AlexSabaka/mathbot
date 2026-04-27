@@ -120,12 +120,18 @@ class TemplateGenerator:
         """Filter templates by criteria."""
         candidates = list(self.templates.values())
         
-        # Filter by complexity (maps to difficulty)
+        # Filter by complexity (maps to difficulty). Multi-tier templates
+        # match if the requested tier is in their `difficulty_tiers`;
+        # single-tier templates match only their declared `difficulty`.
         if complexity is not None:
             difficulty_map = {1: 'easy', 2: 'medium', 3: 'hard'}
             difficulty = difficulty_map.get(complexity)
             if difficulty:
-                candidates = [t for t in candidates if t.difficulty == difficulty]
+                candidates = [
+                    t for t in candidates
+                    if (t.difficulty_tiers and difficulty in t.difficulty_tiers)
+                    or t.difficulty == difficulty
+                ]
         
         # Filter by grade
         if grade is not None:
@@ -214,26 +220,61 @@ class TemplateGenerator:
         
         # Select random template
         template = random.choice(candidates)
-        
+
         # Get template path
         template_path = self.template_paths.get(template.id)
-        
+
         # Generate problem from template
-        return self._generate_from_template(template, seed=seed, template_path=template_path)
-    
+        return self._generate_from_template(
+            template,
+            seed=seed,
+            template_path=template_path,
+            requested_complexity=complexity,
+        )
+
     def _generate_from_template(
         self,
         template: TemplateDefinition,
         seed: Optional[int] = None,
-        template_path: Optional[Path] = None
+        template_path: Optional[Path] = None,
+        requested_complexity: Optional[int] = None,
+        requested_difficulty: Optional[str] = None,
     ) -> Dict:
-        """Generate problem from a specific template."""
+        """Generate problem from a specific template.
+
+        `requested_difficulty` (a tier name) takes precedence over
+        `requested_complexity` (an int 1/2/3). Internal callers — the test
+        runner and the fixture-refresh script — pass the tier directly so
+        they can render a specific row regardless of the caller's complexity
+        filter.
+        """
+        # Resolve the effective difficulty for this render. Single-tier
+        # templates always render at their declared `difficulty`. Multi-tier
+        # templates honour the caller's --complexity if it lands in their
+        # `difficulty_tiers`; with no complexity specified they sample a
+        # tier uniformly so a `mathbot batch` run still spreads across tiers.
+        difficulty_map = {1: 'easy', 2: 'medium', 3: 'hard'}
+        requested = (
+            requested_difficulty
+            if requested_difficulty is not None
+            else difficulty_map.get(requested_complexity)
+        )
+        if template.difficulty_tiers:
+            if requested in template.difficulty_tiers:
+                effective_difficulty = requested
+            else:
+                effective_difficulty = random.choice(template.difficulty_tiers)
+        else:
+            effective_difficulty = template.difficulty
+
         # Initialize variable generator with seed and the template's locale
         # (derived from `metadata.culture`, e.g. 'en-US' → Faker 'en_US').
         var_gen = VariableGenerator(seed=seed, locale=template.culture)
-        
-        # Generate variable values
-        context = var_gen.generate_context(template.variables)
+
+        # Generate variable values, honoring per-difficulty `ranges:` overrides.
+        context = var_gen.generate_context(
+            template.variables, difficulty=effective_difficulty,
+        )
         
         # Create display context with formatted values for template rendering
         display_context = {}
@@ -307,14 +348,23 @@ class TemplateGenerator:
         # Extract operations from solution (basic heuristic)
         operations = self._extract_operations(template.solution)
         
-        # Build standard output structure
+        # Build standard output structure. Multi-tier templates encode
+        # the rendered tier in `test_id` so each (template, tier) combination
+        # is uniquely identifiable downstream; single-tier templates keep
+        # their historical `math_<id>` so existing dataset consumers don't
+        # see id changes.
+        if template.difficulty_tiers:
+            test_id = f"math_{template.id}__{effective_difficulty}"
+        else:
+            test_id = f"math_{template.id}"
+
         output = {
-            "test_id": f"math_{template.id}",
+            "test_id": test_id,
             "task_type": "multi_step_math",
-            "config_name": f"{template.grade}_{template.difficulty}_{template.family}",
+            "config_name": f"{template.grade}_{effective_difficulty}_{template.family}",
             "problem": problem_text.strip(),
             "task_params": {
-                "complexity": {'easy': 1, 'medium': 2, 'hard': 3}[template.difficulty],
+                "complexity": {'easy': 1, 'medium': 2, 'hard': 3}[effective_difficulty],
                 "grade": f"k{template.grade}",
                 "math_topic": [math_topic],
                 "problem_family": family_name,

@@ -51,8 +51,10 @@ def regenerate_template(template_path: Path, generator: TemplateGenerator,
     for i, (yaml_tc, tc) in enumerate(zip(data['tests'], template.tests)):
         seed = tc.seed
         try:
-            problem = generator._generate_from_template(template, seed=seed,
-                                                         template_path=template_path)
+            problem = generator._generate_from_template(
+                template, seed=seed, template_path=template_path,
+                requested_difficulty=tc.difficulty,
+            )
             actual = str(problem['task_params']['expected_answer'])
         except Exception as e:
             errored += 1
@@ -134,8 +136,10 @@ def main() -> int:
             msgs: list[str] = []
             for i, tc in enumerate(template.tests):
                 try:
-                    problem = generator._generate_from_template(template, seed=tc.seed,
-                                                                 template_path=path)
+                    problem = generator._generate_from_template(
+                        template, seed=tc.seed, template_path=path,
+                        requested_difficulty=tc.difficulty,
+                    )
                     actual = str(problem['task_params']['expected_answer'])
                 except Exception as e:
                     err += 1

@@ -33,40 +33,51 @@ class VariableGenerator:
         self.fake = Faker(self.locale)
         self.fake.add_provider(MathProblemProvider)
     
-    def generate_context(self, variables: Dict[str, VariableSpec]) -> Dict[str, Any]:
+    def generate_context(
+        self,
+        variables: Dict[str, VariableSpec],
+        difficulty: Optional[str] = None,
+    ) -> Dict[str, Any]:
         """Generate values for all variables.
-        
+
         Args:
-            variables: Dictionary of variable specifications
-        
+            variables: Dictionary of variable specifications.
+            difficulty: When set, variables that declare per-tier `ranges:`
+                use the matching entry's min/max/step/choices instead of the
+                flat fields. Variables without `ranges:` are unaffected.
+
         Returns:
             Dictionary of variable names to generated values
         """
         context = {}
-        
+
         for var_name, spec in variables.items():
             # Skip Answer variables - they're set by solution (Answer, Answer1, Answer2, etc.)
             if var_name == 'Answer' or (var_name.startswith('Answer') and var_name[6:].isdigit()):
                 continue
-            
-            value = self._generate_value(spec)
+
+            value = self._generate_value(spec, difficulty=difficulty)
             context[var_name] = value
-        
+
         return context
-    
-    def _generate_value(self, spec: VariableSpec) -> Any:
+
+    def _generate_value(
+        self,
+        spec: VariableSpec,
+        difficulty: Optional[str] = None,
+    ) -> Any:
         """Generate a single value based on variable specification."""
         var_type = spec.type
-        
+
         # Numeric integer types
         if var_type in ('integer', 'ordinal'):
-            return self._generate_integer(spec)
-        
+            return self._generate_integer(spec, difficulty=difficulty)
+
         elif var_type in ('decimal', 'volume', 'area', 'length', 'weight', 'temperature', 'speed', 'acceleration', 'money', 'price', 'percentage'):
-            return self._generate_decimal(spec)
-        
+            return self._generate_decimal(spec, difficulty=difficulty)
+
         elif var_type == 'fraction':
-            return self._generate_fraction(spec)
+            return self._generate_fraction(spec, difficulty=difficulty)
         
         # Name/location types
         elif var_type in ('person', 'name'):
@@ -95,7 +106,7 @@ class VariableGenerator:
             return random.choice(MathProblemProvider.SEASONS)
         
         elif var_type == 'time':
-            return self._generate_time(spec)
+            return self._generate_time(spec, difficulty=difficulty)
         
         # Item type
         elif var_type == 'item':
@@ -108,63 +119,112 @@ class VariableGenerator:
         
         # String with choices (and 'choice' alias)
         elif var_type in ('string', 'choice'):
-            if spec.choices:
-                return random.choice(spec.choices)
+            r = self._resolve_range(spec, difficulty)
+            if r['choices']:
+                return random.choice(r['choices'])
             else:
                 raise ValueError(f"'{var_type}' variable requires 'choices' list")
 
         else:
             raise ValueError(f"Unknown variable type: {var_type}")
     
-    def _generate_integer(self, spec: VariableSpec) -> int:
-        """Generate an integer value."""
-        if spec.choices:
-            return int(random.choice(spec.choices))
+    @staticmethod
+    def _resolve_range(spec: VariableSpec, difficulty: Optional[str]) -> Dict[str, Any]:
+        """Return effective min/max/step/choices for the given difficulty.
 
-        min_val = int(spec.min) if spec.min is not None else 1
-        max_val = int(spec.max) if spec.max is not None else 10
-        step = int(spec.step) if spec.step is not None else 1
+        If `spec.ranges` is set and contains `difficulty`, that tier's entries
+        override the flat fields. Otherwise the flat fields apply unchanged.
+        Always returns a dict with keys min/max/step/choices (any can be None).
+        """
+        base = {
+            'min': spec.min,
+            'max': spec.max,
+            'step': spec.step,
+            'choices': spec.choices,
+        }
+        if spec.ranges and difficulty and difficulty in spec.ranges:
+            tier = spec.ranges[difficulty]
+            for key in ('min', 'max', 'step', 'choices'):
+                if key in tier:
+                    base[key] = tier[key]
+        return base
+
+    def _generate_integer(
+        self,
+        spec: VariableSpec,
+        difficulty: Optional[str] = None,
+    ) -> int:
+        """Generate an integer value."""
+        r = self._resolve_range(spec, difficulty)
+        if r['choices']:
+            return int(random.choice(r['choices']))
+
+        min_val = int(r['min']) if r['min'] is not None else 1
+        max_val = int(r['max']) if r['max'] is not None else 10
+        step = int(r['step']) if r['step'] is not None else 1
 
         # Generate values in steps
         values = list(range(min_val, max_val + 1, step))
         return random.choice(values)
-    
-    def _generate_decimal(self, spec: VariableSpec) -> float:
+
+    def _generate_decimal(
+        self,
+        spec: VariableSpec,
+        difficulty: Optional[str] = None,
+    ) -> float:
         """Generate a decimal value."""
-        min_val = float(spec.min) if spec.min is not None else 1.0
-        max_val = float(spec.max) if spec.max is not None else 10.0
-        step = float(spec.step) if spec.step is not None else 0.01
-        
+        r = self._resolve_range(spec, difficulty)
+
+        # Choice list takes priority for decimal types when supplied — used
+        # by multi-tier templates that need a small enumerated set of
+        # divisors / multipliers per tier rather than a continuous range.
+        if r['choices']:
+            return float(random.choice(r['choices']))
+
+        min_val = float(r['min']) if r['min'] is not None else 1.0
+        max_val = float(r['max']) if r['max'] is not None else 10.0
+        step = float(r['step']) if r['step'] is not None else 0.01
+
         # Use generate_price for money/price types
         if spec.type in ('money', 'price'):
             return generate_price(min_val, max_val, step)
-        
+
         # Use generate_percentage for percentage type
         elif spec.type == 'percentage':
             return generate_percentage(int(min_val), int(max_val), int(step))
-        
+
         # General decimal
         else:
             num_steps = int((max_val - min_val) / step) + 1
             step_index = random.randint(0, num_steps - 1)
             return round(min_val + (step_index * step), 2)
-    
-    def _generate_fraction(self, spec: VariableSpec) -> str:
+
+    def _generate_fraction(
+        self,
+        spec: VariableSpec,
+        difficulty: Optional[str] = None,
+    ) -> str:
         """Generate a fraction like '3/4'."""
-        min_val = int(spec.min) if spec.min is not None else 1
-        max_val = int(spec.max) if spec.max is not None else 8
-        
+        r = self._resolve_range(spec, difficulty)
+        min_val = int(r['min']) if r['min'] is not None else 1
+        max_val = int(r['max']) if r['max'] is not None else 8
+
         numerator = random.randint(min_val, max_val)
         denominator = random.randint(numerator + 1, max_val + 2)
-        
+
         return f"{numerator}/{denominator}"
-    
-    def _generate_time(self, spec: VariableSpec) -> float:
+
+    def _generate_time(
+        self,
+        spec: VariableSpec,
+        difficulty: Optional[str] = None,
+    ) -> float:
         """Generate a time duration in hours."""
-        min_val = float(spec.min) if spec.min is not None else 0.25
-        max_val = float(spec.max) if spec.max is not None else 8.0
-        step = float(spec.step) if spec.step is not None else 0.25
-        
+        r = self._resolve_range(spec, difficulty)
+        min_val = float(r['min']) if r['min'] is not None else 0.25
+        max_val = float(r['max']) if r['max'] is not None else 8.0
+        step = float(r['step']) if r['step'] is not None else 0.25
+
         num_steps = int((max_val - min_val) / step) + 1
         step_index = random.randint(0, num_steps - 1)
         return min_val + (step_index * step)

@@ -89,7 +89,10 @@ def generate(complexity, grade, topic, family, num_steps, seed, output, file, sh
             # Use custom template dir if provided
             templates_dir = Path(template_dir) if template_dir else None
             template_gen = TemplateGenerator(templates_dir=templates_dir, seed=seed)
-            problem = template_gen._generate_from_template(template, seed=seed, template_path=template_path)
+            problem = template_gen._generate_from_template(
+                template, seed=seed, template_path=template_path,
+                requested_complexity=complexity,
+            )
         else:
             # Regular generation with filters
             if template_dir:
@@ -419,12 +422,18 @@ def test(template_path, template_dir, verbose):
         for i, test_case in enumerate(template.tests, 1):
             test_seed = test_case.seed
             expected = test_case.expected
-            
+            # Multi-tier templates declare per-test difficulty; fall back to
+            # the template's default tier so single-tier fixtures keep
+            # working unchanged.
+            test_difficulty = test_case.difficulty or template.difficulty
+
             try:
                 # Generate variables with test seed
                 var_gen = VariableGenerator(seed=test_seed)
-                context = var_gen.generate_context(template.variables)
-                
+                context = var_gen.generate_context(
+                    template.variables, difficulty=test_difficulty,
+                )
+
                 # Execute solution
                 answer_value = execute_solution(template.solution, context)
                 

@@ -20,10 +20,17 @@ class VariableSpec:
     category: Optional[str] = None
     singular: Optional[bool] = None
     probability: Optional[float] = None
-    choices: Optional[List[str]] = None
+    choices: Optional[List[Any]] = None
     # Per-variable override of the template's unit system. None means
     # "inherit from metadata.unit_system". See `src.units`.
     unit_system: Optional[str] = None
+    # Optional per-difficulty range overrides. Keyed by tier name
+    # ("easy"/"medium"/"hard"); each entry can carry `min`/`max`/`step`/
+    # `choices` that override the flat fields above for that tier. Used
+    # by multi-tier templates (metadata.difficulty_tiers) so a single
+    # template can render at multiple difficulty levels with different
+    # number ranges. None means the flat fields apply at every tier.
+    ranges: Optional[Dict[str, Dict[str, Any]]] = None
 
 
 @dataclass
@@ -32,6 +39,10 @@ class TestCase:
     seed: int
     expected: Dict[str, Any]
     notes: Optional[str] = None
+    # For multi-tier templates: which difficulty tier this fixture targets.
+    # Single-tier templates leave it None and the runner uses
+    # `metadata.difficulty`.
+    difficulty: Optional[str] = None
 
 
 # Phase 5.5 visual layer. The YAML stores **source** (Jinja2-rendered SVG
@@ -81,6 +92,13 @@ class TemplateDefinition:
     # what the formatter prints. Per-variable override available on
     # VariableSpec. See `src.units`.
     unit_system: str = "mixed_us"
+    # When set, the template renders at any of the listed tiers (driven by
+    # the caller's --complexity, or randomly chosen when complexity is
+    # unspecified). Variables can carry per-tier `ranges:` overrides so the
+    # number ranges scale with the tier. Must include `difficulty` (the
+    # default tier). When None the template is single-tier (the legacy
+    # behaviour: it renders only at `difficulty`).
+    difficulty_tiers: Optional[List[str]] = None
     tags: List[str] = field(default_factory=list)
     notes: Optional[str] = None
     
@@ -168,10 +186,18 @@ class YAMLLoader:
         # Parse tests
         tests = []
         for test_data in data.get('tests', []):
+            test_diff = test_data.get('difficulty')
+            if test_diff is not None and test_diff not in self.VALID_DIFFICULTIES:
+                self.errors.append(
+                    f"Test case (seed={test_data.get('seed')}) has invalid "
+                    f"difficulty '{test_diff}'. Must be one of: "
+                    f"{sorted(self.VALID_DIFFICULTIES)}"
+                )
             tests.append(TestCase(
                 seed=test_data['seed'],
                 expected=test_data['expected'],
-                notes=test_data.get('notes')
+                notes=test_data.get('notes'),
+                difficulty=test_diff,
             ))
 
         # Parse optional visual block
@@ -191,6 +217,7 @@ class YAMLLoader:
             language=metadata.get('language', 'en'),
             culture=metadata.get('culture', 'en-US'),
             unit_system=metadata.get('unit_system', DEFAULT_UNIT_SYSTEM),
+            difficulty_tiers=metadata.get('difficulty_tiers'),
             tags=metadata.get('tags', []),
             notes=metadata.get('notes'),
             variables=variables,
@@ -246,6 +273,29 @@ class YAMLLoader:
                 f"Invalid metadata.unit_system '{meta_us}'. "
                 f"Must be one of: {sorted(VALID_UNIT_SYSTEMS)}"
             )
+
+        # Validate difficulty_tiers if present. Must be a list of valid
+        # tier names that includes `difficulty` (the default render tier).
+        meta_tiers = metadata.get('difficulty_tiers')
+        if meta_tiers is not None:
+            if not isinstance(meta_tiers, list) or not all(
+                isinstance(t, str) for t in meta_tiers
+            ):
+                self.errors.append(
+                    "metadata.difficulty_tiers must be a list of difficulty strings"
+                )
+            else:
+                bad = [t for t in meta_tiers if t not in self.VALID_DIFFICULTIES]
+                if bad:
+                    self.errors.append(
+                        f"metadata.difficulty_tiers has invalid tier(s) {bad}. "
+                        f"Must be from: {sorted(self.VALID_DIFFICULTIES)}"
+                    )
+                if metadata.get('difficulty') not in meta_tiers:
+                    self.errors.append(
+                        f"metadata.difficulty_tiers {meta_tiers} must include "
+                        f"the default difficulty '{metadata.get('difficulty')}'"
+                    )
         
         # Check for Answer variable (or Answer1, Answer2, etc.)
         variables = data.get('variables', {})
@@ -311,6 +361,30 @@ class YAMLLoader:
                 f"Must be one of: {sorted(VALID_UNIT_SYSTEMS)}"
             )
 
+        # Validate per-difficulty `ranges:` override (if present). Each key
+        # must be a valid tier; each entry must be a mapping carrying any of
+        # min/max/step/choices.
+        ranges = spec.get('ranges')
+        if ranges is not None:
+            if not isinstance(ranges, dict):
+                self.errors.append(
+                    f"Variable '{name}': ranges must be a mapping of "
+                    f"difficulty -> {{min, max, step, choices}}"
+                )
+                ranges = None
+            else:
+                for tier, tier_spec in ranges.items():
+                    if tier not in self.VALID_DIFFICULTIES:
+                        self.errors.append(
+                            f"Variable '{name}': ranges key '{tier}' is not a "
+                            f"valid difficulty. Must be one of: "
+                            f"{sorted(self.VALID_DIFFICULTIES)}"
+                        )
+                    if not isinstance(tier_spec, dict):
+                        self.errors.append(
+                            f"Variable '{name}': ranges['{tier}'] must be a mapping"
+                        )
+
         return VariableSpec(
             name=name,
             type=var_type,
@@ -322,6 +396,7 @@ class YAMLLoader:
             probability=spec.get('probability'),
             choices=spec.get('choices'),
             unit_system=var_unit_system,
+            ranges=ranges,
         )
     
     def _parse_visual(self, raw: Any) -> Optional[VisualSpec]:

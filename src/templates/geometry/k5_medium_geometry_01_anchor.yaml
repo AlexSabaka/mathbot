@@ -43,4 +43,4 @@ solution: 'area = length * width
 tests:
   - seed: 12345
     expected:
-      answer: 806 square meters | 114 meters
+      answer: 806 m² | 114 meters

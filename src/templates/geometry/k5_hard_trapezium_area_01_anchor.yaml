@@ -78,7 +78,7 @@ solution: '# Calculate area
 tests:
   - seed: 12345
     expected:
-      answer: 925 square meters | $1968.00
+      answer: 925 m² | $1968.00
   - seed: 67890
     expected:
-      answer: 1092 square meters | $1572.00
+      answer: 1092 m² | $1572.00

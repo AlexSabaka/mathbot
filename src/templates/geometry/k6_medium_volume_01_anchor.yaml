@@ -41,7 +41,7 @@ solution: '# Volume = length × width × height
 tests:
   - seed: 12345
     expected:
-      answer: 240 cubic meters
+      answer: 240 m³
   - seed: 67890
     expected:
-      answer: 175 cubic meters
+      answer: 175 m³

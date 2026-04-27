@@ -19,7 +19,7 @@ variables:
     min: 6
     max: 14
   Answer:
-    type: length
+    type: string
 template: 'A square has a side length of {{side}} inches. What is its perimeter?
 
   '
@@ -27,7 +27,7 @@ solution: '# Perimeter of square = 4 × side
 
   perimeter = 4 * side
 
-  Answer = perimeter
+  Answer = f"{perimeter} inches"
 
   '
 visual:
@@ -45,7 +45,7 @@ visual:
 tests:
   - seed: 12345
     expected:
-      answer: 48 meters
+      answer: 48 inches
   - seed: 67890
     expected:
-      answer: 36 meters
+      answer: 36 inches

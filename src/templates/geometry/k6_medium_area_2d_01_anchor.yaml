@@ -41,7 +41,7 @@ solution: '# Area of parallelogram = base × height
 tests:
   - seed: 12345
     expected:
-      answer: 180 square meters
+      answer: 180 m²
   - seed: 67890
     expected:
-      answer: 54 square meters
+      answer: 54 m²

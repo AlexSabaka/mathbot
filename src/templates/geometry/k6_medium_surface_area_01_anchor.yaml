@@ -41,7 +41,7 @@ solution: '# Surface area = 2(lw + lh + wh)
 tests:
   - seed: 12345
     expected:
-      answer: 318 square meters
+      answer: 318 m²
   - seed: 67890
     expected:
-      answer: 304 square meters
+      answer: 304 m²

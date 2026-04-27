@@ -33,7 +33,7 @@ variables:
 template: '{{name}} is wrapping a gift box that measures {{length}} inches by {{width}} inches by {{height}} inches.
 
 
-  How many square inches of wrapping paper are needed to cover the entire box with no overlap?
+  How many in² of wrapping paper are needed to cover the entire box with no overlap?
 
   '
 solution: '# Surface area of rectangular prism
@@ -46,7 +46,7 @@ solution: '# Surface area of rectangular prism
 tests:
   - seed: 12345
     expected:
-      answer: 632 square meters
+      answer: 632 m²
   - seed: 67890
     expected:
-      answer: 896 square meters
+      answer: 896 m²

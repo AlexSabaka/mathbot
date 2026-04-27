@@ -37,7 +37,7 @@ solution: '# Area of triangle = (base × height) / 2
 tests:
   - seed: 12345
     expected:
-      answer: 90 square meters
+      answer: 90 m²
   - seed: 67890
     expected:
-      answer: 72 square meters
+      answer: 72 m²

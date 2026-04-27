@@ -55,7 +55,7 @@ solution: '# Calculate area of each rectangle and add them
 tests:
   - seed: 12345
     expected:
-      answer: 108 square meters
+      answer: 108 m²
   - seed: 67890
     expected:
-      answer: 81 square meters
+      answer: 81 m²

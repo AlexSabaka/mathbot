@@ -39,7 +39,7 @@ variables:
     type: length
 template: 'A trapezoidal {{object}} has parallel sides of {{base1}} cm and {{base2}} cm.
 
-  If the area is {{area}} square cm, what is the height?
+  If the area is {{area}} cm², what is the height?
 
   '
 solution: '# Area = ((base1 + base2) × height) / 2

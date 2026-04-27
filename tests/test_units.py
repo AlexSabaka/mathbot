@@ -53,7 +53,7 @@ class TestMixedUsBackwardCompat:
 
     def test_volume_answer(self):
         spec = VariableSpec(name="Answer", type="volume")
-        assert format_answer(8, spec, template_unit_system="mixed_us") == "8 cubic meters"
+        assert format_answer(8, spec, template_unit_system="mixed_us") == "8 m³"
 
     def test_money_answer(self):
         spec = VariableSpec(name="Answer", type="money")
@@ -61,7 +61,7 @@ class TestMixedUsBackwardCompat:
 
 
 class TestMetricSystem:
-    """`metric` swaps °F→°C, mph→km/h, cubic meters→liters, $→€."""
+    """`metric` swaps °F→°C, mph→km/h, m³→liters, $→€."""
 
     def setup_method(self):
         self.g = VariableGenerator(seed=1)
@@ -111,7 +111,7 @@ class TestImperialSystem:
 
     def test_area_answer_uses_square_feet(self):
         spec = VariableSpec(name="Answer", type="area")
-        assert format_answer(20, spec, template_unit_system="imperial") == "20 square feet"
+        assert format_answer(20, spec, template_unit_system="imperial") == "20 ft²"
 
     def test_volume_answer_uses_gallons(self):
         spec = VariableSpec(name="Answer", type="volume")

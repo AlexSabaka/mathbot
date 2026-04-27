@@ -48,7 +48,7 @@ solution: '# Area = (base × height) / 2
 tests:
   - seed: 12345
     expected:
-      answer: 67 square meters
+      answer: 67 m²
   - seed: 67890
     expected:
-      answer: 90 square meters
+      answer: 90 m²

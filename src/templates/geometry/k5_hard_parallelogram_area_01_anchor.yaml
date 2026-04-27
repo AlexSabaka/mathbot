@@ -31,7 +31,7 @@ variables:
     type: area
 template: 'A parallelogram has a base of {{base}} cm and a height of {{height}} cm.
 
-  If both the base and height are increased by {{increase}} cm, by how many square centimeters does the area increase?
+  If both the base and height are increased by {{increase}} cm, by how many cm² does the area increase?
 
   '
 solution: '# Original area
@@ -58,7 +58,7 @@ solution: '# Original area
 tests:
   - seed: 12345
     expected:
-      answer: 92 square meters
+      answer: 92 m²
   - seed: 67890
     expected:
-      answer: 88 square meters
+      answer: 88 m²

@@ -54,7 +54,7 @@ solution: '# Area = (diagonal1 × diagonal2) / 2
 tests:
   - seed: 12345
     expected:
-      answer: 127 square meters | 36 meters
+      answer: 127 m² | 36 meters
   - seed: 67890
     expected:
-      answer: 120 square meters | 40 meters
+      answer: 120 m² | 40 meters

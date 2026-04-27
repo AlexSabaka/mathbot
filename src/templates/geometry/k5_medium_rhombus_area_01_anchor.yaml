@@ -31,8 +31,8 @@ variables:
     min: 10
     max: 16
   Answer:
-    type: length
-template: 'A rhombus-shaped {{object}} has an area of {{area}} square inches.
+    type: string
+template: 'A rhombus-shaped {{object}} has an area of {{area}} in².
 
   If one diagonal is {{diagonal1}} inches, what is the length of the other diagonal?
 
@@ -43,13 +43,13 @@ solution: '# Area = (diagonal1 × diagonal2) / 2
 
   diagonal2 = (2 * area) // diagonal1
 
-  Answer = diagonal2
+  Answer = f"{diagonal2} inches"
 
   '
 tests:
   - seed: 12345
     expected:
-      answer: 7 meters
+      answer: 7 inches
   - seed: 67890
     expected:
-      answer: 11 meters
+      answer: 11 inches

@@ -34,7 +34,7 @@ variables:
     type: integer
 
 template: |
-  {{name}}'s garden is shaped like a rectangle with dimensions {{length}} feet by {{width}} feet. If {{name}} wants to cover the entire garden with mulch, and one bag of mulch covers {{coverage}} square feet, how many bags does {{name}} need?
+  {{name}}'s garden is shaped like a rectangle with dimensions {{length}} feet by {{width}} feet. If {{name}} wants to cover the entire garden with mulch, and one bag of mulch covers {{coverage}} ft², how many bags does {{name}} need?
 
 solution: |
   # Calculate area of garden

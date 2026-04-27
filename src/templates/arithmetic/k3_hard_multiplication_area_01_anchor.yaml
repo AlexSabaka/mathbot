@@ -24,7 +24,7 @@ variables:
 
 template: |
   A rectangular garden is {{number1}} meters wide and {{number2}} meters long.
-  Use the area model to find the total area of the garden in square meters.
+  Use the area model to find the total area of the garden in m².
 
 solution: |
   # Break number2 into tens and ones

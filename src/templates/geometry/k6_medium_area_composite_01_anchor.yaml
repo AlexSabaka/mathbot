@@ -53,7 +53,7 @@ solution: '# Total yard area
 tests:
   - seed: 12345
     expected:
-      answer: 616 square meters
+      answer: 616 m²
   - seed: 67890
     expected:
-      answer: 548 square meters
+      answer: 548 m²

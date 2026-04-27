@@ -38,15 +38,15 @@ solution: |
   optimal_x = sheet_side // 6
   base_side = sheet_side - 2 * optimal_x
   max_volume = optimal_x * base_side * base_side
-  Answer = f"x = {optimal_x} cm, max volume = {max_volume} cubic cm"
+  Answer = f"x = {optimal_x} cm, max volume = {max_volume} cm³"
 
 tests:
   - seed: 12345
     expected:
-      answer: "x = 4 cm, max volume = 1024 cubic cm"
+      answer: "x = 4 cm, max volume = 1024 cm³"
   - seed: 42
     expected:
-      answer: "x = 1 cm, max volume = 16 cubic cm"
+      answer: "x = 1 cm, max volume = 16 cm³"
   - seed: 99
     expected:
-      answer: "x = 4 cm, max volume = 1024 cubic cm"
+      answer: "x = 4 cm, max volume = 1024 cm³"

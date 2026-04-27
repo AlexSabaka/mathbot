@@ -51,11 +51,11 @@ variables:
     type: weight
 template: '{{name}} is filling a {{container_type}} that is {{length}} cm × {{width}} cm × {{height}} cm with sand.
 
-  {{name}} can pour {{rate}} cubic cm per minute.
+  {{name}} can pour {{rate}} cm³ per minute.
 
   How long will it take to fill the {{container_type}}?
 
-  If each cubic cm of sand weighs {{weight}} grams, what is the total weight when full?
+  If each cm³ of sand weighs {{weight}} grams, what is the total weight when full?
 
   '
 solution: '# Calculate volume

@@ -48,7 +48,7 @@ solution: '# Perimeter = 4 × side, so side = perimeter / 4
 tests:
   - seed: 12345
     expected:
-      answer: 64 square meters
+      answer: 64 m²
   - seed: 67890
     expected:
-      answer: 100 square meters
+      answer: 100 m²

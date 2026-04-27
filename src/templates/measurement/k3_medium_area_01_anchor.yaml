@@ -44,7 +44,7 @@ solution: '# Area = length × width
 tests:
   - seed: 12345
     expected:
-      answer: 112 square meters
+      answer: 112 m²
   - seed: 67890
     expected:
-      answer: 198 square meters
+      answer: 198 m²

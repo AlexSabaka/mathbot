@@ -39,7 +39,7 @@ variables:
     max: 1000
 
 template: |
-  {{name1}} can paint {{area1}} square feet in {{time1}} hours. How long will it take {{name1}} to paint {{area2}} square feet? At this rate, how many square feet can {{name1}} paint in 10 hours?
+  {{name1}} can paint {{area1}} ft² in {{time1}} hours. How long will it take {{name1}} to paint {{area2}} ft²? At this rate, how many ft² can {{name1}} paint in 10 hours?
 
 solution: |
   # First question: time to paint area2

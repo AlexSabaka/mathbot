@@ -53,7 +53,7 @@ solution: 'perimeter = 2 * (width + height)
 tests:
   - seed: 12345
     expected:
-      answer: 22 | 30 square meters
+      answer: 22 | 30 m²
   - seed: 67890
     expected:
-      answer: 28 | 49 square meters
+      answer: 28 | 49 m²

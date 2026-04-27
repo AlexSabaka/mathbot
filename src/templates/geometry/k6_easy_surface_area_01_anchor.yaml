@@ -33,7 +33,7 @@ solution: '# Surface area of cube = 6 × s²
 tests:
   - seed: 12345
     expected:
-      answer: 486 square meters
+      answer: 486 m²
   - seed: 67890
     expected:
-      answer: 216 square meters
+      answer: 216 m²

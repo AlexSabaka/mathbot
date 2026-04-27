@@ -47,7 +47,7 @@ template: 'A {{ "circular garden|round fountain|circular patio|circular pool|rou
   {% if calculation_type == ''circumference_only'' %}Using π = 3.14, what is the circumference?{% elif calculation_type == ''both'' %}The owner needs to know both the circumference for installing edging and the area for material coverage.
 
 
-  Using π = 3.14, what are the circumference and area?{% elif calculation_type == ''area_only'' %}Using π = 3.14, what is the area?{% elif calculation_type == ''cost'' %}The project requires materials that cost {{cost_per_sqm}} per square meter.
+  Using π = 3.14, what are the circumference and area?{% elif calculation_type == ''area_only'' %}Using π = 3.14, what is the area?{% elif calculation_type == ''cost'' %}The project requires materials that cost {{cost_per_sqm}} per m².
 
 
   Using π = 3.14, what is the total cost to cover the area?{% endif %}

@@ -48,15 +48,15 @@ solution: |
   diagonal = t[2] * scale
   fence_length = length + width + diagonal
   triangle_area = (length * width) // 2
-  Answer = f"fence: {fence_length} m, each triangle: {triangle_area} square m"
+  Answer = f"fence: {fence_length} m, each triangle: {triangle_area} m²"
 
 tests:
   - seed: 12345
     expected:
-      answer: "fence: 48 m, each triangle: 96 square m"
+      answer: "fence: 48 m, each triangle: 96 m²"
   - seed: 42
     expected:
-      answer: "fence: 24 m, each triangle: 24 square m"
+      answer: "fence: 24 m, each triangle: 24 m²"
   - seed: 99
     expected:
-      answer: "fence: 36 m, each triangle: 54 square m"
+      answer: "fence: 36 m, each triangle: 54 m²"

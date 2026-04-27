@@ -65,15 +65,15 @@ DISPLAY_UNITS: Dict[str, Dict[str, _DisplayEntry]] = {
         "weight":      ("kilogram",    "kg",  "kg"),
         "temperature": ("degF",        "°F",  "°F"),
         "speed":       ("mile / hour", None,  "mph"),
-        "area":        ("meter ** 2",  "m²",  "square meters"),
-        "volume":      ("meter ** 3",  None,  "cubic meters"),
+        "area":        ("meter ** 2",  "m²",  "m²"),
+        "volume":      ("meter ** 3",  None,  "m³"),
     },
     "metric": {
         "length":      ("meter",       "m",   "meters"),
         "weight":      ("kilogram",    "kg",  "kg"),
         "temperature": ("degC",        "°C",  "°C"),
         "speed":       ("km / hour",   None,  "km/h"),
-        "area":        ("meter ** 2",  "m²",  "square meters"),
+        "area":        ("meter ** 2",  "m²",  "m²"),
         "volume":      ("liter",       None,  "liters"),
     },
     "imperial": {
@@ -81,7 +81,7 @@ DISPLAY_UNITS: Dict[str, Dict[str, _DisplayEntry]] = {
         "weight":      ("pound",       "lb",  "pounds"),
         "temperature": ("degF",        "°F",  "°F"),
         "speed":       ("mile / hour", None,  "mph"),
-        "area":        ("foot ** 2",   "ft²", "square feet"),
+        "area":        ("foot ** 2",   "ft²", "ft²"),
         "volume":      ("gallon",      None,  "gallons"),
     },
 }

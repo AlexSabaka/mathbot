@@ -54,7 +54,7 @@ template: '{{name}} wants to fence a triangular {{area_type}} with sides {{side_
 
   Fencing costs ${{fence_price}} per meter.
 
-  The {{area_type}} will also be covered with grass seed costing ${{material_price}} per square meter.
+  The {{area_type}} will also be covered with grass seed costing ${{material_price}} per m².
 
   If the height is {{height}} m, what is the total cost?
 

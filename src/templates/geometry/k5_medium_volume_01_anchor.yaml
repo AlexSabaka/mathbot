@@ -36,7 +36,7 @@ variables:
     max: 15
   Answer:
     type: length
-template: 'A {{container_type}} can hold {{volume}} cubic centimeters.
+template: 'A {{container_type}} can hold {{volume}} cm³.
 
   If the {{container_type}} has a length of {{length}} cm and width of {{width}} cm, what is its height?
 

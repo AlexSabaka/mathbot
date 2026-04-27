@@ -32,10 +32,10 @@ variables:
     min: 12
     max: 20
   Answer1:
-    type: length
+    type: string
   Answer2:
-    type: length
-template: 'A rectangular {{room_type}} has an area of {{area}} square feet and a length of {{length}} feet.
+    type: string
+template: 'A rectangular {{room_type}} has an area of {{area}} ft² and a length of {{length}} feet.
 
   What is the width and perimeter?
 
@@ -50,15 +50,15 @@ solution: '# Area = length × width, so width = area / length
   perimeter = 2 * (length + width)
 
 
-  Answer1 = width
+  Answer1 = f"{width} feet"
 
-  Answer2 = perimeter
+  Answer2 = f"{perimeter} feet"
 
   '
 tests:
   - seed: 12345
     expected:
-      answer: 7 meters | 46 meters
+      answer: 7 feet | 46 feet
   - seed: 67890
     expected:
-      answer: 7 meters | 50 meters
+      answer: 7 feet | 50 feet

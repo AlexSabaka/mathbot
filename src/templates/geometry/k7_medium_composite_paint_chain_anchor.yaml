@@ -52,7 +52,7 @@ template: |
   {% set total_area = outer_area - alcove_area %}
   {{name}} is painting an L-shaped room.
   The outer rectangular footprint is {{outer_length}} m by {{outer_width}} m, with a {{alcove_length}} m by {{alcove_width}} m rectangular alcove cut out of one corner.
-  One can of paint covers {{coverage_per_can}} square meters, and each can costs ${{cost_per_can}}.
+  One can of paint covers {{coverage_per_can}} m², and each can costs ${{cost_per_can}}.
   How many cans of paint does {{name}} need to buy, and what is the total cost?
 
 solution: |

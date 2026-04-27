@@ -33,7 +33,7 @@ solution: '# Volume of cube = s³
 tests:
   - seed: 12345
     expected:
-      answer: 729 cubic meters
+      answer: 729 m³
   - seed: 67890
     expected:
-      answer: 216 cubic meters
+      answer: 216 m³

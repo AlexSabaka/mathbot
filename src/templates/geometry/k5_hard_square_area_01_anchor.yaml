@@ -29,7 +29,7 @@ variables:
     max: 3
   Answer:
     type: area
-template: '{{name}} has a square pool with an area of {{pool_side * pool_side}} square meters.
+template: '{{name}} has a square pool with an area of {{pool_side * pool_side}} m².
 
   {{name}} wants to build a deck around it that is {{deck_width}} meters wide on all sides.
 
@@ -58,7 +58,7 @@ solution: '# Calculate the pool''s side length (already given as pool_side)
 tests:
   - seed: 12345
     expected:
-      answer: 156 square meters
+      answer: 156 m²
   - seed: 67890
     expected:
-      answer: 156 square meters
+      answer: 156 m²

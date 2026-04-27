@@ -42,7 +42,7 @@ solution: '# Area = ((base1 + base2) × height) / 2
 tests:
   - seed: 12345
     expected:
-      answer: 48 square meters
+      answer: 48 m²
   - seed: 67890
     expected:
-      answer: 57 square meters
+      answer: 57 m²

@@ -27,19 +27,19 @@ variables:
     min: 7
     max: 16
   Answer:
-    type: length
+    type: string
 template: 'Find the perimeter of a triangle with sides {{side_a}} cm, {{side_b}} cm, and {{side_c}} cm.
 
   '
 solution: 'perimeter = side_a + side_b + side_c
 
-  Answer = perimeter
+  Answer = f"{perimeter} cm"
 
   '
 tests:
   - seed: 12345
     expected:
-      answer: 28 meters
+      answer: 28 cm
   - seed: 67890
     expected:
-      answer: 29 meters
+      answer: 29 cm

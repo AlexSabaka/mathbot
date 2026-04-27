@@ -77,7 +77,8 @@ metadata:
   grade: 7                              # int, K1-K12
   topic: arithmetic.multi_step          # MUST start with parent dir name (enforced)
   family: sequential_purchase           # see PROBLEM_FAMILIES
-  difficulty: easy | medium | hard
+  difficulty: easy | medium | hard     # default tier when --complexity unspecified
+  difficulty_tiers: [easy, medium, hard]  # optional; see "Multi-tier templates" below
   steps: 5                              # number of reasoning steps
   language: en                          # optional, BCP-47 base; drives locale-aware filters
   culture: en-US                        # optional, BCP-47 region; drives Faker locale (names/cities)
@@ -100,6 +101,7 @@ tests:             # 3+ cases recommended; seed is the canonical RNG seed
   - seed: 12345
     expected:
       answer: "bought 5 items, $2 left"
+    # difficulty: easy   # optional; see "Multi-tier templates"
 
 visual:            # OPTIONAL canonical visual source; see "Visual layer" below
   format: svg      # only `svg` ships in Phase 5.5; `python` (sandbox builders) is roadmap
@@ -119,6 +121,82 @@ Bare topics like `topic: arithmetic` are not allowed; cross-directory topics
 harmonized away in v0.1.3. **Enforced** by `YAMLLoader._validate_template`
 since Phase 5.1 — a mismatched template fails to load with a clear error.
 New top-level dirs require updating `MATH_TOPICS` in `src/constants.py`.
+
+### Multi-tier templates (Phase 5.7)
+
+A single YAML template can render at multiple difficulty tiers when its
+metadata declares:
+
+```yaml
+metadata:
+  difficulty: easy                       # default tier
+  difficulty_tiers: [easy, medium, hard] # must include `difficulty`
+
+variables:
+  num_a:
+    type: integer
+    ranges:                              # per-tier overrides of min/max/step/choices
+      easy:   { min: 30,  max: 50 }
+      medium: { min: 150, max: 300 }
+      hard:   { min: 250, max: 500 }
+  pace:
+    type: integer
+    ranges:                              # `choices` per tier works too
+      easy:   { choices: [10, 100] }
+      medium: { choices: [10, 100, 1000] }
+```
+
+A variable's `ranges:` entries override the flat `min`/`max`/`step`/`choices`
+fields for that tier; tiers without an entry fall back to the flat fields.
+The same applies for `string`/`choice` and `decimal` types — `decimal` honors
+per-tier `choices` lists too.
+
+The render flow:
+
+1. `mathbot generate -c <N>` (or `mathbot batch -c <N>`) maps complexity
+   `1/2/3` → `easy/medium/hard`. If the chosen template lists that tier in
+   `difficulty_tiers`, it renders at that tier; otherwise the template falls
+   back to its declared `difficulty`.
+2. With no `--complexity`, multi-tier templates sample a tier uniformly
+   from `difficulty_tiers` so a `mathbot batch` run still spreads across
+   tiers within the cell.
+3. **`test_id` carries `__<tier>` suffix** for multi-tier renders
+   (`math_k2_subtraction_01__easy` / `__medium` / `__hard`). Single-tier
+   templates keep the historical `math_<id>` (no suffix) so legacy dataset
+   consumers don't see id changes.
+4. `task_params.complexity`, `config_name`, and the rendered problem all
+   reflect the effective tier.
+
+Test fixtures specify the tier per-row:
+
+```yaml
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected: { answer: "37" }
+  - seed: 12345
+    difficulty: medium
+    expected: { answer: "100" }
+  - seed: 12345
+    difficulty: hard
+    expected: { answer: "279" }
+```
+
+`difficulty:` on a fixture is optional; when omitted, the runner uses
+`metadata.difficulty` (so single-tier templates' fixtures keep working
+unchanged).
+
+**When to make a template multi-tier**: the tiers differ only in number
+ranges / choice lists, with the same operation, prompt shape, and
+solution code. **When to keep tiers as separate templates**: tiers probe
+different sub-skills (e.g., `k6.algebra.factoring`: easy = scalar GCF,
+medium = variable factor, hard = quadratic) or use structurally different
+prompt text (e.g., `k6.fractions.fraction_add_sub`: same-denom vs
+different-denom).
+
+Filenames for multi-tier templates drop the difficulty token:
+`k2_subtraction_01_anchor.yaml` (not `k2_easy_subtraction_01_anchor.yaml`).
+Single-tier filenames keep their historical `_<difficulty>_` token.
 
 ### Variable types (excerpt)
 

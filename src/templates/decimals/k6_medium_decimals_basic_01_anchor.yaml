@@ -16,10 +16,10 @@ variables:
     type: decimal
     min: 0.1
     max: 99.9
-    step: 0.01
+    step: 0.001
   place:
     type: string
-    choices: ["tenth", "whole number"]
+    choices: ["hundredth", "tenth", "whole number"]
   Answer:
     type: decimal
 
@@ -27,7 +27,9 @@ template: |
   Round {{decimal_val}} to the nearest {{place}}.
 
 solution: |
-  if place == "tenth":
+  if place == "hundredth":
+      Answer = round(decimal_val, 2)
+  elif place == "tenth":
       Answer = round(decimal_val, 1)
   elif place == "whole number":
       Answer = round(decimal_val, 0)
@@ -35,7 +37,7 @@ solution: |
 tests:
   - seed: 12345
     expected:
-      answer: "68.30"
+      answer: "55.00"
   - seed: 67890
     expected:
-      answer: "32.00"
+      answer: "25.61"

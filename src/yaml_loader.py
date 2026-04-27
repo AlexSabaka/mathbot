@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 import yaml
 
-from .units import VALID_UNIT_SYSTEMS, DEFAULT_UNIT_SYSTEM
+from .units import VALID_UNIT_SYSTEMS, DEFAULT_UNIT_SYSTEM, ureg
 
 
 @dataclass
@@ -24,6 +24,14 @@ class VariableSpec:
     # Per-variable override of the template's unit system. None means
     # "inherit from metadata.unit_system". See `src.units`.
     unit_system: Optional[str] = None
+    # Optional free-form pint unit string (Stage 3 — TD-3.6). When set,
+    # overrides the (type, system)-table lookup: the formatter wraps the
+    # magnitude as `Q_(value, unit)` and prints with pint's compact pretty
+    # form (`~P` → `m/s²`, `kg/m³`, `mi/gal`). Pairs with the Stage 2
+    # sandbox: a solution that returns `Q_(...)` for an Answer with
+    # `unit:` set is converted to that unit before display. The string
+    # is validated at load time via `ureg.parse_units()`.
+    unit: Optional[str] = None
     # Optional per-difficulty range overrides. Keyed by tier name
     # ("easy"/"medium"/"hard"); each entry can carry `min`/`max`/`step`/
     # `choices` that override the flat fields above for that tier. Used
@@ -363,6 +371,26 @@ class YAMLLoader:
                 f"Must be one of: {sorted(VALID_UNIT_SYSTEMS)}"
             )
 
+        # Validate per-variable free-form `unit:` (Stage 3). Must parse
+        # via the project's pint registry — typos like 'meeter' fail at
+        # load time rather than rendering an empty suffix later.
+        var_unit = spec.get('unit')
+        if var_unit is not None:
+            if not isinstance(var_unit, str) or not var_unit.strip():
+                self.errors.append(
+                    f"Variable '{name}': unit must be a non-empty pint unit string"
+                )
+                var_unit = None
+            else:
+                try:
+                    ureg.parse_units(var_unit)
+                except Exception as exc:
+                    self.errors.append(
+                        f"Variable '{name}': invalid pint unit "
+                        f"{var_unit!r}: {exc}"
+                    )
+                    var_unit = None
+
         # Validate per-difficulty `ranges:` override (if present). Each key
         # must be a valid tier; each entry must be a mapping carrying any of
         # min/max/step/choices.
@@ -398,6 +426,7 @@ class YAMLLoader:
             probability=spec.get('probability'),
             choices=spec.get('choices'),
             unit_system=var_unit_system,
+            unit=var_unit,
             ranges=ranges,
         )
     

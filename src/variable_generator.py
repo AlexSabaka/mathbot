@@ -283,9 +283,15 @@ class VariableGenerator:
         """
         from .units import (
             resolve_system, get_short_suffix, is_compact, get_currency_symbol,
+            format_explicit_unit_value,
         )
 
         system = resolve_system(spec.unit_system, template_unit_system)
+
+        # Free-form `unit:` (Stage 3) wins over the (type, system)-table
+        # lookup — author has declared the exact unit they want printed.
+        if spec.unit:
+            return format_explicit_unit_value(value, spec.unit)
 
         if spec.type in ('money', 'price'):
             return f"{get_currency_symbol(system)}{value:.2f}"

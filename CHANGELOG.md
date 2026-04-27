@@ -4,6 +4,81 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.2.6] - 2026-04-27 - Phase 5.3R Stage 3: free-form `unit:` on `VariableSpec`
+
+Stage 2 ([0.2.5]) covered the named physics quantities — density,
+energy, power, pressure, force, acceleration. Stage 3 (this release)
+finishes the pint adoption by letting authors declare any
+pint-parseable unit inline on a variable, without adding a new variable
+type per quantity. Pairs with the Stage 2 sandbox so P-M1-style
+dimensional-analysis solutions can convert Quantities directly.
+
+### What landed
+
+- **`VariableSpec.unit`** — new optional field. The string is validated
+  at load time via the project's `pint.UnitRegistry`; typos like
+  `'meeter / sek'` reject the template with a clear error citing the
+  variable name.
+- **Formatter integration** in [src/units.py](src/units.py):
+  - `format_explicit_unit_value(value, unit_str)` — int-or-2-decimal
+    precision, space-separated suffix in pint's compact pretty form
+    (`~P`): `"9.81 m/s²"`, `"5 l/min"`, `"28 mi/gal"`.
+  - `quantity_to_canonical_magnitude(...)` gained a `unit_override`
+    parameter so `format_answer` can route a Quantity through
+    `spec.unit` instead of the `(type, system)` table.
+  - When a variable carries `unit:`, the explicit form **wins** over
+    the system-table lookup. `{type: weight, unit: 'gram'}` renders
+    `"11 g"` regardless of the template's `unit_system`.
+- **Auto-injected `<var>_unit`** companion in
+  [src/template_generator.py](src/template_generator.py): mirrors the
+  existing `<var>_formatted` pattern. Templates can write
+  `Q_(velocity, velocity_unit)` in the solution and `{{velocity_unit}}`
+  in the problem text without hardcoding the unit twice.
+
+### Tests
+
+- 11 new cases in `TestFreeFormUnit`
+  ([tests/test_units.py](tests/test_units.py)) covering: int/float
+  display, override of the system table, Quantity unwrap into
+  `spec.unit` (m/s → km/h conversion), and load-time validation of
+  good and bad unit strings.
+- Total pytest: **134/134** (123 before + 11 new).
+- `scripts/refresh_test_answers.py --dry-run`: **0 of 1278** fixtures
+  changed.
+
+### Authoring patterns this enables
+
+```yaml
+variables:
+  acceleration: { type: decimal, unit: 'meter / second ** 2', min: 0.5, max: 9.81 }
+  flow_rate:    { type: decimal, unit: 'liter / minute',      min: 1,   max: 20 }
+  consumption:  { type: decimal, unit: 'mile / gallon',       choices: [22, 28, 35] }
+  Answer:       { type: decimal, unit: 'kilometer / hour' }
+
+solution: |
+  v_q = Q_(velocity, velocity_unit)              # uses auto-injected velocity_unit
+  Answer = v_q.to('kilometer / hour').magnitude  # or just `Answer = v_q`
+```
+
+### Pint conventions to know
+
+- `liter` and `'L'` both render as lowercase `'l'` — pint's convention.
+- Alphabetical ordering applies to compound units (`'newton * meter'`
+  → `'m·N'`).
+- Pint disallows scaling factors in unit expressions, so fuel-economy
+  units like `'L/100km'` won't parse — author the math directly in
+  the solution for those edge cases.
+
+### Remaining (post-Stage-3)
+
+The pint refactor is now functionally complete. Remaining roadmap
+items from the original Phase 5 plan are unrelated: `mathbot lint`
+subcommand (TD-3.4), `src/templates/SPEC.md` refresh (TD-4.3), and
+the 22 P-* problem-family authoring sprints (the substantive content
+work the pint backbone unblocks).
+
+---
+
 ## [0.2.5] - 2026-04-27 - Phase 5.3R Stage 2: compound types + sandbox `Q_`
 
 The Stage 1 backbone shipped in [0.2.4] wired up the pint registry as a

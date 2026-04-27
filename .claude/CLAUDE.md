@@ -89,6 +89,7 @@ variables:
   name:           { type: person }
   budget:         { type: integer, choices: [40, 60, 100] }
   price1:         { type: integer, min: 8, max: 18 }
+  acceleration:   { type: decimal, unit: "meter / second ** 2", min: 0.5, max: 9.81 }  # free-form pint unit
   Answer:         { type: string }
 
 template: |        # Jinja2; rendered to the displayed problem text
@@ -366,8 +367,9 @@ rates.
 
 **Stage 2 (since [0.2.5])**: solutions can return `pint.Quantity` values
 as `Answer`. The formatter unwraps them via
-`quantity_to_canonical_magnitude(value, type, system)` — pint converts
-to the canonical `(type, system)` unit and the magnitude is printed.
+`quantity_to_canonical_magnitude(value, type, system, unit_override=...)` —
+pint converts to the canonical `(type, system)` unit (or to
+`spec.unit` when set, see Stage 3 below) and the magnitude is printed.
 This means a P-G3-shaped solution can do dimensional arithmetic
 freely:
 
@@ -378,11 +380,38 @@ Answer = density_q * volume_q   # carries kg·L/m³ ≡ kg; formatter prints "2.
 ```
 
 Solutions returning plain floats (the legacy path) still work
-unchanged — the conversion is a no-op for non-Quantity values. **For
-unit-conversion problems (P-M1 family)**, templates can now do
-`Q_(6.4, 'L/100km').to('mile/gallon').magnitude` directly. Stage 3
-(TD-3.6) will add a free-form `unit:` field on `VariableSpec` for
-one-off compound units that don't deserve a dedicated type.
+unchanged — the conversion is a no-op for non-Quantity values.
+
+**Stage 3 (since [0.2.6])** adds a free-form `unit:` field on
+`VariableSpec` for one-off compound units that don't deserve a
+dedicated type. The string is parsed via `ureg.parse_units()` at
+load time (typos like `'meeter'` reject the template); the formatter
+prints with pint's compact pretty form (`~P` → `m/s²`, `kg/m³`,
+`mi/gal`). `unit:` always overrides the `(type, system)`-table
+lookup, so `{type: weight, unit: 'gram'}` renders `"11 g"` regardless
+of the template's `unit_system`.
+
+```yaml
+variables:
+  acceleration: { type: decimal, unit: 'meter / second ** 2', min: 0.5, max: 9.81 }
+  flow_rate:    { type: decimal, unit: 'liter / minute',      min: 1,   max: 20 }
+  consumption:  { type: decimal, unit: 'mile / gallon',       choices: [22, 28, 35] }
+```
+
+Templates can use `{{<var>_unit}}` in Jinja and `<var>_unit` in the
+solution sandbox — both are auto-injected from `spec.unit`:
+
+```python
+solution: |
+  v_q = Q_(velocity, velocity_unit)               # uses auto-injected `velocity_unit`
+  Answer = v_q.to('kilometer / hour').magnitude   # P-M1-style conversion
+```
+
+Pint conventions to know: `liter` and `'L'` both render as lowercase
+`'l'`; alphabetical ordering applies to compound units (`'newton *
+meter'` → `'m·N'`). For unit strings pint can't parse cleanly (e.g.
+fuel-economy `'L/100km'` requires a scaling factor pint disallows),
+hardcode the math in the solution.
 
 ## Visual layer
 
@@ -463,6 +492,12 @@ Variables of formatting types (money/percentage/etc.) get an auto-suffixed
 `{{<name>_formatted}}` companion at render time (e.g. `total_formatted` =
 `"$60.00"` while `total` = `60.0`). Use the `_formatted` form in problem
 text and the raw form for math in `{% set %}`.
+
+Variables that declare a free-form `unit:` (Stage 3) similarly get a
+`{{<name>_unit}}` companion carrying the raw pint string (e.g.
+`velocity_unit` = `"meter / second"`). Available in both Jinja and the
+solution sandbox so a template can do `Q_(velocity, velocity_unit)`
+without hardcoding the unit twice.
 
 ## Anchor convention
 

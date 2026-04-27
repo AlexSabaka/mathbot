@@ -382,3 +382,122 @@ class TestPintSandbox:
         assert out.endswith(" foot-pounds")
         magnitude = float(out.split()[0])
         assert abs(magnitude - 1000.0) < 0.5
+
+
+class TestFreeFormUnit:
+    """Stage 3 (TD-3.6): free-form `unit:` field on `VariableSpec`.
+
+    Authors who need a one-off compound unit (acceleration in m/s²,
+    flow rate in L/min, fuel consumption in mi/gal) can declare it
+    inline without adding a new variable type to `DISPLAY_UNITS`. The
+    string is validated at load time via `ureg.parse_units()`; the
+    formatter prints with pint's compact pretty form (`~P`).
+    """
+
+    def setup_method(self):
+        self.g = VariableGenerator(seed=1)
+
+    # --- formatting (problem text + answer text) ---
+
+    def test_value_with_explicit_unit_int(self):
+        spec = VariableSpec(name="a", type="decimal", unit="meter / second ** 2")
+        assert self.g.format_value(9, spec) == "9 m/s²"
+
+    def test_value_with_explicit_unit_float(self):
+        spec = VariableSpec(name="a", type="decimal", unit="meter / second ** 2")
+        assert self.g.format_value(9.81, spec) == "9.81 m/s²"
+
+    def test_value_explicit_unit_for_flow_rate(self):
+        spec = VariableSpec(name="q", type="decimal", unit="liter / minute")
+        assert self.g.format_value(5, spec) == "5 l/min"
+
+    def test_value_explicit_unit_overrides_table(self):
+        # `length` would normally render "5m" via the system table; the
+        # free-form `unit:` overrides that with whatever the author named.
+        spec = VariableSpec(name="d", type="length", unit="kilometer")
+        assert self.g.format_value(5, spec) == "5 km"
+
+    def test_answer_with_explicit_unit(self):
+        spec = VariableSpec(name="Answer", type="decimal", unit="mile / gallon")
+        assert format_answer(28, spec) == "28 mi/gal"
+
+    def test_answer_explicit_unit_decimal(self):
+        spec = VariableSpec(name="Answer", type="decimal", unit="kilogram / meter ** 3")
+        assert format_answer(2.5, spec) == "2.50 kg/m³"
+
+    def test_answer_explicit_unit_overrides_system(self):
+        # Template default would format weight in kg via the metric
+        # column of DISPLAY_UNITS; explicit `unit: 'gram'` wins. Pint
+        # falls back to the long name when there's no short symbol —
+        # `kilogram` would render `kg`, `gram` renders `g`.
+        spec = VariableSpec(name="Answer", type="weight", unit="gram")
+        assert format_answer(11, spec, template_unit_system="metric") == "11 g"
+
+    # --- Quantity unwrap with unit_override ---
+
+    def test_quantity_answer_converts_to_explicit_unit(self):
+        # Solution returns a Quantity in m/s; Answer's `unit:` is km/h.
+        # `format_answer` must convert before printing.
+        ctx = execute_solution(
+            "Answer = Q_(10, 'meter / second')",
+            context={},
+            language="en",
+        )
+        spec = VariableSpec(name="Answer", type="decimal", unit="kilometer / hour")
+        # 10 m/s × 3.6 = 36 km/h
+        assert format_answer(ctx, spec) == "36 km/h"
+
+    # --- load-time validation ---
+
+    def test_invalid_pint_unit_rejected(self, tmp_path):
+        import yaml
+        from src.yaml_loader import YAMLLoader
+
+        topic_dir = tmp_path / "arithmetic"
+        topic_dir.mkdir()
+        path = topic_dir / "k1_easy_bad_unit_01.yaml"
+        path.write_text(yaml.dump({
+            "metadata": {
+                "id": "k1_easy_bad_unit_01", "version": "1.0.0", "author": "t",
+                "created": "2026-04-27", "grade": 1, "topic": "arithmetic.addition",
+                "family": "addition", "difficulty": "easy", "steps": 1,
+            },
+            "variables": {
+                "a": {"type": "decimal", "min": 1, "max": 2, "unit": "meeter / sek"},  # typo
+                "Answer": {"type": "integer"},
+            },
+            "template": "{{a}}",
+            "solution": "Answer = a",
+            "tests": [{"seed": 1, "expected": {"answer": "1"}}],
+        }))
+        loader = YAMLLoader()
+        result = loader.load_template(path)
+        assert result is None
+        assert any("invalid pint unit" in e and "meeter" in e for e in loader.errors)
+
+    def test_valid_unit_loads(self, tmp_path):
+        import yaml
+        from src.yaml_loader import YAMLLoader
+
+        topic_dir = tmp_path / "arithmetic"
+        topic_dir.mkdir()
+        path = topic_dir / "k1_easy_unit_ok_01.yaml"
+        path.write_text(yaml.dump({
+            "metadata": {
+                "id": "k1_easy_unit_ok_01", "version": "1.0.0", "author": "t",
+                "created": "2026-04-27", "grade": 1, "topic": "arithmetic.addition",
+                "family": "addition", "difficulty": "easy", "steps": 1,
+            },
+            "variables": {
+                "a": {"type": "decimal", "min": 1, "max": 2, "unit": "milligram / kilogram"},
+                "Answer": {"type": "decimal", "unit": "milligram / kilogram"},
+            },
+            "template": "{{a}}",
+            "solution": "Answer = a",
+            "tests": [{"seed": 1, "expected": {"answer": "1"}}],
+        }))
+        loader = YAMLLoader()
+        result = loader.load_template(path)
+        assert result is not None
+        assert result.variables["a"].unit == "milligram / kilogram"
+        assert result.variables["Answer"].unit == "milligram / kilogram"

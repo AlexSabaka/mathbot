@@ -215,25 +215,6 @@ also catch missing schema fields, off-anchor naming, etc.
 
 **Resolution**: Phase 5.7.
 
-### TD-3.6 — Free-form `unit:` field on `VariableSpec` (units Stage 3)
-
-The Stage 2 type set will be limited to commonly-named physics
-quantities. Authors who need a one-off compound unit (e.g.
-`acceleration: m/s²`, `flow_rate: L/min`, `dose: mg/kg`) shouldn't
-have to add a new variable type per quantity. Stage 3 adds an optional
-`unit:` field on `VariableSpec`:
-
-```yaml
-variables:
-  acceleration: { type: decimal, unit: 'meter / second ** 2', min: 0.5, max: 9.81 }
-```
-
-The string is parsed via `ureg.parse_units()` at load time (same
-validator path as `DISPLAY_UNITS`); the formatter wraps the magnitude
-with the declared unit and renders pint's pretty form. Pairs with
-Stage 2 sandbox exposure so solutions can do
-`Q_(acceleration, 'm/s^2').to('ft/s^2').magnitude` directly.
-
 ---
 
 ## 4. Doc / version / config drift
@@ -374,6 +355,20 @@ a coverage gap.
 (Move entries here with a brief disposition before archiving to git
 history.)
 
+- ~~Free-form `unit:` field on `VariableSpec` (TD-3.6)~~ — Phase 5.3R
+  Stage 3 (v0.2.6) shipped the optional `unit:` field on
+  `VariableSpec`. The string is validated at load time via
+  `ureg.parse_units()` and formatted with pint's compact pretty form
+  (`~P` → `m/s²`, `kg/m³`, `mi/gal`). When set, it overrides the
+  `(type, system)` table — `{type: weight, unit: 'gram'}` renders
+  `"11 g"` regardless of the template's `unit_system`. Pairs with the
+  Stage 2 sandbox: a Quantity returned as `Answer` is converted into
+  `spec.unit` via the new `unit_override` parameter on
+  `quantity_to_canonical_magnitude`. Templates also get an
+  auto-injected `<var>_unit` companion so the unit string isn't
+  hardcoded in two places. 11 new tests in `TestFreeFormUnit`
+  (134/134 total); 0 of 1278 fixtures changed in dry-run. Pint
+  refactor is now functionally complete.
 - ~~Compound-unit variable types and sandbox `Q_` exposure (TD-3.5)~~
   — Phase 5.3R Stage 2 (v0.2.5) shipped `density`, `energy`, `power`,
   `pressure`, `force`, `acceleration` as compound types in
@@ -383,9 +378,7 @@ history.)
   `pint.Quantity` Answer values via the new
   `quantity_to_canonical_magnitude` helper. 19 new tests in
   `TestCompoundTypes` and `TestPintSandbox` (124/124 total). Fixture
-  byte-identity preserved (0 of 1278 fixtures changed in dry-run). The
-  free-form `unit:` field on `VariableSpec` (Stage 3) remains as
-  TD-3.6.
+  byte-identity preserved (0 of 1278 fixtures changed in dry-run).
 - ~~Visual layer (`visual:` block) not yet present~~ — Phase 5.5
   shipped Approach A: optional `visual:` block in YAML with a Jinja-
   rendered SVG `source` and `alt_text`. New `mathbot rasterize`

@@ -207,22 +207,62 @@ def get_pint_unit(type_: str, system: str) -> Optional[str]:
     return entry[0] if entry else None
 
 
-def quantity_to_canonical_magnitude(value: Any, type_: str, system: str) -> Any:
+def quantity_to_canonical_magnitude(
+    value: Any,
+    type_: str,
+    system: str,
+    unit_override: Optional[str] = None,
+) -> Any:
     """If value is a `pint.Quantity`, convert to the canonical (type, system)
-    unit and return the magnitude as a float. Otherwise return value unchanged.
+    unit (or `unit_override` when provided) and return the magnitude as a
+    float. Otherwise return value unchanged.
 
     Lets a solution return a Quantity in any compatible unit and have the
     formatter print it consistently. A P-G3 mass computed as
     `Q_(volume, 'L') * Q_(density, 'kg/m**3')` carries the unit
     `kilogram * liter / meter ** 3` (dimensionally `kg`); calling
     `.to('kilogram').magnitude` collapses it back to the float the formatter
-    expects. Templates that already return floats are unaffected.
+    expects. `unit_override` is used when a `VariableSpec` carries an
+    explicit `unit:` field (Stage 3) — the Quantity is coerced into that
+    unit so the printed suffix matches the author's declaration.
     """
     if isinstance(value, pint.Quantity):
-        canonical = get_pint_unit(type_, system)
-        if canonical is not None:
-            return float(value.to(canonical).magnitude)
-        # Unknown type — return raw magnitude so the formatter still gets
-        # a number rather than a Quantity object.
+        target = unit_override or get_pint_unit(type_, system)
+        if target is not None:
+            return float(value.to(target).magnitude)
+        # Unknown type with no override — return raw magnitude so the
+        # formatter still gets a number rather than a Quantity object.
         return float(value.magnitude)
     return value
+
+
+def pretty_unit(unit_str: str) -> str:
+    """Render a free-form pint unit string in pint's compact pretty form.
+
+    Uses the `~P` format spec — short symbols + Unicode exponents:
+        'meter / second ** 2' → 'm/s²'
+        'kilogram / meter ** 3' → 'kg/m³'
+        'mile / gallon' → 'mi/gal'
+
+    Note: pint's pretty form is lowercase for liter (`'L'` and `'liter'`
+    both render as `'l'`) — that's pint's convention.
+    """
+    return f"{ureg.parse_units(unit_str):~P}"
+
+
+def format_explicit_unit_value(value: Any, unit_str: str) -> str:
+    """Format `value` with a free-form pint unit suffix (Stage 3).
+
+    Convention matches the Stage 2 compound types:
+      * space between value and suffix (`"5 m/s²"`),
+      * int-or-2-decimal precision.
+
+    Non-numeric values fall through to `str(value)` — `unit:` on a
+    string variable is a no-op rather than an error.
+    """
+    suffix = pretty_unit(unit_str)
+    if isinstance(value, (int, float)):
+        if value == int(value):
+            return f"{int(value)} {suffix}"
+        return f"{float(value):.2f} {suffix}"
+    return str(value)

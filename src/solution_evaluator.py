@@ -139,7 +139,7 @@ def format_answer(
     """
     from .units import (
         resolve_system, get_long_suffix, is_compact, get_currency_symbol,
-        quantity_to_canonical_magnitude,
+        quantity_to_canonical_magnitude, format_explicit_unit_value,
     )
 
     if answer_spec is None:
@@ -151,9 +151,17 @@ def format_answer(
 
     system = resolve_system(answer_spec.unit_system, template_unit_system)
 
-    # Unwrap pint Quantity values into the canonical (type, system) magnitude.
-    # No-op when the solution returned a plain number (the legacy path).
-    value = quantity_to_canonical_magnitude(value, answer_spec.type, system)
+    # Unwrap pint Quantity values into the canonical (type, system) magnitude,
+    # or into `answer_spec.unit` when the spec declares an explicit free-form
+    # unit (Stage 3). No-op when the solution returned a plain number.
+    value = quantity_to_canonical_magnitude(
+        value, answer_spec.type, system, unit_override=answer_spec.unit,
+    )
+
+    # Free-form `unit:` (Stage 3) wins over the type-specific branches
+    # below — author has declared the exact unit they want printed.
+    if answer_spec.unit:
+        return format_explicit_unit_value(value, answer_spec.unit)
 
     # Format based on Answer variable type and unit system
     if answer_spec.type == 'money':

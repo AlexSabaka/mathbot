@@ -275,7 +275,17 @@ class TemplateGenerator:
         context = var_gen.generate_context(
             template.variables, difficulty=effective_difficulty,
         )
-        
+
+        # Auto-inject `<var>_unit` for variables that declare a free-form
+        # `unit:` (Stage 3 — TD-3.6). Available to both Jinja and the
+        # solution sandbox, so a template can write
+        #   solution: |
+        #     v_q = Q_(velocity, velocity_unit)
+        # without hardcoding the unit string in two places.
+        for var_name, spec in template.variables.items():
+            if spec.unit:
+                context[f"{var_name}_unit"] = spec.unit
+
         # Create display context with formatted values for template rendering
         display_context = {}
         for var_name, value in context.items():

@@ -4,6 +4,115 @@ All notable changes to the Mathbot project are documented in this file.
 
 ---
 
+## [0.3.0] - 2026-04-27 - Phase 5.7: `mathbot lint` + `mathbot health` (audit consolidation)
+
+Replaces the four standalone audit scripts with a unified `src/audit/`
+package and two CLI commands. First minor bump after the .2 series —
+the surface change (CLI commands replacing scripts) justifies it.
+
+### What landed
+
+- **New `src/audit/` package** — single source of truth for the rule
+  set, shared rendering helper, JSON output. Public API:
+  `lint_path` / `lint_corpus` / `lint_template` / `run_health`,
+  plus `Finding` / `RenderedSample` types.
+- **`mathbot lint [PATH]`** — per-template checks. With no PATH lints
+  the whole 625-template corpus in ~5s.
+  - Schema (delegates to `YAMLLoader`)
+  - Render-smoke across K seeds (default 4)
+  - Visual-render smoke for templates with `visual:` blocks
+    (TD-3.1c — XML parse on the rendered SVG)
+  - Fixture drift + tier coverage (mirrors `mathbot test` logic)
+  - Anchor filename mismatch — surfaces cells with multiple
+    `_anchor.yaml` files
+  - **Off-anchor divergence** (Phase 4 plan, TD-3.4) — variant whose
+    variable set or step count drifts from its anchor in the same
+    `(grade, topic, family, difficulty)` cell
+  - Rendered-output rules ported from the deleted
+    `audit_templates.py`: `unrendered_jinja`, `body_too_long`,
+    `empty_answer`, `gsm8k_money_change` / `with_tax` /
+    `items_at_price_each`, `unit_spelled_cubic` / `_squared`,
+    `area_no_squared_unit` / `volume_no_cubed_unit`,
+    `zero_steps_with_ops` / `very_high_step_count`,
+    `slug_noncanonical`
+  - JSON via `--json`; one-line stderr summary always; exit 1 on
+    errors. `--strict` treats warnings as errors. `--rules a,b,c`
+    runs a subset.
+- **`mathbot health`** — corpus-level analytics, JSON to stdout:
+  - Coverage matrix per `(grade, topic, family, difficulty)` cell
+    with anchor / variant / total counts (replaces
+    `scripts/coverage_matrix.py`).
+  - Density: top over-densified cells, singleton families
+    (replaces the density section of `audit_templates.py`).
+  - Within-cell near-dupes via SequenceMatcher ≥ 0.85, with
+    `structurally_flat_difficulty` flagging for cross-tier ≥ 0.95
+    (replaces `find_near_dupes` from `audit_templates.py`).
+  - Cross-template contamination via K-shingle Jaccard, max-neighbor
+    per template, top-N pairs above thresholds (replaces
+    `scripts/internal_contamination.py`).
+- **Deleted scripts** (their logic now lives in `src/audit/`):
+  - `audit_templates.py` (root)
+  - `scripts/coverage_matrix.py`
+  - `scripts/internal_contamination.py`
+  - `scripts/dump_all_samples.py` (CLI renders inline)
+- **`scripts/gsm8k_contamination.py`** stays — different concern
+  (external corpus, HF dataset download). Not folded into
+  `mathbot health`.
+
+### Tests
+
+- 16 new cases in [tests/test_audit.py](tests/test_audit.py):
+  coverage / dupes / contamination / lint rules + a real-corpus smoke
+  that asserts no `error`-severity findings across the shipped 625
+  templates.
+- Total pytest: **150/150** (134 before + 16 new).
+- `scripts/refresh_test_answers.py --dry-run`: **0 of 1278** fixtures
+  changed.
+
+### Real-corpus baseline
+
+Running `mathbot lint -k 4` on the shipped corpus surfaces:
+
+- **0 errors** — clean shipped baseline.
+- **243 warnings** — dominated by `off_anchor_divergence` (236),
+  the deliberate drift detection from the Phase 4 plan. 5
+  `anchor_filename_mismatch` cells where the corpus has accumulated
+  dual anchors (author decisions to resolve, non-blocking).
+- **84 info findings** — `area_no_squared_unit` (64) is the known
+  heuristic false-positive class for k5 perimeter / linear answers
+  in geometry templates whose family ends in `_area`; documented in
+  the Phase 5.7A audit notes.
+
+### Authoring usage
+
+```bash
+# Per-template, single file:
+mathbot lint src/templates/geometry/k5_easy_square_area_01_anchor.yaml --json
+
+# Whole corpus, fail on warnings (CI):
+mathbot lint --strict
+
+# Subset of rules:
+mathbot lint --rules render_crash,empty_answer,fixture_drifted
+
+# Corpus health snapshot:
+mathbot health > /tmp/health.json
+jq '.coverage.summary' /tmp/health.json
+jq '.contamination.top_pairs[0:5]' /tmp/health.json
+```
+
+### Out of scope (forward pointers)
+
+- `mathbot lint --fix` — mechanical fixes (slug renames). Wait for a
+  recurring pattern.
+- `mathbot health --baseline file.json --diff` — regression detection
+  vs a stored baseline. Wait for a CI gate use case.
+- GSM8K contamination integration — fold
+  `scripts/gsm8k_contamination.py` into `mathbot health --gsm8k` if
+  the runtime profile becomes acceptable.
+
+---
+
 ## [0.2.6] - 2026-04-27 - Phase 5.3R Stage 3: free-form `unit:` on `VariableSpec`
 
 Stage 2 ([0.2.5]) covered the named physics quantities — density,

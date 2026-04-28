@@ -529,12 +529,30 @@ were stripped in v0.1.3 by `scripts/refresh_test_answers.py`.
 
 ## Tooling
 
+- `mathbot verify <path>` — schema validation only; does not run tests.
+- `mathbot test <path>` — runs the template's embedded `tests:` block.
+- `mathbot lint [PATH] [--json] [--strict] [-k 4]` — per-template
+  audit: schema, render-smoke (K seeds), visual-render smoke, fixture
+  drift / coverage, anchor convention, off-anchor divergence (variant's
+  variable set / step count vs anchor in same cell), plus rendered-
+  output rules (unrendered Jinja, GSM8K saturation patterns, body
+  length, unit-form drift, area/volume answer heuristics). With no
+  PATH lints the whole corpus in ~5s. JSON to stdout via `--json`,
+  one-line stderr summary always, exit 1 on errors. `--strict` treats
+  warnings as errors. `--rules a,b,c` runs a subset.
+- `mathbot health [--json] [-k 4] [--top-pairs 50]` — corpus-level:
+  coverage matrix per `(grade, topic, family, difficulty)` cell,
+  density (top over-densified cells, singleton families), within-cell
+  near-dupes (SequenceMatcher ≥ 0.85 with `structurally_flat_difficulty`
+  flagging for cross-tier ≥ 0.95), cross-template contamination
+  (K-shingle Jaccard, max-neighbor per template, top-N pairs).
 - `scripts/refresh_test_answers.py [--apply] [--filter '<glob>'] [-v]` —
   surgical regenerator using ruamel.yaml round-trip mode (preserves
   comments, key order, quoting). Run after editing any template's solution
   or after generator changes that affect RNG/output.
-- `mathbot verify <path>` — schema validation only; does not run tests.
-- `mathbot test <path>` — runs the template's embedded `tests:` block.
+- `scripts/gsm8k_contamination.py` — external-corpus check vs the
+  GSM8K train split. Stays separate (HF dataset download, network);
+  not part of `mathbot health`.
 - `migrate_templates.py` was deleted in Phase 5.1 (was broken, lossy);
   use `scripts/refresh_test_answers.py` for any template rewriting.
 

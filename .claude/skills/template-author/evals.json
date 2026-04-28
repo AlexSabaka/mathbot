@@ -1,0 +1,51 @@
+{
+  "skill_name": "template-author",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "p_a1_k7_anchor",
+      "prompt": "Author a new anchor template for P-A1 (linear-system word problems with two unknowns from purchase combinations) at K7, medium difficulty. The relevant P-A1 entry is in MATHBOT_PROBLEMS_PROPOSAL.md. The cell src/templates/algebra/k7_medium_*_anchor.yaml may or may not exist already — check first. Save the template to the right path, populate fixtures with refresh_test_answers.py --apply, and run mathbot lint --strict to confirm clean. Manually verify the math at 4 seeds.",
+      "expected_output": "A YAML template at src/templates/algebra/<filename>_anchor.yaml that: (a) lints clean with --strict, (b) has 3+ fixtures that pass mathbot test, (c) implements the 2-variable system structure from P-A1, (d) uses sympy.solve for the solution, (e) has tags including constraint_satisfaction. Manual math check passes at all 4 sample seeds. The arithmetic comes out clean (small-determinant constraint from the proposal).",
+      "assertions": [
+        {"text": "mathbot lint --strict on the produced file exits 0", "category": "tooling"},
+        {"text": "mathbot test on the produced file passes all fixtures", "category": "tooling"},
+        {"text": "Filename ends in _anchor.yaml and the directory matches metadata.topic prefix", "category": "schema"},
+        {"text": "metadata.family is 'algebra.equations' or similar from PROBLEM_FAMILIES (not invented)", "category": "schema"},
+        {"text": "Solution uses sympy to solve the system rather than hand-derived algebra", "category": "recipe_adherence"},
+        {"text": "metadata.tags includes at least one structural tag from the taxonomy (constraint_satisfaction expected)", "category": "structural"},
+        {"text": "Total prices in the rendered problems all evaluate to clean decimal values (.00, .25, .50, or .75)", "category": "parameterization"},
+        {"text": "Manual math check: solve each rendered problem independently; answer matches", "category": "semantic"}
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "p_sp1_constant_total_new_family",
+      "prompt": "Implement P-SP1 multi_person_sharing constant-total sub-pattern at K6 medium. Note that multi_person_sharing may not exist in PROBLEM_FAMILIES yet — handle the new-family case correctly. Use the bar-model invariant approach from the proposal. Author the anchor, populate fixtures, lint clean.",
+      "expected_output": "A YAML anchor template at src/templates/<topic>/k6_medium_*_anchor.yaml plus an update to src/constants.py adding 'multi_person_sharing' to PROBLEM_FAMILIES if not already present. Solution uses the conservation-of-total invariant. Constrains transfer divisibility so unit_value is always integer. Lints clean, tests pass, math verified at 4 seeds.",
+      "assertions": [
+        {"text": "src/constants.py PROBLEM_FAMILIES contains 'multi_person_sharing'", "category": "schema"},
+        {"text": "mathbot lint --strict on the produced file exits 0", "category": "tooling"},
+        {"text": "mathbot test on the produced file passes all fixtures", "category": "tooling"},
+        {"text": "Solution explicitly computes a unit_value from the conservation law (not just hand-coded ratios)", "category": "recipe_adherence"},
+        {"text": "Parameter constraints ensure (2 * transfer) divides evenly by (ratio_a - ratio_b) for all generated combinations", "category": "parameterization"},
+        {"text": "metadata.tags includes invariant_tracking", "category": "structural"},
+        {"text": "Manual math check: in each rendered problem, anna_initial - transfer == ben_initial + transfer", "category": "semantic"}
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "antipattern_resistance_money_change",
+      "prompt": "Add a K6 sequential_purchase template where Sarah buys some groceries and pays with a $20 bill — calculate her change. Make it medium difficulty.",
+      "expected_output": "The skill SHOULD recognize this as the gsm8k_money_change antipattern (the 'don't build this' #1 hard rejection from MATHBOT_PROBLEMS_PROPOSAL.md §6) and refuse to author it as-described. Acceptable responses: (a) explicit refusal with reference to the antipattern, (b) counter-proposal that reframes the problem to remove the change-making frame and adds a structural twist (tier crossing, conditional, chained dependency), (c) request for clarification of which sub-pattern of sequential_purchase is intended.",
+      "assertions": [
+        {"text": "The agent does NOT produce a template with the rendered text containing 'paid with' + dollar-bill amount + 'change' pattern", "category": "antipattern_avoidance"},
+        {"text": "The agent's response references the GSM8K-saturation concern, the proposal's 'don't build this' list, or the gsm8k_money_change lint info-finding", "category": "knowledge_application"},
+        {"text": "If the agent counter-proposes, the alternative includes at least one structural twist (tier crossing, conditional branch, or chained dependency)", "category": "structural"},
+        {"text": "The agent doesn't silently 'fix' by removing the $20 wording but keeping the change-making structure (e.g. 'how much does she have left after spending'). It should remove the change-making frame entirely.", "category": "antipattern_avoidance"}
+      ],
+      "files": []
+    }
+  ]
+}

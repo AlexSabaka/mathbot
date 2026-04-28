@@ -225,15 +225,6 @@ this.
 **Resolution**: Tighten to `>=3.10,<3.13` (Phase 4 plan suggestion).
 `uv lock --upgrade` after the change.
 
-### TD-4.3 — `src/templates/SPEC.md` not refreshed for Phase 5 schema
-
-The inline schema reference at `src/templates/SPEC.md` doesn't yet
-mention `language` (added in 5.6), `unit_system` (5.3 plan), or
-`visual:` (5.5 plan). CLAUDE.md is up to date but SPEC.md is the
-"source of truth" for template authors.
-
-**Resolution**: Phase 5.7 doc pass; bundled with the lint subcommand.
-
 ### TD-4.4 — Stale references to `migrate_templates.py`
 
 [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) (untracked) and
@@ -340,6 +331,15 @@ a coverage gap.
 (Move entries here with a brief disposition before archiving to git
 history.)
 
+- ~~`src/templates/SPEC.md` not refreshed for Phase 5 schema (TD-4.3)~~
+  — Full rewrite landed alongside Phase 5.7. Now version 3.0 (2026-04-27),
+  covers all current schema fields (`language`, `culture`, `unit_system`,
+  `unit:`, `difficulty_tiers`, `visual:`), the full sandbox primitive
+  list (math / sympy / scipy.stats / pint), multi-tier rendering, anchor
+  convention, and the new `mathbot lint` / `mathbot health` validation
+  reference. Replaces the v2.0 spec from January 2026 which had drifted
+  significantly (fictional Mustache helpers, `format: money`, missing
+  pint backbone, etc.).
 - ~~`mathbot lint` subcommand not yet shipped (TD-3.4)~~ — Phase 5.7
   (v0.3.0) shipped `mathbot lint [PATH]` and `mathbot health` plus a
   new `src/audit/` package as the single source of truth. Lint covers

@@ -630,6 +630,125 @@ def rasterize(dataset_path, output_dir, dpi, width, in_place):
     )
 
 
+@cli.command()
+@click.argument('path', type=click.Path(exists=True), required=False)
+@click.option('--samples-per-template', '-k', default=4, show_default=True,
+              type=int,
+              help='Render each template K times for the render-driven rules.')
+@click.option('--seed-base', default=0, show_default=True, type=int,
+              help='Starting seed for the K samples (deterministic across runs).')
+@click.option('--rules', default=None,
+              help='Comma-separated rule ids to include (default: all).')
+@click.option('--strict', is_flag=True,
+              help='Treat warnings as errors for the exit code.')
+@click.option('--json', 'as_json', is_flag=True,
+              help='Emit findings as JSON to stdout.')
+def lint(path, samples_per_template, seed_base, rules, strict, as_json):
+    """Lint a template, directory, or the whole corpus.
+
+    With no PATH, lints every template under src/templates/. JSON
+    output goes to stdout; a one-line summary always goes to stderr.
+
+    Examples:
+
+      mathbot lint                                          # whole corpus
+      mathbot lint src/templates/geometry/k5_*.yaml --json  # one file, JSON
+      mathbot lint src/templates/arithmetic --strict        # subdir, fail on warnings
+      mathbot lint --rules render_crash,empty_answer        # subset of rules
+    """
+    from pathlib import Path
+    from .audit import lint_corpus, lint_path
+    from .audit.findings import count_by_severity
+    from .audit.report import emit_json, lint_report, write_lint_summary
+
+    rule_set = (
+        {r.strip() for r in rules.split(',') if r.strip()}
+        if rules else None
+    )
+
+    target = Path(path) if path else None
+    if target is None:
+        # Default: lint the whole corpus under src/templates/.
+        from pathlib import Path as _Path
+        templates_dir = _Path(__file__).parent / 'templates'
+        findings = lint_corpus(
+            templates_dir,
+            samples_per_template=samples_per_template,
+            seed_base=seed_base,
+            rules=rule_set,
+        )
+        templates_checked = sum(1 for _ in templates_dir.rglob('*.yaml'))
+    else:
+        findings = lint_path(
+            target,
+            samples_per_template=samples_per_template,
+            seed_base=seed_base,
+            rules=rule_set,
+        )
+        templates_checked = (
+            sum(1 for _ in target.rglob('*.yaml')) if target.is_dir() else 1
+        )
+
+    if as_json:
+        emit_json(lint_report(findings))
+
+    write_lint_summary(findings, templates_checked)
+
+    counts = count_by_severity(findings)
+    if counts['error'] > 0 or (strict and (counts['warning'] > 0 or counts['info'] > 0)):
+        sys.exit(1)
+
+
+@cli.command()
+@click.option('--samples-per-template', '-k', default=4, show_default=True,
+              type=int,
+              help='Render each template K times for contamination shingles.')
+@click.option('--seed-base', default=0, show_default=True, type=int)
+@click.option('--top-pairs', default=50, show_default=True, type=int,
+              help='Number of top contamination pairs to include in output.')
+@click.option('--n-gram', default=5, show_default=True, type=int,
+              help='Shingle size for cross-template Jaccard.')
+@click.option('--json', 'as_json', is_flag=True, default=True,
+              help='Emit JSON to stdout (default; the only structured format).')
+def health(samples_per_template, seed_base, top_pairs, n_gram, as_json):
+    """Corpus-level health report — coverage, density, dupes, contamination.
+
+    Always JSON to stdout. Slower than `lint` because it renders every
+    template K times for the contamination shingles.
+
+    Examples:
+
+      mathbot health > health.json
+      mathbot health --top-pairs 100 -k 6 > health.json
+      mathbot health | jq '.coverage.summary'
+    """
+    from pathlib import Path
+    from .audit import run_health
+    from .audit.report import emit_json
+
+    templates_dir = Path(__file__).parent / 'templates'
+    report = run_health(
+        templates_dir,
+        samples_per_template=samples_per_template,
+        seed_base=seed_base,
+        top_pairs=top_pairs,
+        n_gram=n_gram,
+    )
+    emit_json(report)
+
+    cov = report['coverage']['summary']
+    cont = report['contamination']['summary']
+    near_dupes = len(report['near_dupes'])
+    click.echo(
+        f"health: {cov['total']} templates ({cov['anchors']} anchors / "
+        f"{cov['variants']} variants), "
+        f"{cov['cells']} cells, "
+        f"{near_dupes} within-cell near-dupes, "
+        f"contamination max={cont['max']:.3f} p95={cont['p95']:.3f}.",
+        err=True,
+    )
+
+
 def main():
     """Entry point for CLI."""
     cli()

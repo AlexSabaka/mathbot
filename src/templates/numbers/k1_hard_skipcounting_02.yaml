@@ -25,9 +25,9 @@ variables:
     type: string
 
 template: |
-  {{name}} created this number pattern: {{skip_value * start_multiplier}}, {{skip_value * (start_multiplier + 1)}}, {{skip_value * (start_multiplier + 2)}}, {{skip_value * (start_multiplier + 3)}}
+  {{name}}'s pattern: {{skip_value * start_multiplier}}, {{skip_value * (start_multiplier + 1)}}, {{skip_value * (start_multiplier + 2)}}, {{skip_value * (start_multiplier + 3)}}
 
-  What is the pattern rule? What are the next 2 numbers?
+  What is the rule? What are the next 2 numbers?
 
 solution: |
   next1 = skip_value * (start_multiplier + 4)

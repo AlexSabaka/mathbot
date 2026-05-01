@@ -16,11 +16,11 @@ variables:
     type: person
   count_a:
     type: integer
-    min: 1
+    min: 2
     max: 5
   count_b:
     type: integer
-    min: 1
+    min: 2
     max: 5
   object:
     type: item
@@ -45,7 +45,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "5"
+      answer: '7'
   - seed: 100
     expected:
-      answer: "6"
+      answer: '8'

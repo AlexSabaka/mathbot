@@ -22,7 +22,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from xml.etree import ElementTree
 
 from ..jinja_renderer import JinjaRenderer
-from ..solution_evaluator import execute_solution, format_answer
+from ..solution_evaluator import execute_solution, format_answer, compare_answers
 from ..template_generator import TemplateGenerator
 from ..variable_generator import VariableGenerator
 from ..yaml_loader import TemplateDefinition, YAMLLoader, load_all_templates
@@ -178,6 +178,470 @@ def check_slug_canon(template: TemplateDefinition) -> List[Finding]:
             message=f"family '{template.family}' should be '{canonical}'",
         )]
     return []
+
+
+def check_noop_clauses_no_slot(template: TemplateDefinition) -> List[Finding]:
+    """Phase β (H3). Templates declaring `noop_clauses:` must reference
+    `{{ noop_clause }}` somewhere in `template:`, otherwise the
+    `inject_noop=True` path silently no-ops.
+
+    Error severity: a `noop_clauses:` declaration without a slot is a
+    bug — fixtures generated with `--noop` will be byte-identical to
+    those without and the GSM-NoOp eval signal disappears. Catch it
+    early instead of letting it slip through to a benchmark run.
+    """
+    if not template.noop_clauses:
+        return []
+    body = template.template
+    if "{{ noop_clause }}" in body or "{{noop_clause}}" in body:
+        return []
+    return [Finding(
+        rule="noop_clauses_no_slot", severity="error",
+        template_id=template.id, file=_relpath(template.file_path),
+        message=(
+            "metadata.noop_clauses is non-empty but template body has no "
+            "`{{ noop_clause }}` slot — the clause would never render."
+        ),
+    )]
+
+
+def check_track_missing(template: TemplateDefinition) -> List[Finding]:
+    """Phase α (B2). Flag K9+ templates lacking `metadata.track`.
+
+    K1–K8 templates can omit `track:` because the v2 eval-slicing scheme
+    only matters above the universal-arithmetic band. K9+ templates need
+    one of {core, advanced, tertiary, US-emphasized} so eval can slice
+    out the CCSS-core view from the tertiary-flavoured tail.
+
+    Info-severity only — authors aren't blocked, but `mathbot lint`
+    surfaces unset templates so they get filled in during the next
+    touch.
+    """
+    if template.grade < 9:
+        return []
+    if template.track is not None:
+        return []
+    return [Finding(
+        rule="track_missing", severity="info",
+        template_id=template.id, file=_relpath(template.file_path),
+        message=(
+            f"K{template.grade} template missing `metadata.track`. "
+            f"Set to one of: core, advanced, tertiary, US-emphasized."
+        ),
+    )]
+
+
+# ---------------------------------------------------------------------------
+# γ.3 (A.4) lint rules
+# ---------------------------------------------------------------------------
+
+# Numeric content inside `<text>` — both decimals (37.85) and integers
+# (94). The post-filter (`_is_axis_label_artifact`) decides per-form
+# whether the value is artifact-y. Integers under 10 short-circuit to
+# OK so a counting axis (0, 1, 2, …) doesn't false-positive.
+_AXIS_LABEL_RE = re.compile(r">(-?\d+(?:\.\d+)?)<")
+
+# Filler phrases that pad a problem question without adding signal.
+# Lower-cased; substring match against rendered prose. Each is a
+# template-author antipattern (rubric item 2).
+_FILLER_BOILERPLATE_PATTERNS = (
+    "please solve this problem",
+    "please solve the problem",
+    "solve the problem.",
+    "solve this problem.",
+    "find the answer.",
+    "find the solution.",
+    "compute the answer.",
+    "calculate the answer.",
+    "what is the answer?",
+)
+
+# Tokens that surface as raw Python / null-ish literals when a
+# variable misses or formatting falls through. Matched as standalone
+# tokens (word boundary) so "Anonymous" doesn't trip "None".
+_NONE_LITERAL_RE = re.compile(
+    r"\b(None|null|undefined|N/A)\b",
+)
+
+# Substrings in problem prose that imply the figure is load-bearing.
+_FIGURE_REFERENCE_PHRASES = (
+    "shown in the figure",
+    "shown below",
+    "shown above",
+    "the figure shows",
+    "the figure below",
+    "the figure above",
+    "the diagram below",
+    "the diagram above",
+    "the diagram shows",
+    "as shown",
+    "as in the figure",
+    "as in the diagram",
+    "(see figure",
+    "(see diagram",
+    "see the figure",
+    "see the diagram",
+    "marked on the figure",
+    "marked on the diagram",
+    "labelled on the figure",
+    "labelled on the diagram",
+    "labeled on the figure",
+    "labeled on the diagram",
+    "the schematic below",
+    "the schematic shows",
+)
+
+
+def check_axis_range_artifact(
+    sample_visual_svg: str, template: TemplateDefinition,
+) -> List[Finding]:
+    """γ.3 (A.4) + γ.4q (Q.3). Flag visuals whose axis labels are un-round.
+
+    Auto-fitted axes in PlotSVG / FunctionGraphFigure produce ugly bound
+    labels like "37.85", "34.62", or integer "94" when the data range
+    lands on un-round numbers. The fix is to pass ``round_to=`` (Q.1)
+    or override ``y_range`` explicitly — but only after the lint
+    surfaces it.
+
+    Heuristic: scan rendered ``<text>`` contents for numerics; for each,
+    apply :func:`_is_axis_label_artifact`. Decimals: strip trailing
+    zeros and flag when ≥2 decimal digits remain. Integers: flag when
+    |value| ≥ 10 AND value isn't a round multiple. Restricted to SVGs
+    that contain a ``<polyline>`` (i.e., plot-shaped visuals); table /
+    schematic SVGs use the same `<text>` element type but their cell
+    values aren't axis labels and shouldn't be linted by this rule.
+
+    Warning severity.
+    """
+    if not sample_visual_svg or "<polyline" not in sample_visual_svg:
+        return []
+    raw = _AXIS_LABEL_RE.findall(sample_visual_svg)
+    artifacts = [v for v in raw if _is_axis_label_artifact(v)]
+    if not artifacts:
+        return []
+    # Dedupe + cap for readability.
+    deduped = sorted(set(artifacts))
+    return [Finding(
+        rule="axis_range_artifact", severity="warning",
+        template_id=template.id, file=_relpath(template.file_path),
+        message=(
+            f"visual has decimal label(s) with ≥2 significant decimal "
+            f"digits: {deduped[:5]}"
+            f"{'...' if len(deduped) > 5 else ''}. Consider overriding "
+            f"x_range / y_range or rounding marker values to multiples "
+            f"of 0.5 / 1 / 5 / 10."
+        ),
+    )]
+
+
+def _is_axis_label_artifact(label: str) -> bool:
+    """Return True when ``label`` would read as un-round on an axis.
+
+    Two branches:
+
+    * **Decimals** (``"37.85"``): strip trailing zeros from the decimal
+      part; flag when ≥2 non-zero decimal digits remain. ``"1.50"`` →
+      ``"1.5"`` → ok; ``"37.85"`` → 2 digits → fire.
+    * **Integers** (``"94"``, ``"18"``): γ.4q-extension. Flag when
+      |value| ≥ 10 AND value isn't a multiple of any of {5, 10, 25,
+      50, 100, 250, 500, 1000}. Catches the cooling template's
+      auto-fitted (18, 94) bounds without firing on round bounds
+      like (0, 100) or (50, 200). Single-digit values (0–9) stay
+      safe because counting axes (0/1/2/…) routinely use them.
+    """
+    if "." in label:
+        _, dec_part = label.split(".", 1)
+        trimmed = dec_part.rstrip("0")
+        return len(trimmed) >= 2
+    try:
+        v = int(label)
+    except ValueError:
+        return False
+    av = abs(v)
+    if av < 10:
+        return False
+    for step in (5, 10, 25, 50, 100, 250, 500, 1000):
+        if av % step == 0:
+            return False
+    return True
+
+
+def check_filler_boilerplate(
+    sample: RenderedSample, template: TemplateDefinition,
+) -> List[Finding]:
+    """γ.4q (Q.3) — flag rubric item 2 (filler phrases).
+
+    The rendered prose contains a redundant filler phrase like
+    "Please solve this problem" tacked onto a question that's
+    already a question. Substring match against a closed catalogue
+    of known offenders (case-insensitive).
+
+    Info severity. The K1-K8 corpus has ~270 templates carrying
+    "Please solve this problem." literally — pre-existing quality
+    debt that will be cleaned up in γ.5. Surfacing the count
+    without flooding the warning channel keeps γ.4q-blocking
+    findings (axis artifacts, schematic contradictions) visible.
+    Authors fix by deleting the filler from the `template:` block;
+    the prose stays the same minus the padding.
+    """
+    body_lower = sample.body.lower()
+    hits = [p for p in _FILLER_BOILERPLATE_PATTERNS if p in body_lower]
+    if not hits:
+        return []
+    return [Finding(
+        rule="filler_boilerplate", severity="info",
+        template_id=template.id, file=_relpath(template.file_path),
+        message=(
+            f"rendered prose contains filler phrase(s) {hits!r}. The "
+            f"question is already a question — drop the redundant "
+            f"closer. Rubric item 2."
+        ),
+    )]
+
+
+def check_none_in_output(
+    sample: RenderedSample, template: TemplateDefinition,
+) -> List[Finding]:
+    """γ.4q (Q.3) — flag rubric item 11 (None / null / undefined / N/A).
+
+    Catches templates where a variable misses or the formatter falls
+    through and a Python literal surfaces in the rendered output. Word-
+    boundary match so "Anonymous" / "Nullable" don't false-positive.
+
+    Warning severity. The fix is template-side: tighten the variable
+    spec, add a default, or fix the formatter dispatch.
+    """
+    out: List[Finding] = []
+    rel = _relpath(template.file_path)
+    for source_label, content in (("body", sample.body), ("answer", sample.answer)):
+        if not content:
+            continue
+        m = _NONE_LITERAL_RE.search(content)
+        if m:
+            out.append(Finding(
+                rule="none_in_output", severity="warning",
+                template_id=template.id, file=rel,
+                message=(
+                    f"rendered {source_label} contains literal "
+                    f"{m.group(0)!r} — likely a missing variable / "
+                    f"formatter fallthrough. Rubric item 11."
+                ),
+            ))
+            # One finding per content slot is enough; further hits
+            # don't add diagnostic value.
+            break  # only the first content slot reports
+    return out
+
+
+def check_visual_prose_contradiction(
+    sample: RenderedSample, template: TemplateDefinition,
+) -> List[Finding]:
+    """γ.3 (A.4). Token-level prose ↔ alt-text consistency check.
+
+    Heuristic: extract the longest content-bearing nouns from the
+    visual's alt_text (length ≥ 5 chars, ≤ 12 chars, lowercase
+    alphabetic). At least one of them should appear in the problem
+    prose; otherwise the alt-text is describing something different
+    from what the prose talks about. This is the lightweight version
+    — γ.δ's grader skill does the semantic check.
+
+    Skipped when the template has no visual or no alt_text.
+    Info severity (not warning) — false-positive rate too high to
+    block authors. Use as a "did you forget to update one when you
+    edited the other?" signal.
+    """
+    if template.visual is None or not (template.visual.alt_text or ""):
+        return []
+    body_lower = sample.body.lower()
+    # Tokenise alt_text into candidate keywords.
+    alt_lower = template.visual.alt_text.lower()
+    tokens = re.findall(r"[a-z]{5,12}", alt_lower)
+    if not tokens:
+        return []
+    # Drop stop-ish words a high-school problem alt-text routinely
+    # carries that wouldn't be content-bearing in the prose.
+    _STOP = {
+        "above", "below", "between", "across", "along", "around",
+        "shows", "showing", "shown", "marked", "labeled", "labelled",
+        "horizontal", "vertical", "starting", "approaching", "decaying",
+        "asymptotically", "toward", "configuration", "diagram", "figure",
+        "schematic", "right", "after", "value", "values", "point",
+        "point ",
+    }
+    candidates = [t for t in set(tokens) if t not in _STOP]
+    if not candidates:
+        return []
+    if any(c in body_lower for c in candidates):
+        return []
+    return [Finding(
+        rule="visual_prose_contradiction", severity="info",
+        template_id=template.id, file=_relpath(template.file_path),
+        message=(
+            f"visual.alt_text describes nouns not present in the "
+            f"problem prose: {candidates[:5]}. Either the alt text or "
+            f"the prose may be out of sync with the figure."
+        ),
+    )]
+
+
+def check_simplification_lift_missing(template: TemplateDefinition) -> List[Finding]:
+    """γ.3 (A.4). Multi-tier simplifications must vary by tier.
+
+    The point of ``simplifications:`` (γ.1 A.3) is the per-tier
+    suppression — at easy tier the template states an assumption,
+    at hard tier the same line is suppressed. A multi-tier template
+    that ships ``simplifications:`` but with every entry's ``omit_at``
+    identical (or empty) doesn't actually exercise the difficulty
+    lever, so the field is dead weight.
+
+    Warning severity: the template still loads fine, but the author
+    intended a structural-difficulty signal that doesn't exist.
+    """
+    if not template.simplifications:
+        return []
+    if not template.difficulty_tiers or len(template.difficulty_tiers) < 2:
+        return []  # Single-tier — suppression-by-tier doesn't apply.
+    omit_sets = {tuple(sorted(s.omit_at or [])) for s in template.simplifications}
+    if len(omit_sets) >= 2:
+        return []
+    # All entries share the same omit_at set → no per-tier lift.
+    return [Finding(
+        rule="simplification_lift_missing", severity="warning",
+        template_id=template.id, file=_relpath(template.file_path),
+        message=(
+            f"metadata.simplifications has {len(template.simplifications)} "
+            f"entry/entries but every `omit_at` is identical "
+            f"({list(omit_sets)[0]}); no tier lift between "
+            f"{template.difficulty_tiers}. Either drop the field, or vary "
+            f"`omit_at` so the hard tier suppresses what easy/medium states."
+        ),
+    )]
+
+
+def check_figure_load_inconsistent(
+    sample: RenderedSample, template: TemplateDefinition,
+) -> List[Finding]:
+    """γ.3 (A.4). Prose ↔ figure_load consistency.
+
+    Two complementary contradictions:
+
+    - Prose says "as shown in the figure" / "the diagram below shows"
+      / "see the figure" but ``figure_load: decorative`` (or the field
+      is unset on a template *with* a visual) → contradiction:
+      either upgrade ``figure_load`` to ``partial`` / ``load_bearing``,
+      or drop the prose hook so the solver doesn't expect to find
+      information on the figure that isn't there.
+    - Template has no ``visual:`` block but ``figure_load`` is set
+      to anything other than ``none`` → contradiction.
+
+    Warning severity. Per the seed's "promote to error in Phase ε
+    after the corpus settles" — for now, surfaceable but non-blocking.
+    """
+    declared = _resolve_figure_load(template, sample.tier)
+    body_lower = sample.body.lower()
+    has_figure_phrase = any(p in body_lower for p in _FIGURE_REFERENCE_PHRASES)
+
+    out: List[Finding] = []
+    rel = _relpath(template.file_path)
+
+    if has_figure_phrase and template.visual is None:
+        out.append(Finding(
+            rule="figure_load_inconsistent", severity="warning",
+            template_id=template.id, file=rel,
+            message=(
+                "prose references a figure ('shown in the figure', "
+                "'see the diagram', etc.) but the template has no "
+                "`visual:` block. Either remove the prose hook or "
+                "add the visual."
+            ),
+        ))
+        return out
+
+    if template.visual is not None:
+        if has_figure_phrase and declared == "decorative":
+            out.append(Finding(
+                rule="figure_load_inconsistent", severity="warning",
+                template_id=template.id, file=rel,
+                message=(
+                    f"prose references the figure but figure_load="
+                    f"'decorative' for tier '{sample.tier}'. Upgrade "
+                    f"figure_load to 'partial' or 'load_bearing' or drop "
+                    f"the figure-reference phrasing."
+                ),
+            ))
+        if declared == "none":
+            out.append(Finding(
+                rule="figure_load_inconsistent", severity="warning",
+                template_id=template.id, file=rel,
+                message=(
+                    f"figure_load='none' for tier '{sample.tier}' but the "
+                    f"template ships a `visual:` block. Either drop the "
+                    f"visual or upgrade figure_load."
+                ),
+            ))
+    return out
+
+
+def check_feature_declared_but_unused(template: TemplateDefinition) -> List[Finding]:
+    """γ.3 (A.4). Surface schema features that nothing exercises.
+
+    Two patterns today:
+
+    - ``noop_clauses:`` declared but no fixture passes ``inject_noop=True``.
+      The fixtures table doesn't carry that flag yet, so the proxy is
+      "the deprecation status alone" — surfaced as a separate info
+      finding so authors migrate to ``simplifications:`` instead.
+    - ``simplifications:`` declared on a multi-tier template but the
+      fixture set covers only one tier. The lift can't possibly be
+      exercised by tests.
+
+    Info severity: dead-feature declarations are hygiene issues, not
+    bugs.
+    """
+    out: List[Finding] = []
+    rel = _relpath(template.file_path)
+
+    if template.simplifications and template.difficulty_tiers:
+        fixture_tiers = {
+            (t.difficulty or template.difficulty) for t in template.tests
+        }
+        # Drop None entries (no tier set + single-tier template).
+        fixture_tiers.discard(None)
+        active_tiers = set(template.difficulty_tiers)
+        if active_tiers and not (active_tiers <= fixture_tiers):
+            missing = sorted(active_tiers - fixture_tiers)
+            out.append(Finding(
+                rule="feature_declared_but_unused", severity="info",
+                template_id=template.id, file=rel,
+                message=(
+                    f"metadata.simplifications declared but tier(s) "
+                    f"{missing} have no fixture exercising the "
+                    f"per-tier lift. Add a fixture per tier so the "
+                    f"suppression behaviour is regression-tested."
+                ),
+            ))
+    return out
+
+
+def _resolve_figure_load(
+    template: TemplateDefinition, tier: Optional[str],
+) -> Optional[str]:
+    """Resolve `metadata.figure_load` to the active value for ``tier``.
+
+    Returns one of {none, decorative, partial, load_bearing} or
+    ``None`` when the field is unset.
+    """
+    fl = template.figure_load
+    if fl is None:
+        return None
+    if isinstance(fl, str):
+        return fl
+    if isinstance(fl, dict):
+        if tier and tier in fl:
+            return fl[tier]
+        # No per-tier hit — fall back to the template's default tier.
+        return fl.get(template.difficulty)
+    return None
 
 
 def check_steps_ops_consistency(template: TemplateDefinition) -> List[Finding]:
@@ -346,24 +810,64 @@ def check_fixture_missing(template: TemplateDefinition) -> List[Finding]:
 def check_visual_render(
     template: TemplateDefinition, renderer: JinjaRenderer, sample_context: Dict[str, Any],
 ) -> List[Finding]:
-    """Smoke-render the visual block (TD-3.1c).
+    """Smoke-render the visual block (TD-3.1c + Phase β H1).
 
-    Catches broken Jinja (undefined var) and malformed XML in
-    `visual.source`. `sample_context` is the rendered-context from a
-    successful sample render — reuses the variable values already
-    generated, so the visual gets the same vars the problem text saw.
+    Format dispatch:
+      - `svg`    : Jinja-render `visual.source` against the variable
+                   context, parse the result as XML.
+      - `python` : execute `visual.source` in the visual sandbox
+                   (PlotSVG/TreeSVG/MarkovSVG); the captured `Visual`
+                   binding must parse as XML.
+
+    Either path emits `visual_render_crash` (error severity) on
+    failure. `sample_context` is the rendered-context from a
+    successful sample render so the visual sees the same variable
+    values the problem text did.
     """
     if template.visual is None:
         return []
     rel = _relpath(template.file_path)
-    try:
-        rendered_source = renderer.render(template.visual.source, sample_context)
-    except Exception as exc:
-        return [Finding(
-            rule="visual_render_crash", severity="error",
-            template_id=template.id, file=rel,
-            message=f"visual.source Jinja render failed: {type(exc).__name__}: {exc}",
-        )]
+
+    if template.visual.format == "python":
+        from ..solution_evaluator import build_visual_sandbox
+        sandbox = build_visual_sandbox(language=template.language)
+        # Same merged-namespace exec as template_generator._render_python_visual,
+        # so lambdas inside visual.source close over context vars correctly.
+        ns = {**sandbox, **sample_context}
+        try:
+            exec(template.visual.source, ns)
+        except Exception as exc:
+            return [Finding(
+                rule="visual_render_crash", severity="error",
+                template_id=template.id, file=rel,
+                message=f"visual.source (python) raised: {type(exc).__name__}: {exc}",
+            )]
+        if "Visual" not in ns:
+            return [Finding(
+                rule="visual_render_crash", severity="error",
+                template_id=template.id, file=rel,
+                message="visual.source (python) did not bind `Visual`",
+            )]
+        rendered_source = ns["Visual"]
+        if not isinstance(rendered_source, str):
+            return [Finding(
+                rule="visual_render_crash", severity="error",
+                template_id=template.id, file=rel,
+                message=(
+                    f"visual.source (python) bound `Visual` to "
+                    f"{type(rendered_source).__name__}, expected str"
+                ),
+            )]
+    else:
+        try:
+            rendered_source = renderer.render(template.visual.source, sample_context)
+        except Exception as exc:
+            return [Finding(
+                rule="visual_render_crash", severity="error",
+                template_id=template.id, file=rel,
+                message=f"visual.source Jinja render failed: {type(exc).__name__}: {exc}",
+            )]
+
     try:
         ElementTree.fromstring(rendered_source.strip())
     except ElementTree.ParseError as exc:
@@ -412,7 +916,12 @@ def run_template_tests(template: TemplateDefinition) -> List[Finding]:
             ))
             continue
 
-        if actual != expected:
+        if not compare_answers(
+            actual, expected,
+            mode=test_case.compare,
+            tolerance=test_case.tolerance,
+            tolerance_rel=test_case.tolerance_rel,
+        ):
             out.append(Finding(
                 rule="fixture_drifted", severity="error",
                 template_id=template.id, file=rel, seed=test_seed,
@@ -455,6 +964,14 @@ def lint_template(
         findings.extend(check_slug_canon(template))
     if enabled("zero_steps_with_ops") or enabled("very_high_step_count"):
         findings.extend(check_steps_ops_consistency(template))
+    if enabled("track_missing"):
+        findings.extend(check_track_missing(template))
+    if enabled("noop_clauses_no_slot"):
+        findings.extend(check_noop_clauses_no_slot(template))
+    if enabled("simplification_lift_missing"):
+        findings.extend(check_simplification_lift_missing(template))
+    if enabled("feature_declared_but_unused"):
+        findings.extend(check_feature_declared_but_unused(template))
     if enabled("fixture_missing"):
         findings.extend(check_fixture_missing(template))
     if enabled("anchor_filename_mismatch") and anchor_ids_by_cell is not None:
@@ -488,6 +1005,12 @@ def lint_template(
         ("gsm8k_items_at_price_each", check_gsm8k_saturation),
         ("area_no_squared_unit", check_answer_units_match_topic),
         ("volume_no_cubed_unit", check_answer_units_match_topic),
+        # γ.3 (A.4) — render-driven, prose ↔ schema consistency rules.
+        ("figure_load_inconsistent", check_figure_load_inconsistent),
+        ("visual_prose_contradiction", check_visual_prose_contradiction),
+        # γ.4q (Q.3) — render-driven, rubric items 2 + 11.
+        ("filler_boilerplate", check_filler_boilerplate),
+        ("none_in_output", check_none_in_output),
     ]
     seen_render_fns: set = set()
     for s in samples:
@@ -505,7 +1028,14 @@ def lint_template(
 
     # Visual smoke uses the first successful sample's context — but the
     # context isn't returned by the generator API. Re-derive cheaply:
-    if enabled("visual_render_crash") and template.visual is not None:
+    needs_visual_render = (
+        template.visual is not None
+        and (
+            enabled("visual_render_crash")
+            or enabled("axis_range_artifact")
+        )
+    )
+    if needs_visual_render:
         renderer = JinjaRenderer()
         # Use VariableGenerator directly to get a context dict, since
         # `_generate_from_template` returns the rendered output instead
@@ -520,9 +1050,41 @@ def lint_template(
             if spec.unit:
                 ctx[f"{name}_unit"] = spec.unit
         ctx.setdefault("language", template.language)
-        findings.extend(check_visual_render(template, renderer, ctx))
+        if enabled("visual_render_crash"):
+            findings.extend(check_visual_render(template, renderer, ctx))
+        if enabled("axis_range_artifact"):
+            rendered_svg = _render_visual_silently(template, renderer, ctx)
+            if rendered_svg:
+                findings.extend(check_axis_range_artifact(rendered_svg, template))
 
     return findings
+
+
+def _render_visual_silently(
+    template: TemplateDefinition,
+    renderer: JinjaRenderer,
+    ctx: Dict[str, Any],
+) -> Optional[str]:
+    """Render the visual block and return the SVG string, or None on crash.
+
+    Used by the γ.3 axis-artifact rule which only needs the rendered
+    output — actual crash reporting goes through ``check_visual_render``.
+    Mirrors that function's format dispatch (``svg`` Jinja-render vs
+    ``python`` sandbox-exec).
+    """
+    if template.visual is None:
+        return None
+    try:
+        if template.visual.format == "python":
+            from ..solution_evaluator import build_visual_sandbox
+            sandbox = build_visual_sandbox(language=template.language)
+            ns = {**sandbox, **ctx}
+            exec(template.visual.source, ns)
+            value = ns.get("Visual")
+            return value if isinstance(value, str) else None
+        return renderer.render(template.visual.source, ctx)
+    except Exception:
+        return None
 
 
 # ---------------------------------------------------------------------------

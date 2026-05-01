@@ -17,7 +17,15 @@ MATH_TOPICS = [
     "statistics",
     "quadratics",
     "derivatives",
-    "powers_logs"
+    "powers_logs",
+    # v2 (N1–N16): K9–K12 expansion families that use new top-level topics.
+    # Templates declaring these must live under a same-named directory under
+    # src/templates/ — yaml_loader enforces topic↔directory invariant.
+    "sequences",                # N4: arithmetic / geometric / recursive
+    "trigonometry",             # N11: identities applied; law of sines/cosines
+    "linear_algebra",           # N9, N10: matrices, eigenvalues, vectors
+    "calculus",                 # N12, N13, N14: limits, derivatives, integrals
+    "differential_equations",   # N15, N16: first / second order ODEs
 ]
 
 # Available problem families
@@ -109,7 +117,26 @@ PROBLEM_FAMILIES = [
     "range",
     "bar_graphs",
     "histograms",
-    "frequency_tables"
+    "frequency_tables",
+    # v2 (N1–N16): K9–K12 expansion families per
+    # MATHBOT_PROBLEMS_PROPOSAL_v2.md §5. Each is the structural-skeleton
+    # name; specific cells (grade, topic) carry the variation.
+    "function_transformation",      # N1
+    "polynomial_operations",        # N2
+    "quadratic_method_selection",   # N3
+    "sequence_series",              # N4
+    "absolute_value_piecewise",     # N5
+    "conic_application",            # N6
+    "complex_application",          # N7
+    "logarithmic_inversion",        # N8
+    "matrix_application",           # N9
+    "vector_application",           # N10
+    "trig_identity_application",    # N11
+    "limit_application",            # N12
+    "derivative_application",       # N13
+    "integral_application",         # N14
+    "first_order_ode",              # N15
+    "second_order_ode",             # N16
 ]
 
 # Grade to max complexity mapping
@@ -135,7 +162,12 @@ TOPIC_GRADE_COMPATIBILITY = {
     "measurement": ["elementary", "middle", "high", "college", "university"],
     "quadratics": ["high", "college", "university"],
     "derivatives": ["high", "college", "university"],
-    "powers_logs": ["high", "college", "university"]
+    "powers_logs": ["high", "college", "university"],
+    "sequences": ["high", "college", "university"],
+    "trigonometry": ["high", "college", "university"],
+    "linear_algebra": ["high", "college", "university"],
+    "calculus": ["high", "college", "university"],
+    "differential_equations": ["high", "college", "university"],
 }
 
 # Complexity to steps range mapping
@@ -239,7 +271,28 @@ FAMILY_TOPIC_SUPPORT = {
     "range": ["statistics"],  # calculate range
     "bar_graphs": ["statistics"],  # interpret bar graphs
     "histograms": ["statistics"],  # create and interpret histograms
-    "frequency_tables": ["statistics"]  # create and interpret frequency tables
+    "frequency_tables": ["statistics"],  # create and interpret frequency tables
+    # v2 (N1–N16) — most map to algebra; calculus / linear_algebra /
+    # differential_equations / sequences / trigonometry are new top-level
+    # topics added above. A family can support multiple topics where the
+    # underlying skeleton applies (e.g. complex numbers in both
+    # `numbers.complex` and `algebra.complex_polynomials`).
+    "function_transformation": ["algebra", "calculus"],          # N1
+    "polynomial_operations": ["algebra"],                         # N2
+    "quadratic_method_selection": ["algebra", "quadratics"],      # N3
+    "sequence_series": ["sequences", "algebra"],                  # N4
+    "absolute_value_piecewise": ["algebra"],                      # N5
+    "conic_application": ["geometry"],                            # N6
+    "complex_application": ["numbers", "algebra"],                # N7
+    "logarithmic_inversion": ["algebra", "powers_logs"],          # N8
+    "matrix_application": ["linear_algebra"],                     # N9
+    "vector_application": ["linear_algebra", "geometry"],         # N10
+    "trig_identity_application": ["trigonometry"],                # N11
+    "limit_application": ["calculus"],                            # N12
+    "derivative_application": ["calculus", "derivatives"],        # N13
+    "integral_application": ["calculus"],                         # N14
+    "first_order_ode": ["differential_equations"],                # N15
+    "second_order_ode": ["differential_equations"],               # N16
 }
 
 # Topics that require specific problem types (these need special handling)

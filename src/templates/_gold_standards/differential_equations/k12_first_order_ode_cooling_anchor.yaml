@@ -1,0 +1,313 @@
+# γ-era reference exemplar — feature-maximal anchor for inspection AND
+# corpus integration (gold-standard #7).
+#
+# Cell:    k12.differential_equations.first_order, family=first_order_ode
+# Source:  MATHBOT_PROBLEMS_PROPOSAL_v2.md §5 N15, "easy" tier example
+#          (Newton's cooling with target-temperature inversion)
+#
+# Feature checklist exercised by this template:
+#   - track: advanced            — Phase α B2 curriculum-track tag
+#   - structural_tags            — Phase β H2 (T13/T14/T17) + γ.1 (T18)
+#   - direction: inverse         — Phase β H4 query-direction toggle
+#   - simplifications + omit_at  — Phase γ.1 K12 successor to noop_clauses
+#   - figure_load: partial       — Phase γ.1 figure↔prose load disclosure
+#   - difficulty_tiers + ranges  — multi-tier with per-tier number ranges
+#   - unit_system: metric        — temperature renders as °C
+#   - free-form unit on `k`      — pint Stage 3 (TD-3.6); k prints as "0.05 1/min"
+#   - sympy in solution          — sp.dsolve → sp.solve to derive + invert
+#   - visual.format: python      — Phase β H1 PlotSVG with lambda closure
+#                                  + γ.3 round x_range (no axis_range_artifact)
+#   - tests compare/tolerance    — Phase α B3/B4 numeric match with slack
+#
+# Phase γ upgrades vs. the original Phase β demo:
+#   - Dropped deprecated `noop_clauses:` and the `{{ noop_clause }}` slot.
+#   - Added `simplifications:` (two entries with distinct per-tier lift)
+#     and the `{{ simplifications }}` Jinja slot in the body.
+#   - Added `T18_assumption_omission` to structural_tags.
+#   - Added `figure_load: partial` (prose carries every quantity; the
+#     curve is a visualisation aid, not load-bearing).
+#   - Rounded the x-axis upper bound up to the nearest multiple of 5
+#     so PlotSVG's corner labels render as integers instead of e.g.
+#     "37.85" — eliminates the γ.3 `axis_range_artifact` warning.
+
+metadata:
+  id: k12_first_order_ode_cooling
+  version: "1.0.0"
+  author: claude-phase-beta-demo
+  created: 2026-04-28
+  grade: 12
+  topic: differential_equations.first_order
+  family: first_order_ode
+  difficulty: medium                 # default tier (must appear in difficulty_tiers)
+  difficulty_tiers: [easy, medium, hard]
+  steps: 4                           # set up ODE → solve → invert for t → interpret
+  unit_system: metric                # °C, not °F
+  language: en
+  culture: en-US
+
+  # Phase α (B2): curriculum-track tag for eval slicing. N15 is universal at
+  # the advanced track in Singapore H2, Finland MAA12, Sweden Mat 5,
+  # NL wiskunde D, Norway R2 — and absent from CCSS core.
+  track: advanced
+
+  # Phase β (H4): N15's natural query is forward (given t, find T(t));
+  # the canonical "easy" template flips it to find-the-time-when-target-
+  # is-hit. Tag the direction so eval slicers can carve forward vs.
+  # inverse problems.
+  direction: inverse
+
+  # Phase β (H2) + γ.1: cross-cutting tags. Four apply here:
+  #   T13 — multi-step symbolic chain (set up ODE → solve → invert → eval)
+  #   T14 — formula-recall: recognising first-order linear → exponential decay
+  #   T17 — inverse direction of the canonical T(t) forward query
+  #   T18 — assumption omission: hard tier suppresses the simplifying
+  #         assumptions stated at easy/medium (pairs with simplifications:)
+  structural_tags:
+    - T13_symbolic_chain
+    - T14_formula_recall
+    - T17_inverse_query
+    - T18_assumption_omission
+
+  # Phase γ.1 (A.3): per-tier simplifying-assumption suppression.
+  # Each entry is a Jinja string sharing the same context as `template:`.
+  # `omit_at:` lists tiers where the entry is suppressed; entries omitted
+  # at a tier disappear from the rendered prose, so the substantive
+  # difficulty axis is "which modeling assumptions does the solver have
+  # to recognise on their own". Two distinct lift profiles are required
+  # for a multi-tier template — see lint rule `simplification_lift_missing`.
+  simplifications:
+    # Stated at easy + medium; the hard solver must recognise that the
+    # ambient temperature is treated as constant in the textbook ODE.
+    - text: "Treat the ambient temperature {{T_amb_formatted}} as constant throughout cooling."
+      omit_at: [hard]
+    # Stated only at easy; both medium and hard solvers must trust the
+    # given k without the explicit "linear in (T - T_ambient)" framing.
+    - text: "Assume the cooling rate constant k = {{k_formatted}} is independent of the coffee's temperature."
+      omit_at: [medium, hard]
+
+  # Phase γ.1 (A.3): figure_load disclosure. The prose carries T_0,
+  # T_amb, T_target, and k explicitly — the visual is a decay curve
+  # with an answer marker that helps the solver visualise the geometry
+  # but is not strictly required to solve. `partial` is the honest
+  # call: more than `decorative` (the marker mirrors the answer) but
+  # less than `load_bearing` (no quantity lives only on the figure).
+  figure_load: partial
+
+  tags: [calculus, ode, exponential_decay, newton_cooling]
+  notes: |
+    γ-era reference exemplar (gold-standard #7) — `_gold_standards/`
+    mirror of the in-place anchor at
+    `src/templates/differential_equations/k12_first_order_ode_cooling_01_anchor.yaml`.
+    Both files are byte-aligned except for the metadata id (this
+    mirror drops the `_01` suffix). The mirror strategy itself is
+    tracked as TD-γ.4q-4 — γ.5 will likely retire the mirror and
+    keep gold-standards at their topic directories with a `notes:`
+    annotation flagging exemplar status.
+
+    γ.4q rubric-12 review: see in-place anchor's notes block. All
+    twelve grade-agnostic items pass on the rendered PNG at seed
+    12345 (medium tier).
+
+variables:
+  # Person — body-prose entity. No mathematical role; gives the
+  # template a named subject ("Mae pours a fresh cup…") and exercises
+  # the Faker-locale path so `culture: en-US` actually drives a name
+  # draw. Pre-γ this person also appeared in the noop_clauses pool;
+  # post-γ the simplifications: entries don't need a named subject.
+  person:
+    type: person
+
+  # Initial coffee temperature. `temperature` type with metric system
+  # → renders as "95.0°C". Multi-tier `ranges:` shrinks/widens the
+  # spread per difficulty without forking the template.
+  T_0:
+    type: temperature
+    min: 85               # safe defaults if ranges-aware path is bypassed
+    max: 95
+    step: 1
+    ranges:
+      easy: {min: 80, max: 85, step: 1}
+      medium: {min: 85, max: 92, step: 1}
+      hard: {min: 88, max: 96, step: 1}
+
+  # Ambient room temperature. Constraints below ensure
+  # T_amb < T_target < T_0 across all draws (verified at all tier
+  # combinations — see the dissection note).
+  T_amb:
+    type: temperature
+    min: 20
+    max: 24
+    step: 1
+    ranges:
+      easy: {min: 20, max: 22, step: 1}
+      medium: {min: 20, max: 24, step: 1}
+      hard: {min: 22, max: 26, step: 1}
+
+  # Target "drinkable" temperature.
+  T_target:
+    type: temperature
+    min: 55
+    max: 65
+    step: 1
+    ranges:
+      easy: {min: 40, max: 50, step: 1}
+      medium: {min: 55, max: 65, step: 1}
+      hard: {min: 60, max: 70, step: 1}
+
+  # Cooling rate constant. `unit:` is a free-form pint string (TD-3.6),
+  # which makes `k_formatted` render as "0.05 1/min" via pint's compact
+  # pretty form, and auto-injects a `k_unit` companion the solution
+  # could pass to Q_(...) if it wanted to do dimensional arithmetic.
+  k:
+    type: decimal
+    unit: "1/minute"
+    # Base range deliberately narrow (0.04 → 0.05) so (max-min)=0.01
+    # divides cleanly by step=0.01 under IEEE-754 — wider spans like
+    # 0.02/0.03 land on 0.0099… modulo and trip `schema_warning`.
+    # Per-tier `ranges:` below is what actually drives the variable
+    # RNG; the base spec is just a fallback if the tier-aware code
+    # path is bypassed.
+    min: 0.04
+    max: 0.05
+    step: 0.01
+    ranges:
+      easy: {min: 0.04, max: 0.06, step: 0.01}
+      medium: {min: 0.03, max: 0.06, step: 0.01}
+      hard: {min: 0.02, max: 0.05, step: 0.01}
+
+  # Answer is a clean decimal so `compare: numeric` with a tolerance
+  # works on the fixture string. Putting a `unit:` here would print
+  # "13.06 min" but break numeric float-parsing — see the
+  # dissection note.
+  Answer:
+    type: decimal
+
+template: |
+  {{person}} pours a fresh cup of coffee at {{T_0_formatted}}.
+  The room is at a steady ambient temperature of {{T_amb_formatted}}, and the
+  coffee cools according to Newton's law of cooling
+
+      dT/dt = -k (T - T_ambient),       with k = {{k_formatted}}.
+
+  {{ simplifications }}
+
+  Working from the ODE (do not approximate), determine after how many
+  minutes the coffee reaches {{T_target_formatted}}. Round your answer to
+  two decimal places.
+
+solution: |
+  # Phase α B1 + sandbox sympy demo. Derive the closed-form solution
+  # via dsolve so the template exercises the symbolic path, then invert
+  # for t with sympy.solve (so the structural-tag T13_symbolic_chain
+  # has matching content), then coerce to a Python float for the
+  # numeric Answer. format_answer's symbolic branch detects pure-
+  # numeric and falls through to the standard decimal formatter.
+  import sympy as sp
+  t_sym = sp.Symbol('t', positive=True, real=True)
+  T = sp.Function('T', real=True)
+
+  # First-order linear ODE: dT/dt + k(T - T_amb) = 0, with T(0) = T_0.
+  ode = T(t_sym).diff(t_sym) + k * (T(t_sym) - T_amb)
+  T_closed = sp.dsolve(ode, T(t_sym), ics={T(0): T_0}).rhs
+  # T_closed simplifies to: T_amb + (T_0 - T_amb) * exp(-k*t)
+
+  # Invert for t given T(t) = T_target. solve() returns a list; the
+  # parameter ranges guarantee a single positive real root.
+  t_value = sp.solve(T_closed - T_target, t_sym)[0]
+  Answer = round(float(t_value), 2)
+
+# Phase β (H1) Approach-B visual. PlotSVG runs in a sandbox that
+# inherits the solution sandbox plus the visual builders. The lambda
+# in plot.plot(...) closes over T_0 / T_amb / T_target / k via the
+# merged-namespace exec wired in template_generator (without that, the
+# lambda would NameError when PlotSVG samples it).
+visual:
+  format: python
+  alt_text: |
+    Newton's cooling curve T(t) starting at {{T_0_formatted}}, decaying
+    asymptotically toward the ambient temperature {{T_amb_formatted}}.
+    A horizontal dashed line marks the target {{T_target_formatted}};
+    the marked point shows the answer (when the curve crosses the
+    target).
+  source: |
+    import math
+    # γ.4q quality pass:
+    #   - x_range upper bound rounds UP to next multiple of 5 so the
+    #     x-corner label is always an integer.
+    #   - `round_to=10` snaps the auto-fitted y-bounds to multiples
+    #     of 10 (cooling's naive autofit gave (18, 94); under round_to
+    #     bounds become round and `axis_range_artifact` no longer
+    #     fires).
+    #   - `T(t)` curve label flips to inside-anchor automatically
+    #     when the curve's right end lands inside the right margin
+    #     (PlotSVG clip-prevention, γ.4q Q.1).
+    #   - Title uses Unicode subscript (T₀, T_a) so the chart heading
+    #     reads as math, not raw code with underscores.
+    t_target = -math.log((T_target - T_amb) / (T_0 - T_amb)) / k
+    t_raw = max(t_target * 1.6, 1.0)
+    t_max = 5 * math.ceil(t_raw / 5)
+    plot = PlotSVG(
+        width=480, height=300,
+        x_range=(0, t_max),
+        round_to=10,
+        # Plain-English caption — cairosvg's font fallback doesn't
+        # carry Unicode subscript glyphs (₀, ₐ render as boxes), and
+        # raw underscores look like code. The closed-form equation
+        # is in the body prose; the chart caption stays simple.
+        title="Newton's cooling curve",
+    )
+    plot.plot(
+        lambda tau: T_amb + (T_0 - T_amb) * math.exp(-k * tau),
+        label="T(t)",
+    )
+    plot.horizontal_line(T_amb, label="ambient")
+    plot.horizontal_line(T_target, label="target")
+    plot.point(t_target, T_target, label="answer")
+    Visual = plot.render()
+
+# Tests use `compare: numeric` with absolute tolerance 0.05 minutes —
+# slack absorbs the float→sympy round-trip variation without letting a
+# real solution-side bug slip through. Authoring the YAML for inspection
+# uses `<auto>` placeholders; running
+#   uv run python scripts/refresh_test_answers.py --apply --filter '*/k12_first_order_ode_cooling_01_anchor.yaml'
+# after moving the file into src/templates/differential_equations/
+# populates them.
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected: {answer: "20.40"}
+    compare: numeric
+    tolerance: 0.05
+    notes: "easy tier — small parameter ranges, target temp 40–50°C"
+
+  - seed: 67890
+    difficulty: easy
+    expected: {answer: "25.50"}
+    compare: numeric
+    tolerance: 0.05
+
+  - seed: 11111
+    difficulty: medium
+    expected: {answer: "17.70"}
+    compare: numeric
+    tolerance: 0.05
+    notes: "medium tier — default ranges; matches the §5 N15 example"
+
+  - seed: 42
+    difficulty: medium
+    expected: {answer: "15.21"}
+    compare: numeric
+    tolerance: 0.05
+
+  - seed: 99
+    difficulty: hard
+    expected: {answer: "17.19"}
+    compare: numeric
+    tolerance: 0.05
+    notes: "hard tier — wider ranges and slower cooling (smaller k)"
+
+  - seed: 7
+    difficulty: hard
+    expected: {answer: "30.66"}
+    compare: numeric
+    tolerance: 0.05

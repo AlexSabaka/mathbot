@@ -120,6 +120,157 @@ per template (per tier for multi-tier — see §7).
 | `difficulty_tiers` | list[string] | none          | When set, template renders at multiple tiers. Must include `difficulty`. See §7. |
 | `tags`             | list[string] | `[]`          | Free-form keywords.                                     |
 | `notes`            | string       | none          | Free-form internal documentation.                       |
+| `track`            | string       | none          | Curriculum track for eval slicing: `core` \| `advanced` \| `tertiary` \| `US-emphasized`. K9+ templates without it get a `track_missing` info finding from `mathbot lint`. See §4.1. |
+| `structural_tags`  | list[string] | `[]`          | Cross-cutting structural-pattern tags. T1–T12 cover surface skeletons (running_total, multi_person_sharing, …); T13–T17 target K9+ LLM-eval failure modes (compositional chain, formula recall, method selection, selective attention to noop clauses, inverse query). See §4.2. |
+| `direction`        | string       | none          | `forward` \| `inverse`. Optional toggle for templates that render in two query directions (N1 inverse functions, N4 year-to-target, N8 log inversion, N15 time-to-target ODE). The solution sandbox can branch on it. |
+| `noop_clauses`     | list[string] | `[]`          | **DEPRECATED in Phase γ.** Superseded by `simplifications:` + `T18_assumption_omission`. Still works through 0.6.x; removal scheduled for 0.7.0 (γ.5). See §4.3 and §11. |
+| `simplifications`  | list[obj]    | `[]`          | Stated simplifying assumptions with per-tier suppression. Each entry: `{text: <jinja-string>, omit_at: [tier...]}`. Renderer concatenates active entries (those whose `omit_at` doesn't include the active tier) into the `{{ simplifications }}` Jinja variable. K12-appropriate replacement for noop injection. See §4.4. |
+| `figure_load`      | string \| dict | none        | How load-bearing the visual is for solving: `none` \| `decorative` \| `partial` \| `load_bearing`. Either a single value (every tier) or a `{tier: value}` mapping. Used by `mathbot lint`'s `figure_load_inconsistent` warning to flag prose ↔ figure mismatches. See §4.5. |
+
+### 4.1 Track values
+
+`track:` tags a template with its position relative to the eight
+cross-curriculum reference systems (CCSS HSA/HSF/HSG/HSN/HSS, Singapore
+H2/H3, Japan Math I–III/A/B/C, Finland LOPS MAA1–13, Norway LK20
+R1/R2, Sweden Mat 1a–5, Estonia gümnaasium, NL HAVO/VWO wiskunde
+A–D). Use it so eval pipelines can carve a CCSS-core view out of the
+internationally-aggressive K12 material.
+
+| Value | When to use |
+| --- | --- |
+| `core` | Universal across the 8 references. Most K1–K8 plus quadratics, basic statistics, polynomial arithmetic at K9, etc. |
+| `advanced` | Advanced/optional track in most references — CCSS-(+), Singapore H2, Japan Math III, Finland MAA7+, Norway R2. Trig identities, basic conic sections, single-variable calculus. |
+| `tertiary` | First-year-university material in most references — eigenvalues, second-order ODEs, L'Hôpital's rule, multivariable / vector calc. CCSS-absent. |
+| `US-emphasized` | Topics over-weighted in CCSS relative to international norms — piecewise functions, conic sections beyond circle, two-column proofs. Not wrong, just a US-pedagogical accent. |
+
+### 4.2 Structural-tag taxonomy
+
+Tags are orthogonal to `family:` — a single template carries multiple
+when more than one pattern applies. T13–T17 are motivated by the
+literature pointers in MATHBOT_PROBLEMS_PROPOSAL_v2.md §6 and Appendix
+B; the closed set is enforced at load time.
+
+| Tag | Meaning |
+| --- | --- |
+| `running_total` | Multi-step accumulation; each step adds to / subtracts from a running quantity. |
+| `multi_person_sharing` | Splitting amounts by ratio, transfer, or constraint across N people. |
+| `sequential_purchase` | Buy A, then B with the change, possibly with discounts. |
+| `rate_time` | Distance ↔ speed ↔ time, multi-segment / acceleration / motion-graph. |
+| `area_perimeter_chain` | Area → side → perimeter or analogous geometric chains. |
+| `compound_growth` | Repeated percent change / interest / depreciation. |
+| `mixture_alloy` | Weighted average of two or more streams. |
+| `multi_step_purchase` | Multi-stage shopping with stacked discounts/taxes. |
+| `division_with_remainder` | Quotient + remainder where the remainder carries semantic meaning. |
+| `fraction_of_a_quantity` | "(p/q) of N" with multi-step prerequisite. |
+| `percentage_change` | "X% increase / decrease" possibly chained. |
+| `unit_conversion_chain` | Dimensional analysis with two or more conversions. |
+| `T13_symbolic_chain` | Multi-step symbolic transformation; each step's output feeds the next. Compositional-GSM motivation. |
+| `T14_formula_recall` | Selecting which formula applies before substitution. MATH-P-Hard / UGMathBench motivation. |
+| `T15_method_selection` | Specialisation of T14 where parameter randomisation is *required* to sometimes change the optimal method. Putnam-AXIOM motivation. |
+| `T16_selective_attention` | Templates supporting `+noop` injection of irrelevant text. GSM-NoOp motivation. |
+| `T17_inverse_query` | Inverse-direction of a forward problem (given output, find parameter). Pairs with `direction:`. |
+| `T18_assumption_omission` | Multi-tier templates whose hard-tier suppresses a stated simplifying assumption from easy/medium. Pairs with `simplifications:`. K12 replacement for the retired `T16_selective_attention` (which was grade-school-flavoured GSM-NoOp). |
+
+### 4.3 Noop-clause mechanism (DEPRECATED — Phase γ)
+
+> **Deprecated in 0.6.0 (Phase γ.1).** Superseded by §4.4
+> `simplifications:` + `T18_assumption_omission`. The K12 analog of
+> the GSM-NoOp perturbation isn't *injecting* irrelevant prose
+> (grade-school surface noise) but *suppressing* a stated
+> simplifying assumption. New templates should use `simplifications:`;
+> existing `noop_clauses:` keep working through the 0.6.x cycle and
+> the field is scheduled for removal in 0.7.0 (γ.5).
+
+`noop_clauses:` is the GSM-NoOp perturbation hook. The pool entries
+are themselves Jinja templates that share the variable context with
+the body, so a clause can reference template variables for plausibility
+("Earlier in the day, {{person}} was browsing for shoes."). The
+`{{ noop_clause }}` Jinja variable defaults to an empty string so a
+template that ships a pool stays byte-identical when rendered without
+`inject_noop`.
+
+```yaml
+metadata:
+  noop_clauses:
+    - "Earlier in the day, {{person}} was browsing for shoes."
+    - "Note that {{store}} also sells umbrellas."
+template: |
+  {{ noop_clause }} {{person}} bought {{count}} apples for {{price}} each.
+  How much did they pay?
+```
+
+`mathbot lint` errors with `noop_clauses_no_slot` if the pool is
+non-empty but `template:` lacks a `{{ noop_clause }}` reference.
+
+### 4.4 Simplifying-assumption mechanism
+
+`simplifications:` is the K12-appropriate replacement for noop
+injection. Each entry is a stated modeling assumption; `omit_at`
+lists the tiers where the entry is *suppressed* from the rendered
+prose. At easy tier the template tells the solver "treat the cup as
+a perfect cone"; at hard tier the same line disappears and the
+solver has to recognise the modeling step on their own. The
+substantive difficulty axis is *which assumptions are stated*, not
+which numbers are bigger.
+
+```yaml
+metadata:
+  difficulty: easy
+  difficulty_tiers: [easy, medium, hard]
+  structural_tags: [T18_assumption_omission]
+  simplifications:
+    - text: "Treat the cup as a perfect cone."
+      omit_at: [hard]
+    - text: "Assume the speed of the water is negligible."
+      omit_at: [medium, hard]   # only stated at easy
+    - text: "Take {{g}} = 9.81 m/s² for gravity."
+      # omit_at omitted → always stated
+template: |
+  A circular sheet of paper… {{ simplifications }}
+  Find the height of the cup.
+```
+
+The `{{ simplifications }}` Jinja variable expands to the active
+entries, space-joined, each rendered against the same context as
+`template:`. Empty when nothing is active for the current tier.
+
+Pairs with `T18_assumption_omission`. `mathbot lint` warns when a
+multi-tier template carrying `simplifications:` has no entry whose
+`omit_at` differs across tiers — a flat pool defeats the
+"suppression-as-difficulty" purpose.
+
+### 4.5 Figure load
+
+`figure_load:` declares how load-bearing a visual is for solving the
+problem. Four values, ordered by how much information lives in the
+figure rather than the prose:
+
+| Value          | Meaning |
+| -------------- | --- |
+| `none`         | Template has no `visual:` block. |
+| `decorative`   | Figure illustrates but the prose is sufficient — solver could ignore the figure and still solve. |
+| `partial`      | Figure carries some quantities; prose carries the rest. |
+| `load_bearing` | Figure is **required** — quantities only appear on it. |
+
+A single value applies at every tier; per-tier mapping varies the
+load by difficulty (a riverbank diagram might be `decorative` at easy
+and `load_bearing` at hard once the prose is stripped of widths).
+
+```yaml
+metadata:
+  figure_load: load_bearing            # all tiers
+
+# or:
+metadata:
+  figure_load:
+    easy: decorative
+    medium: partial
+    hard: load_bearing
+```
+
+`mathbot lint` flags `figure_load_inconsistent` when prose and
+declared load disagree (e.g. prose says "as shown in the figure" but
+`figure_load: decorative`).
 
 ### Validation rules
 
@@ -127,6 +278,22 @@ per template (per tier for multi-tier — see §7).
 - `unit_system` must be one of the three valid values.
 - `difficulty_tiers` (if set) must be a list of valid tier names that
   contains `difficulty`.
+- `track` (if set) must be one of `core` / `advanced` / `tertiary` /
+  `US-emphasized`. Unset is allowed at K1–K8; K9+ templates without it
+  surface as `track_missing` info findings.
+- `structural_tags` (if set) must be a list drawn from the closed set
+  in §4.2.
+- `direction` (if set) must be `forward` or `inverse`.
+- `noop_clauses` (if set, deprecated) must be a list of strings;
+  pairs with a `{{ noop_clause }}` slot in `template:`.
+- `simplifications` (if set) must be a list of `{text, omit_at}`
+  mappings; each `omit_at` entry must name a valid difficulty tier.
+- `figure_load` (if set) must be a single value from
+  `{none, decorative, partial, load_bearing}` or a `{tier: value}`
+  mapping over those values.
+- `T18_assumption_omission` is the structural tag that goes with
+  `simplifications:`; it's a regular member of `VALID_STRUCTURAL_TAGS`
+  and not separately required.
 
 ---
 
@@ -238,6 +405,24 @@ formats with the system-aware long suffix.
 
 The `template:` block is rendered with Jinja2 against the variable
 context. It produces the problem text shown to the model.
+
+### Math notation in body prose
+
+Use **plain Unicode** (`x²`, `∫`, `≤`, `π`) or descriptive prose
+("the integral of f(x) = x² + 1 from x = 0 to x = 2"). Do **not**
+use LaTeX delimiters (`$...$`, `$$...$$`, `\(...\)`, `\[...\]`).
+
+Why: the body string is rendered identically across all output
+formats. The text / SVG / PNG paths can't typeset LaTeX — they
+splice the string verbatim into a `<text>` element or terminal
+output, so `$$\int_0^2 (x^2+1)dx$$` shows up as raw `$$\int_0^2…$$`
+text. The markdown / LaTeX / PDF paths *would* typeset it, but
+that breaks the cross-format consistency invariant Phase γ
+requires (review feedback during gold-standard #4 surfaced this).
+
+KaTeX integration (deferred) will let the SVG composite typeset
+math too; at that point, LaTeX delimiters in body prose become
+safe across every format. Until then, stick to plain Unicode.
 
 ### Auto-injected companions
 
@@ -538,8 +723,9 @@ per-locale name pools in `pools.<lang>.yaml`.
 ## 11. `tests` (fixtures)
 
 Each fixture is a `(seed, expected.answer)` pair (plus optional
-`difficulty` for multi-tier and `notes`). The runner reads
-`expected.answer` only — legacy `answerN:` keys are ignored.
+`difficulty` for multi-tier, `notes`, and the comparison overrides
+below). The runner reads `expected.answer` only — legacy `answerN:`
+keys are ignored.
 
 ```yaml
 tests:
@@ -554,9 +740,35 @@ tests:
     difficulty: hard                 # multi-tier template
     expected:
       answer: "279"
+  - seed: 22222
+    expected:
+      answer: "10820"
+    compare: numeric                 # B4: tolerance-based numeric match
+    tolerance: 1.0
+  - seed: 33333
+    expected:
+      answer: "sin(2*x)"
+    compare: symbolic                # B3: sympy equivalence (sin(2*x) ~= 2*sin(x)*cos(x))
 ```
 
 **Recommended**: ≥3 fixtures per template / per tier.
+
+### Comparison modes (B3/B4)
+
+The runner defaults to exact-string equality, which preserves the
+byte-for-byte stability of the existing fixture corpus. K9+ templates
+that produce decimals or symbolic answers can opt into the alternative
+modes below.
+
+| Field           | Type    | Default  | Notes |
+| --------------- | ------- | -------- | ----- |
+| `compare`       | string  | `string` | `string` (exact) \| `numeric` (parses both as float) \| `symbolic` (parses both via `sympy.sympify` and checks `simplify(a-b)==0` or `equals()`). |
+| `tolerance`     | number  | none     | Absolute tolerance for `compare: numeric`. |
+| `tolerance_rel` | number  | none     | Relative tolerance for `compare: numeric` — `abs(a-b) / max(abs(a), abs(b))`. Combined with `tolerance` via OR. |
+
+When `compare` is `numeric` or `symbolic` and parsing fails on either
+side, the runner falls back to string-equality so that a malformed
+fixture surfaces as `fixture_drifted`, not `fixture_crashed`.
 
 ### Auto-population
 
@@ -581,14 +793,25 @@ generator code.
 ## 12. `visual` (optional)
 
 Templates may include a canonical visual source. The dataset stores
-the **source** (a Jinja2-rendered SVG); a separate `mathbot
-rasterize` step produces PNGs at any DPI. **Never write
-PNG-generation code in templates** — losing the source means losing
-the ability to re-render at a different resolution.
+the **source** (an SVG string); a separate `mathbot rasterize` step
+produces PNGs at any DPI. **Never write PNG-generation code in
+templates** — losing the source means losing the ability to re-render
+at a different resolution.
+
+Two formats are supported. The output dataset row always carries
+`visual.format = "svg"` regardless of which authoring path produced
+it, so downstream consumers (rasterizer, dataset readers,
+multi-modal evals) stay format-agnostic.
+
+### 12.1 `format: svg` (Approach A — Jinja-rendered SVG)
+
+`source` is a Jinja2 template that shares the variable context with
+the problem body. Use this when geometry is static and coordinates
+are known up front.
 
 ```yaml
 visual:
-  format: svg                          # only `svg` ships today
+  format: svg
   alt_text: "A square with each side labeled {{side}} units."
   source: |
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
@@ -597,10 +820,41 @@ visual:
     </svg>
 ```
 
-The renderer adds `output["visual"] = {format, source, alt_text}` to
-the dataset row. `mathbot rasterize <dataset>` augments rows with
-`visual.png_path`. `mathbot lint` smoke-renders every visual at lint
-time and fails on broken Jinja or malformed XML
+### 12.2 `format: python` (Approach B — builder-class sandbox)
+
+`source` is Python code executed against the solution sandbox plus
+the visual builders (`PlotSVG`, `TreeSVG`, `MarkovSVG` —
+[src/visuals/](../visuals/)). The source must bind `Visual` to an SVG
+string. Use this for derived-coordinate visuals: function plots
+where coordinates come from sampling, probability trees with
+generation-time-chosen branch counts, Markov diagrams with
+parametric transition probabilities.
+
+```yaml
+visual:
+  format: python
+  alt_text: "Parabola y = x² - 2x - 3 crossing the x-axis at -1 and 3."
+  source: |
+    plot = PlotSVG(x_range=(-2, 4), title="y = x² - 2x - 3")
+    plot.plot(lambda x: a*x*x + b*x + c, label="f(x)")
+    plot.point(-1, 0, label="root")
+    plot.point( 3, 0, label="root")
+    Visual = plot.render()
+```
+
+The builder library is intentionally small — Approach B targets the
+P0 P-N1 / N9 / N12–N14 cells. New shape families (force diagrams,
+conic plots, vector arrows) are added in
+[src/visuals/](../visuals/) as the first template that needs them
+lands.
+
+### 12.3 Output-row contract
+
+The renderer adds `output["visual"] = {format: "svg", source,
+alt_text?}` to the dataset row regardless of authoring format.
+`mathbot rasterize <dataset>` augments rows with `visual.png_path`.
+`mathbot lint` smoke-renders every visual at lint time and fails on
+broken Jinja, builder errors, or malformed XML.
 (`visual_render_crash`).
 
 ### Author guidance

@@ -14,12 +14,10 @@ metadata:
 variables:
   num_a:
     type: integer
-    min: 1
-    max: 10
+    choices: [1, 3, 5, 7, 9]
   num_b:
     type: integer
-    min: 1
-    max: 10
+    choices: [2, 4, 6, 8, 10]
   Answer:
     type: integer
 

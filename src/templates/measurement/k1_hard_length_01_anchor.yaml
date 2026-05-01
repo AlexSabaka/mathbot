@@ -20,8 +20,8 @@ variables:
     choices: [purple ribbon, orange string, pink rope, white tape]
   count_a:
     type: integer
-    min: 8
-    max: 15
+    min: 13
+    max: 18
   count_b:
     type: integer
     min: 5
@@ -43,7 +43,10 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "4"
+      answer: '9'
   - seed: 100
     expected:
-      answer: "8"
+      answer: '9'
+  - seed: 22
+    expected:
+      answer: '1'

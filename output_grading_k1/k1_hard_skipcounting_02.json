@@ -1,0 +1,618 @@
+{
+  "summary": {
+    "errors": 5,
+    "warnings": 0,
+    "info": 35,
+    "parse_errors": 0,
+    "total": 40
+  },
+  "meta": {
+    "model": "qwen3.5:9b",
+    "rubric_set": "all",
+    "with_image": true,
+    "samples_per_template": 2,
+    "seed_base": 0
+  },
+  "findings": [
+    {
+      "rule": "grading.agnostic.1",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "No template-engine leakage",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.2",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "No filler boilerplate",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.3",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Answer matches the question's form",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.4",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Subject-verb and article agreement",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.5",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Pronoun consistency",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.6",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Entity consistency across sentences",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.7",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Not a tautology",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.8",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Not a single-fact recall",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.9",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Skill category matches declared topic",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.10",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Math-prose-answer triangle",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.11",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "No unrendered placeholders or N/A values",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.12",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Visual integrity (if visual block present)",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.1",
+      "severity": "error",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "No image present for K1 problem.",
+      "seed": 0,
+      "extra": {
+        "item_name": "Visual block present",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": false,
+        "note": "No image present for K1 problem."
+      }
+    },
+    {
+      "rule": "grading.k1.2",
+      "severity": "error",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "Figure missing; prose alone insufficient for K1.",
+      "seed": 0,
+      "extra": {
+        "item_name": "Visual is load-bearing or prose is sufficient",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": false,
+        "note": "Figure missing; prose alone insufficient for K1."
+      }
+    },
+    {
+      "rule": "grading.k1.3",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Visual matches prose",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.4",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Prose is brief (≤ ~25 words)",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.5",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Concrete, age-appropriate nouns",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.6",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Single-step task",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.7",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Numerals within K1 range",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.8",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 0,
+      "extra": {
+        "item_name": "Answer is a small whole number, single word, or simple shape name",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.1",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "No template-engine leakage",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.2",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "No filler boilerplate",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.3",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Answer matches the question's form",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.4",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Subject-verb and article agreement",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.5",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Pronoun consistency",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.6",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Entity consistency across sentences",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.7",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Not a tautology",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.8",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Not a single-fact recall",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.9",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Skill category matches declared topic",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.10",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Math-prose-answer triangle",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.11",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "No unrendered placeholders or N/A values",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.agnostic.12",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Visual integrity (if visual block present)",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.1",
+      "severity": "error",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "No image present for K1 problem.",
+      "seed": 1,
+      "extra": {
+        "item_name": "Visual block present",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": false,
+        "note": "No image present for K1 problem."
+      }
+    },
+    {
+      "rule": "grading.k1.2",
+      "severity": "error",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "Figure missing; prose alone insufficient for K1.",
+      "seed": 1,
+      "extra": {
+        "item_name": "Visual is load-bearing or prose is sufficient",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": false,
+        "note": "Figure missing; prose alone insufficient for K1."
+      }
+    },
+    {
+      "rule": "grading.k1.3",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Visual matches prose",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.4",
+      "severity": "error",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "Prose exceeds 25-word limit.",
+      "seed": 1,
+      "extra": {
+        "item_name": "Prose is brief (≤ ~25 words)",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": false,
+        "note": "Prose exceeds 25-word limit."
+      }
+    },
+    {
+      "rule": "grading.k1.5",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Concrete, age-appropriate nouns",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.6",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Single-step task",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.7",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Numerals within K1 range",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    },
+    {
+      "rule": "grading.k1.8",
+      "severity": "info",
+      "template_id": "k1_hard_skipcounting_02",
+      "file": "src/templates/numbers/k1_hard_skipcounting_02.yaml",
+      "message": "pass",
+      "seed": 1,
+      "extra": {
+        "item_name": "Answer is a small whole number, single word, or simple shape name",
+        "model": "qwen3.5:9b",
+        "tier": "hard",
+        "pass": true,
+        "note": ""
+      }
+    }
+  ]
+}

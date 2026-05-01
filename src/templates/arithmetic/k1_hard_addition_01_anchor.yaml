@@ -1,34 +1,35 @@
 metadata:
   id: k1_hard_addition_01
-  version: "1.0.0"
+  version: "1.1.0"
   author: Mathbot
   created: 2026-01-30
   grade: 1
   topic: arithmetic.addition
   family: addition
   difficulty: hard
-  steps: 3
+  steps: 1
   culture: en-US
-  tags: [addition, word-problem, three-addends]
+  tags: [addition, word-problem, two-addends]
+  notes: |
+    γ.4r single-step redesign: previously a 3-addend
+    (num_a + num_b + num_c) problem flagged by k1.6 grader. K1 hard
+    tier differs from medium/easy in number magnitude (still K1
+    range), not step count. Now a 2-addend "X has A, Y has B,
+    how many in all" pairing. Distinct from variant `_02`
+    (single-actor "has + gets more") in narrative framing.
 
 variables:
   name_a:
     type: person
   name_b:
     type: person
-  name_c:
-    type: person
   num_a:
     type: integer
-    min: 1
-    max: 8
+    min: 5
+    max: 12
   num_b:
     type: integer
-    min: 1
-    max: 8
-  num_c:
-    type: integer
-    min: 1
+    min: 4
     max: 8
   object:
     type: item
@@ -37,17 +38,17 @@ variables:
     type: integer
 
 template: |
-  {{name_a}} has {{num_a}} {{object}}. {{name_b}} has {{num_b}} {{object}}. {{name_c}} has {{num_c}} {{object}}.
+  {{name_a}} has {{num_a}} {{object}}. {{name_b}} has {{num_b}} {{object}}.
 
-  How many {{object}} do they have altogether?
+  How many {{object}} in all?
 
 solution: |
-  Answer = num_a + num_b + num_c
+  Answer = num_a + num_b
 
 tests:
   - seed: 42
     expected:
-      answer: "10"
+      answer: '11'
   - seed: 100
     expected:
-      answer: "6"
+      answer: '17'

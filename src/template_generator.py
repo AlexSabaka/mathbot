@@ -1,5 +1,6 @@
 """YAML-based template problem generator for mathbot v2.0."""
 
+import ast
 import random
 import sys
 from pathlib import Path
@@ -174,10 +175,11 @@ class TemplateGenerator:
         math_topic: Optional[str] = None,
         problem_family: Optional[str] = None,
         num_steps: Optional[int] = None,
-        seed: Optional[int] = None
+        seed: Optional[int] = None,
+        inject_noop: bool = False,
     ) -> Dict:
         """Generate a single problem.
-        
+
         Args:
             complexity: Difficulty level (1=easy, 2=medium, 3=hard)
             grade: Grade level ('elementary', 'middle', 'high', or 'k1'-'k12')
@@ -185,7 +187,15 @@ class TemplateGenerator:
             problem_family: Problem family filter
             num_steps: Number of steps filter
             seed: Random seed for this problem
-        
+            inject_noop: When True, deterministically pick one entry from
+                the chosen template's `metadata.noop_clauses` (if any),
+                Jinja-render it against the variable context, and bind it
+                to the `noop_clause` Jinja variable. The template must
+                contain `{{ noop_clause }}` for the injection to surface
+                — `mathbot lint` enforces that pairing. When False (the
+                default) `noop_clause` resolves to an empty string,
+                preserving the byte-identical legacy render.
+
         Returns:
             Problem dictionary with standard structure
         """
@@ -230,6 +240,7 @@ class TemplateGenerator:
             seed=seed,
             template_path=template_path,
             requested_complexity=complexity,
+            inject_noop=inject_noop,
         )
 
     def _generate_from_template(
@@ -239,6 +250,7 @@ class TemplateGenerator:
         template_path: Optional[Path] = None,
         requested_complexity: Optional[int] = None,
         requested_difficulty: Optional[str] = None,
+        inject_noop: bool = False,
     ) -> Dict:
         """Generate problem from a specific template.
 
@@ -313,6 +325,57 @@ class TemplateGenerator:
 
         # Inject `language` so locale-aware Jinja filters can dispatch.
         combined_context.setdefault('language', template.language)
+
+        # H3 (Phase β). Bind `noop_clause` to either a rendered clause
+        # (when `inject_noop=True` and the template ships a pool) or an
+        # empty string. The empty-string default keeps every existing
+        # template byte-identical: a `{{ noop_clause }}` in the body
+        # renders to "" and Jinja's `trim_blocks`/whitespace handling in
+        # the renderer eats the surrounding whitespace.
+        #
+        # Selection uses a derived RNG seeded from the request seed so
+        # which clause lands on a given fixture is independent of any
+        # prior `random.*` consumption (variable generation, template
+        # selection). That keeps fixtures reproducible if the noop pool
+        # later grows or its order changes.
+        if inject_noop and template.noop_clauses:
+            clause_rng = random.Random(seed if seed is not None else 0)
+            chosen_clause = clause_rng.choice(template.noop_clauses)
+            try:
+                combined_context['noop_clause'] = self.renderer.render(
+                    chosen_clause, combined_context,
+                )
+            except Exception as exc:
+                raise ValueError(
+                    f"Failed to render noop clause for {template.id}: {exc}"
+                )
+        else:
+            combined_context.setdefault('noop_clause', "")
+
+        # γ A.3. Bind `{{ simplifications }}` to the active (non-omitted)
+        # simplifying-assumption sentences for the effective tier,
+        # space-joined into a single string. Empty when no
+        # simplifications survive (or none defined). Each entry is
+        # itself a Jinja string so it can reference template variables
+        # ("Treat the {{container}} as a perfect cylinder.").
+        simplifications_text = ""
+        if template.simplifications:
+            active = [
+                s for s in template.simplifications
+                if effective_difficulty not in (s.omit_at or [])
+            ]
+            rendered_parts: List[str] = []
+            for s in active:
+                try:
+                    rendered = self.renderer.render(s.text, combined_context).strip()
+                except Exception as exc:
+                    raise ValueError(
+                        f"Failed to render simplification for {template.id}: {exc}"
+                    )
+                if rendered:
+                    rendered_parts.append(rendered)
+            simplifications_text = " ".join(rendered_parts)
+        combined_context.setdefault('simplifications', simplifications_text)
 
         # Render template with Jinja2 (using combined context with both raw and formatted values)
         try:
@@ -393,15 +456,28 @@ class TemplateGenerator:
                 # Path is not relative to templates_dir, use absolute
                 output["template_path"] = str(template_path)
 
-        # Render canonical visual source (Phase 5.5). Same Jinja context as
-        # the problem template so visual labels can reference the same vars.
+        # Render canonical visual source (Phase 5.5 + Phase β H1). Same
+        # variable context as the problem template so visual labels can
+        # reference the same variables.
+        #   - format=svg: source is a Jinja2 string → SVG markup.
+        #   - format=python: source is Python executed against the
+        #     solution sandbox extended with PlotSVG / TreeSVG /
+        #     MarkovSVG; the sandbox must bind `Visual` to an SVG
+        #     string. Output is normalised to format=svg so downstream
+        #     readers and `mathbot rasterize` stay format-agnostic.
         # The PNG is produced by the separate `mathbot rasterize` step;
-        # this output ships only the source so the dataset is re-rasterizable.
+        # this output ships only the source so the dataset is
+        # re-rasterizable.
         if template.visual is not None:
             try:
-                rendered_source = self.renderer.render(
-                    template.visual.source, combined_context,
-                )
+                if template.visual.format == "python":
+                    rendered_source = self._render_python_visual(
+                        template, combined_context,
+                    )
+                else:
+                    rendered_source = self.renderer.render(
+                        template.visual.source, combined_context,
+                    )
                 rendered_alt = (
                     self.renderer.render(template.visual.alt_text, combined_context)
                     if template.visual.alt_text else None
@@ -410,7 +486,10 @@ class TemplateGenerator:
                 raise ValueError(f"Failed to render visual for {template.id}: {e}")
 
             visual_out = {
-                "format": template.visual.format,
+                # Always emit `svg` to downstream — `python` is an
+                # authoring-side concept; the dataset row carries the
+                # rendered markup.
+                "format": "svg",
                 "source": rendered_source.strip(),
             }
             if rendered_alt is not None:
@@ -418,25 +497,114 @@ class TemplateGenerator:
             output["visual"] = visual_out
 
         return output
+
+    def _render_python_visual(
+        self,
+        template: TemplateDefinition,
+        context: Dict,
+    ) -> str:
+        """Phase β (H1). Execute a `format: python` visual.source.
+
+        The sandbox is the same as the solution sandbox plus the visual
+        builders. Authors set ``Visual = builder.render()``; the
+        function returns that string verbatim. Raises ``ValueError`` if
+        the source omits the ``Visual`` binding or if the returned
+        value isn't a string — the parser-stage drift is loud rather
+        than surfacing as a malformed-XML downstream finding.
+        """
+        from .solution_evaluator import build_visual_sandbox
+        sandbox = build_visual_sandbox(language=template.language)
+        # Merge sandbox + variable context into a single namespace so that
+        # lambdas defined inside the source — which K12 plot-style visuals
+        # rely on (`plot.plot(lambda x: a*x*x + b*x + c)`) — can resolve
+        # variables through their `__globals__`. exec's two-dict mode
+        # would pin lambda globals to the sandbox dict and the lambda
+        # would NameError on the template variables when PlotSVG
+        # later samples it. Context wins on key collisions so a
+        # template-side `sum = 7` shadows the builtin, matching solution-
+        # sandbox precedence.
+        ns = {**sandbox, **context}
+        try:
+            exec(template.visual.source, ns)
+        except Exception as exc:
+            raise ValueError(
+                f"visual.source (python) raised: {exc}"
+            )
+        if "Visual" not in ns:
+            raise ValueError(
+                "visual.source (python) did not set the `Visual` variable"
+            )
+        out = ns["Visual"]
+        if not isinstance(out, str):
+            raise ValueError(
+                f"visual.source (python) bound `Visual` to {type(out).__name__}, "
+                f"expected str (an SVG document)"
+            )
+        return out
     
     def _extract_operations(self, solution_code: str) -> List[str]:
-        """Extract mathematical operations from solution code."""
-        operations = []
-        
-        if '+' in solution_code:
-            operations.append('addition')
-        if '-' in solution_code:
-            operations.append('subtraction')
-        if '*' in solution_code:
-            operations.append('multiplication')
-        if '/' in solution_code:
-            operations.append('division')
-        if '**' in solution_code or 'pow(' in solution_code:
-            operations.append('exponentiation')
-        if '%' in solution_code:
-            operations.append('modulo')
-        
-        return operations if operations else ['arithmetic']
+        """Extract Python arithmetic operations from solution code.
+
+        AST-based (post-checkpoint fix). The pre-fix version was a
+        substring check on the raw source, which over-counted: any
+        non-trivial solution has `+`, `-`, `*`, `/` somewhere — in
+        comments, f-strings, kwargs, negative literals — and produced
+        the same `[addition, subtraction, multiplication, division]`
+        list for nearly every template.
+
+        Walks the parsed AST and records BinOp operators plus
+        `pow(...)` / `math.pow(...)` calls. Unary minus on a literal
+        is *not* counted as subtraction (a `-3` literal is a sign,
+        not an operation). String `%` formatting is not counted as
+        modulo because it's a `BinOp` on a string LHS — the AST node
+        type doesn't distinguish, but in practice all real arithmetic
+        modulo lands on numeric LHS, and string-formatting templates
+        don't typically need a modulo tag.
+
+        Falls back to `['arithmetic']` on a SyntaxError so a malformed
+        solution still surfaces a non-empty list (matches the prior
+        contract used by `mathbot lint`'s `zero_steps_with_ops` rule).
+        """
+        try:
+            tree = ast.parse(solution_code)
+        except SyntaxError:
+            return ['arithmetic']
+
+        # Order-preserving dedupe of the operations as they're
+        # encountered in source-order. Stable across re-renders.
+        found: List[str] = []
+
+        def _add(name: str) -> None:
+            if name not in found:
+                found.append(name)
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.BinOp):
+                op_type = type(node.op)
+                if op_type is ast.Add:
+                    _add('addition')
+                elif op_type is ast.Sub:
+                    _add('subtraction')
+                elif op_type is ast.Mult:
+                    _add('multiplication')
+                elif op_type in (ast.Div, ast.FloorDiv):
+                    _add('division')
+                elif op_type is ast.Pow:
+                    _add('exponentiation')
+                elif op_type is ast.Mod:
+                    _add('modulo')
+            elif isinstance(node, ast.Call):
+                # `pow(x, y)` or `math.pow(x, y)` — both surface as
+                # exponentiation. Other callables don't.
+                fname: Optional[str] = None
+                if isinstance(node.func, ast.Name):
+                    fname = node.func.id
+                elif isinstance(node.func, ast.Attribute):
+                    fname = node.func.attr
+                if fname == 'pow':
+                    _add('exponentiation')
+
+        return found or ['arithmetic']
     
     def get_available_options(self) -> Dict[str, List[str]]:
         """Get available filtering options."""

@@ -42,6 +42,32 @@ class VariableSpec:
 
 
 @dataclass
+class SimplificationSpec:
+    """v2 γ (A.3). Stated simplifying assumption with per-tier suppression.
+
+    The pedagogically interesting K12 difficulty axis isn't number
+    range — it's *which simplifications are stated*. At easy tier the
+    template tells the solver "assume the cup is a perfect cone";
+    at hard tier the same template suppresses that line and the
+    solver has to recognise the modeling step on their own.
+
+    `text` is a Jinja string (rendered against the same context as
+    `template:`), and `omit_at` is the list of tier names where this
+    simplification is *not* surfaced. An entry with `omit_at: [hard]`
+    appears at easy/medium and disappears at hard. An entry with
+    `omit_at: []` is unconditional (always stated).
+
+    The renderer concatenates the active (non-omitted) entries with
+    a single space and binds the result to the `{{ simplifications }}`
+    Jinja variable. Templates that don't reference `{{ simplifications }}`
+    in `template:` get a `simplification_lift_missing` lint warning
+    when the field is non-empty.
+    """
+    text: str
+    omit_at: List[str] = field(default_factory=list)
+
+
+@dataclass
 class TestCase:
     """Test case for template validation."""
     seed: int
@@ -51,6 +77,26 @@ class TestCase:
     # Single-tier templates leave it None and the runner uses
     # `metadata.difficulty`.
     difficulty: Optional[str] = None
+    # v2 (B3/B4). Comparison mode for `actual` vs `expected.answer`.
+    #   - `string` (default): exact-string equality (legacy behaviour).
+    #   - `numeric`: parse both sides as floats and compare with
+    #     `tolerance` (absolute) or `tolerance_rel` (relative); useful
+    #     for calc-style answers where the formatter rounds.
+    #   - `symbolic`: parse both sides via `sympy.sympify` and compare
+    #     with `sympy.simplify(a - b) == 0` (or `a.equals(b)`); used by
+    #     N3/N7/N9/N11–N16 templates whose canonical answer form is
+    #     ambiguous up to algebraic simplification.
+    # Falling back to string-equality when unset preserves byte-for-byte
+    # behaviour for the existing 1278-fixture corpus.
+    compare: Optional[str] = None
+    # Absolute tolerance for `compare: numeric`. None means strict
+    # equality after parsing as float.
+    tolerance: Optional[float] = None
+    # Relative tolerance (|a-b| / max(|a|,|b|)). Combined with `tolerance`
+    # via OR — passing either threshold counts as a match — to handle
+    # both small-magnitude (absolute wins) and large-magnitude (relative
+    # wins) answers gracefully.
+    tolerance_rel: Optional[float] = None
 
 
 # Phase 5.5 visual layer. The YAML stores **source** (Jinja2-rendered SVG
@@ -58,7 +104,16 @@ class TestCase:
 # separate `mathbot rasterize` step produces PNG from this source at a
 # configurable DPI. Source must always be preserved so the dataset can be
 # re-rasterized at a different resolution without re-generating problems.
-VALID_VISUAL_FORMATS = {"svg"}  # 'python' added when builder sandbox lands
+# Phase β (H1). Visual.source format dispatch:
+#   - `svg`: source is a Jinja2 string that renders to an SVG. Same
+#     Jinja context as the problem template.
+#   - `python`: source is Python code executed against the solution
+#     sandbox extended with the visual builders (PlotSVG, TreeSVG,
+#     MarkovSVG). The sandbox must bind `Visual` to an SVG string;
+#     `template_generator` captures that and emits it on the dataset
+#     row's `visual.source` field with format normalised to `svg` so
+#     downstream rasterizers / dataset readers stay format-agnostic.
+VALID_VISUAL_FORMATS = {"svg", "python"}
 
 
 @dataclass
@@ -109,6 +164,65 @@ class TemplateDefinition:
     difficulty_tiers: Optional[List[str]] = None
     tags: List[str] = field(default_factory=list)
     notes: Optional[str] = None
+    # v2 (B2). Curriculum-track tag for eval slicing across reference
+    # systems. `core` covers material universal across the 8 cross-curriculum
+    # references (CCSS HSA/HSF/HSG/HSN/HSS plus Singapore H2, Japan,
+    # Finland, Norway, Sweden, Estonia, NL); `advanced` covers the
+    # advanced/optional advanced track (CCSS-(+) etc.); `tertiary` covers
+    # first-year-university material absent from most secondary curricula
+    # (eigenvalues, second-order ODEs, L'Hôpital); `US-emphasized` covers
+    # topics over-weighted in CCSS relative to international norms
+    # (piecewise functions, conic sections beyond circle, two-column
+    # proofs). Default `core`. None means "not yet tagged" — `mathbot lint`
+    # warns on K9+ templates without `track:`.
+    track: Optional[str] = None
+    # v2 (H2). Cross-cutting structural pattern tags. Orthogonal to
+    # `family:` — a single template can carry multiple tags. Original
+    # 12 (T1–T12) describe surface skeletons (running_total,
+    # multi_person_sharing, ...); the v2 K9+ additions (T13–T17) target
+    # the LLM-eval failure modes called out in
+    # MATHBOT_PROBLEMS_PROPOSAL_v2.md §6 (compositional reasoning,
+    # method selection, selective attention to noop clauses, inverse
+    # query direction). See VALID_STRUCTURAL_TAGS for the closed set.
+    structural_tags: List[str] = field(default_factory=list)
+    # v2 (H4). Optional `forward` / `inverse` toggle for templates that
+    # naturally render in two query directions (N1 inverse functions,
+    # N4 year-to-target, N8 log inversion, N15 time-to-target ODE).
+    # The solution sandbox can branch on this value; lint allows but
+    # does not require its use. None means "not applicable" (most
+    # templates).
+    direction: Optional[str] = None
+    # v2 (H3). DEPRECATED in Phase γ — superseded by `simplifications:`
+    # + `T18_assumption_omission`. The K12-appropriate analog of GSM-NoOp
+    # is *suppressing* a stated simplifying assumption at hard tier
+    # rather than *injecting* an irrelevant clause. `noop_clauses:`
+    # populated on a template still works (back-compat through the
+    # 0.6.x cycle) but `mathbot lint` emits `noop_clauses_deprecated`
+    # info findings, and the field is scheduled for removal in 0.7.0
+    # (Phase γ.5).
+    noop_clauses: List[str] = field(default_factory=list)
+
+    # v2 γ (A.3). Stated simplifying assumptions with per-tier
+    # suppression. Each entry is a SimplificationSpec; the renderer
+    # filters by tier and concatenates the active entries into the
+    # `{{ simplifications }}` Jinja variable. The K12-appropriate
+    # difficulty axis: at easy tier the template tells the solver
+    # "assume the speed of the water is negligible"; at hard tier the
+    # same line is suppressed and the solver has to recognise the
+    # modeling step on their own. Pairs with `T18_assumption_omission`.
+    simplifications: List[SimplificationSpec] = field(default_factory=list)
+
+    # v2 γ (A.3). How load-bearing the visual is for solving the
+    # problem. Either a single value applied at every tier, or a per-
+    # tier mapping {tier: value}. Values: `none` (no figure),
+    # `decorative` (figure illustrative; prose is sufficient),
+    # `partial` (figure carries some quantities the prose doesn't),
+    # `load_bearing` (the figure is *required* to solve — quantities
+    # only appear on it). `mathbot lint` emits
+    # `figure_load_inconsistent` warnings when prose and declared
+    # load disagree (e.g. `figure_load: decorative` but the prose says
+    # "as shown in the figure").
+    figure_load: Optional[Any] = None
     
     # Core sections
     variables: Dict[str, VariableSpec] = field(default_factory=dict)
@@ -155,6 +269,57 @@ class YAMLLoader:
     }
     
     VALID_DIFFICULTIES = {'easy', 'medium', 'hard'}
+
+    # v2 (B2). See TemplateDefinition.track for semantics. The set is closed
+    # so a typo ("tetiary") fails at load time rather than slipping through
+    # to eval-slice queries. Add new values here only after a corresponding
+    # entry in MATHBOT_PROBLEMS_PROPOSAL_v2.md and SPEC.md.
+    VALID_TRACKS = {'core', 'advanced', 'tertiary', 'US-emphasized'}
+
+    # v2 (B3). Closed set of fixture comparison modes. See `TestCase.compare`.
+    VALID_COMPARE_MODES = {'string', 'numeric', 'symbolic'}
+
+    # v2 (H2). Structural-pattern tag taxonomy. T1–T12 are the original
+    # surface skeletons retained from the January roadmap; T13–T17 are
+    # the K9+ additions targeting the LLM-eval failure modes called out
+    # in MATHBOT_PROBLEMS_PROPOSAL_v2.md §6 (Compositional GSM,
+    # MATH-P-Hard, GSM-NoOp, Putnam-AXIOM Variation, inverse-direction).
+    VALID_STRUCTURAL_TAGS = {
+        # T1–T12 (original). Surface-pattern tags retained from the
+        # January 2026 roadmap.
+        'running_total',
+        'multi_person_sharing',
+        'sequential_purchase',
+        'rate_time',
+        'area_perimeter_chain',
+        'compound_growth',
+        'mixture_alloy',
+        'multi_step_purchase',
+        'division_with_remainder',
+        'fraction_of_a_quantity',
+        'percentage_change',
+        'unit_conversion_chain',
+        # T13–T17 (v2 K9+). Each maps to a specific antipattern rule.
+        'T13_symbolic_chain',          # rule #11; Compositional GSM gap
+        'T14_formula_recall',          # rule #9; pure-recall is too easy
+        'T15_method_selection',        # rule #10; MATH-P-Hard parameters change method
+        'T16_selective_attention',     # rule #12; GSM-NoOp irrelevant clause
+        'T17_inverse_query',           # rule on inverse-direction queries
+        # T18 (γ A.3). K12-appropriate replacement for the retired T16:
+        # the eval perturbation isn't injecting irrelevant clauses
+        # (grade-school surface noise) but suppressing a stated
+        # simplifying assumption. Pairs with `simplifications:`.
+        'T18_assumption_omission',
+    }
+
+    # v2 (H4). Closed set of query directions. See TemplateDefinition.direction.
+    VALID_DIRECTIONS = {'forward', 'inverse'}
+
+    # v2 γ (A.3). Closed set of `figure_load` values. See
+    # TemplateDefinition.figure_load. None at template level means
+    # "not declared" — `mathbot lint` doesn't require it for templates
+    # without a `visual:` block.
+    VALID_FIGURE_LOAD = {'none', 'decorative', 'partial', 'load_bearing'}
     
     VALID_ITEM_CATEGORIES = {
         'grocery', 'electronics', 'clothing', 'book', 'online',
@@ -203,16 +368,59 @@ class YAMLLoader:
                     f"difficulty '{test_diff}'. Must be one of: "
                     f"{sorted(self.VALID_DIFFICULTIES)}"
                 )
+            test_compare = test_data.get('compare')
+            if test_compare is not None and test_compare not in self.VALID_COMPARE_MODES:
+                self.errors.append(
+                    f"Test case (seed={test_data.get('seed')}) has invalid "
+                    f"compare '{test_compare}'. Must be one of: "
+                    f"{sorted(self.VALID_COMPARE_MODES)}"
+                )
+            test_tol = test_data.get('tolerance')
+            test_tol_rel = test_data.get('tolerance_rel')
+            for tol_name, tol_val in (('tolerance', test_tol), ('tolerance_rel', test_tol_rel)):
+                if tol_val is not None and not isinstance(tol_val, (int, float)):
+                    self.errors.append(
+                        f"Test case (seed={test_data.get('seed')}) has invalid "
+                        f"{tol_name} {tol_val!r}: must be a number"
+                    )
+                if isinstance(tol_val, (int, float)) and tol_val < 0:
+                    self.errors.append(
+                        f"Test case (seed={test_data.get('seed')}) has invalid "
+                        f"{tol_name} {tol_val}: must be non-negative"
+                    )
+            # Tolerance only meaningful in numeric mode; warn (don't error)
+            # if it's set without an explicit numeric mode declared.
+            if (test_tol is not None or test_tol_rel is not None) and test_compare not in ('numeric', None):
+                self.warnings.append(
+                    f"Test case (seed={test_data.get('seed')}) sets tolerance "
+                    f"with compare='{test_compare}' (only used by 'numeric')"
+                )
             tests.append(TestCase(
                 seed=test_data['seed'],
                 expected=test_data['expected'],
                 notes=test_data.get('notes'),
                 difficulty=test_diff,
+                compare=test_compare,
+                tolerance=test_tol,
+                tolerance_rel=test_tol_rel,
             ))
 
         # Parse optional visual block
         visual_spec = self._parse_visual(data.get('visual'))
-        
+
+        # Parse simplifications: each entry → SimplificationSpec.
+        # Validation in _validate_structure has already run; this just
+        # builds the dataclass list. Skipped entries (validation
+        # errors above) are silently dropped — the load itself fails
+        # via self.errors propagation.
+        simplifications: List[SimplificationSpec] = []
+        for entry in (metadata.get('simplifications') or []):
+            if isinstance(entry, dict) and isinstance(entry.get('text'), str):
+                simplifications.append(SimplificationSpec(
+                    text=entry['text'],
+                    omit_at=list(entry.get('omit_at') or []),
+                ))
+
         # Create template definition
         template_def = TemplateDefinition(
             id=metadata['id'],
@@ -230,6 +438,12 @@ class YAMLLoader:
             difficulty_tiers=metadata.get('difficulty_tiers'),
             tags=metadata.get('tags', []),
             notes=metadata.get('notes'),
+            track=metadata.get('track'),
+            structural_tags=metadata.get('structural_tags', []) or [],
+            direction=metadata.get('direction'),
+            noop_clauses=metadata.get('noop_clauses', []) or [],
+            simplifications=simplifications,
+            figure_load=metadata.get('figure_load'),
             variables=variables,
             template=data.get('template', ''),
             solution=data.get('solution', ''),
@@ -283,6 +497,123 @@ class YAMLLoader:
                 f"Invalid metadata.unit_system '{meta_us}'. "
                 f"Must be one of: {sorted(VALID_UNIT_SYSTEMS)}"
             )
+
+        # Validate track if present. Unset is allowed at load time;
+        # `mathbot lint` flags K9+ templates without track set.
+        meta_track = metadata.get('track')
+        if meta_track is not None and meta_track not in self.VALID_TRACKS:
+            self.errors.append(
+                f"Invalid metadata.track '{meta_track}'. "
+                f"Must be one of: {sorted(self.VALID_TRACKS)}"
+            )
+
+        # Validate structural_tags if present. Each tag must be in the
+        # closed set; the field itself is optional and defaults to [].
+        meta_st = metadata.get('structural_tags')
+        if meta_st is not None:
+            if not isinstance(meta_st, list) or not all(isinstance(t, str) for t in meta_st):
+                self.errors.append(
+                    "metadata.structural_tags must be a list of strings"
+                )
+            else:
+                bad = [t for t in meta_st if t not in self.VALID_STRUCTURAL_TAGS]
+                if bad:
+                    self.errors.append(
+                        f"metadata.structural_tags has invalid tag(s) {bad}. "
+                        f"Must be from: {sorted(self.VALID_STRUCTURAL_TAGS)}"
+                    )
+
+        # Validate direction if present.
+        meta_dir = metadata.get('direction')
+        if meta_dir is not None and meta_dir not in self.VALID_DIRECTIONS:
+            self.errors.append(
+                f"Invalid metadata.direction '{meta_dir}'. "
+                f"Must be one of: {sorted(self.VALID_DIRECTIONS)}"
+            )
+
+        # Validate noop_clauses if present. Each clause is a Jinja string;
+        # the wiring (whether `template:` actually contains
+        # `{{ noop_clause }}`) is checked by `mathbot lint`. The field
+        # itself is deprecated — see TemplateDefinition.noop_clauses
+        # docstring; lint emits an info finding when populated.
+        meta_nc = metadata.get('noop_clauses')
+        if meta_nc is not None:
+            if not isinstance(meta_nc, list) or not all(isinstance(c, str) for c in meta_nc):
+                self.errors.append(
+                    "metadata.noop_clauses must be a list of Jinja string clauses"
+                )
+
+        # Validate simplifications if present. List of {text, omit_at}
+        # mappings; `omit_at` is optional and defaults to []. Each tier
+        # in `omit_at` must be a valid difficulty.
+        meta_simp = metadata.get('simplifications')
+        if meta_simp is not None:
+            if not isinstance(meta_simp, list):
+                self.errors.append(
+                    "metadata.simplifications must be a list of "
+                    "{text, omit_at} mappings"
+                )
+            else:
+                for i, entry in enumerate(meta_simp):
+                    if not isinstance(entry, dict):
+                        self.errors.append(
+                            f"metadata.simplifications[{i}] must be a "
+                            f"mapping with `text` (and optional `omit_at`)"
+                        )
+                        continue
+                    text = entry.get('text')
+                    if not isinstance(text, str) or not text.strip():
+                        self.errors.append(
+                            f"metadata.simplifications[{i}].text must be "
+                            f"a non-empty string"
+                        )
+                    omit_at = entry.get('omit_at', [])
+                    if not isinstance(omit_at, list):
+                        self.errors.append(
+                            f"metadata.simplifications[{i}].omit_at must "
+                            f"be a list of difficulty tier names"
+                        )
+                    else:
+                        bad_tiers = [
+                            t for t in omit_at
+                            if t not in self.VALID_DIFFICULTIES
+                        ]
+                        if bad_tiers:
+                            self.errors.append(
+                                f"metadata.simplifications[{i}].omit_at "
+                                f"has invalid tier(s) {bad_tiers}. Must "
+                                f"be from: {sorted(self.VALID_DIFFICULTIES)}"
+                            )
+
+        # Validate figure_load if present. Either a single value from
+        # VALID_FIGURE_LOAD, or a per-tier mapping {tier: value}.
+        meta_fl = metadata.get('figure_load')
+        if meta_fl is not None:
+            if isinstance(meta_fl, str):
+                if meta_fl not in self.VALID_FIGURE_LOAD:
+                    self.errors.append(
+                        f"metadata.figure_load '{meta_fl}' is invalid. "
+                        f"Must be one of: {sorted(self.VALID_FIGURE_LOAD)}"
+                    )
+            elif isinstance(meta_fl, dict):
+                for tier, value in meta_fl.items():
+                    if tier not in self.VALID_DIFFICULTIES:
+                        self.errors.append(
+                            f"metadata.figure_load key '{tier}' is not "
+                            f"a valid difficulty. Must be from: "
+                            f"{sorted(self.VALID_DIFFICULTIES)}"
+                        )
+                    if value not in self.VALID_FIGURE_LOAD:
+                        self.errors.append(
+                            f"metadata.figure_load['{tier}'] = '{value}' "
+                            f"is invalid. Must be one of: "
+                            f"{sorted(self.VALID_FIGURE_LOAD)}"
+                        )
+            else:
+                self.errors.append(
+                    "metadata.figure_load must be a string or a "
+                    "{tier: value} mapping"
+                )
 
         # Validate difficulty_tiers if present. Must be a list of valid
         # tier names that includes `difficulty` (the default render tier).

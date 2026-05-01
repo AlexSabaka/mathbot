@@ -28,7 +28,7 @@ variables:
     type: integer
 
 template: |
-  {{name}} measured a {{item}} with {{unit}}. The {{item}} is {{length}} {{unit}} long.
+  {{name}} measured the {{item}} with {{unit}}. The {{item}} is {{length}} {{unit}} long.
 
   How many {{unit}} long is the {{item}}?
 

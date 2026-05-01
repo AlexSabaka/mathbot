@@ -1,53 +1,56 @@
 metadata:
   id: k1_hard_subtraction_01
-  version: "1.0.0"
+  version: "1.1.0"
   author: Mathbot
   created: 2026-01-30
   grade: 1
   topic: arithmetic.subtraction
   family: subtraction
   difficulty: hard
-  steps: 3
+  steps: 1
   culture: en-US
-  tags: [subtraction, word-problem, two-step]
+  tags: [subtraction, word-problem, single-step]
+  notes: |
+    Single-step a - b within K1 range, with num_a in upper K1 (11-20)
+    and num_b in 2-10. Hard-tier difficulty is number magnitude
+    (per K1.7), not step count (K1.6). The min:11 / max:10 split
+    guarantees num_a > num_b, so the answer is always non-negative
+    (R.3a constraint, mirrors k1_easy_subtraction_01). num_b starts
+    at 2 to ensure plural agreement with the always-plural item pool.
 
 variables:
   num_a:
     type: integer
-    min: 10
+    min: 11
     max: 20
   num_b:
     type: integer
     min: 2
-    max: 6
-  num_c:
-    type: integer
-    min: 2
-    max: 5
+    max: 10
   object:
     type: item
     category: grocery
   location:
     type: string
-    choices: [table, shelf, tree, plate, counter]
-  action:
-    type: string
-    choices: [fell off, were taken, flew away, were eaten, rolled off]
+    choices: [table, shelf, plate, counter]
   Answer:
     type: integer
 
 template: |
-  There were {{num_a}} {{object}} on the {{location}}. First, {{num_b}} {{object}} {{action}}. Then, {{num_c}} more {{object}} {{action}}.
+  {{num_a}} {{object}} were on the {{location}}. Then {{num_b}} were taken.
 
-  How many {{object}} are still on the {{location}}?
+  How many {{object}} are left?
 
 solution: |
-  Answer = num_a - num_b - num_c
+  Answer = num_a - num_b
 
 tests:
   - seed: 42
     expected:
-      answer: "16"
+      answer: '10'
   - seed: 100
     expected:
-      answer: "2"
+      answer: '4'
+  - seed: 7
+    expected:
+      answer: '12'

@@ -1,0 +1,430 @@
+# Phase γ.4 batch 2 gold-standard #5 — sum-to-product trig identity used as
+# a *tool* to derive a physical answer (beat frequency in Hz), not as the
+# answer itself.
+#
+# Cell:    k11.trigonometry.identities, family=trig_identity_application
+# Source:  mathbot-phase-gamma-seed.md §γ.4 C.5
+#
+# γ-feature checklist (see notes: at end for the dissection guide):
+#   - figure_load: partial             — γ.1; the prose carries f1, f2 and
+#                                        the identity formula; the figure
+#                                        visualises the carrier×envelope
+#                                        shape but a numerate solver could
+#                                        solve from prose alone
+#   - simplifications: per-tier lift   — γ.1; easy/medium tiers state the
+#                                        "treat tones as continuous /
+#                                        equal-amplitude" assumption; hard
+#                                        suppresses both (T18)
+#   - structural_tags T13 / T14 / T18  — symbolic chain (apply identity →
+#                                        identify envelope → take 2× → state
+#                                        in Hz) + formula_recall (beat-rate =
+#                                        |f1 − f2|) + assumption-omission
+#   - track: advanced                  — sum-to-product identities sit at
+#                                        advanced track in CCSS-(+) precalc,
+#                                        Singapore H2 trig, Finland MAA8;
+#                                        not core US precalc
+#   - direction: forward               — given f1, f2, compute the beat
+#                                        frequency
+#   - difficulty_tiers + ranges        — easy = small integer Hz, medium =
+#                                        moderate frequency offsets, hard =
+#                                        wider spread + closer offsets so
+#                                        the envelope is more visible
+#   - visual.format: python with
+#     FunctionGraphFigure +
+#     AxesAnnotation                   — γ.3 A.2; superposition curve plus
+#                                        upper/lower envelope curves with
+#                                        AxesAnnotation marking envelope
+#                                        zeros (the audible beats)
+#   - tests compare/tolerance          — Hz answer is integer-valued in
+#                                        these draws; tolerance 0.5 Hz
+#                                        absolute absorbs any float drift
+#                                        while still distinguishing wrong
+#                                        answers (off by ≥ 1 Hz)
+#   - round_to=                         — γ.4q axis-range artifact rule;
+#                                        x_range upper bound rounded to a
+#                                        clean multiple, y_range explicit
+#                                        ([-2.5, 2.5]) so envelope ±2
+#                                        labels render cleanly
+
+metadata:
+  id: k11_trig_beat_frequency
+  version: "1.0.0"
+  author: claude-phase-gamma-gold-standard-5
+  created: 2026-04-30
+  grade: 11
+  topic: trigonometry.identities
+  family: trig_identity_application
+  difficulty: medium                    # default tier (must appear in difficulty_tiers)
+  difficulty_tiers: [easy, medium, hard]
+  steps: 4                              # apply identity → read off envelope
+                                        # → double for audible rate → state Hz
+  unit_system: metric                   # Hz is the SI frequency unit
+  language: en
+  culture: en-US
+
+  # Sum-to-product identities are universal advanced-track material:
+  # CCSS-(+) F-TF.9, Singapore H2 trigonometry, Finland MAA8, Norway R2,
+  # Sweden Mat 4, NL wiskunde B/D, Estonia gümnaasium kursus 5. Defensible
+  # as "advanced" because core US precalc covers Pythagorean identities
+  # but punts sum-to-product to honors / AP precalc tracks.
+  track: advanced
+
+  # Forward direction: given the two frequencies (and the identity as a
+  # stated tool), compute the audible beat rate. The inverse query —
+  # "given an observed beat rate of 4 Hz with one tone at 440 Hz, what
+  # could the unknown tone's frequency be?" — is structurally a sibling
+  # template (T17_inverse_query) and intentionally lives elsewhere.
+  direction: forward
+
+  # T13: chain of symbolic operations (apply sum-to-product → identify
+  # envelope cos((A−B)/2) → recognise |cos| has half period → state in
+  # Hz). T14: formula recall — the identity itself, plus the
+  # less-obvious "beat rate = 2 × envelope frequency = |f1 − f2|" step.
+  # T18: hard tier suppresses the simplifying assumptions stated at
+  # easy/medium (continuous tones, equal amplitudes).
+  structural_tags:
+    - T13_symbolic_chain
+    - T14_formula_recall
+    - T18_assumption_omission
+
+  # γ.1 A.3.b. Figure-load disclosure. The prose carries f1, f2, and
+  # the identity formula explicitly — a numerate solver can compute
+  # |f1 − f2| from the prose alone. The figure visualises the
+  # carrier×envelope shape (sum waveform with the envelope curves
+  # overlaid + envelope-zero markers) so the *interpretation* of "what
+  # is the beat frequency" lands geometrically. `partial` is the
+  # honest call: more than `decorative` (the markers mirror where the
+  # solver's |cos| zeros land) but less than `load_bearing` (no
+  # quantity lives only on the figure).
+  figure_load: partial
+
+  # γ.1 A.3.a. Per-tier suppression. Easy + medium state the
+  # simplifications; hard suppresses both, requiring the solver to
+  # recognise (a) the tones are modeled as continuous (not gated /
+  # windowed in time), and (b) the textbook |f1−f2| formula assumes
+  # equal-amplitude tones (real-world beats with unequal amplitudes
+  # don't fully zero, only modulate). Two distinct lift profiles
+  # avoid `simplification_lift_missing`.
+  simplifications:
+    - text: "Treat the two tones as continuous, equal-amplitude sinusoids that have been sounding long enough for a steady beat pattern to establish."
+      omit_at: [hard]
+    - text: "Use the sum-to-product identity sin A + sin B = 2 sin((A+B)/2) cos((A−B)/2) to rewrite the superposition as a carrier wave times a slow envelope."
+      omit_at: [medium, hard]
+
+  tags: [trigonometry, identities, beat_frequency, sum_to_product, physics_application, waves]
+  notes: |
+    Phase γ.4 batch 2 gold-standard #5 (mathbot-phase-gamma-seed.md
+    §γ.4 C.5). Pedagogical hook: identity-as-tool, not identity-as-target.
+
+    Most K11 templates that exercise trig identities ask the student to
+    *simplify* an expression (e.g. "rewrite sin 75° in surd form using
+    sum-to-product") — the identity IS the answer. This template
+    inverts that frame: the identity is the *means*, the answer is a
+    physical observable measured in Hz. The student must:
+
+      1. Recognise that y = sin(2π f1 t) + sin(2π f2 t) is amenable to
+         sum-to-product.
+      2. Apply the identity: y = 2 cos(π(f1−f2)t) · sin(π(f1+f2)t),
+         identifying the slow factor as the *envelope* and the fast
+         factor as the *carrier*.
+      3. Recognise that the envelope cos(π(f1−f2)t) has frequency
+         |f1−f2|/2 — but the *audible* beat rate is twice that, because
+         the human ear hears amplitude maxima from |envelope| (the
+         absolute value), and |cos| has half the period of cos.
+      4. State the answer as an integer Hz value.
+
+    Step 3 is the load-bearing structural insight — it's why this
+    template carries T14_formula_recall *and* T13_symbolic_chain rather
+    than only the chain tag. A solver who stops at step 2 reports the
+    envelope frequency, not the beat frequency, and ends up off by 2×.
+    The fixture tolerance (0.5 Hz absolute) is calibrated to catch
+    that error cleanly: legitimate float drift on |f1−f2| where both
+    are integers stays well under 0.5; the off-by-2× class of errors
+    lands ≥ 1 Hz away.
+
+    Identity-as-tool design choice: documented per the seed's explicit
+    callout. This template intentionally does not ask "rewrite the
+    expression" or "simplify this trig identity" — those problem
+    classes are well-trodden GSM8K-adjacent territory at K11 and the
+    LM saturation is high. By making the identity a *transformation
+    step* on the way to a physics answer, we exercise the same trig
+    skill in a setting where the identity itself isn't a memorisable
+    answer key. The contamination signature is structurally distinct.
+
+    Deliberate vs. default choices (worth dissecting):
+      - All frequencies are integer-valued. Real beats arise from
+        non-integer detunings (a piano string 0.7 Hz flat against
+        another), but the integer-only ranges keep the fixture
+        answers exact and the visual envelope cleanly periodic over
+        the displayed window.
+      - Visual plots three curves: the sum waveform (blue), upper
+        envelope +2cos(π(f1−f2)t) (red), and lower envelope
+        −2cos(π(f1−f2)t) (green). The envelope-zero crossings —
+        which are the *audible* beat moments — are marked as critical
+        points via AxesAnnotation. This is the load-bearing γ.4 C.5
+        feature: the envelope shape and its zero crossings are
+        annotated, not just sketched.
+      - x_range upper bound rounds UP to the nearest multiple of 0.5
+        seconds via the `t_max = math.ceil(t_raw * 2) / 2` snap so
+        the corner labels render as clean half-second values
+        (avoiding `axis_range_artifact`). The y_range is explicit at
+        (-2.5, 2.5) — wider than the data's ±2 envelope but tight
+        enough that the corner labels read as round half-integers.
+      - Tolerance 0.5 Hz, absolute. The decimal formatter prints
+        integer Hz (`"5"`), and the parameter ranges guarantee
+        |f1−f2| ∈ {2, 3, 4, 5, 6, 8, 10, 12} across tiers — wide
+        enough that an off-by-2× error (the canonical mistake on
+        step 3) lands ≥ 1 Hz away.
+
+    What NOT to copy from this template:
+      - The "double the envelope frequency" step is specific to beat
+        frequency. Don't drag this T14 lever into other identity
+        applications without re-deriving why it's there.
+      - figure_load: partial here, not load_bearing — the prose
+        carries enough for a numerate solver. Templates whose visual
+        carries unique data (function tables, force diagrams,
+        labelled circuit values) should declare load_bearing.
+
+    γ.4q rubric-12 review (rendered PNG @ seed 12345 medium tier):
+      1 no template leakage    — pass
+      2 no filler boilerplate  — pass
+      3 answer matches form    — pass (numeric Hz → "Find the beat frequency in Hz")
+      4 grammar agreement      — pass
+      5 pronoun consistency    — N/A (no pronouns; impersonal physics frame)
+      6 entity consistency     — pass (f₁ / f₂ / superposition / envelope all consistent)
+      7 not a tautology        — pass (the beat frequency isn't stated; the
+                                       identity is stated as a tool to derive it)
+      8 not single-fact recall — pass (apply identity → identify envelope →
+                                       double → state, multi-step chain)
+      9 skill matches topic    — pass (trigonometry.identities; the identity
+                                       is the structural fulcrum)
+     10 math-prose-answer ▲    — pass (|f1 − f2| Hz; order-of-magnitude sane;
+                                       answer is in the audible-beat range)
+     11 no None / null         — pass
+     12 visual integrity       — pass (envelope curves bracket the sum
+                                       waveform; envelope zero markers land
+                                       cleanly on the t-axis; corner labels
+                                       are clean half-seconds and ±2.5)
+
+variables:
+  # Lower of the two tone frequencies, in Hz. Integer-valued so the
+  # superposition is exactly periodic on the displayed t-window and
+  # |f1 − f2| stays integer for the fixture-match tolerance.
+  # Per-tier ranges shift the absolute frequency band; the *offset*
+  # between f1 and f2 is what drives the beat-rate magnitude.
+  f1:
+    type: integer
+    min: 220
+    max: 264
+    step: 2
+    ranges:
+      easy: {min: 220, max: 240, step: 2}       # bass tones (close to A3)
+      medium: {min: 240, max: 264, step: 2}     # mid-register (A4 ≈ 440 Hz neighborhood is medium-hard)
+      hard: {min: 256, max: 280, step: 2}       # near middle-C-octave; closer offsets
+
+  # Frequency offset Δf = f2 − f1, in Hz. Always positive (we'll define
+  # f2 = f1 + delta_f so f2 > f1 cleanly). Per-tier ranges control how
+  # detectable the beat is — small offsets give slow beats (easier to
+  # hear individually but the envelope spans more periods on the plot),
+  # large offsets give fast beats. Step=1 because Δf=2 and Δf=3 are
+  # both pedagogically useful and we don't want to skip values.
+  delta_f:
+    type: integer
+    min: 3
+    max: 6
+    step: 1
+    ranges:
+      easy: {min: 4, max: 6, step: 1}           # 4–6 Hz beats — slow, audible
+      medium: {min: 3, max: 6, step: 1}         # 3–6 Hz — overlaps easy at top
+      hard: {min: 2, max: 4, step: 1}           # 2–4 Hz — closer detuning
+
+  # The answer in Hz. Decimal so the formatter handles rounding
+  # consistently; the actual values are integer because both f1 and
+  # f2 are integers and the answer is |f1 − f2|.
+  Answer:
+    type: decimal
+
+template: |
+  {% set f2 = f1 + delta_f %}
+  Two pure tones with frequencies f₁ = {{f1}} Hz and f₂ = {{f2}} Hz are
+  sounded simultaneously, producing the superposition
+
+      y(t) = sin(2π f₁ t) + sin(2π f₂ t).
+
+  {{ simplifications }}
+
+  Determine the beat frequency in Hz — the rate at which a listener
+  perceives the combined amplitude swelling and fading. Round your
+  answer to the nearest whole hertz.
+
+solution: |
+  # T13 symbolic chain + T14 formula recall.
+  #
+  # Step 1: apply the sum-to-product identity
+  #   sin A + sin B = 2 sin((A+B)/2) cos((A-B)/2)
+  # with A = 2π f1 t, B = 2π f2 t. The result factors as a fast
+  # carrier × slow envelope:
+  #   y(t) = 2 sin(π (f1 + f2) t) · cos(π (f1 - f2) t)
+  #
+  # Step 2: identify the envelope cos(π (f1 - f2) t). Its temporal
+  # frequency is |f1 - f2| / 2.
+  #
+  # Step 3: the *audible* beat rate is twice the envelope frequency
+  # because |cos| has half the period of cos — every zero of the
+  # envelope is an instant of silence, and |cos(π Δf t)| oscillates
+  # at frequency 2 · |f1 - f2| / 2 = |f1 - f2|.
+  #
+  # We use sympy to keep the identity transformation symbolic — the
+  # numerical answer is just |f1 - f2|, but routing through sympy
+  # makes T13 (symbolic chain) honest in the solution code rather
+  # than a tag-only claim.
+  import sympy as sp
+  t_sym = sp.Symbol('t', real=True)
+  f1_sym, f2_sym = sp.symbols('f1 f2', positive=True, real=True)
+  superposition = sp.sin(2 * sp.pi * f1_sym * t_sym) + sp.sin(2 * sp.pi * f2_sym * t_sym)
+  # sum-to-product → 2 sin(...) cos(π(f1-f2)t)
+  factored = sp.fu(superposition)  # Fu's algorithm reaches sum-to-product form
+  # Beat rate = |f1 - f2|  (twice the envelope's own frequency).
+  beat = sp.Abs(f1_sym - f2_sym).subs({f1_sym: f1, f2_sym: f1 + delta_f})
+  Answer = round(float(beat), 0)
+
+# γ.3 A.2 builder. FunctionGraphFigure plots:
+#   - blue: the sum waveform y(t)
+#   - red:  upper envelope +2 cos(π Δf t)
+#   - green: lower envelope −2 cos(π Δf t)
+# AxesAnnotation marks the envelope zeros (audible beat moments) as
+# critical points; the prose names f1/f2 and the identity, but the
+# *shape* of the envelope and where its zeros land is what the figure
+# carries. figure_load: partial.
+visual:
+  format: python
+  alt_text: |
+    A function plot of the superposition y(t) = sin(2π·{{f1}}·t) +
+    sin(2π·({{f1 + delta_f}})·t) over a window long enough to display
+    several beats. The fast carrier wave oscillates within an envelope
+    formed by ±2 cos(π·{{delta_f}}·t); both upper (red) and lower
+    (green) envelope curves are drawn. Marker points sit at every
+    zero crossing of the envelope — these are the moments of silence
+    that the listener hears as beats.
+  source: |
+    import math
+    # γ.4q axis-range hygiene: t_max snaps UP to the next 0.5-second
+    # multiple so corner labels render as clean half-seconds. Window
+    # spans ~2 full envelope periods so the beat structure is visible
+    # without being so wide that the carrier becomes a solid blue band.
+    delta = delta_f
+    f2 = f1 + delta
+    envelope_period = 1.0 / delta              # full period of cos(π Δf t)
+    t_raw = 2.0 * envelope_period              # show ~2 envelope periods
+    t_max = math.ceil(t_raw * 2) / 2           # round UP to next 0.5 s
+    if t_max < 0.5:                            # safety: never collapse
+        t_max = 0.5
+
+    fig = FunctionGraphFigure(
+        width=520,
+        height=320,
+        x_range=(0.0, t_max),
+        y_range=(-2.5, 2.5),                   # tight around envelope ±2
+        title="Beat pattern: y(t) = sin(2π f₁ t) + sin(2π f₂ t)",
+        gridlines=True,
+    )
+    # Curve 1: the actual superposition (carrier × envelope).
+    fig.plot(
+        lambda tau: math.sin(2 * math.pi * f1 * tau) + math.sin(2 * math.pi * f2 * tau),
+        label="y(t)",
+        n=400,
+    )
+    # Curve 2: upper envelope +2 cos(π Δf t).
+    fig.plot(
+        lambda tau: 2 * math.cos(math.pi * delta * tau),
+        label="+envelope",
+        n=200,
+    )
+    # Curve 3: lower envelope −2 cos(π Δf t).
+    fig.plot(
+        lambda tau: -2 * math.cos(math.pi * delta * tau),
+        label="−envelope",
+        n=200,
+    )
+
+    # AxesAnnotation: mark every envelope zero in [0, t_max] as a
+    # critical point (the audible "beat" moments — silence). Zeros of
+    # cos(π Δf t) are at t = (2k+1)/(2Δf) for k = 0, 1, 2, ...
+    zeros = []
+    k = 0
+    while True:
+        t_zero = (2 * k + 1) / (2.0 * delta)
+        if t_zero > t_max:
+            break
+        zeros.append((t_zero, "beat" if k == 0 else ""))
+        k += 1
+
+    ann = AxesAnnotation(
+        intercepts=[("y", 0.0)],               # explicit y=0 marker (silence baseline)
+        critical_points=zeros,                 # envelope zeros = audible beats
+    )
+    fig.add_axes_annotation(ann)
+    Visual = fig.render()
+
+# Tests use compare: numeric with absolute tolerance 0.5 Hz. The
+# answer is integer-valued in every draw (|f1 − f2| with both
+# integers), so 0.5 absorbs any float drift while still distinguishing
+# the canonical off-by-2× error (forgetting to double the envelope
+# frequency, or doubling twice).
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected: {answer: "6.00"}
+    compare: numeric
+    tolerance: 0.5
+    notes: "easy tier — slow audible beats, bass-register carriers"
+
+  - seed: 42
+    difficulty: easy
+    expected: {answer: "4.00"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 99
+    difficulty: easy
+    expected: {answer: "5.00"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 12345
+    difficulty: medium
+    expected: {answer: "3.00"}
+    compare: numeric
+    tolerance: 0.5
+    notes: "medium tier — default range; mid-register carriers"
+
+  - seed: 42
+    difficulty: medium
+    expected: {answer: "3.00"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 7
+    difficulty: medium
+    expected: {answer: "4.00"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 12345
+    difficulty: hard
+    expected: {answer: "4.00"}
+    compare: numeric
+    tolerance: 0.5
+    notes: "hard tier — closer detuning, simplifications crutches suppressed"
+
+  - seed: 42
+    difficulty: hard
+    expected: {answer: "2.00"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 99
+    difficulty: hard
+    expected: {answer: "3.00"}
+    compare: numeric
+    tolerance: 0.5

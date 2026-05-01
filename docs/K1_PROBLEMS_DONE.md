@@ -365,44 +365,13 @@ Answer: 5 o'clock
 
 ### 5.2 Days, Weeks, and Months
 
-**Easy Template:**
-```
-How many days are in one week?
-
-Parameters:
-- Fixed answer: 7
-
-Answer: 7 days
-```
-
-**Medium Template:**
-```
-Today is {{day}}. What day will it be {{num_days}} day(s) from now?
-
-Parameters:
-- day: "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-- num_days: 1-7
-- Calculate forward in week cycle
-
-Example: Today is Monday. What day will it be 3 days from now?
-Answer: Thursday
-```
-
-**Hard Template:**
-```
-{{person_name}} goes to {{activity}} every {{day}}. 
-If today is {{current_day}}, how many more days until {{person_name}} goes to {{activity}} again?
-
-Parameters:
-- person_name: "Daniel", "Sophia", "James", "Emily"
-- activity: "swimming class", "piano lesson", "art class", "soccer practice"
-- day: any day of week
-- current_day: any day of week (different from day)
-- Calculate days between
-
-Example: Daniel goes to swimming class every Wednesday. If today is Friday, how many more days until Daniel goes to swimming class again?
-Answer: 5 days
-```
+> Retired in Phase γ.4r: the three day-of-week templates that previously
+> filled this section (`k1_easy_time_02`, `k1_medium_time_02`,
+> `k1_medium_time_03`, `k1_hard_time_02`) were removed because their
+> cognitive task is calendar arithmetic, not measurement.time. They will
+> be reauthored under `measurement.calendar` if K1 calendar coverage is
+> expanded; the K2 `measurement.calendar` cell already carries this
+> skill.
 
 ## 6. Patterns
 

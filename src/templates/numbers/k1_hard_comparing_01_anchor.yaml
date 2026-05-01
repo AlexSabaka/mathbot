@@ -14,20 +14,16 @@ metadata:
 variables:
   num_a:
     type: integer
-    min: 1
-    max: 20
+    choices: [1, 5, 9, 13, 17]
   num_b:
     type: integer
-    min: 1
-    max: 20
+    choices: [2, 6, 10, 14, 18]
   num_c:
     type: integer
-    min: 1
-    max: 20
+    choices: [3, 7, 11, 15, 19]
   num_d:
     type: integer
-    min: 1
-    max: 20
+    choices: [4, 8, 12, 16, 20]
   Answer:
     type: string
 
@@ -41,7 +37,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "1, 4, 8, 9"
+      answer: "1, 2, 8, 11"
   - seed: 100
     expected:
-      answer: "5, 6, 15, 15"
+      answer: "5, 8, 14, 15"

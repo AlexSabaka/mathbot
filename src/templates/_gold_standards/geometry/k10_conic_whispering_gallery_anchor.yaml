@@ -1,0 +1,590 @@
+# Phase γ.4 batch 2 gold-standard #6 — elliptical whispering gallery
+# with foci. The "candidate-for-promotion" exemplar: surfaces an
+# inline EllipseFigure that γ-revision (Phase γ.5) is expected to
+# promote to a real `src/visuals/figures/ellipse.py` builder once a
+# second consumer appears.
+#
+# Cell:    k10.geometry.conic_sections, family=conic_application
+# Source:  mathbot-phase-gamma-seed.md §4 gold-standard list, item #6.
+#
+# γ-feature checklist (see notes: at end for the dissection guide):
+#   - figure_load: partial            — γ.1; prose carries dimensions,
+#                                       figure marks foci so the
+#                                       geometry is concrete
+#   - simplifications: per-tier lift  — γ.1; easy/medium state the
+#                                       "perfect mathematical ellipse"
+#                                       crutch, hard suppresses it
+#                                       (T18)
+#   - structural_tags T13/T14/T17/T18 — symbolic chain + formula
+#                                       recall (c² = a² − b²) +
+#                                       inverse-direction (hard tier)
+#                                       + assumption omission
+#   - track: advanced                 — conic-section applications are
+#                                       advanced-track in Singapore H2,
+#                                       Finland MAA9+, Norway R2,
+#                                       NL wiskunde D, and the +-track
+#                                       in CCSS (G-GPE.A.3)
+#   - direction: forward              — top-level metadata; the *hard*
+#                                       tier inverts via per-tier
+#                                       `mode` dispatch (documented
+#                                       in notes — single direction
+#                                       field can't vary per tier, so
+#                                       T17 is the structural marker)
+#   - difficulty_tiers + ranges       — easy: integer Pythagorean
+#                                       triples → exact c; medium:
+#                                       irrational c; hard: inverse
+#   - visual.format: python with
+#     INLINE EllipseFigure SVG         — γ.4 candidate for A.2
+#                                       promotion (do not factor out
+#                                       in this PR; γ.5 lifts when a
+#                                       second consumer appears)
+#   - tests compare/tolerance          — easy uses `compare: string`
+#                                       (exact integer answers);
+#                                       medium / hard use numeric
+#                                       with tolerance 0.01
+
+metadata:
+  id: k10_conic_whispering_gallery
+  version: "1.0.0"
+  author: claude-phase-gamma-gold-standard-6
+  created: 2026-04-30
+  grade: 10
+  topic: geometry.conic_sections
+  family: conic_application
+  difficulty: medium                    # default tier (must appear in difficulty_tiers)
+  difficulty_tiers: [easy, medium, hard]
+  steps: 4                              # identify a, b → recall c² = a² − b² → solve → state 2c
+  unit_system: metric                   # metres
+  language: en
+  culture: en-US
+
+  # γ.1 (B2). Conic-section applications (foci of an ellipse, directrix
+  # constructions, parabolic reflectors) sit firmly on the advanced
+  # track across the eight reference systems — Singapore H2, Japan
+  # Math III, Finland MAA9+, Norway R2, NL wiskunde D, Estonia
+  # gümnaasium, plus CCSS-(+) G-GPE.A.3. Absent from CCSS core.
+  track: advanced
+
+  # Top-level direction is *forward*: easy and medium are forward
+  # (given a, b → find 2c). The hard tier inverts (given 2c, b →
+  # find a), but the schema's `direction:` field is a single value —
+  # not per-tier. We keep `forward` here and add `T17_inverse_query`
+  # to structural_tags so the inverse exercise at the hard tier is
+  # discoverable. The per-tier inversion is dispatched at runtime
+  # via the `mode` choice variable below.
+  direction: forward
+
+  # T13: chain (identify a/b → recall c² = a² − b² → take √ → ×2 for
+  # foci-distance). T14: formula recall — the relation c² = a² − b² is
+  # a closed-form result the solver must reach for. T17: hard-tier
+  # inverse — given 2c and b, solve for a (a² = (c)² + b² = (2c/2)² + b²).
+  # T18: hard tier suppresses the "perfect mathematical ellipse"
+  # simplification stated at easy/medium.
+  structural_tags:
+    - T13_symbolic_chain
+    - T14_formula_recall
+    - T17_inverse_query
+    - T18_assumption_omission
+
+  # γ.1 (A.3). Per-tier suppression. Two distinct lift profiles
+  # required for `simplification_lift_missing` to be silent on a
+  # multi-tier template — both entries below carry distinct
+  # `omit_at` so the suppression set is genuinely tier-graded.
+  simplifications:
+    # Stated at easy/medium; hard solver must recognise that the
+    # idealised whispering-gallery is a perfect mathematical ellipse
+    # (real galleries have ceiling deflections, doors, support arches)
+    # without being told.
+    - text: "Treat the gallery as a perfect mathematical ellipse with the floor as its major axis."
+      omit_at: [hard]
+    # Stated only at easy; medium and hard solvers must accept the
+    # textbook focus-property of an ellipse (a sound emitted at one
+    # focus reflects through the other) without explicit framing.
+    - text: "Recall that any sound starting at one focus reflects off the wall and converges at the other focus."
+      omit_at: [medium, hard]
+
+  # γ.1 (A.3). The figure illustrates the geometry and *marks* the
+  # foci so the solver can see what 2c refers to, but every numeric
+  # quantity (a, b, the foci-distance for hard tier) appears in the
+  # prose. Honest call: more than `decorative` (the foci are dotted
+  # so 2c has a visual referent), less than `load_bearing` (no
+  # number lives only on the figure).
+  figure_load: partial
+
+  tags: [geometry, conic_sections, ellipse, foci, whispering_gallery]
+  notes: |
+    Phase γ.4 batch 2 gold-standard #6 (mathbot-phase-gamma-seed.md
+    §4, item #6).
+
+    Exercises every γ feature the seed calls out for this slot:
+      - γ.1 simplifications: with per-tier omit_at (T18 lift)
+      - γ.1 figure_load: partial (foci-dots make 2c concrete)
+      - γ.4 INLINE EllipseFigure SVG (candidate for A.2 promotion)
+      - β tests compare/numeric+string mix per tier
+
+    Tier shape — why each tier exists:
+      - easy:   integer Pythagorean triple (a, b, c). Picked from
+                {(5,3,4), (10,6,8), (13,5,12), (15,9,12), (17,8,15),
+                (25,7,24)}. The answer 2c is an integer and prints
+                exactly; `compare: string` is sufficient and the
+                fixture is byte-stable.
+      - medium: a and b are integers but c = √(a² − b²) is irrational.
+                The student computes a decimal approximation. Tests
+                use `compare: numeric` with absolute tolerance 0.01
+                — comfortably wider than the 2-dp display rounding,
+                narrow enough to catch a genuine arithmetic error.
+      - hard:   inverse direction. The prose gives 2c (the foci-to-
+                foci distance, integer) and b (the room height,
+                integer), and asks for a. The solver must recognise
+                a² = (2c/2)² + b² = c² + b² and apply the formula
+                inverted. T17 is tagged for this tier; the
+                `simplifications:` lift is at its strongest (both
+                crutches suppressed).
+
+    Why custom inline (NOT a builder module):
+      The seed plan flags this template as the candidate-for-promotion
+      exemplar: it surfaces an EllipseFigure shape that γ-revision
+      (Phase γ.5) is expected to factor out into
+      `src/visuals/figures/ellipse.py` once a second consumer
+      appears. Per TD-γ.4q-3 ("don't promote a builder until two
+      templates need it"), γ.4 batch 2 keeps the figure inline. The
+      visual.source: block below contains a self-contained raw
+      f-string SVG (~30 LOC, half of which is leader lines and
+      labels) — light enough to live inline without obscuring the
+      authoring intent. Future γ.5 promotion: lift the SVG body
+      into an `EllipseFigure(SVGBuilder)` subclass with the same
+      to_svg / to_text / to_latex / render() contract every other
+      figure builder follows.
+
+    Deliberate vs. default choices (worth dissecting):
+      - Easy tier picks the *room half-length* `a` and *height* `b`
+        from a closed list of (a, b) pairs whose c is integer. This
+        is shape-preserving with the medium tier (same prompt, same
+        solution code path) but produces a clean integer answer.
+        Authoring `min`/`max` over a/b with no constraint risks
+        non-integer c on most draws, defeating the easy-tier promise.
+      - Medium tier deliberately picks (a, b) ranges whose c is
+        almost never integer (a ∈ {10..18}, b ∈ {5..9}; the few
+        accidental integer-c draws still parse correctly under
+        `compare: numeric` so this is a no-op cost).
+      - Hard tier inverts: rather than draw (a, b) and back-compute
+        2c, we draw a Pythagorean (a, b, c) triple and PRESENT 2c
+        and b to the solver, asking for a. This guarantees the
+        answer is integer-valued, which keeps the inverse-tier
+        fixture readable; numeric tolerance protects against any
+        residual float drift.
+      - `mode` is the per-tier dispatch variable: choices=["forward"]
+        at easy/medium, ["inverse"] at hard. Clean way to gate prose
+        and solution branches without leaking the tier name into
+        the sandbox (the sandbox doesn't see `effective_difficulty`
+        — see template_generator.py).
+      - `direction: forward` at metadata level. The schema requires
+        a single value; we pick the majority-tier behaviour and
+        flag the hard-tier inversion via T17. Ev-slicers reading
+        direction get a 2/3-correct signal; ev-slicers reading
+        structural_tags get the full picture.
+      - Body prose uses Unicode (`²`, `√`, `≈`), not LaTeX delimiters.
+        γ.4q surfaced that LaTeX in body prose diverges across output
+        formats (typeset in markdown/latex/pdf, raw `$$...$$` in
+        svg/png). SPEC.md §6 documents this rule.
+
+    γ.4q rubric-12 review (rendered text @ each tier, seeds 12345/42/99/7):
+      1 no template leakage    — pass (no curlies, no pipes, no <auto>)
+      2 no filler boilerplate  — pass (no "please solve this problem")
+      3 answer matches form    — pass (forward: distance "X m" or
+                                       "X.XX m"; inverse: half-length
+                                       "X m"). Sentence asks for the
+                                       quantity in the unit it returns
+      4 grammar agreement      — pass ("the foci are", "the focus is")
+      5 pronoun consistency    — N/A (no pronouns)
+      6 entity consistency     — pass (gallery / floor / focus / wall
+                                       all consistently named)
+      7 not a tautology        — pass (the answer 2c isn't stated;
+                                       a and b are stated and the
+                                       solver computes c from them)
+      8 not single-fact recall — pass (formula recall + arithmetic +
+                                       (hard) inversion)
+      9 skill matches topic    — pass (geometry.conic_sections,
+                                       ellipse foci-property work)
+     10 math-prose-answer ▲    — pass (a > b > 0 → c < a → 2c < 2a;
+                                       order-of-magnitude sane)
+     11 no None / null         — pass
+     12 visual integrity       — pass (foci-dots inside the ellipse;
+                                       a/b/2c labels offset clear of
+                                       the curve; no clipped text)
+
+variables:
+  # Forward (easy / medium): pick (a, b). For easy these come from a
+  # Pythagorean triple list so c is exact integer. For medium a is a
+  # broader integer range and b is constrained b < a so c > 0.
+  # For hard (inverse): draw (a, b, c) from the same triple list,
+  # then pass `c_input = 2*c` and b to the prose; the answer is a.
+
+  # Per-tier dispatch — per-tier `ranges:` overrides the flat choices.
+  # Easy/medium use forward; hard uses inverse. The solution code
+  # branches on this; the prose template branches on this.
+  mode:
+    type: choice
+    choices: ["forward"]                 # default (medium) — must include the active value
+    ranges:
+      easy: {choices: ["forward"]}
+      medium: {choices: ["forward"]}
+      hard: {choices: ["inverse"]}
+
+  # Tier flag — exposes the active difficulty tier to both the prose
+  # template (Jinja) and the solution sandbox. The schema's
+  # `effective_difficulty` is NOT plumbed into either context (see
+  # template_generator.py); a per-tier `choices` override is the
+  # idiomatic workaround. Used by both `template:` and `solution:`
+  # to dispatch to the correct (a, b) source.
+  tier_flag:
+    type: choice
+    choices: ["medium"]                  # default
+    ranges:
+      easy: {choices: ["easy"]}
+      medium: {choices: ["medium"]}
+      hard: {choices: ["hard"]}
+
+  # Easy tier: pick the *index* into a fixed Pythagorean-triple list.
+  # The solution looks up (a, b, c) by index. Using an index variable
+  # rather than three coupled draws sidesteps the
+  # variable_generator's independent-draw model (which would not
+  # enforce a² − b² = c²).
+  easy_idx:
+    type: integer
+    choices: [0]                         # default — will be overridden by ranges
+    ranges:
+      easy: {choices: [0, 1, 2, 3, 4, 5]}    # six triples
+      medium: {choices: [0]}                  # unused at medium
+      hard: {choices: [0, 1, 2, 3, 4, 5]}     # same triple list, used for inverse
+
+  # Medium tier draws a and b independently in ranges that almost
+  # never coincide on a Pythagorean triple, so c is irrational on
+  # nearly every seed. NOTE the careful interplay between
+  # `_resolve_range`'s base / tier merge and the variable_generator's
+  # "choices wins over min/max" rule: the base spec uses min/max so
+  # the medium-tier min/max draw fires; the easy/hard tiers
+  # explicitly set `choices: [<single>]` AND clear min/max via the
+  # per-tier override (the resolver only overrides keys present in
+  # the tier dict, so we put both choices AND new min/max bounds in
+  # the tier dict to short-circuit cleanly).
+  med_a:
+    type: integer
+    min: 10                              # medium default: 10..18
+    max: 18
+    step: 1
+    ranges:
+      medium: {min: 10, max: 18, step: 1}
+      # Easy/hard: lock to a single value (unused; the easy/hard
+      # branches read from triples[easy_idx]).
+      easy: {choices: [10], min: 10, max: 10}
+      hard: {choices: [10], min: 10, max: 10}
+
+  med_b:
+    type: integer
+    min: 5                               # medium default: 5..9; b < a worst-case (5 < 10)
+    max: 9
+    step: 1
+    ranges:
+      medium: {min: 5, max: 9, step: 1}
+      easy: {choices: [5], min: 5, max: 5}
+      hard: {choices: [5], min: 5, max: 5}
+
+  # Decimal answer for medium / hard; exact-integer answer for easy.
+  # Type `decimal` lets the formatter produce a clean numeric string
+  # which `compare: numeric` parses on both sides.
+  Answer:
+    type: decimal
+
+template: |
+  {# Recompute (a, b, c) in Jinja so the prose can reference them.
+     Mirrors the solution-code logic so the figures, prose, and
+     Answer all agree. Solution-only variables aren't visible in the
+     template (solution runs *after* render), so we duplicate the
+     dispatch here. #}
+  {%- set _triples = [(5, 3, 4), (10, 6, 8), (13, 5, 12), (15, 9, 12), (17, 8, 15), (25, 7, 24)] -%}
+  {%- if tier_flag == "hard" -%}
+    {%- set _t = _triples[easy_idx % 6] -%}
+    {%- set a_val = _t[0] -%}
+    {%- set b_val = _t[1] -%}
+    {%- set c_val = _t[2] -%}
+    {%- set c2_val = 2 * c_val -%}
+  {%- elif tier_flag == "easy" -%}
+    {%- set _t = _triples[easy_idx % 6] -%}
+    {%- set a_val = _t[0] -%}
+    {%- set b_val = _t[1] -%}
+  {%- else -%}
+    {# Medium tier — independent draws of med_a and med_b. #}
+    {%- set a_val = med_a -%}
+    {%- set b_val = med_b -%}
+  {%- endif -%}
+  {% if mode == "inverse" -%}
+  A whispering gallery is shaped as a half-ellipse whose floor lies along the major axis. The room's vertical height (semi-minor axis) is {{b_val}} m. Two whisperers stand at the foci of the ellipse, exactly {{c2_val}} m apart along the floor, and a sound emitted at one focus is heard clearly at the other.
+  {% if simplifications %}
+  {{ simplifications }}
+  {% endif %}
+  Determine the half-length of the floor (the semi-major axis a, in metres). Use the relation c² = a² − b², where c is the half-distance between the foci. Round your answer to two decimal places.
+  {%- else -%}
+  A whispering gallery is shaped as a half-ellipse whose floor lies along the major axis. The room's half-length (semi-major axis) is {{a_val}} m and its vertical height at the centre (semi-minor axis) is {{b_val}} m. Two whisperers stand on the floor at the two foci of the ellipse.
+  {% if simplifications %}
+  {{ simplifications }}
+  {% endif %}
+  Determine the distance 2c between the two foci, in metres. Use the relation c² = a² − b², where c is the half-distance between the foci. Round your answer to two decimal places.
+  {%- endif %}
+
+solution: |
+  # The Pythagorean triple list is the canonical source for both the
+  # easy (forward, integer c) tier and the hard (inverse, integer a)
+  # tier. Each entry is (a, b, c) with a² = b² + c².
+  triples = [
+      (5, 3, 4),
+      (10, 6, 8),
+      (13, 5, 12),
+      (15, 9, 12),
+      (17, 8, 15),
+      (25, 7, 24),
+  ]
+
+  if tier_flag == "hard":
+      # Hard tier — given 2c and b, solve for a.
+      # Draw the (a, b, c) triple via easy_idx; present c_input = 2c
+      # and b to the prose; the answer is a.
+      a_val, b_val, c_val = triples[easy_idx % len(triples)]
+      c2_val = 2 * c_val
+      # Solver's inversion: a = sqrt((c2/2)² + b²) = sqrt(c² + b²).
+      Answer = round(((c2_val / 2.0) ** 2 + b_val ** 2) ** 0.5, 2)
+  elif tier_flag == "easy":
+      # Easy tier — pull (a, b) from the triple list so c is integer.
+      a_val, b_val, _ = triples[easy_idx % len(triples)]
+      c_sq = a_val ** 2 - b_val ** 2
+      c_calc = c_sq ** 0.5
+      Answer = round(2 * c_calc, 2)
+  else:
+      # Medium tier — independent (med_a, med_b) draws give irrational c.
+      a_val, b_val = med_a, med_b
+      c_sq = a_val ** 2 - b_val ** 2
+      if c_sq <= 0:
+          # Degenerate guard — ranges (med_b ≤ 9 < med_a ≥ 10) ensure
+          # this never fires; belt-and-braces protects against a
+          # range-spec edit that violates the inequality.
+          c_sq = 0
+      c_calc = c_sq ** 0.5
+      Answer = round(2 * c_calc, 2)
+
+# γ.4 candidate-for-promotion: the inline EllipseFigure stays in the
+# YAML for γ.4 batch 2. Phase γ.5 may promote it to
+# `src/visuals/figures/ellipse.py` once a second template needs an
+# ellipse with foci. Until then, the raw f-string SVG below is the
+# whole figure.
+visual:
+  format: python
+  alt_text: |
+    A horizontally-oriented ellipse with semi-major axis a along
+    the floor and semi-minor axis b vertical. Two filled dots mark
+    the foci F₁ and F₂ on the floor, symmetric about the centre.
+    The major-axis label "a" sits along the floor; the minor-axis
+    label "b" sits along the vertical; the foci-to-foci distance
+    "2c" is annotated between F₁ and F₂.
+  source: |
+    # Inline custom EllipseFigure — raw f-string SVG. Resolves a
+    # display geometry from (a, b) so the figure is self-consistent
+    # even when the prose's a is much larger than its b. The figure
+    # uses display units (a fixed major-axis half-length of 140 px,
+    # minor-axis scaled proportionally) — it's an illustration, not
+    # a scale model. The prose carries the actual numbers.
+    #
+    # When mode == "inverse", the prose names 2c and b and asks for
+    # a; we still derive a display a from the triple-table answer
+    # so the figure's geometry matches the *answer*, not just the
+    # given quantities.
+
+    # Resolve the display geometry. Mirrors the solution's mode-
+    # branching so the figure shows the same a, b, c as the solver
+    # would compute.
+    triples = [
+        (5, 3, 4), (10, 6, 8), (13, 5, 12),
+        (15, 9, 12), (17, 8, 15), (25, 7, 24),
+    ]
+    if tier_flag == "hard":
+        _a_disp, _b_disp, _c_disp = triples[easy_idx % len(triples)]
+    elif tier_flag == "easy":
+        _a_disp, _b_disp, _c_disp = triples[easy_idx % len(triples)]
+    else:
+        _a_disp, _b_disp = med_a, med_b
+        _csq = _a_disp ** 2 - _b_disp ** 2
+        _c_disp = _csq ** 0.5 if _csq > 0 else 0.0
+
+    # Display constants. Major-axis half-length fixed at 140 px;
+    # minor-axis scales to keep the visual ratio honest, with a
+    # floor of 30 px so very-narrow ellipses still render legibly.
+    _W, _H = 420, 240
+    _CX, _CY = _W / 2, _H / 2 + 10  # nudge centre down to leave label room
+    _A_PX = 140.0
+    _B_PX = max(30.0, _A_PX * (_b_disp / _a_disp))
+    _C_PX = _A_PX * (_c_disp / _a_disp) if _a_disp else 0.0
+
+    # Format helper — strips trailing zeros so SVG bytes stay lean.
+    # _fmt isn't in the visual sandbox, so we inline a tiny copy here.
+    def _f(v, n=2):
+        s = f"{v:.{n}f}"
+        if "." in s:
+            s = s.rstrip("0").rstrip(".")
+        return s or "0"
+
+    # Build the SVG. Children, in z-order:
+    #   1. ellipse outline + light fill
+    #   2. major-axis line (floor) and minor-axis line (vertical)
+    #   3. foci dots
+    #   4. 2c bracket between foci (dashed line + endpoint ticks)
+    #   5. labels: a, b, 2c, F₁, F₂
+    _parts = []
+    _parts.append(
+        f'<ellipse cx="{_f(_CX)}" cy="{_f(_CY)}" '
+        f'rx="{_f(_A_PX)}" ry="{_f(_B_PX)}" '
+        f'fill="#f0f0f0" stroke="#000" stroke-width="1.5"/>'
+    )
+    # Major axis (floor line): full extent a-to-a.
+    _parts.append(
+        f'<line x1="{_f(_CX - _A_PX)}" y1="{_f(_CY)}" '
+        f'x2="{_f(_CX + _A_PX)}" y2="{_f(_CY)}" '
+        f'stroke="#888" stroke-width="1" stroke-dasharray="4,3"/>'
+    )
+    # Minor axis (vertical at centre): from centre up to top of ellipse.
+    _parts.append(
+        f'<line x1="{_f(_CX)}" y1="{_f(_CY)}" '
+        f'x2="{_f(_CX)}" y2="{_f(_CY - _B_PX)}" '
+        f'stroke="#888" stroke-width="1" stroke-dasharray="4,3"/>'
+    )
+    # Foci dots — F₁ on left, F₂ on right.
+    _f1x, _f2x = _CX - _C_PX, _CX + _C_PX
+    _parts.append(
+        f'<circle cx="{_f(_f1x)}" cy="{_f(_CY)}" r="4" fill="#000"/>'
+    )
+    _parts.append(
+        f'<circle cx="{_f(_f2x)}" cy="{_f(_CY)}" r="4" fill="#000"/>'
+    )
+    # 2c bracket — short tick marks above the foci with a dotted
+    # connector, so the "2c" label hangs above the line where it
+    # can't be confused with the major-axis label below.
+    _bracket_y = _CY - 18
+    _parts.append(
+        f'<line x1="{_f(_f1x)}" y1="{_f(_CY)}" '
+        f'x2="{_f(_f1x)}" y2="{_f(_bracket_y)}" '
+        f'stroke="#000" stroke-width="1"/>'
+    )
+    _parts.append(
+        f'<line x1="{_f(_f2x)}" y1="{_f(_CY)}" '
+        f'x2="{_f(_f2x)}" y2="{_f(_bracket_y)}" '
+        f'stroke="#000" stroke-width="1"/>'
+    )
+    _parts.append(
+        f'<line x1="{_f(_f1x)}" y1="{_f(_bracket_y)}" '
+        f'x2="{_f(_f2x)}" y2="{_f(_bracket_y)}" '
+        f'stroke="#000" stroke-width="1" stroke-dasharray="3,2"/>'
+    )
+    # Labels — Times-serif, font-size 14 to match the rest of the
+    # figure builders. Anchor positions are picked so they sit clear
+    # of the curve at this aspect ratio (rx 140, ry ≥ 30).
+    _font = 'font-family="Times New Roman, Times, serif" font-size="14"'
+    # "a" label: midway between centre and the right vertex, just
+    # below the floor line.
+    _parts.append(
+        f'<text x="{_f(_CX + _A_PX / 2)}" y="{_f(_CY + 16)}" '
+        f'text-anchor="middle" {_font}>a</text>'
+    )
+    # "b" label: midway up the minor axis, offset right by 14 px so
+    # it clears the 2c bracket above the foci even when the bracket
+    # extends close to the centre at narrow aspect ratios.
+    _parts.append(
+        f'<text x="{_f(_CX + 14)}" y="{_f(_CY - _B_PX / 2 + 4)}" '
+        f'text-anchor="start" {_font}>b</text>'
+    )
+    # "2c" label: above the bracket midpoint.
+    _parts.append(
+        f'<text x="{_f(_CX)}" y="{_f(_bracket_y - 4)}" '
+        f'text-anchor="middle" {_font}>2c</text>'
+    )
+    # F₁ / F₂ vertex names — below the dots so they don't collide
+    # with the 2c bracket above.
+    _parts.append(
+        f'<text x="{_f(_f1x)}" y="{_f(_CY + 16)}" '
+        f'text-anchor="middle" {_font}>F1</text>'
+    )
+    _parts.append(
+        f'<text x="{_f(_f2x)}" y="{_f(_CY + 16)}" '
+        f'text-anchor="middle" {_font}>F2</text>'
+    )
+
+    Visual = (
+        f'<svg xmlns="http://www.w3.org/2000/svg" '
+        f'width="{_W}" height="{_H}" viewBox="0 0 {_W} {_H}">'
+        + "".join(_parts)
+        + "</svg>"
+    )
+
+# Tier-aware tests. Easy tier uses `compare: string` because its
+# answer is an exact integer (printed by the decimal formatter as
+# "16.00", "24.00", …). Medium and hard use `compare: numeric` with
+# absolute tolerance 0.01 to absorb the 2-dp display rounding while
+# still failing on a wrong-formula dispatch (mistaking c² = a² − b²
+# for c² = a² + b² differs by far more than 0.01 on this domain).
+#
+# Three fixtures per tier (nine total), satisfying the gold-standard
+# ≥3-per-tier guidance.
+tests:
+  # ─── easy tier — forward, integer Pythagorean-triple answers ───
+  - seed: 12345
+    difficulty: easy
+    expected: {answer: "24.00"}
+    compare: string
+    notes: "easy tier — forward, integer 2c"
+
+  - seed: 42
+    difficulty: easy
+    expected: {answer: "48.00"}
+    compare: string
+
+  - seed: 99
+    difficulty: easy
+    expected: {answer: "16.00"}
+    compare: string
+
+  # ─── medium tier — forward, irrational c, decimal answer ───
+  - seed: 12345
+    difficulty: medium
+    expected: {answer: "27.50"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "medium tier — forward, irrational c"
+
+  - seed: 42
+    difficulty: medium
+    expected: {answer: "23.07"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 99
+    difficulty: medium
+    expected: {answer: "20.78"}
+    compare: numeric
+    tolerance: 0.01
+
+  # ─── hard tier — inverse direction (given 2c, b → find a) ───
+  - seed: 12345
+    difficulty: hard
+    expected: {answer: "13.00"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "hard tier — inverse, integer a; T17 + suppressed simplifications"
+
+  - seed: 42
+    difficulty: hard
+    expected: {answer: "25.00"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 7
+    difficulty: hard
+    expected: {answer: "15.00"}
+    compare: numeric
+    tolerance: 0.01

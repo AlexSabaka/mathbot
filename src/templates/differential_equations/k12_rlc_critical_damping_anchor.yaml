@@ -1,0 +1,201 @@
+# Demo template — series-RLC second-order ODE (critically damped).
+#
+# Cell:    k12.differential_equations.second_order, family=second_order_ode
+# Source:  MATHBOT_PROBLEMS_PROPOSAL_v2.md §5 N16, sub-pattern (b)
+#          (RLC series circuit, characteristic-eqn analysis,
+#          homogeneous closed form)
+#
+# Authored as the second feature-maximal demo (after the N15 cooling
+# template). The new capability this template exercises that the
+# cooling demo did NOT:
+#
+#   - track: tertiary  (vs. cooling's `advanced` — N16 is genuinely
+#                       first-year-university content)
+#   - CircuitSVG visual builder  (Phase β H1 — RLC schematic; the
+#                                 first template using this builder)
+#   - non-numeric symbolic Answer  (Phase α B1 — Answer is a sympy.Expr
+#                                   with free symbol `t`, the formatter
+#                                   routes through _format_sympy_expr →
+#                                   sp.simplify + sp.sstr canonical form)
+#   - compare: symbolic on tests  (Phase α B3 — fixtures are sympy
+#                                  expressions; equivalence checked via
+#                                  simplify(actual - expected) == 0)
+#
+# Parameter choice: critically damped (R² = 4L/C exactly) keeps the
+# closed form clean — q(t) = q0*(t + 1)*exp(-t). A future N16 anchor
+# can extend this with method-selection (T15) by adding tier-dependent
+# parameter ranges that span over/under/critical regimes.
+
+metadata:
+  id: k12_rlc_critical_damping
+  version: "1.0.0"
+  author: claude-checkpoint-demo
+  created: 2026-04-29
+  grade: 12
+  topic: differential_equations.second_order
+  family: second_order_ode
+  difficulty: medium
+  steps: 5                  # ODE → char eqn → roots → general form → ICs → q(t)
+
+  # N16 is universal *only* at the elite advanced track — Sweden Mat 5,
+  # Singapore H3 / Further Math, NL wiskunde D — and absent from CCSS
+  # entirely. Tag tertiary so eval slicers can drop it from a CCSS-core
+  # view.
+  track: tertiary
+
+  # Forward direction: given the circuit + ICs, find q(t). The inverse
+  # (given a target q value, find the time) is a follow-up template.
+  direction: forward
+
+  # T13: chain (write ODE → characteristic eqn → roots → general
+  #     solution → apply IVP → final form).
+  # T14: formula recall — recognising the (A + B·t)·e^(rt) form for
+  #     repeated roots is the key step.
+  structural_tags:
+    - T13_symbolic_chain
+    - T14_formula_recall
+
+  # Lab-flavour irrelevant clauses for GSM-NoOp evaluation. Each
+  # references existing variables to look plausible in context.
+  noop_clauses:
+    - "{{person}} also tested a separate buffer circuit on the bench earlier."
+    - "The lab oscilloscope was calibrated against a 1 kHz reference that morning."
+    - "{{person}} jotted the room temperature ({{ambient_temp}} °C) in the lab notebook before starting."
+    - "A second identical capacitor sat unused on the bench shelf."
+
+  tags: [calculus, second_order_ode, rlc, critical_damping, transient]
+  notes: |
+    γ-era reference exemplar (gold-standard #8). Pairs with the N15
+    cooling template (gold-standard #7); together they cover both ODE
+    templates the v2 proposal calls out.
+
+    γ.4q upgrade: switched CircuitSVG to `source_disconnected=True`
+    so the schematic renders an open-gap glyph at the source position
+    instead of a closed circle with `+` / `−` polarity marks. The
+    closed-circle source visually contradicted the prose ("voltage
+    source disconnected at t=0") — rubric item 12 fail. The open
+    gap matches the prose; the redundant `V = 0 (open)` label was
+    dropped because the gap conveys the message.
+
+    γ.4q rubric-12 review (rendered PNG @ seed 1001):
+      1 no template leakage    — pass
+      2 no filler boilerplate  — pass
+      3 answer matches form    — pass (sympy.Expr in t ↔ "report q(t)")
+      4 grammar agreement      — pass
+      5 pronoun consistency    — N/A (no pronouns)
+      6 entity consistency     — pass (R / L / C / capacitor q(0) all coherent)
+      7 not a tautology        — pass (closed form not stated in prose)
+      8 not single-fact recall — pass (ODE setup → char eq → repeated root → IVP)
+      9 skill matches topic    — pass (calculus.second_order topic, ODE chain)
+     10 math-prose-answer ▲    — pass (q(t) form matches critically-damped algebra)
+     11 no None / null         — pass
+     12 visual integrity       — pass (open-gap source matches prose; R, L, C
+                                       symbols correctly labeled and positioned)
+
+variables:
+  # Person — the lab technician. Also drives the noop_clauses pool.
+  person:
+    type: person
+
+  # Ambient temperature — only referenced by one of the noop_clauses.
+  # Does not affect the ODE. Demonstrates that noop clauses can pull
+  # in variables that the body never uses.
+  ambient_temp:
+    type: integer
+    min: 19
+    max: 23
+
+  # Initial charge on the capacitor at t = 0 (just before the source
+  # is disconnected). Drives the multiplicative constant on q(t).
+  q0:
+    type: integer
+    unit: "coulomb"
+    min: 1
+    max: 5
+    step: 1
+
+  # Answer: a sympy expression in `t`, of the form q0*(t+1)*exp(-t).
+  # Type=string so format_answer's symbolic-dispatch path produces the
+  # canonical sp.sstr form; the numeric branches would coerce to float
+  # which fails for an expression with a free symbol.
+  Answer:
+    type: string
+
+template: |
+  {{ noop_clause }} A series RLC circuit has L = 1 H, R = 2 Ω, and C = 1 F. At
+  t = 0 the voltage source is disconnected, leaving the capacitor charged
+  to q(0) = {{q0_formatted}} with no initial current (i(0) = q'(0) = 0).
+  The schematic below shows the circuit configuration.
+
+  Working from the homogeneous second-order ODE for the charge on the
+  capacitor, solve for q(t) and report the closed form.
+
+solution: |
+  # Phase β H1 + α B1 demo. Set up the second-order linear ODE,
+  # let sympy derive the closed form via dsolve with both initial
+  # conditions, and return the sympy expression as Answer. The
+  # symbolic-formatter dispatch (_format_sympy_expr) runs sp.simplify
+  # once and emits sp.sstr — a Python-readable form that round-trips
+  # through sp.sympify on the grader side.
+  import sympy as sp
+  t = sp.Symbol('t', positive=True, real=True)
+  q = sp.Function('q', real=True)
+  L_val, R_val, C_val = 1, 2, 1
+  ode = L_val * q(t).diff(t, 2) + R_val * q(t).diff(t) + q(t) / C_val
+  sol = sp.dsolve(
+      ode, q(t),
+      ics={q(0): q0, q(t).diff(t).subs(t, 0): 0},
+  )
+  Answer = sp.simplify(sol.rhs)
+
+# CircuitSVG builder shows the actual L, R, C values plus the
+# disconnected-source indicator. Visual sandbox runs the same
+# merged-namespace exec as the cooling template — `q0` flows in from
+# the variable context.
+visual:
+  format: python
+  alt_text: |
+    Series-RLC circuit schematic. A voltage source on the left
+    (disconnected at t = 0) is wired in series with a 2-ohm resistor
+    along the top, a 1-henry inductor on the right, and a 1-farad
+    capacitor along the bottom carrying initial charge {{q0_formatted}}.
+  source: |
+    # γ.4q: source_disconnected=True renders an open-gap glyph at the
+    # source position instead of a closed circle with `+` / `−` marks.
+    # The previous closed-circle rendering visually contradicted the
+    # prose ("voltage source is disconnected") — schematic agrees with
+    # the prose now (rubric item 12). The V label drops too: the gap
+    # IS the message; an extra "V = 0 (open)" caption is redundant.
+    ckt = CircuitSVG(
+        width=520, height=320,
+        R="R = 2 Ohm",
+        L="L = 1 H",
+        C="C = 1 F",
+        V="",
+        source_disconnected=True,
+    )
+    Visual = ckt.render()
+
+# compare: symbolic — actual and expected both go through sp.sympify
+# and equivalence is checked via simplify(actual - expected) == 0.
+# The fixture text is whatever sp.sstr(sp.simplify(...)) produces; if
+# sympy's canonical form changes between versions the test still passes
+# as long as the underlying expression is unchanged.
+tests:
+  - seed: 1001
+    expected: {answer: "(t + 1)*exp(-t)"}
+    compare: symbolic
+    notes: "q0=1 — base case; closed form is just (t+1)*exp(-t)"
+  - seed: 1002
+    expected: {answer: "2*(t + 1)*exp(-t)"}
+    compare: symbolic
+  - seed: 1003
+    expected: {answer: "4*(t + 1)*exp(-t)"}
+    compare: symbolic
+  - seed: 1004
+    expected: {answer: "5*(t + 1)*exp(-t)"}
+    compare: symbolic
+    notes: "two seeds at q0=4 to exercise the noop variant determinism check"
+  - seed: 1005
+    expected: {answer: "5*(t + 1)*exp(-t)"}
+    compare: symbolic

@@ -1,0 +1,519 @@
+# Phase γ.4 batch 2 gold-standard #1 — sector-to-cone "paper cup" optimisation.
+#
+# Cell:    k12.calculus.optimization, family=derivative_application
+# Source:  mathbot-phase-gamma-seed.md §γ.4 batch 2 (C.1) gold-standard list.
+#          Stewart §4.7 classic "cup of paper" problem.
+#
+# γ.4 feature checklist (see notes: at end for the dissection guide):
+#   - SectorFigure + ConeNetFigure composed into one Visual  — γ.3 (A.2)
+#   - figure_load: load_bearing                              — γ.1 (A.3); R
+#                                                              lives ONLY on
+#                                                              the figure
+#   - simplifications: per-tier lift                         — γ.1 (A.3);
+#                                                              hard tier
+#                                                              suppresses two
+#                                                              modeling crutches
+#   - structural_tags T13 + T17 + T18                        — chain + inverse
+#                                                              + assumption-omission
+#   - track: advanced                                        — Stewart-level
+#                                                              calculus,
+#                                                              CCSS-(+) /
+#                                                              Singapore H2 /
+#                                                              Finland MAA12 /
+#                                                              Norway R2
+#   - direction: forward                                     — easy/medium ask
+#                                                              "find θ that
+#                                                              maximises V";
+#                                                              hard tier flips
+#                                                              to inverse via
+#                                                              `mode` dispatch
+#                                                              (see notes)
+#   - difficulty_tiers + ranges                              — R + mode + θ_seed
+#                                                              all per-tier
+#   - tests compare/tolerance                                — θ is irrational
+#                                                              ⇒ numeric match
+#                                                              with tolerance
+#                                                              0.5° absolute
+
+metadata:
+  id: k12_optimization_cup_capacity
+  version: "1.0.0"
+  author: claude-phase-gamma-gold-standard-c1
+  created: 2026-04-30
+  grade: 12
+  topic: calculus.optimization
+  family: derivative_application
+  difficulty: medium                  # default tier (must appear in difficulty_tiers)
+  difficulty_tiers: [easy, medium, hard]
+  steps: 5                            # express r(θ) → express h(θ) → V(θ) →
+                                      # differentiate → solve dV/dθ = 0
+  unit_system: metric                 # cm; volumes in cm³
+  language: en
+  culture: en-US
+
+  # Optimisation under a derived constraint is universal at the
+  # advanced track — Stewart §4.7 is canonical in CCSS-(+), Singapore
+  # H2, Japan Math III, Finland MAA12, Norway R2, NL wiskunde D.
+  track: advanced
+
+  # Forward direction: given (R), find θ that maximises V. Hard tier
+  # flips this to inverse-query (given V_target, find θ) — see notes
+  # below for why this lives in one template rather than two. The
+  # `direction:` field can only carry a single value, so we pick the
+  # dominant tier behavior (easy + medium) and tag T17 to advertise
+  # the inverse axis the hard tier exercises.
+  direction: forward
+
+  # T13: multi-step symbolic chain (r(θ) → h(θ) → V(θ) → dV/dθ → solve).
+  # T15-style method-selection isn't quite right — every tier solves
+  # the same setup with the same calculus. T17 covers the hard-tier
+  # flip to the inverse query. T18 covers the per-tier suppression
+  # of stated modeling assumptions in `simplifications:`.
+  structural_tags:
+    - T13_symbolic_chain
+    - T17_inverse_query
+    - T18_assumption_omission
+
+  # γ.1 (A.3.b). LOAD-BEARING figure. The slant-radius `R` value
+  # appears ONLY on the SectorFigure (as the `r = …` label) — the
+  # body prose gives the qualitative setup but does not state R
+  # numerically. The student literally cannot solve without reading
+  # R off the figure, making this a true `load_bearing` rather than
+  # `partial`. Both halves (sector + assembled cone) carry geometric
+  # quantities the prose alludes to but does not enumerate.
+  figure_load: load_bearing
+
+  # γ.1 (A.3.a). Per-tier lift. Three distinct omit_at sets so the
+  # `simplification_lift_missing` lint rule sees genuine variation:
+  #   - "treat the paper as zero-thickness" — easy + medium only
+  #   - "the seam contributes no overlap" — easy only
+  #   - "use the mathematical optimum" — always stated (anchor sentence
+  #     so the answer-form contract is stable across tiers)
+  # The hard-tier solver has to recognise BOTH crutches on their
+  # own — and is solving the inverse query on top of that, so the
+  # accumulated lift is meaningful.
+  simplifications:
+    # Stated at easy + medium; the hard solver must treat the sheet
+    # as zero-thickness without being told.
+    - text: "Treat the paper sheet as having zero thickness."
+      omit_at: [hard]
+    # Stated only at easy; medium and hard solvers must trust the
+    # idealised seam (no overlap, no glue allowance) on their own.
+    - text: "When the sector is rolled into a cone, the two straight edges meet exactly without overlap."
+      omit_at: [medium, hard]
+    # Always stated. Locks the answer convention: report the
+    # *exact* maximising angle rather than rounding to a "nice"
+    # whole number of degrees. Without this anchor sentence the
+    # forward-tier student might guess 60° or 90° from the figure.
+    - text: "Report θ to two decimal places."
+      # omit_at omitted → always stated. Keeps the format contract.
+
+  tags: [calculus, optimization, derivative_application, cup_capacity, sector_to_cone]
+  notes: |
+    Phase γ.4 gold-standard #1 (mathbot-phase-gamma-seed.md §γ.4 C.1).
+    Single-location at `_gold_standards/calculus/`; per TD-γ.4q-4 the
+    mirror convention is dropped — gold-standards live at the topic
+    directory under `_gold_standards/` and the in-place anchor (if
+    any) lives at `src/templates/<topic>/`. This template ships only
+    the gold-standard copy.
+
+    The math: a circular sheet of paper of radius R has a sector
+    of central angle θ removed. The remaining (2π - θ)-radian
+    sector is rolled into a cone (the "cup") with slant height R,
+    base radius r = R(2π - θ)/(2π), and height h = √(R² - r²).
+    Volume V(θ) = (π/3)·r²·h. Setting dV/dθ = 0 yields the optimum
+    at θ* = 2π(1 - √(2/3)) ≈ 1.1525 rad ≈ 66.06°.  The optimum is
+    INDEPENDENT OF R — a fact the rendered problems do not advertise,
+    but that the solver discovers as part of the analysis.
+
+    Why one template instead of two for forward+inverse:
+      `direction:` carries a single value, but the structural skill
+      under test (set up V(θ), differentiate, solve) is identical
+      in both directions — only the final equation differs. The
+      hard-tier inverse query (given V, find θ) recycles the V(θ)
+      expression and inverts it numerically; splitting into two
+      templates would force every variable definition (R, mode,
+      tolerances) to fork twice. We keep `direction: forward`
+      (matching the dominant easy/medium behavior), tag T17 to
+      advertise the inverse axis the hard tier exercises, and
+      dispatch on `mode` inside the solution.
+
+    Deliberate vs. default choices (worth dissecting):
+      - `R` ranges (8 / 10 / 12 cm) chosen so the resulting cone
+        volumes land in the 30–150 cm³ envelope — recognisable
+        as "paper cup sized" and not so large the visual scaling
+        breaks. ConeNetFigure draws to a fixed canvas regardless,
+        but small-R cones look anaemic on the right half.
+      - `mode` is a single-choice variable per tier rather than a
+        boolean. Easy/medium pin to ['forward'], hard pins to
+        ['inverse']. The solution dispatches via `if mode ==
+        'forward': … else: …`, which means the same template body
+        renders TWO different prompt forms across tiers. This is
+        the same pattern the Riemann gold-standard uses for `rule`
+        — but with one difference per tier rather than three per
+        seed.
+      - For inverse mode, `theta_seed_deg` is drawn from a small
+        choice list (90 / 100 / 110 — all on the descending side
+        of θ* ≈ 66°). We compute V_target = V(θ_seed) and ask the
+        student "what θ gives this V?" The constraint "θ ≥ 80°"
+        is stated in the prose to disambiguate the two roots
+        (V(θ) = V_target has solutions on both sides of θ*).
+      - Tolerance 0.5° absolute. Chosen so the formatter's
+        2-decimal display rounding (`"66.06"`) parses both sides
+        as floats and accepts ±0.5°. Wide enough to absorb
+        sympy/scipy round-trip drift on the inverse case;
+        narrow enough that a wrong-derivative dispatch (e.g.
+        forgetting the chain rule on √) misses by >> 0.5°.
+
+    Visual composition:
+      The Visual is built by rendering SectorFigure (left half) and
+      ConeNetFigure (below it) into a single SVG via nested <svg>
+      elements with explicit `x=`/`y=` offsets. The composed canvas
+      is 600×620 px. SectorFigure carries the load-bearing R label
+      ("r = {R} cm") on its straight radius edge; ConeNetFigure
+      shows the unfolded sector and the assembled cone side-by-side
+      so the student sees the geometric correspondence (sector arc
+      length = cone base circumference). Neither figure embeds θ
+      numerically — that's what the student is asked to compute (or
+      invert).
+
+    What NOT to copy from this template:
+      - The `mode` dispatch is what makes this work in one template
+        across forward/inverse. Templates that don't have an
+        inverse-axis sibling shouldn't introduce a mode variable —
+        it adds complexity for no benefit.
+      - The Visual stitching uses raw SVG inner-content extraction
+        (strip the outer `<svg …>` wrapper from each builder, wrap
+        the inner content in `<g transform="translate(…)">`). This
+        is the simplest correct way to compose two SVGBuilders and
+        is documented inline in `visual.source`. A first-class
+        compose helper might land in γ.5 (TD-γ.4-compose); this
+        template will migrate when it does.
+      - **Body prose uses Unicode** (θ, π, ²/³, ≈, √), not LaTeX
+        delimiters. γ.4q established this rule — see SPEC.md §6.
+
+    γ.4q rubric-12 review (rendered SVG @ seed 12345 medium tier):
+      1 no template leakage    — pass
+      2 no filler boilerplate  — pass
+      3 answer matches form    — pass (numeric in degrees, "Report θ
+                                       to two decimal places")
+      4 grammar agreement      — pass
+      5 pronoun consistency    — N/A (no pronouns; problem is
+                                       posed in 3rd-person passive)
+      6 entity consistency     — pass (sector → cone → cup chain;
+                                       same R referenced in figure
+                                       and prose)
+      7 not a tautology        — pass (θ is the unknown; nowhere in
+                                       the prose does the optimum
+                                       appear)
+      8 not single-fact recall — pass (V(θ) → dV/dθ → solve chain;
+                                       inverse adds a numeric
+                                       inversion step)
+      9 skill matches topic    — pass (calculus.optimization;
+                                       derivative-application family)
+     10 math-prose-answer ▲    — pass (forward θ ≈ 66°; inverse θ ∈
+                                       [90°, 110°] by construction)
+     11 no None / null         — pass
+     12 visual integrity       — pass on composed SVG: SectorFigure
+                                       and ConeNetFigure stack
+                                       cleanly, no overlapping
+                                       labels, R label sits below
+                                       the sector's straight edge,
+                                       ConeNetFigure's "fold" arrow
+                                       reads correctly between halves
+
+variables:
+  # Slant radius (radius of the original paper circle, also the
+  # slant height of the resulting cone). LOAD-BEARING quantity:
+  # appears ONLY on the SectorFigure label, never in the prose.
+  # Per-tier ranges keep cone volumes in the 30–150 cm³ envelope.
+  R:
+    type: integer
+    min: 10
+    max: 10
+    ranges:
+      easy: {min: 10, max: 10}        # fixed at 10 cm (canonical Stewart value)
+      medium: {min: 8, max: 12, step: 2}
+      hard: {min: 8, max: 14, step: 2}
+
+  # Tier dispatch. Forward = "find θ maximising V". Inverse = "given
+  # target V, find θ". The solution branches on this; per-tier
+  # `ranges:` pin the choice so each tier renders deterministically.
+  mode:
+    type: choice
+    choices: ["forward"]
+    ranges:
+      easy: {choices: ["forward"]}
+      medium: {choices: ["forward"]}
+      hard: {choices: ["inverse"]}
+
+  # Inverse-mode seed angle (degrees). Drawn from a choice list on
+  # the descending side of θ* ≈ 66° so the inverse query has a
+  # unique solution under the prose's "θ ≥ 80°" constraint. Only
+  # consulted when mode == "inverse" (hard tier).
+  theta_seed_deg:
+    type: integer
+    min: 90
+    max: 110
+    step: 10
+    ranges:
+      easy: {min: 90, max: 90}
+      medium: {min: 90, max: 90}
+      hard: {min: 90, max: 110, step: 10}
+
+  # Decimal answer (degrees). Tolerance handled at the test level
+  # via `compare: numeric, tolerance: 0.5`.
+  Answer:
+    type: decimal
+
+template: |
+  {# Compute V_target inline so the prose can quote it (the solution
+     sandbox runs after rendering, so prose-side numbers must be
+     pre-computed in Jinja). Forward tier never references V_target;
+     the {% set %} is harmless there.  #}
+  {%- set _theta_seed_rad = theta_seed_deg * 3.141592653589793 / 180.0 %}
+  {%- set _r_seed = R * (2 * 3.141592653589793 - _theta_seed_rad) / (2 * 3.141592653589793) %}
+  {%- set _h_seed_sq = R * R - _r_seed * _r_seed %}
+  {%- set _h_seed = _h_seed_sq ** 0.5 %}
+  {%- set V_target = (3.141592653589793 / 3.0) * _r_seed * _r_seed * _h_seed %}
+  A circular sheet of paper has a slant radius marked on the figure.
+  A sector of central angle θ is cut away from the sheet, and the
+  remaining sector is rolled (without overlap) into an open cone
+  whose vertex meets where the centre of the original sheet was.
+  The slant edges of the rolled sector form the base circumference
+  of the cone, so the cone has slant height equal to the sheet's
+  radius, base radius r = R(2π − θ)/(2π), and height
+  h = √(R² − r²). The cone serves as a paper cup whose volume is
+  V(θ) = (π/3) · r² · h.
+
+  {{ simplifications }}
+
+  {% if mode == "forward" -%}
+  Determine the value of θ (in degrees) that maximises the cup's
+  volume V(θ).
+  {%- else -%}
+  A particular cup made by this construction has volume
+  approximately {{ "%.2f"|format(V_target) }} cm³, and its sector
+  angle satisfies θ ≥ 80°. Determine θ (in degrees).
+  {%- endif %}
+
+solution: |
+  # T13 symbolic chain + T17 inverse dispatch. The forward branch
+  # differentiates V(θ) symbolically and solves dV/dθ = 0 on the
+  # interval (0, 2π). The inverse branch evaluates V at theta_seed
+  # to set V_target, then numerically inverts V(θ) = V_target on
+  # the interval [80°, 180°] (descending side of θ*).
+  import math
+  import sympy as sp
+
+  # Forward optimum is independent of R: θ* = 2π·(1 − √(2/3)).
+  theta_sym = sp.Symbol('theta', positive=True, real=True)
+  remain = 2 * sp.pi - theta_sym
+  r_sym = sp.Rational(1, 1) * remain / (2 * sp.pi)   # r/R (dimensionless)
+  # Use V/R³ as the dimensionless objective so the optimum drops
+  # out of R cleanly. Its maximiser equals the true V(θ) maximiser.
+  V_over_R3 = (sp.pi / 3) * r_sym ** 2 * sp.sqrt(1 - r_sym ** 2)
+  dV = sp.diff(V_over_R3, theta_sym)
+  # solve() returns multiple roots; pick the one in (0, 2π) that
+  # actually maximises (verify by sign of second derivative).
+  roots = sp.solve(dV, theta_sym)
+  theta_star = None
+  for root in roots:
+      try:
+          val = float(root)
+      except (TypeError, ValueError):
+          continue
+      if 0 < val < 2 * math.pi:
+          theta_star = val
+          break
+  # Fallback closed form if the solver returns an odd ordering.
+  if theta_star is None:
+      theta_star = 2 * math.pi * (1 - math.sqrt(2 / 3))
+  theta_star_deg = math.degrees(theta_star)
+
+  if mode == "forward":
+      Answer = round(theta_star_deg, 2)
+  else:
+      # Inverse: V_target is V at the seed angle. Numerically invert
+      # V(θ) = V_target on θ ∈ [80°, 180°] (where V is monotone
+      # decreasing past θ*).
+      def V_of_deg(theta_deg, R_val=R):
+          th = math.radians(theta_deg)
+          r = R_val * (2 * math.pi - th) / (2 * math.pi)
+          if r <= 0 or r >= R_val:
+              return 0.0
+          h = math.sqrt(R_val * R_val - r * r)
+          return (math.pi / 3) * r * r * h
+
+      V_target = V_of_deg(theta_seed_deg)
+      # Bisect on [80, 180]. V is monotone decreasing on this
+      # interval (past θ*), so the standard bisection converges.
+      lo, hi = 80.0, 180.0
+      for _ in range(80):
+          mid = 0.5 * (lo + hi)
+          if V_of_deg(mid) > V_target:
+              lo = mid
+          else:
+              hi = mid
+      Answer = round(0.5 * (lo + hi), 2)
+
+# γ.3 (A.2) composition: SectorFigure + ConeNetFigure rendered into
+# one SVG via nested <svg> elements with absolute (x, y) offsets.
+# SectorFigure carries the LOAD-BEARING R label; ConeNetFigure
+# shows the sector-to-cone unfolding so the student sees how the
+# arc length becomes the base circumference. Neither figure embeds
+# θ — that's the unknown.
+visual:
+  format: python
+  alt_text: |
+    Two stacked diagrams. The top diagram is a circular sector of
+    radius R = {{R}} cm with a wedge of central angle θ cut away
+    (θ is the unknown). The bottom diagram is a sector-to-cone
+    "net": on the left the same sector flat (lateral surface),
+    arrow labeled "fold", on the right the assembled cone (apex
+    up, base ellipse below) with slant equal to R, base radius r
+    and height h. Together they show the geometry of folding the
+    paper into a cup whose volume the student must analyse.
+  source: |
+    # Compose SectorFigure (top) and ConeNetFigure (bottom) into
+    # one SVG. Each builder produces a self-contained <svg …>…</svg>
+    # block; we strip the outer <svg> tag and wrap the inner content
+    # in a <g transform="translate(…)"> so both halves share one
+    # viewport without coordinate collisions.
+    import math
+    import re
+
+    # Top half: the cut paper sector. We draw a near-full disc with
+    # an indicative wedge cutout to convey "sector of angle θ has
+    # been removed". The exact cutout angle is a visual stand-in
+    # (we use 60° as a placeholder — the actual θ is the unknown);
+    # the figure is geometric scaffolding, not an exact diagram.
+    sector = SectorFigure(
+        radius=120,
+        angle_deg=360,                       # full disc
+        cutout_deg=60,                       # placeholder wedge — θ is unknown
+        label_radius=f"R = {R} cm",          # LOAD-BEARING: this is where R lives
+        label_angle="θ (cut away)",
+        width=320,
+        height=300,
+    )
+    sector_svg = sector.to_svg()
+
+    # Bottom half: the unfolding diagram. Use self-consistent
+    # geometry — slant = R, base_radius and height computed from
+    # an indicative remaining-sector angle (we use 300° remaining
+    # ≡ 60° cut, matching the placeholder above so the two halves
+    # tell a consistent story). The figure is illustrative; the
+    # student does not read numerical values off it (the load
+    # lives on `R` in the top half).
+    placeholder_remaining_deg = 300.0
+    base_r = R * placeholder_remaining_deg / 360.0
+    base_h = math.sqrt(max(R * R - base_r * base_r, 0.01))
+    net = ConeNetFigure(
+        slant=R,
+        sector_angle_deg=placeholder_remaining_deg,
+        base_radius=base_r,
+        height=base_h,
+        width=600,
+        height_px=320,
+    )
+    net_svg = net.to_svg()
+
+    # Strip outer <svg …> wrapper and capture inner content for
+    # composition. The base.SVGBuilder._wrap pattern emits exactly
+    # one opening <svg …> and one closing </svg> per builder, so
+    # this regex pair is safe.
+    def _inner(svg_str):
+        # Drop opening <svg …> tag and closing </svg>.
+        s = re.sub(r"^<svg[^>]*>", "", svg_str.strip())
+        s = re.sub(r"</svg>\s*$", "", s)
+        return s
+
+    sector_inner = _inner(sector_svg)
+    net_inner = _inner(net_svg)
+
+    # Composed canvas: 600 px wide, 620 tall. Sector occupies a
+    # 320×300 region centered horizontally at the top; cone-net
+    # occupies the full 600×320 region below.
+    sector_x = (600 - 320) // 2
+    composed = (
+        f'<svg xmlns="http://www.w3.org/2000/svg" '
+        f'width="600" height="620" viewBox="0 0 600 620">'
+        f'<g transform="translate({sector_x},10)">{sector_inner}</g>'
+        f'<g transform="translate(0,310)">{net_inner}</g>'
+        f'</svg>'
+    )
+    Visual = composed
+
+# Tests use `compare: numeric` with absolute tolerance 0.5° —
+# generous enough to absorb sympy↔scipy round-trip drift and the
+# bisection's 1e-15-precision residuals, narrow enough that a
+# wrong-derivative dispatch fails cleanly (the second nearest
+# critical point sits at θ ≈ 360° — far outside tolerance).
+#
+# `<auto>` placeholders during draft; populate via
+#   uv run python scripts/refresh_test_answers.py --apply \
+#       --filter '*/k12_optimization_cup_capacity_anchor.yaml'
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected: {answer: "66.06"}
+    compare: numeric
+    tolerance: 0.5
+    notes: "easy tier — R fixed at 10 cm; forward θ* ≈ 66.06°"
+
+  - seed: 42
+    difficulty: easy
+    expected: {answer: "66.06"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 99
+    difficulty: easy
+    expected: {answer: "66.06"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 12345
+    difficulty: medium
+    expected: {answer: "66.06"}
+    compare: numeric
+    tolerance: 0.5
+    notes: "medium tier — R varies 8/10/12; θ* still ≈ 66.06° (R-independent)"
+
+  - seed: 42
+    difficulty: medium
+    expected: {answer: "66.06"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 99
+    difficulty: medium
+    expected: {answer: "66.06"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 12345
+    difficulty: hard
+    expected: {answer: "100.00"}
+    compare: numeric
+    tolerance: 0.5
+    notes: "hard tier — inverse query; θ ∈ {90°, 100°, 110°} by construction"
+
+  - seed: 42
+    difficulty: hard
+    expected: {answer: "110.00"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 99
+    difficulty: hard
+    expected: {answer: "90.00"}
+    compare: numeric
+    tolerance: 0.5
+
+  - seed: 7
+    difficulty: hard
+    expected: {answer: "100.00"}
+    compare: numeric
+    tolerance: 0.5

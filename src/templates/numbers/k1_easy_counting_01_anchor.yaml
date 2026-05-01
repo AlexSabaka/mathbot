@@ -1,6 +1,6 @@
 metadata:
   id: k1_easy_counting_01
-  version: "1.0.0"
+  version: "1.1.0"
   author: Mathbot
   created: 2026-01-30
   grade: 1
@@ -9,7 +9,47 @@ metadata:
   difficulty: easy
   steps: 1
   culture: en-US
-  tags: [numbers, counting, basic-counting]
+  tags: [numbers, counting, basic-counting, visual]
+  notes: >
+    γ.4s K1 visual demo. Adds an `ObjectArray(count=count, item=object)`
+    figure so the prose "Count the apples" is anchored by an actual row of
+    glyphs the K1 reader can count. `object` is the plural-form item name
+    (apples / bananas / oranges / etc.); `glyph_for` resolves it to a
+    geometric primitive (circle for round fruit, rounded_rect for boxes,
+    etc.) — unknown items fall back to `circle` and never crash. The
+    figure is load-bearing for K1.2: with the visual, the student can
+    count from the picture alone; without it, the prose hands the answer
+    away in "There are {{count}} {{object}}."
+
+    Rubric-12 review (seed 42, count=2 apples):
+      1. No template-engine leakage              — PASS
+      2. No filler boilerplate                   — PASS
+      3. Answer matches question form (integer)  — PASS
+      4. Subject-verb / article agreement        — PASS
+      5. Pronoun consistency                     — PASS (no pronouns)
+      6. Entity consistency across sentences     — PASS (apples throughout)
+      7. Not a tautology                         — FAIL (prose states the count
+         "There are 2 apples"); legacy K1 phrasing — see TD-γ.4s-2 below.
+      8. Not a single-fact recall                — PASS (counting task)
+      9. Skill matches declared topic            — PASS (numbers.counting)
+     10. Math-prose-answer triangle              — PASS (2 apples → 2)
+     11. No N/A / None placeholders              — PASS
+     12. Visual integrity (no overlaps, in-frame) — PASS
+    K1-specific:
+     K1.1 Visual block present                   — PASS (was FAIL pre-γ.4s)
+     K1.2 Visual is load-bearing                 — PASS (figure carries count)
+     K1.3 Visual matches prose                   — PASS (N glyphs == N stated)
+     K1.4 Prose ≤ 25 words                       — PASS (~12 words)
+     K1.5 Concrete age-appropriate nouns         — PASS (grocery items)
+     K1.6 Single-step task                       — PASS (one observation)
+     K1.7 Numerals ≤ 20                          — PASS (count ∈ [1,10])
+     K1.8 Answer is small whole number / word    — PASS (integer)
+
+    TD-γ.4s-2 (follow-up): the legacy "There are {{count}} {{object}}"
+    sentence makes item 7 (tautology) fail — once the visual is the
+    primary information source the prose should drop the count and read
+    "Count the {{object}}. How many are there?". Deferred to keep this
+    γ.4s demo a pure additive change (visual block only, no prose edit).
 
 variables:
   count:
@@ -29,6 +69,17 @@ template: |
 
 solution: |
   Answer = count
+
+# γ.4s K1 visual primitive demo. `ObjectArray` is provided by
+# build_visual_sandbox; no import needed inside `source`. The builder
+# routes the prose-item name (`object`, plural) through `glyph_for`,
+# producing N geometric glyphs in a row. `Visual = ...render()` is the
+# sandbox contract — must bind an SVG string.
+visual:
+  format: python
+  alt_text: "A row of {{count}} {{object}} drawn as simple shapes for the student to count."
+  source: |
+    Visual = ObjectArray(count=count, item=object).render()
 
 tests:
   - seed: 42

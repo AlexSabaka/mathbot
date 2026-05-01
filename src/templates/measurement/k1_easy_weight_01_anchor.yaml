@@ -22,7 +22,7 @@ variables:
     type: string
 
 template: |
-  Which is heavier: a {{object_a}} or a {{object_b}}?
+  Which is heavier: the {{object_a}} or the {{object_b}}?
 
 solution: |
   # object_b items are always heavier than object_a items

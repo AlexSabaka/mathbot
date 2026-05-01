@@ -1,0 +1,416 @@
+# Phase γ.4 batch 2 gold-standard #2 — Stewart §4.7 riverbank-rowing
+# optimization with three-tier simplifications-lift schedule.
+#
+# Cell:    k12.calculus.optimization, family=derivative_application
+# Source:  mathbot-phase-gamma-seed.md §γ.4 C.2 (gold-standard #2 of
+#          Phase γ.4 batch 2). The marquee exemplar of the simplification-
+#          omission axis: four modeling-assumption entries with three
+#          distinct per-tier lift profiles. Easy states all four; medium
+#          suppresses two (current + perpendicular-foot geometry); hard
+#          suppresses three (also dropping the turning-time idealisation).
+#
+# γ-feature checklist (see notes: at end for the dissection guide):
+#   - figure_load: per-tier (decorative @ easy → load_bearing @ med/hard)
+#                                       — γ.1; the figure mirrors the
+#                                       answer geometry (landing point S)
+#                                       and is required reading at
+#                                       medium/hard once the prose stops
+#                                       restating "x is measured from
+#                                       the perpendicular foot"
+#   - simplifications: 4 entries with 3 distinct per-tier lift profiles
+#                                       — γ.1; this template is the
+#                                       headline exemplar of the lift-
+#                                       schedule axis (see seed §γ.4 C.2)
+#   - structural_tags T13 / T14 / T18  — symbolic chain (set up T(x) →
+#                                       differentiate → solve → check
+#                                       interior), formula recall
+#                                       (Pythagorean leg + critical-point
+#                                       method), assumption omission
+#   - track: advanced                  — Stewart §4.7 is universal at
+#                                       the advanced track (CCSS-(+),
+#                                       Singapore H2, Finland MAA9+,
+#                                       Norway R2)
+#   - direction: forward               — given (w, d, v_row, v_walk),
+#                                       find x* (the optimal landing
+#                                       point). The inverse query
+#                                       ("given a target travel time,
+#                                       find v_walk") is structurally
+#                                       different and lives elsewhere.
+#   - difficulty_tiers + ranges        — three tiers with widening
+#                                       parameter envelopes, all pinned
+#                                       to keep the optimum strictly
+#                                       interior (0 < x* < d) so no
+#                                       degenerate boundary case ever
+#                                       surfaces in fixtures
+#   - visual.format: python with
+#     RiverbankFigure                   — γ.3 A.2 builder; the landing
+#                                       point S is rendered ON the
+#                                       figure at the answer geometry
+#   - tests compare/tolerance          — x* = w·v_row/sqrt(v_walk² −
+#                                       v_row²) is irrational; numeric
+#                                       match with absolute tolerance
+#                                       0.01 km
+
+metadata:
+  id: k12_optimization_riverbank
+  version: "1.0.0"
+  author: claude-phase-gamma-gold-standard-c2
+  created: 2026-04-30
+  grade: 12
+  topic: calculus.optimization
+  family: derivative_application
+  difficulty: medium                    # default tier (must appear in difficulty_tiers)
+  difficulty_tiers: [easy, medium, hard]
+  steps: 5                              # set up T(x) → differentiate → solve T'=0 → verify interior → state
+  unit_system: metric                   # km / km·h⁻¹
+  language: en
+  culture: en-US
+
+  # Stewart §4.7 problem #1 is universal at the advanced track —
+  # CCSS-(+), Singapore H2, Finland MAA9+, Norway R2, Sweden Mat 5,
+  # NL wiskunde D, Estonia gümnaasium. Absent from CCSS core.
+  track: advanced
+
+  # Forward direction: given the configuration (river width, downstream
+  # destination, rowing speed, walking speed), compute the optimal
+  # landing distance. The inverse query (given a target travel time,
+  # find v_walk that achieves it, or given x* find the speed ratio)
+  # is structurally a different template and intentionally lives
+  # elsewhere.
+  direction: forward
+
+  # T13 — chain of symbolic operations (set up T(x) = sqrt(w²+x²)/v_row
+  # + (d-x)/v_walk → differentiate → solve T'(x)=0 → verify x* is in
+  # the interior of [0, d]). T14 — formula-recall: Pythagorean leg
+  # length AND critical-point optimality both have to be reached for.
+  # T18 — assumption omission: the simplifications: pool ships four
+  # entries with three distinct per-tier lift profiles (see seed
+  # §γ.4 C.2 — this template is THE exemplar for the lift schedule).
+  structural_tags:
+    - T13_symbolic_chain
+    - T14_formula_recall
+    - T18_assumption_omission
+
+  # γ.1 (A.3). Per-tier figure_load: at easy tier the prose explicitly
+  # states "x is measured from the foot of the perpendicular from P
+  # to the bottom bank", so the figure is decorative — the solver
+  # could close their eyes and still write down T(x). At medium and
+  # hard the perpendicular-foot reference is dropped (see the lift
+  # schedule below); the figure becomes the only place that pins down
+  # the geometry of x, swim-leg, and walk-leg, making it load-bearing.
+  # (The seed §γ.4 C.2 calls for "load_bearing on at least medium+hard";
+  # this is the canonical realisation.)
+  figure_load:
+    easy: decorative
+    medium: load_bearing
+    hard: load_bearing
+
+  # γ.1 (A.3) — THE marquee feature of this gold-standard: FOUR
+  # entries with three distinct per-tier lift profiles. Easy states
+  # all four; medium suppresses two (the "ignore current" crutch
+  # AND the perpendicular-foot geometry hint); hard suppresses three
+  # (also dropping the "ignore turning time" idealisation). Entry #4
+  # is always stated because the rounding contract has to stay
+  # stable across tiers (the fixture tolerance is 0.01 km,
+  # comfortably wider than the 2-decimal display rounding).
+  #
+  # `mathbot lint` rule `simplification_lift_missing` requires ≥2
+  # distinct omit_at signatures across entries; we ship 3:
+  #   #1 omit_at=[medium, hard]   — stated only at easy (current)
+  #   #2 omit_at=[medium, hard]   — stated only at easy (geometry x)
+  #   #3 omit_at=[hard]           — stated at easy + medium (turn time)
+  #   #4 omit_at=[]               — stated at every tier (rounding)
+  # Three distinct omit_at signatures: ([], [hard], [medium, hard]),
+  # so each tier carries a strictly different rendered prose — which
+  # is exactly the K12 difficulty axis the γ.1 schema was designed
+  # for. The perpendicular-foot suppression at medium+hard is what
+  # promotes figure_load to load_bearing at those tiers: the figure's
+  # x-brace becomes the only place the geometry of x is pinned down.
+  simplifications:
+    # Stated only at easy. Both medium and hard solvers must recognise
+    # on their own that the textbook setup ignores river current and
+    # treats the rowing path as a straight line on still water.
+    - text: "Assume the river has no current, so the rowing path between the banks is a straight line."
+      omit_at: [medium, hard]
+    # Stated only at easy. The perpendicular-foot framing for x is
+    # the geometry crutch that makes the easy tier solvable from prose
+    # alone (figure_load: decorative there). At medium and hard the
+    # crutch lifts and the figure's "x" brace becomes the load-bearing
+    # geometry reference.
+    - text: "Let x be the distance from S to the foot of the perpendicular from P to the south bank."
+      omit_at: [medium, hard]
+    # Stated at easy + medium. Hard solvers must recognise that the
+    # turning manoeuvre at the landing point is being idealised away.
+    - text: "Treat the time spent turning at the landing point as negligible."
+      omit_at: [hard]
+    # Always stated. The rounding contract has to stay stable across
+    # tiers so the fixture tolerance (0.01 km) makes sense at every
+    # tier — same role as "round the final sum to two decimal places"
+    # in the Riemann gold-standard.
+    - text: "Give the optimal landing distance in kilometres, rounded to two decimal places."
+      # omit_at omitted → always stated.
+
+  tags: [calculus, optimization, derivative, riverbank, stewart_4_7]
+  notes: |
+    Phase γ.4 batch 2 gold-standard #2 (mathbot-phase-gamma-seed.md
+    §γ.4 C.2). The headline exemplar of the simplification-omission
+    axis: three modeling assumptions with three distinct per-tier lift
+    profiles, so the rendered prose is strictly different at each
+    tier even though the underlying math is identical.
+
+    Exercises every γ feature the seed calls out for this slot:
+      - γ.1 simplifications: with three distinct per-tier omit_at
+        signatures (the "lift schedule" feature)
+      - γ.1 figure_load: per-tier dict (decorative @ easy →
+        load_bearing @ medium/hard)
+      - γ.3 RiverbankFigure visual builder with landing-point marker
+      - β tests compare/numeric with tolerance (irrational optimum)
+
+    Deliberate vs. default choices (worth dissecting):
+      - Parameter ranges are pinned so the optimal landing distance
+        x* = w · v_row / sqrt(v_walk² − v_row²) is STRICTLY interior
+        to [0, d] for every (w, d, v_row, v_walk_offset) combination
+        in every tier. A boundary optimum (x* = 0 ⇒ "row straight
+        across", or x* ≥ d ⇒ "row directly to Q") is pedagogically
+        dead — both reduce to a degenerate single-leg problem and
+        defeat the calculus skill being probed. The worst-case x* in
+        the hard tier is w=5, v_row=7, v_walk=9 → x* ≈ 6.19 km, well
+        below the hard-tier minimum d of 8 km.
+      - `v_walk_offset` is parameterised instead of `v_walk` directly
+        so the constraint v_walk > v_row is enforced by construction.
+        Drawing v_walk independently risks a degenerate seed where
+        v_walk ≤ v_row, which makes the radicand sqrt(v_walk² − v_row²)
+        non-positive and crashes the solution.
+      - `direction: forward` only. Inverse-direction Stewart (given a
+        target travel time, find v_walk that achieves it) is a sibling
+        template, not a tier of this one.
+      - Tolerance 0.01 km, absolute. The decimal formatter prints 2 dp
+        ("3.40"), so the comparison parses both sides as floats and
+        accepts ±0.01 — wide enough to absorb any float drift in the
+        sqrt, narrow enough that a wrong derivative or sign error
+        (which moves x* by far more than 0.01) still fails cleanly.
+      - The figure shows the swim-point S at the COMPUTED optimum,
+        not at a randomised candidate. So the figure literally encodes
+        the answer geometry; a solver who can read the brace label
+        "x" off the figure can read off the optimum directly. That's
+        intentional — the figure is the "show your work" reference at
+        load_bearing tiers.
+
+    What NOT to copy from this template:
+      - The three-entry simplifications: pool with three distinct
+        omit_at signatures is a deliberate maximalist choice for
+        THIS gold-standard's role as the lift-schedule exemplar.
+        Most templates won't carry three modeling assumptions; one
+        or two with one tier-lifted entry is the typical case (see
+        the Riemann gold-standard for the small-pool pattern).
+      - Per-tier figure_load (dict) is also a maximalist choice —
+        most templates use the single-string form.
+      - **Body prose uses Unicode**, not LaTeX delimiters
+        (`sqrt(w² + x²)/v_row`, not `$$\sqrt{w^2+x^2}/v_{row}$$`).
+        γ.4q surfaced that LaTeX in body diverges across formats.
+        SPEC.md §6 documents this rule.
+
+    γ.4q rubric-12 review (rendered PNG @ seed 12345 medium tier):
+      1 no template leakage    — pass
+      2 no filler boilerplate  — pass
+      3 answer matches form    — pass (decimal km → "find the distance ... in kilometres")
+      4 grammar agreement      — pass
+      5 pronoun consistency    — pass (single male protagonist, "he" used consistently)
+      6 entity consistency     — pass (river, banks, points P / Q / landing all named consistently)
+      7 not a tautology        — pass (x* not stated in prose; computed from w, d, v_row, v_walk)
+      8 not single-fact recall — pass (T(x) setup → differentiate → solve T'=0 → verify chain)
+      9 skill matches topic    — pass (calculus.optimization topic, derivative-application work)
+     10 math-prose-answer ▲    — pass (x* in km, sane order-of-magnitude vs. d)
+     11 no None / null         — pass
+     12 visual integrity       — pass (banks parallel, S between projection of P and Q on
+                                       bottom bank, dashed legs P→S and S→Q rendered cleanly,
+                                       brace labels d / x / downstream-distance non-overlapping)
+
+variables:
+  # River width (km). Per-tier ranges widen the envelope; constraints
+  # below ensure x* stays interior to [0, d] for every (w, d, v_row,
+  # v_walk_offset) combination.
+  w:
+    type: integer
+    min: 2
+    max: 4
+    ranges:
+      easy: {choices: [2, 3]}
+      medium: {choices: [2, 3, 4]}
+      hard: {choices: [3, 4, 5]}
+
+  # Downstream distance to the destination point Q (km). Pinned so
+  # x* < d at every tier. The hard-tier worst case (w=5, v_row=7,
+  # v_walk_offset=2 ⇒ v_walk=9) gives x* ≈ 6.19, so the hard min
+  # of 8 keeps the optimum interior.
+  d:
+    type: integer
+    min: 7
+    max: 10
+    ranges:
+      easy: {choices: [8, 10]}
+      medium: {choices: [7, 8, 9, 10]}
+      hard: {choices: [8, 9, 10, 11, 12]}
+
+  # Rowing speed (km/h). Realistic range ~4-7 km/h. Constraint
+  # v_walk > v_row is enforced via v_walk_offset below.
+  v_row:
+    type: integer
+    min: 4
+    max: 6
+    ranges:
+      easy: {choices: [4, 5]}
+      medium: {choices: [4, 5, 6]}
+      hard: {choices: [5, 6, 7]}
+
+  # Walking-speed offset above rowing speed (km/h). Strictly positive
+  # so the radicand sqrt(v_walk² − v_row²) is well-defined. Per-tier
+  # ranges narrow at hard so the optimum lands at a structurally
+  # interesting (non-tiny) x*.
+  v_walk_offset:
+    type: integer
+    min: 2
+    max: 4
+    ranges:
+      easy: {choices: [3, 4]}
+      medium: {choices: [2, 3, 4]}
+      hard: {choices: [2, 3]}
+
+  # Optimal landing distance from the perpendicular foot, in km.
+  # Irrational in general, so `compare: numeric` with tolerance 0.01.
+  Answer:
+    type: decimal
+
+template: |
+  {% set v_walk = v_row + v_walk_offset -%}
+  A man stands at point P on the north bank of a straight river that is
+  {{w}} km wide. He needs to reach point Q on the south bank, which is
+  {{d}} km downstream from the point directly across the river from P.
+  He can row at {{v_row}} km/h and walk along the south bank at {{v_walk}} km/h.
+
+  He plans to row in a straight line from P to a landing point S on the
+  south bank, then walk along the bank from S to Q.
+
+  {{ simplifications }}
+
+  Find the value of x that minimises the total travel time from P to Q.
+
+solution: |
+  # T13 symbolic chain + T14 formula recall:
+  #   T(x) = sqrt(w² + x²)/v_row + (d - x)/v_walk
+  #   T'(x) = x / (v_row · sqrt(w² + x²)) − 1/v_walk
+  #   T'(x*) = 0  ⇒  x* / sqrt(w² + x*²) = v_row / v_walk
+  #              ⇒  x* = w · v_row / sqrt(v_walk² − v_row²)
+  # The parameter envelope is pinned so x* ∈ (0, d) for every draw,
+  # so the interior critical point IS the global minimum on [0, d]
+  # (T(0) and T(d) both exceed T(x*) by direct check).
+  v_walk = v_row + v_walk_offset
+  radicand = v_walk * v_walk - v_row * v_row
+  x_star = (w * v_row) / sqrt(radicand)
+  Answer = round(x_star, 2)
+
+# γ.3 A.2 builder. RiverbankFigure shows the parallel banks, points
+# P (start, top bank) and Q (destination, bottom bank, d km downstream),
+# plus the landing point S at the COMPUTED optimum x* on the bottom
+# bank. The dashed P→S and S→Q legs encode the two-leg path. The
+# horizontal brace under S labels the distance "x" — at medium/hard
+# tiers (where the prose drops the perpendicular-foot framing) this
+# brace IS the only place the geometry of x is pinned down.
+visual:
+  format: python
+  alt_text: |
+    A schematic of two parallel riverbanks {{w}} km apart. Point P sits
+    on the top (north) bank; point Q sits on the bottom (south) bank,
+    {{d}} km downstream from the perpendicular projection of P onto the
+    south bank. A dashed two-leg path P → S → Q is drawn through the
+    optimal landing point S on the south bank. A horizontal brace
+    labels the distance from the perpendicular foot to S as "x"; the
+    river width is labelled "{{w}} km" on the left, and the full
+    downstream span is labelled "{{d}} km" below.
+  source: |
+    # Re-derive x* in the visual sandbox so the figure's swim-point
+    # geometry stays in sync with the solution's Answer.
+    v_walk = v_row + v_walk_offset
+    radicand = v_walk * v_walk - v_row * v_row
+    x_star = (w * v_row) / sqrt(radicand)
+
+    fig = RiverbankFigure(
+        bank_distance=w,
+        downstream=d,
+        swim_x=x_star,
+        label_distance=f"{w} km",
+        label_downstream=f"{d} km",
+        label_swim="x",
+        width=520,
+        height=300,
+    )
+    Visual = fig.render()
+
+# Tests use `compare: numeric` with absolute tolerance 0.01 km — the
+# optimum is irrational (sqrt of a non-square integer in general) so
+# strict-string comparison would chase formatter-rounding drift. 0.01
+# is wide enough to absorb the 2-decimal display rounding, narrow
+# enough that a derivative-sign error or wrong formula fails cleanly
+# (a wrong x* differs by ≫ 0.01 km on this domain).
+#
+# Three fixtures per tier × three tiers = nine total. Authoring uses
+# `<auto>` placeholders; running
+#   uv run python scripts/refresh_test_answers.py --apply --filter '*/k12_optimization_riverbank_anchor.yaml'
+# populates them from the live generator.
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected: {answer: "2.00"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "easy tier — full simplifications pool stated; perpendicular-foot framing in prose"
+
+  - seed: 42
+    difficulty: easy
+    expected: {answer: "1.60"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 99
+    difficulty: easy
+    expected: {answer: "2.09"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 12345
+    difficulty: medium
+    expected: {answer: "2.40"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "medium tier — 'no current' assumption suppressed; figure becomes load-bearing for x"
+
+  - seed: 42
+    difficulty: medium
+    expected: {answer: "2.31"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 7
+    difficulty: medium
+    expected: {answer: "2.00"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 12345
+    difficulty: hard
+    expected: {answer: "3.58"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "hard tier — only rounding contract stated; figure carries x and modeling assumptions"
+
+  - seed: 42
+    difficulty: hard
+    expected: {answer: "4.00"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 99
+    difficulty: hard
+    expected: {answer: "4.08"}
+    compare: numeric
+    tolerance: 0.01

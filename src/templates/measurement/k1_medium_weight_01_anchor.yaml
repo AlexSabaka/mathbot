@@ -25,9 +25,9 @@ variables:
     type: string
 
 template: |
-  {{name}} puts {{num_a}} {{object}} on one side of a balance scale.
+  {{name}} puts {{num_a}} {{object}} on a balance.
 
-  What could {{name}} put on the other side to make it balance?
+  Which makes it balance?
   a) {{num_a}} {{object}}
   b) {{num_a + 2}} {{object}}
 

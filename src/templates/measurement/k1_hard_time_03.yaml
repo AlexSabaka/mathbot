@@ -20,10 +20,10 @@ variables:
   start_hour:
     type: integer
     min: 1
-    max: 8
+    max: 5
   end_hour:
     type: integer
-    min: 3
+    min: 6
     max: 11
   Answer:
     type: integer
@@ -39,7 +39,7 @@ solution: |
 tests:
   - seed: 42
     expected:
-      answer: "2"
+      answer: '5'
   - seed: 100
     expected:
-      answer: "1"
+      answer: '7'

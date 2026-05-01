@@ -1,52 +1,54 @@
 metadata:
   id: k1_hard_addition_02
-  version: "1.0.0"
+  version: "1.1.0"
   author: Mathbot
   created: 2026-01-30
   grade: 1
   topic: arithmetic.addition
   family: addition
   difficulty: hard
-  steps: 3
+  steps: 1
   culture: en-US
-  tags: [addition, word-problem, sequential-addition]
+  tags: [addition, word-problem, single-step]
+  notes: |
+    Single-step a + b within K1 range (sum ≤ 20). Hard-tier difficulty
+    is achieved via larger addends (upper end of 0-20), per K1.7 / K1.6.
+    Variant of k1_hard_addition_01_anchor; the anchor still uses three
+    addends (multi-step), so this variant intentionally diverges in step
+    count from its anchor — see γ.4r corpus debug sweep.
 
 variables:
   name:
     type: person
   num_a:
     type: integer
-    min: 2
-    max: 7
+    min: 6
+    max: 13
   num_b:
     type: integer
-    min: 2
+    min: 4
     max: 7
-  num_c:
-    type: integer
-    min: 2
-    max: 6
   object:
     type: item
     category: grocery
-  location:
-    type: string
-    choices: [basket, bag, box, cart, container]
   Answer:
     type: integer
 
 template: |
-  {{name}} puts {{num_a}} {{object}} in a {{location}}. Then {{name}} adds {{num_b}} more {{object}}. Finally, {{name}} adds {{num_c}} more {{object}}.
+  {{name}} has {{num_a}} {{object}}. Then {{name}} gets {{num_b}} more {{object}}.
 
-  How many {{object}} are in the {{location}} now?
+  How many {{object}} does {{name}} have now?
 
 solution: |
-  Answer = num_a + num_b + num_c
+  Answer = num_a + num_b
 
 tests:
   - seed: 42
     expected:
-      answer: "10"
+      answer: '15'
   - seed: 100
     expected:
-      answer: "15"
+      answer: '15'
+  - seed: 7
+    expected:
+      answer: '16'

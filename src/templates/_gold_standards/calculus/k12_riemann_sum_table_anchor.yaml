@@ -1,0 +1,333 @@
+# Phase γ gold-standard #4 — Riemann-sum approximation with a load-bearing
+# function-value table.
+#
+# Cell:    k12.calculus.integrals, family=integral_application
+# Source:  mathbot-phase-gamma-seed.md §4 gold-standard list, item #4.
+#
+# γ-feature checklist (see notes: at end for the dissection guide):
+#   - figure_load: load_bearing       — γ.1; the f(x_i) values live ONLY in
+#                                       the table, not the prose
+#   - simplifications: per-tier lift  — γ.1; hard tier suppresses the easy
+#                                       "use the rule's stated convention"
+#                                       crutch line (T18)
+#   - structural_tags T13 / T15        — symbolic chain + method selection
+#                                       (the rule is a dispatch variable)
+#   - track: advanced                  — Riemann sums are universal at the
+#                                       advanced track in CCSS-(+),
+#                                       Singapore H2, Finland MAA7+, etc.
+#   - direction: forward               — given (rule, n, a, b, f), compute
+#                                       the sum (the inverse query — given
+#                                       a target sum, find n — is a sibling
+#                                       template, not this one)
+#   - difficulty_tiers + ranges        — n=4/6/8 across easy/medium/hard
+#   - visual.format: python with
+#     FunctionValueTable                — γ.3 A.1 builder; the load-bearing
+#                                       data carrier
+#   - tests compare/tolerance          — float arithmetic ⇒ numeric match
+#                                       with absolute tolerance 0.01
+#                                       (matches the 2-decimal answer
+#                                       formatter)
+
+metadata:
+  id: k12_riemann_sum_table
+  version: "1.0.0"
+  author: claude-phase-gamma-gold-standard-4
+  created: 2026-04-29
+  grade: 12
+  topic: calculus.integrals
+  family: integral_application
+  difficulty: medium                    # default tier (must appear in difficulty_tiers)
+  difficulty_tiers: [easy, medium, hard]
+  steps: 4                              # pick rule → compute Δx → sum f(x_i)·Δx → state
+  unit_system: metric                   # immaterial here; answer is a pure decimal
+  language: en
+  culture: en-US
+
+  # Riemann sums are universal advanced-track material across the eight
+  # reference systems — CCSS-(+), Singapore H2, Japan Math III, Finland
+  # MAA7+, Norway R2, Sweden Mat 5, NL wiskunde D, Estonia gümnaasium.
+  track: advanced
+
+  # Forward direction: given the configuration (rule, n, bounds, f),
+  # compute the approximation. The inverse query (given a target sum,
+  # find the n that achieves it) is structurally a different template
+  # and intentionally lives elsewhere.
+  direction: forward
+
+  # T13: chain of symbolic operations (pick rule → set up sample points
+  # → evaluate f at each → multiply by Δx → sum). T15: which Riemann rule
+  # the solver applies is selected by a parameter, so the same prompt
+  # text dispatches to three different sample-point conventions across
+  # randomisations. That's the Putnam-AXIOM "method selection by
+  # parameterisation" lever, applied to numerical integration.
+  structural_tags:
+    - T13_symbolic_chain
+    - T15_method_selection
+    - T18_assumption_omission
+
+  # γ.1 A.3.b. The load-bearing axis: the f(x_i) values appear ONLY in
+  # the function-value table, not in the prose. The student literally
+  # can't solve without reading the table — making this a true
+  # `load_bearing` rather than `partial`.
+  figure_load: load_bearing
+
+  # γ.1 A.3.a. Per-tier lift: at easy/medium tier the prose tells the
+  # solver to "use the rule's stated sample-point convention"
+  # (i.e. don't second-guess whether left means `a + i*Δx` or
+  # `a + (i+1)*Δx`); at hard tier that crutch is suppressed and the
+  # solver has to know the convention themselves. This is the K12
+  # difficulty axis — *which simplifications are stated*, not just
+  # *how big the numbers are*.
+  simplifications:
+    - text: "Use the rule's stated sample-point convention without further refinement."
+      omit_at: [hard]
+    - text: "Round the final sum to two decimal places."
+      # omit_at omitted → always stated. Keeps the answer-format
+      # contract stable across tiers (the fixture tolerance is 0.01,
+      # comfortably wider than the 2-decimal display rounding).
+
+  tags: [calculus, riemann_sum, integral_approximation, function_table]
+  notes: |
+    Phase γ gold-standard #4 (mathbot-phase-gamma-seed.md §4, item #4).
+
+    Exercises every γ feature the seed calls out for this slot:
+      - γ.1 simplifications: with per-tier omit_at (T18 lift)
+      - γ.1 figure_load: load_bearing (the table IS the data)
+      - γ.3 FunctionValueTable visual builder
+      - β tests compare/numeric with tolerance
+
+    Deliberate vs. default choices (worth dissecting):
+      - `coef` is FIXED at 1 across all tiers, not randomised. Earlier
+        drafts varied it 1..3 but the resulting tables crowded the
+        f(x_i) column with arithmetic that drew the eye away from the
+        Riemann-sum step itself. Difficulty rides on `n` (4 / 6 / 8)
+        and the rule selection only.
+      - The function family `f(x) = x² + 1` is intentionally simple
+        and integer-valued at integer x — the table renders cleanly,
+        and the answer's tolerance (0.01) absorbs the float drift
+        from non-integer midpoint evaluations. A more ornate `f`
+        (cos, exp, …) buys nothing here; the structural skill being
+        probed is sample-point accounting, not function evaluation.
+      - `direction: forward` only. Inverse-direction Riemann (given a
+        target sum within tolerance, find the smallest n) is a sibling
+        template, not a tier of this one. Crossing direction across
+        tiers would defeat T15 (the "method selection" axis would
+        collapse).
+      - Tolerance 0.01, absolute. The decimal formatter prints 2 dp
+        (`"47.38"`), so the comparison parses both sides as floats and
+        accepts ±0.01 — wide enough to absorb the formatter's
+        round-half-to-even, narrow enough that a wrong-rule dispatch
+        (left vs. right vs. midpoint differ by ≫ 0.01 on this domain)
+        still fails the test cleanly.
+
+    What NOT to copy from this template:
+      - T15 (method-selection) is exercised here because the *rule*
+        is a variable and the solution dispatches on it. Not every
+        gold-standard needs T15 — most don't. Tag T15 only when
+        randomisation genuinely changes which method/formula the
+        solver should reach for.
+      - The simplifications: pool here is small (two entries, only
+        one tier-lifted). Templates with more modeling assumptions
+        (riverbank optimization, cone-cup capacity) will carry larger
+        pools with multiple tier-graded suppressions.
+      - The table caption is intentionally minimal ("Sample values
+        of f"). Don't pre-spoil the rule choice in the caption —
+        the prose says which rule to apply; the table just lists the
+        sample values.
+      - **Body prose uses Unicode**, not LaTeX delimiters
+        (`f(x) = x² + 1`, not `$$f(x) = x^2 + 1$$`). γ.4q surfaced
+        that LaTeX in body diverges across formats — typeset in
+        markdown / latex / pdf, raw `$$...$$` in svg / png. SPEC.md
+        §6 documents this rule.
+
+    γ.4q rubric-12 review (rendered PNG @ seed 12345 medium tier):
+      1 no template leakage    — pass
+      2 no filler boilerplate  — pass
+      3 answer matches form    — pass (numeric → "Compute the resulting approximation")
+      4 grammar agreement      — pass
+      5 pronoun consistency    — N/A (no pronouns)
+      6 entity consistency     — pass (function, bounds, n, rule all referenced consistently)
+      7 not a tautology        — pass (the sum value isn't in the prose; it's
+                                       computed from the table by the solver)
+      8 not single-fact recall — pass (Δx → sample-points → f(xᵢ) → sum chain)
+      9 skill matches topic    — pass (calculus.integrals topic, Riemann-sum work)
+     10 math-prose-answer ▲    — pass (sum × Δx = answer; order-of-magnitude sane)
+     11 no None / null         — pass
+     12 visual integrity       — pass (table cells aligned, fractions render
+                                       cleanly, no clipped labels)
+
+variables:
+  # Number of subintervals. Multi-tier ranges: smaller n is easier
+  # (less arithmetic, simpler table). Each tier has a single fixed
+  # n so the fixture answers are deterministic; vary parameter
+  # complexity is on rule + bounds, not on n itself.
+  n:
+    type: integer
+    choices: [6]                        # default (medium) — must be in choices set
+    ranges:
+      easy: {choices: [4]}
+      medium: {choices: [6]}
+      hard: {choices: [8]}
+
+  # Lower bound of integration. Integer-valued so f(x) at endpoints
+  # stays clean for the easy/medium tiers; midpoint evaluations are
+  # half-integer and absorb a 0.001 float-drift cleanly.
+  a:
+    type: integer
+    min: 0
+    max: 2
+
+  # Upper bound. Constrained to b > a in the solution by adding `a`
+  # to a positive offset — see the {% set %} preamble. Authoring
+  # b directly with min:3 max:5 risks b - a < 1 in degenerate seeds
+  # (variable_generator draws a, b independently; offset wins).
+  b_offset:
+    type: integer
+    min: 3
+    max: 4                              # (b - a) ∈ {3, 4}; cleanly divisible by n
+
+  # The Riemann rule. T15-driver: the solver's method depends on this
+  # draw, even though the prose template is identical across rules.
+  rule:
+    type: choice
+    choices: ["left", "right", "midpoint"]
+
+  # Decimal answer; tolerance 0.001 absorbs float drift from midpoint
+  # evaluations.
+  Answer:
+    type: decimal
+
+template: |
+  {% set b = a + b_offset %}
+  Approximate the definite integral of f(x) = x² + 1 from x = {{a}} to
+  x = {{b}} using the {{ rule }} Riemann sum with {{n}} equal subintervals.
+
+  {% if rule == "midpoint" -%}
+  The sample values shown in the table are taken at the midpoint of
+  each subinterval.
+  {%- elif rule == "left" -%}
+  The sample values shown in the table are taken at the left endpoint
+  of each subinterval.
+  {%- else -%}
+  The sample values shown in the table are taken at the right endpoint
+  of each subinterval.
+  {%- endif %}
+
+  {{ simplifications }}
+
+  Compute the resulting approximation.
+
+solution: |
+  # T15 method-selection: dispatch on `rule` to pick the sample points,
+  # then T13 symbolic-chain: Δx → sample x_i → f(x_i) → sum → multiply.
+  b = a + b_offset
+  dx = (b - a) / n
+
+  if rule == "left":
+      xs = [a + i * dx for i in range(n)]
+  elif rule == "right":
+      xs = [a + (i + 1) * dx for i in range(n)]
+  else:  # midpoint
+      xs = [a + (i + 0.5) * dx for i in range(n)]
+
+  # f(x) = x² + 1
+  ys = [x * x + 1 for x in xs]
+
+  total = sum(ys) * dx
+  Answer = round(total, 2)
+
+# γ.3 A.1 builder. The FunctionValueTable IS the load-bearing data
+# carrier — the prose names the function form (x² + 1) but the
+# specific sample values the student needs to sum live only here.
+visual:
+  format: python
+  alt_text: |
+    A two-column table titled "Sample values of f". The left column
+    lists {{n}} sample values of x — the {{rule}}-rule sample points
+    on the partition of [{{a}}, {{a + b_offset}}] into {{n}} equal
+    subintervals. The right column lists the corresponding values of
+    f(x) = x² + 1, which the student sums and multiplies by Δx to
+    produce the Riemann-sum approximation.
+  source: |
+    # Use exact rational arithmetic for the table display so the y
+    # values render as nice fractions rather than artifact-y decimals
+    # (e.g. midpoint at x=1.25 gives f = 41/16, not "2.5625"). Keeps
+    # the visual readable and side-steps the axis_range_artifact lint
+    # rule, which is calibrated for plot axes — its decimal-digit
+    # heuristic flags legitimate cell values like "11.5625" otherwise.
+    from fractions import Fraction
+    b = a + b_offset
+    dx_frac = Fraction(b - a, n)
+
+    if rule == "left":
+        xs = [Fraction(a) + i * dx_frac for i in range(n)]
+    elif rule == "right":
+        xs = [Fraction(a) + (i + 1) * dx_frac for i in range(n)]
+    else:
+        xs = [Fraction(a) + (2 * i + 1) * dx_frac / 2 for i in range(n)]
+
+    ys = [x * x + 1 for x in xs]
+
+    def _fmt_frac(q):
+        if q.denominator == 1:
+            return str(q.numerator)
+        return f"{q.numerator}/{q.denominator}"
+
+    x_fmt = [_fmt_frac(x) for x in xs]
+    y_fmt = [_fmt_frac(y) for y in ys]
+
+    table = FunctionValueTable(
+        x_values=x_fmt,
+        y_values=y_fmt,
+        x_label="x",
+        y_label="f(x) = x² + 1",
+        caption="Sample values of f",
+        # All rows are the active sample points; highlighting them
+        # all visually says "these are the values you sum".
+        highlight_indices=list(range(len(xs))),
+        width=360,
+    )
+    Visual = table.render()
+
+# Numeric tolerance 0.001 absorbs midpoint-rule float drift while
+# still failing on a wrong-rule dispatch (left vs. right vs. midpoint
+# differ by far more than 0.001 on this domain).
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected: {answer: "50.16"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "easy tier — n=4; smallest table"
+
+  - seed: 42
+    difficulty: easy
+    expected: {answer: "18.00"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 99
+    difficulty: medium
+    expected: {answer: "23.94"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "medium tier — n=6 (default)"
+
+  - seed: 7
+    difficulty: medium
+    expected: {answer: "25.19"}
+    compare: numeric
+    tolerance: 0.01
+
+  - seed: 12345
+    difficulty: hard
+    expected: {answer: "46.01"}
+    compare: numeric
+    tolerance: 0.01
+    notes: "hard tier — n=8; simplifications crutch suppressed"
+
+  - seed: 42
+    difficulty: hard
+    expected: {answer: "21.50"}
+    compare: numeric
+    tolerance: 0.01

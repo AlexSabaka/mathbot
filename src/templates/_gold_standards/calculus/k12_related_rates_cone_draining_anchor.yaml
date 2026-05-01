@@ -1,0 +1,544 @@
+# Phase γ.4 batch 2 gold-standard #3 — related-rates cone draining with
+# tier-graded geometry generalisation.
+#
+# Cell:    k12.calculus.related_rates, family=derivative_application
+# Source:  mathbot-phase-gamma-seed.md §γ.4 C.3 (RelatedRatesGeometry +
+#          frustum hard tier).
+#
+# γ-feature checklist (see notes: at end for the dissection guide):
+#   - difficulty axis is GEOMETRY, not number magnitudes — easy/medium
+#     tiers use the inverted cone (similar-triangles → r = R·h/H),
+#     hard tier swaps to a frustum (linear-interpolation of r) which
+#     forces a different formula path. T15 method-selection earned.
+#   - structural_tags T13 / T14 / T15 / T18
+#   - simplifications: with per-tier omit_at lift (the "treat the tank
+#     as perfectly cylindrical" crutch suppressed at hard, the constant
+#     drain-rate assumption stated everywhere)
+#   - figure_load: load_bearing — depth `h` is labelled in the figure
+#     and the easy/medium tiers reference it as "the cross-section
+#     radius at the marked depth"
+#   - track: advanced (related-rates is universal at advanced track)
+#   - direction: forward (given dV/dt, find dh/dt)
+#   - difficulty_tiers + per-tier ranges
+#   - visual.format: python with RelatedRatesGeometry(setup='cone_draining')
+#     for cone tiers; hard tier emits a hand-rolled frustum SVG
+#     (the builder doesn't ship a frustum sub-case — see notes)
+#   - tests compare/numeric with tolerance 0.005 m/min
+
+metadata:
+  id: k12_related_rates_cone_draining
+  version: "1.0.0"
+  author: claude-phase-gamma-gold-standard-3
+  created: 2026-04-30
+  grade: 12
+  topic: calculus.related_rates
+  family: derivative_application
+  difficulty: medium                    # default tier (must appear in difficulty_tiers)
+  difficulty_tiers: [easy, medium, hard]
+  steps: 5                              # set up V(h) → differentiate (chain) → solve for dh/dt → substitute → state
+  unit_system: metric                   # m, m³, m/min
+  language: en
+  culture: en-US
+
+  # Related rates is universal advanced-track material across CCSS-(+),
+  # Singapore H2, Japan Math III, Finland MAA9+, Norway R2, Sweden Mat 4,
+  # NL wiskunde D, Estonia gümnaasium. Absent from CCSS core.
+  track: advanced
+
+  # Forward: given the configuration (geometry, drain rate dV/dt, current
+  # depth), find dh/dt. The inverse query (given a target dh/dt, find
+  # the matching depth) is structurally a different template.
+  direction: forward
+
+  # T13: chain — V(h) → dV/dt = (dV/dh) · (dh/dt) → solve for dh/dt.
+  # T14: formula recall — recognise V_cone = (1/3)π r² h with r = R·h/H,
+  #      and V_frustum = (π/3)·h·(R_bot² + R_bot·R_top + R_top²) at
+  #      arbitrary depth (with linear r(z)).
+  # T15: method-selection — the geometry the solver sees in the figure
+  #      dispatches to a different cross-section formula. Cone draws on
+  #      similar triangles; frustum draws on linear interpolation
+  #      between two radii. Same prompt skeleton, two formula paths.
+  # T18: assumption-omission — easy/medium states "treat the tank as a
+  #      perfectly smooth cone with the apex at the drain"; hard
+  #      suppresses that line because the tank isn't a cone any more.
+  structural_tags:
+    - T13_symbolic_chain
+    - T14_formula_recall
+    - T15_method_selection
+    - T18_assumption_omission
+
+  # γ.1 A.3.a. Per-tier lift on simplifications.
+  #   - "ignore surface tension and air drag": stated everywhere; the
+  #     ODE-style modeling assumption a 12-grader can take on faith.
+  #   - "treat the tank as a perfectly smooth cone with apex at drain":
+  #     stated at easy/medium where the geometry IS a cone; suppressed
+  #     at hard because the tank is a frustum (the assumption would be
+  #     false if stated). T18 lift.
+  #   - "the drain rate dV/dt is constant in time": stated at easy
+  #     only; medium/hard solvers must trust the given constant k
+  #     without the explicit framing.
+  simplifications:
+    - text: "Ignore surface tension and air drag — the only outflow is through the drain."
+      # omit_at omitted → always stated.
+    - text: "Treat the tank as a perfectly smooth cone with apex at the drain (the cross-section radius scales linearly with depth from the apex)."
+      omit_at: [hard]
+    - text: "Assume the drain rate dV/dt is constant in time at the given value."
+      omit_at: [medium, hard]
+
+  # γ.1 A.3.b. The figure is load-bearing: the depth `h` is shown as a
+  # labelled measurement in the figure, and the prose refers to "the
+  # cross-section radius at the marked depth" — without seeing the
+  # figure the solver doesn't know which radius the prompt means.
+  figure_load: load_bearing
+
+  tags: [calculus, related_rates, derivatives, geometry, draining, cone, frustum]
+  notes: |
+    Phase γ.4 batch 2 gold-standard #3 (mathbot-phase-gamma-seed.md
+    §γ.4 C.3). The seed plan asserts setup='cone_draining' with a
+    frustum on hard tier as the difficulty axis.
+
+    Most multi-tier templates ride number magnitudes for difficulty;
+    this one rides GEOMETRY GENERALISATION — easy/medium are pure
+    cones (similar-triangles formula path), hard is a frustum (linear-
+    interpolation formula path). The structural-tag T15 ("method
+    selection by parameterisation") earns its place because the
+    formula the solver reaches for genuinely differs across tiers,
+    not just the inputs to a fixed formula.
+
+    Geometry path (the load-bearing math):
+      Cone (easy/medium): r(h) = R·h/H by similar triangles.
+        V(h) = (1/3) π r² h = (π R² / 3 H²) h³.
+        dV/dt = (π R² / H²) h² · dh/dt.
+        ⇒ dh/dt = (dV/dt) · H² / (π R² h²).
+
+      Frustum (hard): r(z) = R_bot + (R_top - R_bot)·z/H, z from drain.
+        V(h) = ∫₀ʰ π r(z)² dz
+              = π/(3 s) · [(R_bot + s·h)³ - R_bot³],   s = (R_top-R_bot)/H
+        dV/dh = π · r(h)² (cross-section area at depth h).
+        ⇒ dh/dt = (dV/dt) / (π · r(h)²).
+
+      Both reduce to dh/dt = (dV/dt) / A(h) where A(h) is the
+      cross-sectional area at depth h — the conceptual unification.
+      The pedagogy is "recognise A(h) for the geometry you have"
+      (T14 + T15), and the chain rule's role is identical (T13).
+
+    Hard-tier visual choice — option (a) (frustum). The
+    RelatedRatesGeometry builder ships five setups but no frustum
+    sub-case. Per TD-γ.4q-4 we don't modify the figure builder from
+    a gold-standard slot; instead the python visual block emits a
+    hand-rolled frustum SVG for hard tier (trapezoidal silhouette
+    + rim ellipses + water polygon + depth label). For easy/medium
+    tiers we delegate to RelatedRatesGeometry(setup='cone_draining')
+    as the seed plan asserts. The two visuals share a common label
+    layout so a side-by-side comparison reads as "same figure
+    structure, different cross-section shape".
+
+    Deliberate vs. default choices (worth dissecting):
+      - The drain rate `k` is generated as a positive number (in
+        m³/min) and the prose states the signed dV/dt explicitly
+        ("dV/dt = -k m³/min"). The solution computes dh/dt = -k/A(h)
+        directly so the *signed* value (always negative for draining)
+        is reported. Hidden bug-trap: a wrong sign is as wrong as a
+        wrong magnitude — a solver who forgets the minus on dV/dt
+        will land on +0.08 instead of -0.08 and the numeric-tolerance
+        comparison rejects it cleanly.
+      - Numbers are picked so the depth change rate lands in the
+        ~0.01 to ~0.10 m/min band — large enough to display cleanly
+        at 2 decimal places (the `decimal` answer-formatter's default),
+        small enough to feel physical for a bench-scale tank. The
+        0.005 fixture tolerance sits between the formatter's display
+        rounding (5e-3 worst case) and the typical cone↔frustum
+        formula-path gap on these parameter ranges (0.02–0.05 m/min),
+        so a wrong-formula dispatch fails cleanly without false
+        positives from float drift.
+      - At hard tier the frustum's R_bot < R_top (point-up flare,
+        narrowing toward the drain). This matches the cone-draining
+        intuition: as water drains, the cross-section shrinks. A
+        frustum with R_bot > R_top would be physically possible but
+        loses the "cone-like" geometry the seed plan invokes.
+
+    γ.4q rubric-12 review (rendered PNG @ seed 12345 medium tier):
+      1 no template leakage    — pass
+      2 no filler boilerplate  — pass
+      3 answer matches form    — pass (numeric m/min ↔ "rate of change")
+      4 grammar agreement      — pass
+      5 pronoun consistency    — N/A (no pronouns)
+      6 entity consistency     — pass (tank / depth / drain rate consistent)
+      7 not a tautology        — pass (dh/dt isn't named in prose)
+      8 not single-fact recall — pass (volume formula → chain rule →
+                                       solve → substitute is the chain)
+      9 skill matches topic    — pass (calculus.related_rates topic,
+                                       related-rates work)
+     10 math-prose-answer ▲    — pass (m/min units; magnitude in
+                                       0.01–0.10 band on cone tiers,
+                                       order-of-magnitude sane for a
+                                       bench-scale draining tank)
+     11 no None / null         — pass
+     12 visual integrity       — pass (cone tiers via builder; frustum
+                                       tier via hand-rolled SVG with
+                                       same label conventions)
+
+    What NOT to copy from this template:
+      - The hand-rolled frustum SVG is here because the
+        RelatedRatesGeometry builder doesn't ship a frustum sub-case.
+        If you find yourself authoring more than one frustum-flavoured
+        template, promote the SVG to a builder method and remove the
+        hand-rolled fragment. Don't accumulate hand-rolled SVGs in
+        the corpus.
+      - The signed-answer convention: "report dh/dt with its negative
+        sign because the depth is decreasing". Some authors prefer to
+        ask for "the rate at which the depth is decreasing" (positive
+        magnitude). Both are defensible; this template picks the
+        signed convention to keep the chain-rule sign-tracking
+        skill in the loop. New variants in this cell should align
+        with whichever convention this anchor sets.
+      - **Body prose uses Unicode**, not LaTeX delimiters. dV/dt and
+        dh/dt are written as plain text (per SPEC.md §6, raw `$$...$$`
+        diverges across format outputs).
+
+variables:
+  # Tank geometry — top radius (cone tiers) / nominal "top" radius
+  # (frustum hard tier reuses this as R_top). Chosen integer-valued
+  # so the cross-section formula renders cleanly.
+  R:
+    type: length
+    min: 4
+    max: 6
+    step: 1
+    ranges:
+      easy: {min: 4, max: 5, step: 1}
+      medium: {min: 4, max: 6, step: 1}
+      hard: {min: 5, max: 7, step: 1}        # R_top at hard tier
+
+  # Tank total height (apex/drain to rim).
+  H:
+    type: length
+    min: 8
+    max: 12
+    step: 1
+    ranges:
+      easy: {min: 8, max: 10, step: 1}
+      medium: {min: 9, max: 12, step: 1}
+      hard: {min: 10, max: 14, step: 1}
+
+  # Current water depth at the moment in question. Constraint h < H
+  # is enforced indirectly: the per-tier `h` ceiling stays below the
+  # `H` floor, so every (h, H) draw satisfies h < H.
+  h:
+    type: length
+    min: 4
+    max: 6
+    step: 1
+    ranges:
+      easy: {min: 4, max: 6, step: 1}      # H floor 8 → h < H
+      medium: {min: 5, max: 8, step: 1}    # H floor 9 → h < H
+      hard: {min: 5, max: 9, step: 1}      # H floor 10 → h < H
+
+  # Drain rate (volume out per unit time). Free-form pint unit, so
+  # `k_formatted` renders as "1.0 meter ** 3 / minute" via pint's
+  # compact-pretty form.
+  k:
+    type: decimal
+    unit: "meter**3/minute"
+    min: 0.5
+    max: 2.0
+    step: 0.5
+    ranges:
+      easy: {min: 0.5, max: 1.5, step: 0.5}
+      medium: {min: 0.5, max: 2.0, step: 0.5}
+      hard: {min: 1.0, max: 2.5, step: 0.5}
+
+  # Geometry dispatch. This is the T15 method-selection axis exposed
+  # as a per-tier choice: cone on easy/medium, frustum on hard. The
+  # solution code branches on `geometry == "frustum"` rather than on
+  # the active tier — the dispatch is *what* shape the figure shows,
+  # which is conceptually one step removed from the difficulty knob
+  # itself. (The runtime doesn't auto-inject `difficulty` into the
+  # solution sandbox; threading the dispatch through a per-tier
+  # `choice` variable is the canonical workaround.)
+  geometry:
+    type: choice
+    choices: ["cone"]
+    ranges:
+      easy: {choices: ["cone"]}
+      medium: {choices: ["cone"]}
+      hard: {choices: ["frustum"]}
+
+  # Hard-tier-only: the frustum's bottom radius (at the drain). Only
+  # consulted when geometry == "frustum". Easy/medium ignore this draw.
+  # R_bot < R is the physically sensible frustum-narrowing-toward-drain
+  # case (the tank flares out from a narrow drain to a wide rim).
+  R_bot:
+    type: length
+    min: 1
+    max: 3
+    step: 1
+    ranges:
+      easy: {min: 1, max: 3, step: 1}      # unused on easy tier
+      medium: {min: 1, max: 3, step: 1}    # unused on medium tier
+      hard: {min: 2, max: 4, step: 1}      # active on hard tier; R_bot < R
+
+  # Answer is a plain decimal so `compare: numeric` parses it cleanly.
+  # Unit (m/min) is documented in the prose; encoding it on the
+  # variable would break the float-parsing of the fixture.
+  Answer:
+    type: decimal
+
+template: |
+  {%- if geometry == "frustum" -%}
+  An open tank shaped like a frustum (a cone with its apex sliced off)
+  has a small bottom radius of {{R_bot_formatted}} at the drain and a
+  top rim radius of {{R_formatted}}. The tank's vertical height
+  is {{H_formatted}}, and at this instant the water level is at depth
+  {{h_formatted}} above the drain. Water exits the drain at the constant
+  rate dV/dt = -{{k_formatted}}.
+  {%- else -%}
+  An inverted right-circular cone with apex pointing down has a top rim
+  radius of {{R_formatted}} and total height {{H_formatted}}. The cone
+  drains through a hole at the apex. At the moment in question the
+  water level is at depth {{h_formatted}} above the apex, and water
+  leaves the tank at the constant rate dV/dt = -{{k_formatted}}.
+  {%- endif %}
+
+  {{ simplifications }}
+
+  Working from the volume formula appropriate to this geometry, find
+  the rate of change dh/dt of the water depth at this instant.
+  Round your answer to two decimal places (in meters per minute).
+
+solution: |
+  # T13 chain + T14 formula-recall + T15 method-selection: the
+  # cross-section area A(h) is what changes between the cone and the
+  # frustum; once we have A(h) the chain-rule unification dh/dt =
+  # (dV/dt) / A(h) is identical across tiers.
+  import math
+
+  if geometry == "frustum":
+      # Frustum: r(z) = R_bot + (R - R_bot) * z / H, z measured from
+      # the drain. At depth h, the cross-section radius is r_h.
+      r_h = R_bot + (R - R_bot) * h / H
+      A_h = math.pi * r_h * r_h
+  else:
+      # Cone: r(h) = R * h / H by similar triangles.
+      r_h = R * h / H
+      A_h = math.pi * r_h * r_h
+
+  # Chain rule: dV/dt = A(h) · dh/dt, with dV/dt = -k (water leaving).
+  # The decimal answer-formatter prints 2 dp; we round to 4 dp here so
+  # the float→formatter pipeline can do its own round-half-to-even at
+  # display time without compounding intermediate rounding error.
+  dh_dt = -k / A_h
+  Answer = round(dh_dt, 4)
+
+# Approach-B visual. Cone tiers delegate to the
+# RelatedRatesGeometry(setup='cone_draining') builder; hard tier emits
+# a hand-rolled frustum SVG using the same label conventions so the
+# figures read as a matched pair across the difficulty axis. The
+# builder doesn't ship a frustum sub-case (see notes); promoting the
+# fragment to the builder is a TD item if more frustum templates land.
+visual:
+  format: python
+  alt_text: |
+    {%- if geometry == "frustum" -%}
+    A truncated cone (frustum) shown in cross-section, narrower at the
+    bottom (radius {{R_bot_formatted}}) and wider at the rim
+    (radius {{R_formatted}}). The total height is {{H_formatted}}.
+    Water fills the tank to depth {{h_formatted}} above the drain at
+    the bottom; the cross-section radius at that depth is
+    intermediate between the bottom and rim radii.
+    {%- else -%}
+    An inverted right-circular cone with the apex at the bottom (the
+    drain). The top rim has radius {{R_formatted}}; the total height
+    from apex to rim is {{H_formatted}}. Water fills the cone to depth
+    {{h_formatted}} above the apex; the surface is shown as an
+    ellipse, and the cross-section radius at that depth is labelled.
+    {%- endif %}
+  source: |
+    if geometry == "frustum":
+        # Hand-rolled frustum SVG. The cone-draining builder doesn't
+        # ship a frustum sub-case; we mirror its label layout (radius
+        # label at the rim, height label down the slant, water-depth
+        # label at the surface) so the cone↔frustum visuals read as a
+        # matched pair. Pure SVG primitives — no builder dependency.
+        from src.visuals.base import _fmt
+        width = 400
+        height = 320
+        margin_top = 30
+        margin_bot = 50
+        margin_x = 40
+        plot_h = height - margin_top - margin_bot
+        plot_w = width - 2 * margin_x
+
+        scale_h = plot_h / max(H, 0.1)
+        scale_r = (plot_w / 2) / max(R, 0.1)
+        scale = min(scale_h, scale_r)
+
+        # Pixel sizes.
+        rim_w_px = R * scale
+        bot_w_px = R_bot * scale
+        tank_h_px = H * scale
+
+        cx = width / 2
+        rim_y = margin_top + 14            # leave room for the top ellipse arc
+        drain_y = rim_y + tank_h_px
+
+        # Water surface — at proportional height h above the drain.
+        # Linear interpolation: at z=0 radius=R_bot, at z=H radius=R.
+        # At z=h: r(h) = R_bot + (R - R_bot) * h/H.
+        r_h = R_bot + (R - R_bot) * h / H
+        water_radius_px = r_h * scale
+        water_surface_y = drain_y - h * scale
+
+        parts = []
+        # Water-fill polygon (drain at bottom up to the surface).
+        parts.append(
+            f'<polygon points="'
+            f'{_fmt(cx - bot_w_px)},{_fmt(drain_y)} '
+            f'{_fmt(cx + bot_w_px)},{_fmt(drain_y)} '
+            f'{_fmt(cx + water_radius_px)},{_fmt(water_surface_y)} '
+            f'{_fmt(cx - water_radius_px)},{_fmt(water_surface_y)}" '
+            f'fill="#cfe6f5" stroke="none"/>'
+        )
+        # Water surface ellipse.
+        parts.append(
+            f'<ellipse cx="{_fmt(cx)}" cy="{_fmt(water_surface_y)}" '
+            f'rx="{_fmt(water_radius_px)}" '
+            f'ry="{_fmt(water_radius_px * 0.25)}" '
+            f'fill="#cfe6f5" stroke="#000" stroke-width="1"/>'
+        )
+        # Frustum outline: top rim ellipse + slant lines + bottom rim ellipse.
+        parts.append(
+            f'<ellipse cx="{_fmt(cx)}" cy="{_fmt(rim_y)}" '
+            f'rx="{_fmt(rim_w_px)}" ry="{_fmt(rim_w_px * 0.25)}" '
+            f'fill="none" stroke="#000" stroke-width="1.5"/>'
+        )
+        parts.append(
+            f'<ellipse cx="{_fmt(cx)}" cy="{_fmt(drain_y)}" '
+            f'rx="{_fmt(bot_w_px)}" ry="{_fmt(bot_w_px * 0.25)}" '
+            f'fill="none" stroke="#000" stroke-width="1.5"/>'
+        )
+        parts.append(
+            f'<line x1="{_fmt(cx - rim_w_px)}" y1="{_fmt(rim_y)}" '
+            f'x2="{_fmt(cx - bot_w_px)}" y2="{_fmt(drain_y)}" '
+            f'stroke="#000" stroke-width="1.5"/>'
+        )
+        parts.append(
+            f'<line x1="{_fmt(cx + rim_w_px)}" y1="{_fmt(rim_y)}" '
+            f'x2="{_fmt(cx + bot_w_px)}" y2="{_fmt(drain_y)}" '
+            f'stroke="#000" stroke-width="1.5"/>'
+        )
+        # Labels — match the cone-draining builder's anchor positions.
+        parts.append(
+            f'<text x="{_fmt(cx + rim_w_px + 6)}" y="{_fmt(rim_y - 4)}" '
+            f'text-anchor="start" font-family="sans-serif" font-size="14">'
+            f'R_top = {int(R)} m</text>'
+        )
+        parts.append(
+            f'<text x="{_fmt(cx + bot_w_px + 6)}" y="{_fmt(drain_y + 14)}" '
+            f'text-anchor="start" font-family="sans-serif" font-size="14">'
+            f'R_bot = {int(R_bot)} m</text>'
+        )
+        parts.append(
+            f'<text x="{_fmt(cx + rim_w_px / 2 + 24)}" '
+            f'y="{_fmt((rim_y + drain_y) / 2)}" '
+            f'text-anchor="start" font-family="sans-serif" font-size="14">'
+            f'H = {int(H)} m</text>'
+        )
+        parts.append(
+            f'<text x="{_fmt(cx)}" y="{_fmt(water_surface_y - 6)}" '
+            f'text-anchor="middle" font-family="sans-serif" font-size="14">'
+            f'h = {int(h)} m</text>'
+        )
+
+        body = "\n".join(parts)
+        Visual = (
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
+            f'width="{width}" height="{height}">\n{body}\n</svg>'
+        )
+    else:
+        # Cone tiers — delegate to the builder. The constructor's `height`
+        # kwarg is reserved for canvas size (it pops it out of kwargs
+        # before the sub-case parameter dict is built), so passing
+        # `height=H` would shrink the canvas to ~H pixels and never reach
+        # the cone-height parameter. Workaround: instantiate with the
+        # other sub-case kwargs, then set `params["height"]` directly so
+        # the cone-draining renderer's `_p("height", 10)` lookup picks
+        # up the real H value. Same trick wouldn't be needed if a
+        # future builder revision renamed the cone-height param to
+        # `cone_height`. Labels include numeric values (e.g. "R = 4 m")
+        # so the figure stays load-bearing without forcing the prose to
+        # repeat them.
+        cone = RelatedRatesGeometry(
+            setup="cone_draining",
+            radius_top=float(R),
+            water_height=float(h),
+            label_radius=f"R = {int(R)} m",
+            label_height=f"H = {int(H)} m",
+            label_water=f"h = {int(h)} m",
+        )
+        cone.params["height"] = float(H)
+        Visual = cone.render()
+
+# Numeric tolerance 0.005 m/min sits between the formatter's 2-decimal
+# display rounding (5e-3 worst case) and the structural gap between
+# the cone and frustum formula paths (typically 0.02–0.05 m/min on
+# these parameter ranges) — wide enough to absorb the formatter's
+# round-half-to-even, narrow enough that a wrong-formula dispatch
+# fails the test cleanly.
+tests:
+  - seed: 12345
+    difficulty: easy
+    expected: {answer: "-0.08"}
+    compare: numeric
+    tolerance: 0.005
+    notes: "easy tier — pure cone, narrow ranges"
+
+  - seed: 42
+    difficulty: easy
+    expected: {answer: "-0.04"}
+    compare: numeric
+    tolerance: 0.005
+
+  - seed: 99
+    difficulty: easy
+    expected: {answer: "-0.10"}
+    compare: numeric
+    tolerance: 0.005
+
+  - seed: 7
+    difficulty: medium
+    expected: {answer: "-0.01"}
+    compare: numeric
+    tolerance: 0.005
+    notes: "medium tier — pure cone, wider ranges; default tier"
+
+  - seed: 12345
+    difficulty: medium
+    expected: {answer: "-0.03"}
+    compare: numeric
+    tolerance: 0.005
+
+  - seed: 42
+    difficulty: medium
+    expected: {answer: "-0.04"}
+    compare: numeric
+    tolerance: 0.005
+
+  - seed: 99
+    difficulty: hard
+    expected: {answer: "-0.03"}
+    compare: numeric
+    tolerance: 0.005
+    notes: "hard tier — frustum geometry; T15 method-selection; cone-crutch suppressed"
+
+  - seed: 7
+    difficulty: hard
+    expected: {answer: "-0.01"}
+    compare: numeric
+    tolerance: 0.005
+
+  - seed: 12345
+    difficulty: hard
+    expected: {answer: "-0.02"}
+    compare: numeric
+    tolerance: 0.005
